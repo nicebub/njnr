@@ -22,6 +22,7 @@ extern int yylex(void);
 %start starter
 
 %%
+
 starter: start {YYACCEPT;}
 ;
 
@@ -36,13 +37,14 @@ function: function_header function_body {}
 
 function_header: FN IDENT optional_params { }
 ;
-optional_params: | '(' Params ')'
+
+optional_params: /* empty */ | '(' Params ')'
 ;
 
 function_body: '{' statements '}' {}
 ;
 
-statements:  | statements statement {}
+statements: /* empty */ | statements statement {}
 ;
 
 statement: return_statement | ifstatement {}
@@ -69,24 +71,27 @@ expon_expression: mul_expression add_op mul_expression | mul_expression {}
 mul_expression: INTEGER {}
 ;
 
-optional_else: | ELSE ifbody | ELSE ifstatement {}
+optional_else: /* empty */ | ELSE ifbody | ELSE ifstatement {}
 ;
 
-Value: | IDENT | Number {}
+Value: /* empty */ | IDENT | Number {}
 ;
 
 Number:  INTEGER {}
 ;
 
-Params: | IDENT ',' Params {}
+Params: /* empty */ | IDENT ',' Params {}
 ;
 
 relop: EQEQ | NEQ {}
 ;
+
 add_op: PLUS | MIN {}
 ;
+
 mulop: MUL | DIV {}
 ;
+
 %%
 
 int yyerror(char*){}

@@ -17,11 +17,13 @@ extern int yydebug;
 //#define YYSTYPE data
 
 extern int yyparse(void);
+
 int main(int argc, const char* argv[])
 {
    #if YYDEBUG == 1
     yydebug = 1;
    #endif
+
 	yyparse();
 
 	return 0;

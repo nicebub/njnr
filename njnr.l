@@ -12,6 +12,7 @@ ident {letter}({letter}|{digit})*
 integer (0|({nonzero}{digit}*))
 
 %%
+
 [ \t\r] {}
 \n { lineno++;}
 fn { return FN; }
@@ -24,6 +25,6 @@ const { return CONST;}
            printf("%d lines read\n", lineno); 
            return 0;
         }
-. { return yytext[0];}
-%%
+. { return yytext[0]; }
 
+%%
