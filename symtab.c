@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <search.h>
+#include <stdbool.h>
 #include <string.h>
 
 #include "symtab.h"

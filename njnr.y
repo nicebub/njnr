@@ -10,7 +10,17 @@ extern int yylex(void);
 %token CONST
 %token INTEGER
 %token IDENT
+%token IF
+%token ELSE
+%token PLUS
+%token MIN
+%token MUL
+%token DIV
+%token EQEQ
+%token NEQ
+
 %start starter
+
 %%
 starter: start {YYACCEPT;}
 ;
@@ -35,7 +45,31 @@ function_body: '{' statements '}' {}
 statements:  | statements statement {}
 ;
 
-statement: RETURN Value {}
+statement: return_statement | ifstatement {}
+;
+
+return_statement: RETURN Value {}
+;
+
+ifstatement: IF '(' conditional_expression ')' ifbody  optional_else {}
+;
+
+ifbody: '{' statements '}' {}
+;
+
+conditional_expression: paren_expression | paren_expression relop paren_expression {}
+;
+
+paren_expression: expon_expression | expon_expression mulop expon_expression {}
+;
+
+expon_expression: mul_expression add_op mul_expression | mul_expression {}
+;
+
+mul_expression: INTEGER {}
+;
+
+optional_else: | ELSE ifbody | ELSE ifstatement {}
 ;
 
 Value: | IDENT | Number {}
@@ -45,6 +79,14 @@ Number:  INTEGER {}
 ;
 
 Params: | IDENT ',' Params {}
+;
+
+relop: EQEQ | NEQ {}
+;
+add_op: PLUS | MIN {}
+;
+mulop: MUL | DIV {}
+;
 %%
 
 int yyerror(char*){}
