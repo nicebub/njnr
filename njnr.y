@@ -4,6 +4,7 @@
 #include "data.h"
 
 #define YYDEBUG 1
+int yydebug = 1;
 #define YYERROR_VERBOSE 1
 int yyerror(char*);
 extern int yylex(void);
@@ -12,27 +13,32 @@ static bool has_return_value(int curr_fn);
 static void set_return_value_of_statement_to_nil(int curr_fn, int curr_statement);
 
 %}
+%define parse.trace
 
-%token FN
-%token RETURN
+%token BREAK
+%token CASE
+%token CATCH
 %token CONST
-%token INTEGER
+%token CONTINUE
+%token DIV
+%token DO
+%token ELSE
+%token EQEQ
+%token FN
+%token FOR
 %token IDENT
 %token IF
-%token ELSE
-%token PLUS
+%token INTEGER
+%token LOOP
 %token MIN
 %token MUL
-%token DIV
-%token EQEQ
 %token NEQ
-%token TRY
-%token CATCH
+%token PLUS
+%token RETURN
 %token SWITCH
-%token CASE
+%token TRY
+%token UNTIL
 %token WHILE
-%token DO
-%token FOR
 
 
 %start starter
@@ -70,10 +76,12 @@ function_body: '{' statements '}' { printf("matched a function body\n");}
 ;
 
 statements: /* empty */  { printf("empty statement\n");}
-             | statements statement { printf("matching statements\n");}
+             | statement statements { printf("matching statements\n");}
 ;
 
-statement: '{' statements '}' | return_statement | ifstatement  | conditional_expression ';'  | assignment_expression ';' {}
+statement: '{' statements '}' 
+           | return_statement { $$ = $1;}
+           | ifstatement  | conditional_expression ';'  | assignment_expression ';' {}
 ;
 
 assignment_expression: IDENT '=' conditional_expression | IDENT '=' ifstatement {}
@@ -91,11 +99,16 @@ case_statements: | case_statement case_statements {}
 case_statement: CASE Value ':' statements {}
 ;
 
+optional_semicolon: /* empty */ | ';' {}
+;
 
-return_statement: RETURN Value { 
+return_statement: RETURN Value  optional_semicolon { 
 
 int curr_fn = 0;
 int curr_statement = 0;
+
+$$.has_return = true;
+$$.return_type = $2.return_type;
 if($2.u_values.bvalue == true)
 {
    if (true == has_return_value(curr_fn))

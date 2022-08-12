@@ -8,9 +8,9 @@ int lineno = 0;
 %option yylineno
 
 letter  ([a-z]|[A-Z]|_)
-LETTER	[A-Za-z\_]
+LETTER  [A-Za-z\_]
 digit   [0-9]
-DIGIT	[0-9]
+DIGIT	  [0-9]
 nonzero [1-9]
 ident   {letter}({letter}|{digit})*
 integer (0|({nonzero}{digit}*))
@@ -20,18 +20,27 @@ integer (0|({nonzero}{digit}*))
 [ \t\r]   { /* eat white space */ }
 \n        { /* eat white space and count lines */
             lineno++; }
-fn        { return FN; }
-return    { return RETURN; }
-try       { return TRY; }
+break     { return BREAK; }
+case      { return CASE; }
 catch     { return CATCH; }
 const     { return CONST; }
+continue  { return CONTINUE; }
+do        { return DO;}
+else      { return ELSE;}
+
+fn        { return FN; }
+for       { return FOR;}
+if        { return IF;}
+loop      { return LOOP;}
+return    { return RETURN; }
+switch    { return SWITCH; }
+try       { return TRY; }
+until     { return UNTIL;}
+while     { return WHILE;}
+
 {ident}   {
    yylval.u_values.svalue = (char *) strdup(yytext);
    return IDENT; 
-   }
-{integer} {
-   yylval.u_values.ivalue = atoi(yytext);
-   return INTEGER;
    }
 
 
@@ -54,6 +63,11 @@ const     { return CONST; }
 				printf("illegal integer: %s", yytext);
 		}
 
+{integer} {
+   yylval.u_values.ivalue = atoi(yytext);
+   yylval.return_type - INTEGER;
+   return INTEGER;
+   }
 
 
 <<EOF>>   {
