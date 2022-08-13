@@ -10,7 +10,7 @@ $(EXEC): lex.yy.c njnr.tab.c njnr.tab.h
 
 
 njnr.tab.%: njnr.y
-	$(BISON) -H njnr.y
+	$(BISON) -Wconflicts-sr -Wcounterexamples -Wother -H njnr.y
 
 lex.yy.c: njnr.tab.h njnr.l
 	$(FLEX) njnr.l

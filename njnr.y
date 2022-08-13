@@ -53,9 +53,13 @@ start: translation_unit {printf("found start symbol\n");}
 
 
 translation_unit: function { printf("found 1 function\n");}
+                | variable_declaration { printf("found variable declration\n");}
                 | translation_unit function { printf("found another function\n");}
+                | translation_unit variable_declaration { printf("found another variable declaration\n");}
                 | translation_unit error { printf("unexpected token between translation units\n");}
 ;
+
+variable_declaration: 'v' {} ;
 
 function: function_header function_body {printf("full function read\n");}
 ;
@@ -68,8 +72,8 @@ function_header: FN IDENT optional_params {
 }
 ;
 
-optional_params: /* empty */  { $$.u_values.bvalue = false;}
-              | '(' Params ')' { $$ = $2; $$.u_values.bvalue = true;}
+optional_params: /* empty */  { printf("empty optional params\n"); $$.u_values.bvalue = false;}
+              | '(' Params ')' { $$ = $2; $$.u_values.bvalue = true; printf("Params found\n");}
 ;
 
 function_body: '{' statements '}' { printf("matched a function body\n");}
@@ -79,31 +83,35 @@ statements: /* empty */  { printf("empty statement\n");}
              | statement statements { printf("matching statements\n");}
 ;
 
-statement: '{' statements '}' 
-           | return_statement { $$ = $1;}
-           | ifstatement  | conditional_expression ';'  | assignment_expression ';' {}
+statement: '{' statements '}' {printf("statements withing '{' and '}'\n");}
+           | return_statement ';' {printf("return statement found\n"); $$ = $1;}
+           | conditional_expression ';' { printf("conditionl expression statement\n");}
+           | assignment_expression  ';' {printf("assignment expression statement\n");}
+           | ifstatement {printf("ifstatement statement\n");}
+           | switch_statement {printf("switch statement statement found\n");}
 ;
 
-assignment_expression: IDENT '=' conditional_expression | IDENT '=' ifstatement {}
+assignment_expression: IDENT '=' conditional_expression {printf("assignment expression = condtional expression\n");}
+                     | IDENT '=' ifstatement {printf("assignment expression = ifstatement\n");}
 ;
 
-switch_statement: SWITCH '(' conditional_expression ')' switch_body {}
+switch_statement: SWITCH '(' conditional_expression ')' switch_body {printf("switch statement found\n");}
 ;
 
-switch_body: '{' case_statements '}' {}
+switch_body: '{' case_statements '}' {printf("found switch_body\n");}
 ;
 
-case_statements: | case_statement case_statements {}
+case_statements: /* empty */ {printf("empty case statements\n");}
+               | case_statement case_statements {printf("case statement found\n");}
 ;
 
-case_statement: CASE Value ':' statements {}
+case_statement: CASE Value ':' statements {printf("internal case statement found\n");}
 ;
 
-optional_semicolon: /* empty */ | ';' {}
-;
-
-return_statement: RETURN Value  optional_semicolon { 
-
+return_statement: 
+   RETURN   {} 
+ | RETURN Value   { 
+printf("return statement parsing\n");
 int curr_fn = 0;
 int curr_statement = 0;
 
@@ -119,29 +127,33 @@ if($2.u_values.bvalue == true)
 }
 ;
 
-ifstatement: IF '(' conditional_expression ')' ifbody  optional_else {}
+ifstatement: IF '(' conditional_expression ')' ifbody  optional_else {printf("if statement found\n");}
 ;
 
-ifbody: '{' statements '}' {}
+ifbody: '{' statements '}' {printf("if statement body and statements parsing\n");}
 ;
 
-conditional_expression: paren_expression | paren_expression relop paren_expression {}
+conditional_expression: paren_expression {}
+         | paren_expression relop paren_expression {}
 ;
 
-paren_expression: expon_expression | expon_expression mulop expon_expression {}
+paren_expression: expon_expression {}
+                | expon_expression mulop expon_expression {}
 ;
 
-expon_expression: mul_expression add_op mul_expression | mul_expression {}
+expon_expression: mul_expression add_op mul_expression {}
+                | mul_expression {}
 ;
 
 mul_expression: INTEGER {}
 ;
 
-optional_else: /* empty */ | ELSE ifbody | ELSE ifstatement {}
+optional_else: /* empty */ {}
+                | ELSE ifbody {}
+                | ELSE ifstatement {}
 ;
 
-Value: /* empty */ {} 
-       | IDENT { printf("found an identifier %s\n", $1.u_values.svalue);
+Value: IDENT { printf("found an identifier %s\n", $1.u_values.svalue);
                  $$ = $1;
                }
        | Number { $$ = $1;}
@@ -150,16 +162,21 @@ Value: /* empty */ {}
 Number:  INTEGER { printf("found an integer of value: %i\n", $1.u_values.ivalue); $$ = $1;}
 ;
 
-Params: /* empty */ | IDENT ',' Params {}
+Params: /* empty */ {}
+         | IDENT {}
+         | IDENT ',' Params {}
 ;
 
-relop: EQEQ | NEQ {}
+relop: EQEQ {}
+     | NEQ {}
 ;
 
-add_op: PLUS | MIN {}
+add_op: PLUS {}
+      | MIN {}
 ;
 
-mulop: MUL | DIV {}
+mulop: MUL {}
+     | DIV {}
 ;
 
 %%
