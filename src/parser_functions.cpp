@@ -7,9 +7,11 @@
 #include "njnr.tab.hpp"
 
 using namespace njnr;
-namespace njnr {
+namespace njnr
+{
 
-void Compiler::block1_start_trans_unit() {
+void Compiler::block1_start_trans_unit()
+{
     code_generator.gen_label("main");
     code_generator.gen_instr_I("enter",0);
     code_generator.gen_instr_I("alloc", globalcount);
@@ -17,26 +19,32 @@ void Compiler::block1_start_trans_unit() {
     code_generator.gen_call(code_generator.genlabelw("main",mainlabel),0);
     code_generator.gen_instr("return");
 }
-void Compiler::block2_func_funcheader_source(funcheadertype** inFuncHeaderptr) {
+void Compiler::block2_func_funcheader_source(funcheadertype** inFuncHeaderptr)
+{
     auto templabel{mainlabel};
-    if(is_function_decl_or_def_accurate(inFuncHeaderptr,false)) {
+    if(is_function_decl_or_def_accurate(inFuncHeaderptr,false))
+    {
         mysymtab->openscope();
-        if((*inFuncHeaderptr)->name != "main") {
+        if((*inFuncHeaderptr)->name != "main")
+        {
             templabel = currentFunc->getlabel();
             install_parameters_into_symbol_table_curren_scope(inFuncHeaderptr);
         }
         code_generator.gen_label(code_generator.genlabelw((*inFuncHeaderptr)->name, templabel ));
     }
 }
-void Compiler::block3_func_funcheader_source_funcbody() {
+void Compiler::block3_func_funcheader_source_funcbody()
+{
     code_generator.gen_instr("returnf");
     mysymtab->closescope();
 }
 
-void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader) {
+void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
+{
 //   TableEntry* tempEntry{nullptr};
     auto found = mysymtab->lookupB(inFuncHeader->name);
-    if(  found  == nullptr ) {
+    if(  found  == nullptr )
+    {
         auto tempEntry =  mysymtab->createFunc(	inFuncHeader->name,
                                                 inFuncHeader->returntype,
                                                 inFuncHeader->paramlist
@@ -47,25 +55,28 @@ void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader) {
     is_function_decl_or_def_accurate(&inFuncHeader,true);
 }
 
-void Compiler::block5_funcheader_error_semi(funcheadertype** inFuncHeaderptr) {
+void Compiler::block5_funcheader_error_semi(funcheadertype** inFuncHeaderptr)
+{
     funcheadertype* inFuncHeader{*inFuncHeaderptr};
-    if(inFuncHeader !=nullptr) {
+    if(inFuncHeader !=nullptr)
+    {
         delete inFuncHeader;
         inFuncHeader = nullptr;
     }
 }
 
-funcheadertype*  Compiler::funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier inIdent, List* inParamdeflist,njnr::type inreturntype) {
-    funcheadertype* outFuncHeader{nullptr};
+funcheadertype*  Compiler::funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier inIdent, List* inParamdeflist,njnr::type inreturntype)
+{
+    funcheadertype* retFuncHeader{nullptr};
 
-    outFuncHeader = new funcheadertype;
-    outFuncHeader->returntype = inreturntype;
-    outFuncHeader->name = inIdent.getvalue();
-    outFuncHeader->paramlist=inParamdeflist;
-    return outFuncHeader;
+    retFuncHeader = new funcheadertype;
+    retFuncHeader->returntype = inreturntype;
+    retFuncHeader->name = inIdent.getvalue();
+    retFuncHeader->paramlist=inParamdeflist;
+    return retFuncHeader;
     /* FIXME: NEED TO REINCORPORATE THIS BACK IN. Somehow lists provide a type? where and why?
     if(inParamdeflist->gettype() == type::VOID){
-    	outFuncHeader->ttype = type::VOID;
+    	retFuncHeader->ttype = type::VOID;
     }
     */
 }
@@ -173,14 +184,18 @@ List* Compiler::block24_paramdeflist_paramdeflist_comma_char_star_ident(List** i
 	return paramdeflist_paramdeflist_comma_type_ident_helper(inParamdeflistptr,inIdent,njnr::type::STR);
 }
 */
-void Compiler::block25_funcbody_lcbra_decls_source() {
+void Compiler::block25_funcbody_lcbra_decls_source()
+{
     auto temp{mainlocal};
-    if(currentFunc->getvalue() == "main") {
+    if(currentFunc->getvalue() == "main")
+    {
         mainlocal = offset_counter-5;
         temp = mainlocal;
     }
-    else {
-        switch(currentFunc->getparam_type()[0]) {
+    else
+    {
+        switch(currentFunc->getparam_type()[0])
+        {
         case njnr::type::VOID:
             currentFunc->setlocalcount( offset_counter - 5);
             break;
@@ -221,27 +236,47 @@ void Compiler::block28_variabledecl_float_identlist_semi(List** inIdentlist){
 		#endif
 }
 */
-void Compiler::block29_stmt_expr_semi() {
+Funcb* Compiler::create_and_return_a_fn_body_statement_element(Statement* stmt)
+{
+   return nullptr;
+}
+Funcb* Compiler::add_statement_to_fn_body_and_return(Funcb* func, Statement* stmt)
+{
+   return nullptr;
+}
+
+void Compiler::block29_stmt_expr_semi()
+{
     code_generator.gen_instr_I("popI",4);
 }
-void Compiler::block30_stmt_return_semi() {
-    if(currentFunc == nullptr) {
+Statement* Compiler::block30_stmt_return_semi()
+{
+   Statement* outPacket{nullptr};
+   outPacket = new Statement{};
+
+    if(currentFunc == nullptr)
+    {
         error("main function has to return a value","");
-        return;
+        return nullptr;
     }
 
-    if(currentFunc->getreturntype() != type::VOID) {
+    if(currentFunc->getreturntype() != type::VOID)
+    {
         error("Function has return type that is not void","");
-        return;
+        return nullptr;
     }
 
     code_generator.gen_instr("returnf");
+    return outPacket;
 }
 
-void Compiler::variableFetch(ReturnPacket* inPacket, bool conversionNeeded) {
-    if( inPacket->getlval()) {
+void Compiler::variableFetch(ReturnPacket* inPacket, bool conversionNeeded)
+{
+    if( inPacket->getlval())
+    {
         const static std::string fetch{"fetch"};
-        switch(inPacket->gettype()) {
+        switch(inPacket->gettype())
+        {
 
         case type::INT:
             code_generator.gen_instr(fetch + "I");
@@ -251,46 +286,56 @@ void Compiler::variableFetch(ReturnPacket* inPacket, bool conversionNeeded) {
             code_generator.gen_instr(fetch + "R");
 
         default:
-            if(conversionNeeded) {
+            if(conversionNeeded)
+            {
                 code_generator.gen_instr("int");
             }
             break;
         }
     }
 }
-void Compiler::variableFetchWithNumericCheck(ReturnPacket* inPacket, bool conversionNeeded) {
-    if(inPacket->getnumeric() ) {
+void Compiler::variableFetchWithNumericCheck(ReturnPacket* inPacket, bool conversionNeeded)
+{
+    if(inPacket->getnumeric() )
+    {
         variableFetch(inPacket,conversionNeeded);
     }
 }
-void Compiler::block31_stmt_return_expr_semi(ReturnPacket* inPacket) {
-    if( ! inPacket->getnumeric() ) {
+Statement* Compiler::block31_stmt_return_expr_semi(ReturnPacket* inPacket)
+{
+    if( ! inPacket->getnumeric() )
+    {
         error("non numeric expression in return statement or return type is void", "");
-        return;
+        return nullptr;
     }
-    if(currentFunc == nullptr ) {
-        if( inPacket->gettype() != type::INT) {
+    if(currentFunc == nullptr )
+    {
+        if( inPacket->gettype() != type::INT)
+        {
             warning("main function has int return type","");
         }
 
         variableFetchWithNumericCheck(inPacket,true); //conversion to integer needed
 
         code_generator.gen_instr("setrvI");
-        return;
+        return nullptr;
     }
 #ifdef DEBUG
 //	std::cerr << "type and returntype : " << inPacket->gettype()  << ": "<< currentFunc->getreturntype()) << std::endl;
 #endif
 
-    if( inPacket->gettype() != currentFunc->getreturntype()) {
+    if( inPacket->gettype() != currentFunc->getreturntype())
+    {
         warning("function has different returntype","");
     }
 
     variableFetchWithNumericCheck(inPacket,false);//conversion to integer not needed
 
-    switch(currentFunc->getreturntype()) {
+    switch(currentFunc->getreturntype())
+    {
     case type::INT:
-        switch(inPacket->gettype()) {
+        switch(inPacket->gettype())
+        {
         case type::FLOAT:
             code_generator.gen_instr("int");
         case type::INT:
@@ -301,7 +346,8 @@ void Compiler::block31_stmt_return_expr_semi(ReturnPacket* inPacket) {
         }
         break;
     case type::FLOAT:
-        switch( inPacket->gettype() ) {
+        switch( inPacket->gettype() )
+        {
         case type::INT:
             code_generator.gen_instr("flt");
         case type::FLOAT:
@@ -315,8 +361,10 @@ void Compiler::block31_stmt_return_expr_semi(ReturnPacket* inPacket) {
         break;
     }
     code_generator.gen_instr("returnf");
+    return nullptr;
 }
-ReturnPacket* Compiler::block32_stmt_while_source() {
+ReturnPacket* Compiler::block32_stmt_while_source()
+{
     ReturnPacket* inPacket{new ReturnPacket{}};
     inPacket->m_pair.one=  othercounter;
     othercounter++;
@@ -326,53 +374,66 @@ ReturnPacket* Compiler::block32_stmt_while_source() {
     code_generator.gen_label(code_generator.genlabelw("",inPacket->m_pair.one));
     return inPacket;
 }
-void Compiler::block33_stmt_while_source_expr_semi_source_lpar_expr_rpar(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket) {
+void Compiler::block33_stmt_while_source_expr_semi_source_lpar_expr_rpar(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket)
+{
     variableFetchWithNumericCheck(inexprPacket,true);
     code_generator.gen_instr_S("jumpz", code_generator.genlabelw("",insourcePacket->m_pair.two));
 }
 
-void Compiler::block34_5_stmt_helper(int one, int two) {
+void Compiler::block34_5_stmt_helper(int one, int two)
+{
     code_generator.gen_instr_S("jump", code_generator.genlabelw("",one));
     code_generator.gen_label(code_generator.genlabelw("",two));
 }
-void Compiler::while_and_if_reducer(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket, int number, std::string while_or_if) {
+void Compiler::while_and_if_reducer(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket, int number, std::string while_or_if)
+{
     ReturnPacket* inPacket{inexprPacket};
-    if(! inPacket->getnumeric()) {
+    if(! inPacket->getnumeric())
+    {
         error("non numeric expression in " + while_or_if + " statement","");
         return;
     }
-    else if(inPacket->gettype() != njnr::type::INT) {
+    else if(inPacket->gettype() != njnr::type::INT)
+    {
         error("expression in " + while_or_if + " statement is not an integer","");
         return;
     }
-    if(while_or_if == "while") {
+    if(while_or_if == "while")
+    {
         block34_5_stmt_helper(insourcePacket->m_pair.one,insourcePacket->m_pair.two);
     }
-    else {
+    else
+    {
         code_generator.gen_label(code_generator.genlabelw("",number));
     }
 }
-void Compiler::block34_stmt_while_source_expr_semi_source_lpar_expr_rpar_source_stmt(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket) {
+void Compiler::block34_stmt_while_source_expr_semi_source_lpar_expr_rpar_source_stmt(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket)
+{
     while_and_if_reducer(insourcePacket,inexprPacket,0,"while");
 }
 
-void Compiler::block35_stmt_ifexprstmt_else(ReturnPacket* insourcePacket) {
+void Compiler::block35_stmt_ifexprstmt_else(ReturnPacket* insourcePacket)
+{
     block34_5_stmt_helper(insourcePacket->m_pair.two,insourcePacket->m_pair.one);
 }
 
-void Compiler::block36_7_stmt_helper(ReturnPacket* insourcePacket, int number) {
+void Compiler::block36_7_stmt_helper(ReturnPacket* insourcePacket, int number)
+{
     while_and_if_reducer(nullptr,insourcePacket,number,"if"); //FIXME: need to acutally put in a value perhaps for inexprPacketptr
 }
 
-void Compiler::block36_stmt_ifexprstmt_else_source_stmt(ReturnPacket* inPacket) {
+void Compiler::block36_stmt_ifexprstmt_else_source_stmt(ReturnPacket* inPacket)
+{
     block36_7_stmt_helper(inPacket,inPacket->m_pair.two);
 }
 
-void Compiler::block37_stmt_ifexprstmt(ReturnPacket* inPacket) {
+void Compiler::block37_stmt_ifexprstmt(ReturnPacket* inPacket)
+{
     block36_7_stmt_helper(inPacket,inPacket->m_pair.one);
 }
 
-struct Pair Compiler::block38_ifexprstmt_if_lpar_expr_source(ReturnPacket* inexprPacket) {
+struct Pair Compiler::block38_ifexprstmt_if_lpar_expr_source(ReturnPacket* inexprPacket)
+{
 //	ReturnPacket* inexprPacket{*inexprPacketptr};
 
     struct Pair rvalue;
@@ -391,8 +452,10 @@ void Compiler::block39_ifexprstmt_if_lpar_expr_source_rpar_stmt(){
 	$$.lval=$3->lval; $$.numeric=$3->numeric; $$.ttype = $3->type; $$.one = $4.one; $$.two=$4.two;
 }
 */
-void Compiler::normalStore(njnr::type intype) {
-    switch(intype) {
+void Compiler::normalStore(njnr::type intype)
+{
+    switch(intype)
+    {
     case(njnr::type::INT):
         code_generator.gen_instr("storeI");
         break;
@@ -403,10 +466,12 @@ void Compiler::normalStore(njnr::type intype) {
         break;
     }
 }
-void Compiler::variableStore(njnr::type intype) {
+void Compiler::variableStore(njnr::type intype)
+{
     static std::string instruction{""};
     static std::string letter{""};
-    switch(intype) {
+    switch(intype)
+    {
     case njnr::type::INT:
         instruction = "int";
         letter = "I";
@@ -423,33 +488,39 @@ void Compiler::variableStore(njnr::type intype) {
     code_generator.gen_instr(instruction);
     code_generator.gen_instr("store" + letter);
 }
-ReturnPacket* Compiler::block40_expr_equalexpr_equal_equalexpr(ReturnPacket** inequalexprPacketptr,ReturnPacket** inotherequalexprPacketptr) {
+ReturnPacket* Compiler::block40_expr_equalexpr_equal_equalexpr(ReturnPacket** inequalexprPacketptr,ReturnPacket** inotherequalexprPacketptr)
+{
     ReturnPacket* outPacket{nullptr};
     ReturnPacket* inequalexprPacket{*inequalexprPacketptr};
     ReturnPacket* inotherequalexprPacket{*inotherequalexprPacketptr};
 
-    if( ! inequalexprPacket->getlval() ) {
+    if( ! inequalexprPacket->getlval() )
+    {
         error("Cannot make assignment. Left hand side is not a correct lval","");
         return outPacket;
     }
-    else if( ! inotherequalexprPacket->getnumeric() ) {
+    else if( ! inotherequalexprPacket->getnumeric() )
+    {
         error("Cannot make assignment, Right hand side is not numeric.","");
         return outPacket;
     }
     variableFetchWithNumericCheck(inotherequalexprPacket,false); //conversion to integer not needed
 
-    if( inequalexprPacket->gettype() == inotherequalexprPacket->gettype() ) {
+    if( inequalexprPacket->gettype() == inotherequalexprPacket->gettype() )
+    {
         outPacket = new ReturnPacket{true,inequalexprPacket->gettype(),true,0};
         normalStore(inequalexprPacket->gettype());
     }
     else if(inequalexprPacket->gettype() == njnr::type::INT &&
-            inotherequalexprPacket->gettype() == type::FLOAT) {
+            inotherequalexprPacket->gettype() == type::FLOAT)
+    {
         variableStore(njnr::type::INT);
         outPacket = new ReturnPacket{true,njnr::type::INT,true,0};
 
     }
     else if(inequalexprPacket->gettype() == njnr::type::FLOAT &&
-            inotherequalexprPacket->gettype() == njnr::type::INT) {
+            inotherequalexprPacket->gettype() == njnr::type::INT)
+    {
         variableStore(njnr::type::FLOAT);
         outPacket = new ReturnPacket{true,njnr::type::FLOAT,true,0};
     }
@@ -462,13 +533,16 @@ void Compiler::block41_expr_equalexpr(){
 }
 */
 
-void Compiler::block42_equalexpr_relexpr_eqop_source(ReturnPacket** relexprPacketptr) {
+void Compiler::block42_equalexpr_relexpr_eqop_source(ReturnPacket** relexprPacketptr)
+{
     variableFetchWithNumericCheck(*relexprPacketptr,false);
 }
 
-ReturnPacket* Compiler::block43_equalexpr_relexpr_helper(njnr::eqtype ineqop, std::string need_letter_b) {
+ReturnPacket* Compiler::block43_equalexpr_relexpr_helper(njnr::eqtype ineqop, std::string need_letter_b)
+{
     warning("expressons are of different type, data may be lost","");
-    switch(ineqop) {
+    switch(ineqop)
+    {
     case eqtype::NEQ:
         code_generator.gen_instr("flt" + need_letter_b);
         code_generator.gen_instr("neR");
@@ -483,19 +557,23 @@ ReturnPacket* Compiler::block43_equalexpr_relexpr_helper(njnr::eqtype ineqop, st
     return new ReturnPacket{false,njnr::type::INT,true,0};
 
 }
-ReturnPacket* Compiler::block43_equalexpr_relexpr_eqop_source_relexpr(njnr::eqtype ineqop, ReturnPacket** relexprPacketptr, ReturnPacket** otherrelexprPacketptr) {
+ReturnPacket* Compiler::block43_equalexpr_relexpr_eqop_source_relexpr(njnr::eqtype ineqop, ReturnPacket** relexprPacketptr, ReturnPacket** otherrelexprPacketptr)
+{
     ReturnPacket * outPacket{new ReturnPacket{}};
     ReturnPacket * relexprPacket{* relexprPacketptr};
     ReturnPacket * otherrelexprPacket{* otherrelexprPacketptr};
 
     variableFetchWithNumericCheck(*otherrelexprPacketptr,false);
     outPacket->setlval(false);
-    if(relexprPacket->getnumeric() && otherrelexprPacket->getnumeric() ) {
+    if(relexprPacket->getnumeric() && otherrelexprPacket->getnumeric() )
+    {
         outPacket->setnumeric(true);
         outPacket->settype(njnr::type::INT);
-        if( relexprPacket->gettype() == otherrelexprPacket->gettype() ) {
+        if( relexprPacket->gettype() == otherrelexprPacket->gettype() )
+        {
             outPacket->settype( njnr::type::INT);
-            switch(ineqop) {
+            switch(ineqop)
+            {
             case eqtype::NEQ:
                 if(relexprPacket->gettype() == njnr::type::INT)
                     code_generator.gen_instr("neI");
@@ -513,15 +591,18 @@ ReturnPacket* Compiler::block43_equalexpr_relexpr_eqop_source_relexpr(njnr::eqty
             }
         }
         else if(relexprPacket->gettype() == njnr::type::INT &&
-                otherrelexprPacket->gettype()== njnr::type::FLOAT) {
+                otherrelexprPacket->gettype()== njnr::type::FLOAT)
+        {
             outPacket = block43_equalexpr_relexpr_helper(ineqop,"b");
         }
         else if(relexprPacket->gettype() == njnr::type::FLOAT &&
-                otherrelexprPacket->gettype() == njnr::type::INT) {
+                otherrelexprPacket->gettype() == njnr::type::INT)
+        {
             outPacket = block43_equalexpr_relexpr_helper(ineqop,"");
         }
     }
-    else {
+    else
+    {
         error("non numeric in operation","");
         outPacket->setnumeric(false);  //should be false right?
     }
@@ -532,14 +613,17 @@ void Compiler::block44_equalexpr_relexpr(){
 $$.lval = $1.lval; $$.ttype = $1.ttype; $$.numeric= $1.numeric;
 }
 */
-void Compiler::block45_relexpr_simpleexpr_relop_source(ReturnPacket** insimplePacketptr) {
+void Compiler::block45_relexpr_simpleexpr_relop_source(ReturnPacket** insimplePacketptr)
+{
     variableFetchWithNumericCheck(*insimplePacketptr,false);
 }
-ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_helper(njnr::reltype inrelop, std::string need_letter_b) {
+ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_helper(njnr::reltype inrelop, std::string need_letter_b)
+{
     warning("expressons are of different type, data may be lost","");
 //	ReturnPacket * outPacket{new ReturnPacket{}};
 //	outPacket->settype( njnr::type::INT);
-    switch(inrelop) {
+    switch(inrelop)
+    {
     case reltype::LES:
         code_generator.gen_instr("flt" + need_letter_b);
         code_generator.gen_instr("ltR");
@@ -561,19 +645,23 @@ ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_helper(njnr::reltype in
     }
     return new ReturnPacket{false,njnr::type::INT,true,0};
 }
-ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_source_simpleexpr(ReturnPacket** simpleexprPacketptr, njnr::reltype inrelop, ReturnPacket** othersimpleexprPacketptr) {
+ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_source_simpleexpr(ReturnPacket** simpleexprPacketptr, njnr::reltype inrelop, ReturnPacket** othersimpleexprPacketptr)
+{
     ReturnPacket * outPacket{new ReturnPacket{}};
     ReturnPacket * simpleexprPacket{*simpleexprPacketptr};
     ReturnPacket * othersimpleexprPacket{*othersimpleexprPacketptr};
 
     variableFetchWithNumericCheck(*othersimpleexprPacketptr,false);
     outPacket->setlval(false);
-    if(simpleexprPacket->getnumeric() && othersimpleexprPacket->getnumeric() ) {
+    if(simpleexprPacket->getnumeric() && othersimpleexprPacket->getnumeric() )
+    {
         outPacket->setnumeric(true);
         outPacket->settype( njnr::type::INT);
-        if( simpleexprPacket->gettype() == othersimpleexprPacket->gettype() ) {
+        if( simpleexprPacket->gettype() == othersimpleexprPacket->gettype() )
+        {
             outPacket->settype( njnr::type::INT);
-            switch(inrelop) {
+            switch(inrelop)
+            {
             case reltype::LES:
                 if(simpleexprPacket->gettype() == type::INT)
                     code_generator.gen_instr("ltI");
@@ -603,15 +691,18 @@ ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_source_simpleexpr(Retur
             }
         }
         else if(simpleexprPacket->gettype() == njnr::type::INT &&
-                othersimpleexprPacket->gettype() == type::FLOAT) {
+                othersimpleexprPacket->gettype() == type::FLOAT)
+        {
             outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop,"b");
         }
         else if(simpleexprPacket->gettype() == type::FLOAT &&
-                othersimpleexprPacket->gettype() == type::INT) {
+                othersimpleexprPacket->gettype() == type::INT)
+        {
             outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop,"");
         }
     }
-    else {
+    else
+    {
         error("non numeric in operation","");
         outPacket->setnumeric(false);
     }
@@ -622,20 +713,25 @@ void Compiler::block47_relexpr_simpleexpr(){
 		$$.lval = $1.lval; $$.ttype = $1.ttype; $$.numeric=$1.numeric;
 }
 */
-void Compiler::variableFetchWithNumericCheckAndLvalCheck(ReturnPacket* insimplePacket, bool conversionNeeded) {
-    if(insimplePacket->getlval()) {
+void Compiler::variableFetchWithNumericCheckAndLvalCheck(ReturnPacket* insimplePacket, bool conversionNeeded)
+{
+    if(insimplePacket->getlval())
+    {
         variableFetchWithNumericCheck(insimplePacket,conversionNeeded);
     }
 }
 
-void Compiler::block48_simpleexpr_simpleexpr_addop_source(ReturnPacket** insimplePacketptr) {
+void Compiler::block48_simpleexpr_simpleexpr_addop_source(ReturnPacket** insimplePacketptr)
+{
     variableFetchWithNumericCheckAndLvalCheck(*insimplePacketptr,false);
 }
-ReturnPacket* Compiler::block49_simpleexpr_addop_helper(njnr::addtype inaddop,std::string need_letter_b) {
+ReturnPacket* Compiler::block49_simpleexpr_addop_helper(njnr::addtype inaddop,std::string need_letter_b)
+{
     warning("expressons are of different type, data may be lost","");
 //	ReturnPacket* outPacket{new ReturnPacket{}};
 //	outPacket->settype( njnr::type::FLOAT);
-    switch(inaddop) {
+    switch(inaddop)
+    {
     case addtype::PLS:
         code_generator.gen_instr("flt" + need_letter_b);
         code_generator.gen_instr("addR");
@@ -650,18 +746,22 @@ ReturnPacket* Compiler::block49_simpleexpr_addop_helper(njnr::addtype inaddop,st
     return new ReturnPacket{false,njnr::type::FLOAT,true,0};
 }
 
-ReturnPacket* Compiler::block49_simpleexpr_simpleexpr_addop_source_term(ReturnPacket** simpleexprPacketptr, njnr::addtype inaddop, ReturnPacket** termPacketptr) {
+ReturnPacket* Compiler::block49_simpleexpr_simpleexpr_addop_source_term(ReturnPacket** simpleexprPacketptr, njnr::addtype inaddop, ReturnPacket** termPacketptr)
+{
     ReturnPacket * outPacket{new ReturnPacket{}};
     ReturnPacket * simpleexprPacket{*simpleexprPacketptr};
     ReturnPacket * termPacket{*termPacketptr};
 
     variableFetchWithNumericCheck(*termPacketptr,false);
     outPacket->setlval(false);
-    if(simpleexprPacket->getnumeric() && termPacket->getnumeric()) {
+    if(simpleexprPacket->getnumeric() && termPacket->getnumeric())
+    {
         outPacket->setnumeric(true);
-        if( simpleexprPacket->gettype() == termPacket->gettype() ) {
+        if( simpleexprPacket->gettype() == termPacket->gettype() )
+        {
             outPacket->settype( simpleexprPacket->gettype());
-            switch(inaddop) {
+            switch(inaddop)
+            {
             case addtype::PLS:
                 if(simpleexprPacket->gettype() == type::INT)
                     code_generator.gen_instr("addI");
@@ -679,15 +779,18 @@ ReturnPacket* Compiler::block49_simpleexpr_simpleexpr_addop_source_term(ReturnPa
             }
         }
         else if(simpleexprPacket->gettype() == njnr::type::INT
-                && termPacket->gettype() == type::FLOAT) {
+                && termPacket->gettype() == type::FLOAT)
+        {
             outPacket = block49_simpleexpr_addop_helper(inaddop,"b");
         }
         else if(simpleexprPacket->gettype() == njnr::type::FLOAT
-                && termPacket->gettype() == type::INT) {
+                && termPacket->gettype() == type::INT)
+        {
             outPacket = block49_simpleexpr_addop_helper(inaddop,"");
         }
     }
-    else {
+    else
+    {
         error("non numeric in operation","");
         outPacket->setnumeric(false);
     }
@@ -698,15 +801,18 @@ void Compiler::block50_simpleepr_term(){
 	$$.lval = $1.lval; $$.ttype = $1.ttype; $$.numeric = $1.numeric;
 }
 */
-void Compiler::block51_term_term_mulop_source(ReturnPacket** inPacketptr) {
+void Compiler::block51_term_term_mulop_source(ReturnPacket** inPacketptr)
+{
     variableFetchWithNumericCheckAndLvalCheck(*inPacketptr,false);
 }
 
-ReturnPacket* Compiler::block52_term_mulop_helper(njnr::multype inmulop,std::string need_letter_b) {
+ReturnPacket* Compiler::block52_term_mulop_helper(njnr::multype inmulop,std::string need_letter_b)
+{
     warning("expressons are of different type, data may be lost","");
 //	ReturnPacket *outPacket{new ReturnPacket{}};
 //	outPacket->settype(type::FLOAT);
-    switch(inmulop) {
+    switch(inmulop)
+    {
     case multype::DIV:
         code_generator.gen_instr("flt" + need_letter_b);
         code_generator.gen_instr("divR");
@@ -720,30 +826,38 @@ ReturnPacket* Compiler::block52_term_mulop_helper(njnr::multype inmulop,std::str
     }
     return new ReturnPacket{false,njnr::type::FLOAT,true,0};
 }
-ReturnPacket* Compiler::block52_term_term_mulop_source_factor(ReturnPacket** intermPacketptr, njnr::multype inmulop,ReturnPacket** infactorPacketptr) {
+ReturnPacket* Compiler::block52_term_term_mulop_source_factor(ReturnPacket** intermPacketptr, njnr::multype inmulop,ReturnPacket** infactorPacketptr)
+{
     ReturnPacket* outtermPacket{new ReturnPacket{}};
     ReturnPacket* intermPacket{*intermPacketptr};
     ReturnPacket* infactorPacket{*infactorPacketptr};
     variableFetchWithNumericCheck(*infactorPacketptr,false);
     outtermPacket->setlval(false);
-    if(intermPacket->getnumeric() && infactorPacket->getnumeric()) {
+    if(intermPacket->getnumeric() && infactorPacket->getnumeric())
+    {
         outtermPacket->setnumeric(true);
-        if( intermPacket->gettype() == infactorPacket->gettype() ) {
+        if( intermPacket->gettype() == infactorPacket->gettype() )
+        {
             outtermPacket->settype(  intermPacket->gettype() );
-            switch(inmulop) {
+            switch(inmulop)
+            {
             case multype::DIV:
-                if(intermPacket->gettype()== type::INT) {
+                if(intermPacket->gettype()== type::INT)
+                {
                     code_generator.gen_instr("divI");
                 }
-                else if(intermPacket->gettype()== type::FLOAT) {
+                else if(intermPacket->gettype()== type::FLOAT)
+                {
                     code_generator.gen_instr("divR");
                 }
                 break;
             case multype::MULT:
-                if(intermPacket->gettype()== type::INT) {
+                if(intermPacket->gettype()== type::INT)
+                {
                     code_generator.gen_instr("mulI");
                 }
-                else if(intermPacket->gettype()== type::FLOAT) {
+                else if(intermPacket->gettype()== type::FLOAT)
+                {
                     code_generator.gen_instr("mulR");
                 }
                 break;
@@ -752,14 +866,17 @@ ReturnPacket* Compiler::block52_term_term_mulop_source_factor(ReturnPacket** int
             }
         }
         else if(intermPacket->gettype() == type::INT
-                && infactorPacket->gettype()== type::FLOAT) {
+                && infactorPacket->gettype()== type::FLOAT)
+        {
             outtermPacket = block52_term_mulop_helper(inmulop,"b");
         }
-        else if(intermPacket->gettype() == type::FLOAT && infactorPacket->gettype() == type::INT) {
+        else if(intermPacket->gettype() == type::FLOAT && infactorPacket->gettype() == type::INT)
+        {
             outtermPacket =  block52_term_mulop_helper(inmulop,"");
         }
     }
-    else {
+    else
+    {
         error("non numeric in operation","");
         outtermPacket->setnumeric(false);
     }
@@ -770,101 +887,126 @@ void Compiler::block53_term_factor(){
 	$$.lval = $1.lval; $$.ttype = $1.ttype; $$ = $1; $$.numeric=$1.numeric;
 }
 */
-ReturnPacket* Compiler::block54_factor_constant(Constant** inConstant) {
-//	ReturnPacket* outPacket{new ReturnPacket{}};
-//	outPacket = (*inConstant);
-//	(*outPacket)->setlval(false);
+ReturnPacket* Compiler::block54_factor_constant(Constant* inConstant)
+{
+   bool need_gen = false;
+   int  gen_type = 0;
 
-    switch((*inConstant)->gettype()) {
-    case type::INT:
-        code_generator.gen_instr_I("pushcI",dynamic_cast<IntConstant*>(*inConstant)->getvalue());
-        break;
-    case type::FLOAT:
-        code_generator.gen_instr_F("pushcR",dynamic_cast<FloatConstant*>(*inConstant)->getvalue());
-        break;
-    case type::STR:
-        code_generator.gen_instr_S("pushs",dynamic_cast<StrConstant*>(*inConstant)->getvalue());
-        break;
-    default:
-        error("constant is not a correct type of constant","");
-        break;
-    }
-    return (*inConstant);;
+   if(true == need_gen)
+   {
+      switch(inConstant->gettype())
+      {
+         case type::INT:
+            code_generator.gen_instr_I("pushcI",dynamic_cast<IntConstant*>(inConstant)->getvalue());
+            break;
+         case type::FLOAT:
+            code_generator.gen_instr_F("pushcR",dynamic_cast<FloatConstant*>(inConstant)->getvalue());
+            break;
+         case type::STR:
+            code_generator.gen_instr_S("pushs",dynamic_cast<StrConstant*>(inConstant)->getvalue());
+            break;
+         default:
+            error("constant is not a correct type of constant","");
+            break;
+      }
+   }
+
+   return inConstant;
 }
 
-ReturnPacket* Compiler::block55_factor_ident(njnr::Identifier inIdent) {
-    ReturnPacket* outPacket{nullptr};
-    TableEntry *resultLookup;
-    outPacket = new Identifier{inIdent};
-    if(inIdent.getvalue() != "main") {
-#ifdef DEBUG
-//				fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
-#endif
+ReturnPacket* Compiler::block55_factor_ident(njnr::Identifier inIdent)
+{
+   ReturnPacket*  outPacket{nullptr};
+   TableEntry *resultLookup{nullptr};
+   bool gen_code = false;
+   int  gen_type = 0;
 
-        if( (resultLookup =  mysymtab->lookupB(inIdent.getvalue())) != nullptr ) {
+   outPacket = new Identifier{inIdent};
+   if(true == gen_code)
+   {
+      if(inIdent.getvalue() != "main")
+      {
+        #ifdef DEBUG
+         //				fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
+        #endif
+
+         if( (nullptr != (resultLookup =  mysymtab->lookupB(inIdent.getvalue()))))
+         {
             outPacket->settype(resultLookup->getBinding()->gettype());
             outPacket->setlval(true);
-            if(resultLookup->getBinding()->gettype() == type::INT || resultLookup->getBinding()->gettype() == type::FLOAT) {
-                outPacket->setnumeric(true);
+            if(resultLookup->getBinding()->gettype() == type::INT || resultLookup->getBinding()->gettype() == type::FLOAT)
+            {
+               outPacket->setnumeric(true);
             }
-            if(mysymtab->inCscope(inIdent.getvalue())) {
-                code_generator.gen_instr_I("pusha", resultLookup->getBinding()->getoffset());
+            if(mysymtab->inCscope(inIdent.getvalue()))
+            {
+               code_generator.gen_instr_I("pusha", resultLookup->getBinding()->getoffset());
             }
-            else {
-                switch(resultLookup->getself()) {
-                case btype::VAR:
-                {
-#ifdef DEBUG
-//							char temp_char = (char)(*outPacket)->gettype();
-//							if((*outPacket)->gettype() !=  nullptr) fprintf(stderr,"type is: %s\n", &temp_char);
-//							if(resultLookup->getBinding()->gettype() != nullptr) fprintf(stderr,"type is: %d\n", resultLookup->getBinding()->gettype());
-#endif
-                    int level_diff {mysymtab->getleveldif(inIdent.getvalue())};
-                    if(level_diff != -1) {
+            else
+            {
+               switch(resultLookup->getself())
+               {
+                  case btype::VAR:
+                  {
+                    #ifdef DEBUG
+                     // char temp_char = (char)(*outPacket)->gettype();
+                     // if((*outPacket)->gettype() !=  nullptr) fprintf(stderr,"type is: %s\n", &temp_char);
+                     // if(resultLookup->getBinding()->gettype() != nullptr) fprintf(stderr,"type is: %d\n", resultLookup->getBinding()->gettype());
+                    #endif
+                     int level_diff {mysymtab->getleveldif(inIdent.getvalue())};
+                     if(level_diff != -1)
+                     {
                         code_generator.gen_instr_tI("pushga",level_diff,resultLookup->getBinding()->getoffset());
-                    }
-                    else {
+                     }
+                     else
+                     {
                         debugprint("error, somehow level difference was -1\n","");
-                    }
-                }
-                break;
+                     }
+                     break;
+                  }
 
-                case btype::PARAM:
-#ifdef DEBUG
-                    std::cerr << "type is: " <<  (int)outPacket->gettype() << std::endl ;
-#endif
-
-                    break;
-                default:
-                    error("Variable is unknown or undelcared","");
-                    break;
-                }
+                  case btype::PARAM:
+                    #ifdef DEBUG
+                     std::cerr << "type is: " <<  (int)outPacket->gettype() << std::endl ;
+                    #endif
+                     break;
+   
+                  default:
+                     error("Variable is unknown or undelcared","");
+                     break;
+               }
             }
-        }
-        else {
+         }
+         else
+         {
             outPacket->settype(type::VOID);
             error("Variable is unknown or undelcared, couldn't be found in symbol table'","");
-        }
-//			return outPacket;
-    }
-    else {
-        error("Main is not a variable name","");
-    }
-    return outPacket;
+         }
+      }
+      else
+      {
+         error("Main is not a variable name","");
+      }
+   }
+   return outPacket;
 }
 /*
 void Compiler::block56_factor_lpar_expr_rpar(ReturnPacket** outPacket, ReturnPacket** inPacket){
 	(*outPacket) = (*inPacket);
 }
 */
-ReturnPacket* Compiler::block57_factor_addop_factor_uminus(njnr::addtype inop, ReturnPacket** inPacketptr) {
+ReturnPacket* Compiler::block57_factor_addop_factor_uminus(njnr::addtype inop, ReturnPacket** inPacketptr)
+{
     ReturnPacket* outPacket{new ReturnPacket{}};
     ReturnPacket* inPacket{*inPacketptr};
-    if(inPacket->getnumeric()) {
-        switch(inop) {
+    if(inPacket->getnumeric())
+    {
+        switch(inop)
+        {
         case njnr::addtype::MIN:
             variableFetchWithNumericCheck(*inPacketptr,false);
-            switch(inPacket->gettype()) {
+            switch(inPacket->gettype())
+            {
             case type::INT:
                 code_generator.gen_instr("negI");
                 break;
@@ -884,27 +1026,35 @@ ReturnPacket* Compiler::block57_factor_addop_factor_uminus(njnr::addtype inop, R
     }
     outPacket->setlval(false);
     outPacket->settype(inPacket->gettype() );
-    if(inPacket->getnumeric()) {
+    if(inPacket->getnumeric())
+    {
         outPacket->setnumeric(true);
     }
-    else {
+    else
+    {
         error("cannot change sign of non numeric expression","");
     }
     return outPacket;
 }
 
-ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket) {
+ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket)
+{
     ReturnPacket* outPacket{new ReturnPacket{}};
     TableEntry*tempE; //, *tempE2;
-    if( inPacket.getvalue() != "main") {
+    if( inPacket.getvalue() != "main")
+    {
         if( mysymtab->lookup(inPacket.getvalue()) == nullptr)
             error("variable undeclared, please declare variables before using them","");
-        else {
+        else
+        {
 //			tempE2 = new TableEntry{inPacket.getvalue()};
             tempE =	mysymtab->lookupB(inPacket.getvalue());
-            if(tempE != nullptr) {
-                if(tempE->getself() == btype::VAR || tempE->getself() == btype::PARAM) {
-                    switch(tempE->getself()) {
+            if(tempE != nullptr)
+            {
+                if(tempE->getself() == btype::VAR || tempE->getself() == btype::PARAM)
+                {
+                    switch(tempE->getself())
+                    {
                     case btype::VAR:
                         outPacket->settype(((Varb*)(tempE->getBinding()))->gettype());
 #ifdef DEBUG
@@ -913,15 +1063,19 @@ ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket) {
                         outPacket->setlval(false);
                         if(((Varb*)(tempE->getBinding()))->gettype() == type::INT || ((Varb*)(tempE->getBinding()))->gettype() == type::FLOAT)
                             outPacket->setnumeric(true);
-                        if(mysymtab->inCscope(inPacket.getvalue())) {
+                        if(mysymtab->inCscope(inPacket.getvalue()))
+                        {
                             code_generator.gen_instr_I("pusha", ((Varb*)(tempE->getBinding()))->getoffset());
                         }
-                        else {
+                        else
+                        {
                             int level_diff{mysymtab->getleveldif(inPacket.getvalue())};
-                            if(level_diff != -1) {
+                            if(level_diff != -1)
+                            {
                                 code_generator.gen_instr_tI("pushga", level_diff,((Varb*)(tempE->getBinding()))->getoffset());
                             }
-                            else {
+                            else
+                            {
                                 debugprint("error level differince was -1\n","");
                             }
                             //do something else
@@ -935,10 +1089,12 @@ ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket) {
                         outPacket->setlval(false);
                         if(((Paramb*)(tempE->getBinding()))->gettype() == type::INT || ((Paramb*)(tempE->getBinding()))->gettype() == type::FLOAT)
                             outPacket->setnumeric(true);
-                        if(mysymtab->inCscope(inPacket.getvalue())) {
+                        if(mysymtab->inCscope(inPacket.getvalue()))
+                        {
                             code_generator.gen_instr_I("pusha", ((Varb*)(tempE->getBinding()))->getoffset());
                         }
-                        else {
+                        else
+                        {
                             //do something else
                         }
                         break;
@@ -949,7 +1105,8 @@ ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket) {
                 else
                     error("Variable is unknown or undelcared", "");
             }
-            else {
+            else
+            {
                 outPacket->setlval(false);
                 outPacket->setnumeric(false);
                 outPacket->settype(type::VOID);
@@ -958,9 +1115,9 @@ ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket) {
         }
         return outPacket;
     }
-    else {
+    else
+    {
         error("Main is not a variable name", "");
-
     }
     return outPacket;
 }
@@ -969,49 +1126,63 @@ void Compiler::block59_factor_function_call(){
 	(*outPacket)->ttype = $1.ttype; (*outPacket)->lval = false; (*outPacket)->numeric=$1.numeric;
 }
 */
-ReturnPacket* Compiler::block60_function_call_ident_lpar_rpar(njnr::Identifier inIdent) {
+ReturnPacket* Compiler::block60_function_call_ident_lpar_rpar(njnr::Identifier inIdent)
+{
     ReturnPacket* outPacket{new ReturnPacket{}};
     outPacket->setlval(false);
     Funcb* tempb;
     TableEntry* tempE;
     TableEntry*tempE2;
-    if((tempb=(Funcb*) mysymtab->lookup(inIdent.getvalue())) == nullptr) {
+    if((tempb=(Funcb*) mysymtab->lookup(inIdent.getvalue())) == nullptr)
+    {
         error("function undeclared, please declare functions before using them","");
     }
-    else {
+    else
+    {
         tempE2 = new TableEntry{inIdent.getvalue()};
         tempE =	mysymtab->lookupB(inIdent.getvalue());
-        if( tempE !=nullptr) {
-            if(tempE->getself() == btype::FUNC) {
-                if(tempb->getreturntype() != type::VOID) {
+        if( tempE !=nullptr)
+        {
+            if(tempE->getself() == btype::FUNC)
+            {
+                if(tempb->getreturntype() != type::VOID)
+                {
                     outPacket->setlval(true);
                 }
-                else {
+                else
+                {
                     outPacket->setlval(false);
                 }
-                if(tempb->getnum_param() > 1 ) {
+                if(tempb->getnum_param() > 1 )
+                {
                     error("Function takes no parameters, only void in the declaration and definition","");
                 }
-                if(tempb->getnum_param() == 1) {
-                    if(tempb->getparam_type()[0] != njnr::type::VOID) {
+                if(tempb->getnum_param() == 1)
+                {
+                    if(tempb->getparam_type()[0] != njnr::type::VOID)
+                    {
                         error("Function takes no parameters, only void in the declaration and definition","");
                     }
                 }
                 outPacket->settype( tempb->getreturntype());
-                if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT) {
+                if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT)
+                {
                     outPacket->setnumeric(true);
                 }
-                else {
+                else
+                {
                     outPacket->setnumeric(false);
                 }
                 code_generator.gen_instr_I("enter",1);
                 code_generator.gen_call(code_generator.genlabelw(inIdent.getvalue(), tempb->getlabel()), 0);
             }
-            else {
+            else
+            {
                 error("Function call with an unknown function name", "");
             }
         }
-        else {
+        else
+        {
             error("fuction undeclared","");
         }
         delete tempE2;
@@ -1025,28 +1196,37 @@ void Compiler::block61_function_call_func_call_with_params(){
 	(*outPacket)->ttype =$1.ttype; (*outPacket)->numeric = $1.numeric; (*outPacket)->lval = $1.lval;
 }
 */
-ReturnPacket* Compiler::block62_func_call_with_params_name_and_params_rpar(ReturnPacket** nameAndparamptr) {
+ReturnPacket* Compiler::block62_func_call_with_params_name_and_params_rpar(ReturnPacket** nameAndparamptr)
+{
     ReturnPacket* funcCallWparam{new ReturnPacket{}};
     funcCallWparam->setnumeric((* nameAndparamptr)->getnumeric());
     funcCallWparam->setlval(false);
     funcCallWparam->settype((* nameAndparamptr)->gettype());
-    if((* nameAndparamptr)->funcent!=nullptr) {
-        if(((* nameAndparamptr)->funcent)->getself() == btype::FUNC) {
-            if( ((Funcb*)(((* nameAndparamptr)->funcent)->getBinding()))->getreturntype() != type::VOID) {
+    if((* nameAndparamptr)->funcent!=nullptr)
+    {
+        if(((* nameAndparamptr)->funcent)->getself() == btype::FUNC)
+        {
+            if( ((Funcb*)(((* nameAndparamptr)->funcent)->getBinding()))->getreturntype() != type::VOID)
+            {
                 funcCallWparam->setnumeric(true);
             }
-            else {
+            else
+            {
                 funcCallWparam->setnumeric(false);
             }
         }
-        if( "scanf" == (*nameAndparamptr)->funcent->getName()) {
+        if( "scanf" == (*nameAndparamptr)->funcent->getName())
+        {
             code_generator.gen_call("$scanf",(*nameAndparamptr)->params);
         }
-        else if("printf" ==  (*nameAndparamptr)->funcent->getName()) {
+        else if("printf" ==  (*nameAndparamptr)->funcent->getName())
+        {
             code_generator.gen_call("$printf",(*nameAndparamptr)->params);
         }
-        else {
-            if( ((Funcb*)((*nameAndparamptr)->funcent->getBinding()))->getlabel()==0) {
+        else
+        {
+            if( ((Funcb*)((*nameAndparamptr)->funcent->getBinding()))->getlabel()==0)
+            {
                 ((Funcb*)((*nameAndparamptr)->funcent->getBinding()))->setlabel(code_generator.getlabel());
             }
             code_generator.gen_call( code_generator.genlabelw((*nameAndparamptr)->funcent->getName(),
@@ -1057,7 +1237,8 @@ ReturnPacket* Compiler::block62_func_call_with_params_name_and_params_rpar(Retur
     return funcCallWparam;
 }
 
-ReturnPacket* Compiler::block63_name_and_params_ident_lpar_source(njnr::Identifier inPacket) {
+ReturnPacket* Compiler::block63_name_and_params_ident_lpar_source(njnr::Identifier inPacket)
+{
     ReturnPacket* inEntry{new ReturnPacket{}};
     /*
     if( *inEntryptr == nullptr){
@@ -1074,14 +1255,16 @@ ReturnPacket* Compiler::block63_name_and_params_ident_lpar_source(njnr::Identifi
     else
         std::cerr << "wasn't null\n";
 #endif
-    if (inEntry->funcent != nullptr) {
+    if (inEntry->funcent != nullptr)
+    {
         inEntry->funcent->setName(inPacket.getvalue());
         code_generator.gen_instr_I("enter",1);
     }
     return inEntry;
 }
 
-ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Identifier inIdent, ReturnPacket** inEntryptr, ReturnPacket** inPacketptr) {
+ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Identifier inIdent, ReturnPacket** inEntryptr, ReturnPacket** inPacketptr)
+{
     TableEntry*tempE, *tempE2;
     ReturnPacket* outPacket{new ReturnPacket{}};
     ReturnPacket* inPacket{*inPacketptr};
@@ -1089,26 +1272,33 @@ ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Ide
     outPacket->setlval(false);
     Funcb* tempB;
     tempB = (Funcb*) mysymtab->lookup(inIdent.getvalue());
-    if(tempB ==nullptr) {
+    if(tempB ==nullptr)
+    {
         error("function undelcared, please declare functions before using them","");
         error("1","");
         outPacket->funcent=nullptr;
     }
-    else {
+    else
+    {
         //warning("just checking value of entry: %s",$<value.funcentvalue>$->name);
         tempE2 = new TableEntry{inIdent.getvalue()};
         tempE = mysymtab->lookupB(inIdent.getvalue());
-        if( tempE !=nullptr) {
-            if(tempE->getself() != btype::FUNC) {
+        if( tempE !=nullptr)
+        {
+            if(tempE->getself() != btype::FUNC)
+            {
                 error("function undeclared, please declare functions before using them", "");
                 error("2","");
                 outPacket->funcent=nullptr;
             }
-            else {
-                if(tempB->getnum_param() ==0) {
+            else
+            {
+                if(tempB->getnum_param() ==0)
+                {
                     error("Paramter given for a function that takes no parameters.","");
                 }
-                else if(tempB->getnum_param() == -1) {
+                else if(tempB->getnum_param() == -1)
+                {
 #ifdef DEBUG
 //					fprintf(stderr,"SPRINTF OR PRINTF mismatch: FUNCTION NAME: %s\n",$1);
                     //				fprintf(stderr,"SPRINTF OR PRINTF: FUNCTION TYPE: %d\n",(int)$4->type);
@@ -1117,23 +1307,28 @@ ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Ide
 //					fprintf(stderr,"SPRINTF OR PRINTF: $4 TYPE: %d\n",(int)$4->type);
 //					fprintf(stderr,"SPRINTF OR PRINTF: tempB->param_type[0] TYPE: %d\n",(int)tempB->param_type[0]);
 #endif
-                    if(inPacket->gettype() != tempB->getparam_type()[0]) {
+                    if(inPacket->gettype() != tempB->getparam_type()[0])
+                    {
                         error("parameter type is different in declaration and in function call","");
                     }
-                    else {
+                    else
+                    {
 //							code_generator.gen_instr_S("pushs",$<value.svalue>4);
                     }
                     outPacket->settype(tempB->getparam_type()[0]);
-                    if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT) {
+                    if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT)
+                    {
                         outPacket->setnumeric(true);
                     }
-                    else {
+                    else
+                    {
                         outPacket->setnumeric(false);
                     }
                     outPacket->funcent = inEntry->funcent;
                     outPacket->params = 1;
                 }
-                else {
+                else
+                {
                     variableFetchWithNumericCheck(inPacket,false);
                     /*
                     if(inPacket->getlval()  && inPacket->getnumeric()){
@@ -1145,8 +1340,10 @@ ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Ide
                     		default:				break;
                     	}
                     	}*/
-                    if( ! tempB->getparam_type().empty()) {
-                        if(inPacket->gettype() != tempB->getparam_type()[0]) {
+                    if( ! tempB->getparam_type().empty())
+                    {
+                        if(inPacket->gettype() != tempB->getparam_type()[0])
+                        {
 #ifdef DEBUG
 //							fprintf(stderr,"Function mismatch 2: FUNCTION NAME: %s\n",$1);
 //							fprintf(stderr,"Function mismatch 2: FUNCTION TYPE: %d\n",(int)$4->type);
@@ -1155,14 +1352,16 @@ ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Ide
 #endif
                             if(tempB->getparam_type()[0]!= type::INT && tempB->getparam_type()[0]!= type::FLOAT)
                                 error("Parameter type is different in declaration and in function call","");
-                            else if(tempB->getparam_type()[0]== type::INT) {
+                            else if(tempB->getparam_type()[0]== type::INT)
+                            {
 #ifdef DEBUG
 //								fprintf(stderr,"Function mismatch 3: FUNCTION NAME: %s\n",$1);
 //								fprintf(stderr,"Function mismatch 3: FUNCTION TYPE: %d\n",(int)$4->type);
 //								fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
 //								fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
 #endif
-                                switch(inPacket->gettype()) {
+                                switch(inPacket->gettype())
+                                {
                                 case type::FLOAT:
                                     warning("Paramter expression will lose data because of different type","");
                                     code_generator.gen_instr("int");
@@ -1174,11 +1373,13 @@ ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Ide
                                     break;
                                 }
                             }
-                            else if(tempB->getparam_type()[0]== type::FLOAT) {
+                            else if(tempB->getparam_type()[0]== type::FLOAT)
+                            {
 #ifdef DEBUG
 //								fprintf(stderr,"Function mismatch 4: FUNCTION NAME: %s\n",$1);
 #endif
-                                switch(inPacket->gettype()) {
+                                switch(inPacket->gettype())
+                                {
                                 case type::INT:
                                     warning("Parameter expression is different type than in declaration","");
                                     code_generator.gen_instr("flt");
@@ -1203,7 +1404,8 @@ ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Ide
                 }
             }
         }
-        else {
+        else
+        {
             error("Function is undeclared","");
         }
         delete tempE2;
@@ -1212,7 +1414,8 @@ ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Ide
     return outPacket;
 }
 
-ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(ReturnPacket** innameAndparamPacketptr, ReturnPacket** inexprPacketptr) {
+ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(ReturnPacket** innameAndparamPacketptr, ReturnPacket** inexprPacketptr)
+{
     ReturnPacket* outPacket{new ReturnPacket{}};
     ReturnPacket* innameAndparamPacket{*innameAndparamPacketptr};
     ReturnPacket* inexprPacket{*inexprPacketptr};
@@ -1220,34 +1423,44 @@ ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(Retur
     TableEntry*tempE, *tempE2;
     outPacket->setlval( false);
     Funcb* tempB;
-    if(innameAndparamPacket->funcent == nullptr) {
+    if(innameAndparamPacket->funcent == nullptr)
+    {
         error("function undelcared, please declare functions before using them","");
         error("3","");
     }
-    else {
+    else
+    {
         outPacket->funcent = innameAndparamPacket->funcent;
         tempE2 = new TableEntry{innameAndparamPacket->funcent->getName()};
         //	tempE2->name = innameAndparamPacket->funcent->name;
         tempB= (Funcb*) mysymtab->lookup( innameAndparamPacket->funcent->getName());
-        if( (tempE=  mysymtab->lookupB(innameAndparamPacket->funcent->getName()))!=nullptr) {
-            if(tempE->getself() != btype::FUNC) {
+        if( (tempE=  mysymtab->lookupB(innameAndparamPacket->funcent->getName()))!=nullptr)
+        {
+            if(tempE->getself() != btype::FUNC)
+            {
                 error("function undeclared, please declare functions before using them", "");
                 error("4","");
             }
-            else {
-                if(tempB->getnum_param() ==0) {
+            else
+            {
+                if(tempB->getnum_param() ==0)
+                {
                 }
-                else if(tempB->getnum_param() == -1) {
+                else if(tempB->getnum_param() == -1)
+                {
                     outPacket->settype( tempB->getparam_type()[innameAndparamPacket->params] );
-                    if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT) {
+                    if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT)
+                    {
                         outPacket->setnumeric(true);
                     }
-                    else {
+                    else
+                    {
                         outPacket->setnumeric(false);
                     }
                     outPacket->params = innameAndparamPacket->params +1;
                     outPacket->funcent= innameAndparamPacket->funcent;
-                    if(outPacket->funcent->getName() != "scanf") {
+                    if(outPacket->funcent->getName() != "scanf")
+                    {
                         variableFetchWithNumericCheck(inexprPacket,false);
                     }
                     /*
@@ -1262,8 +1475,10 @@ ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(Retur
                     }
                     */
                 }
-                else if( innameAndparamPacket->params < tempB->getnum_param()) {
-                    if(inexprPacket->gettype() != tempB->getparam_type()[innameAndparamPacket->params]) {
+                else if( innameAndparamPacket->params < tempB->getnum_param())
+                {
+                    if(inexprPacket->gettype() != tempB->getparam_type()[innameAndparamPacket->params])
+                    {
 #ifdef DEBUG
 //						fprintf(stderr,"Function mismatch before warning: FUNCTION NAME: %s\n", innameAndparamPacket->getname());
 #endif
@@ -1279,14 +1494,17 @@ ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(Retur
                         	}
                         }
                         */
-                        if(tempB->getparam_type()[innameAndparamPacket->params]== type::FLOAT) {
+                        if(tempB->getparam_type()[innameAndparamPacket->params]== type::FLOAT)
+                        {
                             code_generator.gen_instr("flt");
                         }
-                        else if(tempB->getparam_type()[innameAndparamPacket->params]== type::INT) {
+                        else if(tempB->getparam_type()[innameAndparamPacket->params]== type::INT)
+                        {
                             code_generator.gen_instr("int");
                         }
                     }
-                    else {
+                    else
+                    {
                         variableFetch(inexprPacket,false);
                         /*
                         	if(inexprPacket->getlval()){
@@ -1307,12 +1525,14 @@ ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(Retur
                     outPacket->params= innameAndparamPacket->params +1;
                     outPacket->funcent= innameAndparamPacket->funcent;
                 }
-                else {
+                else
+                {
                     error("Too many parameters given for function in function call.","");
                 }
             }
         }
-        else {
+        else
+        {
             error("Function is undeclared","");
         }
         delete tempE2;
@@ -1342,11 +1562,13 @@ void Compiler::block68_constant_floatconstant(njnr::Constant* mcon, float floatc
 		(*mcon).numeric= true;
 }
 */
-List* Compiler::block69_identlist_ident(njnr::Identifier inIdent) {
+List* Compiler::block69_identlist_ident(njnr::Identifier inIdent)
+{
     return List::mklist(&inIdent);
 }
 
-List* Compiler::block70_identlist_comma_ident(List** inIdentListptr, njnr::Identifier inIdent) {
+List* Compiler::block70_identlist_comma_ident(List** inIdentListptr, njnr::Identifier inIdent)
+{
     return (*inIdentListptr)->appendList(&inIdent);
 }
 

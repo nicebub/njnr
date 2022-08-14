@@ -76,6 +76,7 @@ int yyerror(std::string err,Compiler& compiler);
 %token <njnr::IntConstant> IntConstant "IntConstant"
 %token <njnr::FloatConstant> FloatConstant "FloatConstant"
 %token <njnr::StrConstant> StrConstant "StrConstant"
+%token <njnr::CharConstant> CharConstant "CharConstant"
 %token voidt
 %token intt
 %token floatt
@@ -163,11 +164,11 @@ int yyerror(std::string err,Compiler& compiler);
 %type <eqtype> equequ neq
 %type <multype> divide star
 %type <int> uminus
-
+%type <Funcb*> funcbody funcbody_internal variabledecl
 %nterm <List*> paramdeflist paramdef
 %nterm <funcheadertype*> funcheader
 %nterm <ReturnPacket*> expr
-%nterm <ReturnPacket*> stmt
+%nterm <Statement*> stmt
 //%nterm <ReturnPacket*> stmtlist
 %nterm <ReturnPacket*> ifexprstmt
 %nterm <Constant*> constant
@@ -191,10 +192,13 @@ translation_unit: func {}
 ;
 
 func: funcheader { compiler.block2_func_funcheader_source(&$1); }
-	  funcbody   { compiler.block3_func_funcheader_source_funcbody(); }
+	  funcbody   { compiler.block3_func_funcheader_source_funcbody(); // send in $3??
+	             }
 ;
 
 funcheader: fnt Ident lpar paramdef rpar { $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, $<List*>4, njnr::type::VOID); }
+          | fnt Ident lpar rpar { $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, nullptr, njnr::type::VOID);}
+          | fnt Ident { $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, nullptr, njnr::type::VOID);}
           | fnt error rpar               { yyerrok; $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier{""}, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
 										   compiler.error("(expecting lpar before rpar in function)",""); }
           | fnt Ident lpar error rpar { yyerrok; $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
@@ -217,12 +221,16 @@ paramdeflist: Ident { $$ = List::mklist($1.getvalue(), njnr::type::INT);	}
             | paramdeflist comma Ident { $$ = $1->appendList($3.getvalue(),njnr::type::INT); }
 ;
 
-funcbody: lcbra funcbody_internal rcbra {}
+funcbody: lcbra funcbody_internal rcbra {$$ = $2;}
 ;
-funcbody_internal: variabledecl {compiler.block25_funcbody_lcbra_decls_source();}
-                   stmt {/*compiler.block26_funcbody_lcbra_decls_source_stmtlist_rcbra();*/}
+
+funcbody_internal: variabledecl { $$ = $1 ;compiler.block25_funcbody_lcbra_decls_source();}
+                 | stmt {
+					      $$ = compiler.create_and_return_a_fn_body_statement_element($1);
+						  /*compiler.block26_funcbody_lcbra_decls_source_stmtlist_rcbra();*/
+                        }
 				 | funcbody_internal variabledecl {compiler.block25_funcbody_lcbra_decls_source();}
-				 | funcbody_internal stmt {}
+				 | funcbody_internal stmt { $$ = compiler.add_statement_to_fn_body_and_return($1,$2);}
 
 //decls: /*empty*/
 //      | decls variabledecl {} //$<value.lstvalue>$ = $<value.lstvalue>2;
@@ -240,9 +248,9 @@ variabledecl: vart identlist {
 //        | stmt {}
 //;
 
-stmt: expr semi { compiler.block29_stmt_expr_semi(); }
-		| returnt semi { compiler.block30_stmt_return_semi(); }
-		| returnt expr semi { compiler.block31_stmt_return_expr_semi($2); }
+stmt:     expr semi { compiler.block29_stmt_expr_semi(); }
+		| returnt semi { $$ = compiler.block30_stmt_return_semi(); }
+		| returnt expr semi { $$ = compiler.block31_stmt_return_expr_semi($2); }
 
 		| whilet <ReturnPacket*>{ $$ = compiler.block32_stmt_while_source(); }
 		  lpar expr rpar { compiler.block33_stmt_while_source_expr_semi_source_lpar_expr_rpar($2,$4); }
@@ -293,7 +301,7 @@ TERM: TERM mulop { compiler.block51_term_term_mulop_source(&$1); }
      | TERM mulop error { yyerrok; compiler.error("(unexpected token after multiplicative operator)",""); }
 ;
 
-factor: constant { $$ = compiler.block54_factor_constant(&$1); }
+factor: constant { $$ = compiler.block54_factor_constant($1); }
       | Ident { $$ = compiler.block55_factor_ident($1); }
       | lpar expr rpar { $$ = $2; }
       | addop factor %prec uminus { $$ = compiler.block57_factor_addop_factor_uminus($1,&$2); }
@@ -324,6 +332,7 @@ identlist: Ident { $$ = List::mklist($1.getvalue()); }
 constant: StrConstant { $$ = new StrConstant{$1}; }
         | IntConstant { $$ = new IntConstant{$1}; }
         | FloatConstant { $$ = new FloatConstant{$1}; }
+		| CharConstant { $$ = new CharConstant{$1}; }
 ;
 
 addop: plus { $$ = njnr::addtype::PLS;}

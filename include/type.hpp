@@ -60,6 +60,22 @@ enum class mbool
     FALSE
 };
 
+enum class statement_type
+{
+   INVALID,
+   RETURN,
+   WHILE,
+   UNTIL,
+   IF,
+   LOOP,
+   FOR,
+   FOREACH,
+   IFELSE,
+   DOWHILE,
+   DOUNTIL,
+   SWITCH
+};
+
 struct Pair
 {
     int one;
@@ -80,6 +96,7 @@ struct funcheadertype
     type				returntype;
     type				ttype;
 };
+
 }
 
 #endif // _MYTYPE_H

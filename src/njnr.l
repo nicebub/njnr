@@ -222,7 +222,11 @@ char { /* keyword char*/
       BEGIN(astring);
    }
 
-
+\'{LETTER}\' {
+                yylval = lval;
+                yylval->emplace<njnr::CharConstant>() = yytext[1];
+                return(token::CharConstant);
+             }
 \n	{
        ++compiler.Line_Number;
 	}

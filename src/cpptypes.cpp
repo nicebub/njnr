@@ -48,11 +48,35 @@ void ReturnPacket::setoffset(const int in) {
     offset = in;
 }
 
-
 Constant::~Constant() {}
 
 Constant::Constant() : ReturnPacket{} {}
 Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
+
+CharConstant::CharConstant() : Constant{false,njnr::type::CHAR, true, 0}, value{0} {}
+
+CharConstant::CharConstant(const char invalue) : Constant{false,njnr::type::CHAR, true, 0}, value{invalue} {}
+
+CharConstant::CharConstant(const CharConstant& in) : Constant{false,njnr::type::CHAR, true, 0}, value{in.value} {}
+
+CharConstant::~CharConstant() {}
+
+CharConstant& CharConstant::operator=(const CharConstant& in) {
+    if(&in != this) {
+        value = in.value;
+        lval = false;
+        numeric = false;
+        ttype = njnr::type::CHAR;
+    }
+    return *this;
+}
+char CharConstant::getvalue() const {
+    return value;
+}
+
+void CharConstant::setvalue(const char in) {
+    value = in;
+}
 
 IntConstant::IntConstant() : Constant{false,njnr::type::INT, true, 0}, value{0} {}
 
@@ -251,5 +275,8 @@ Varb::~Varb() {}
 
 Paramb::Paramb() : ReturnPacket{} {}
 Paramb::~Paramb() {}
-}
 
+Statement::Statement() : ReturnPacket{} {}
+Statement::~Statement() {}
+
+}
