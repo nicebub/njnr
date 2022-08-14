@@ -22,6 +22,13 @@ void Compiler::block1_start_trans_unit()
 
 Funcb* Compiler::create_full_function(funcheadertype* funcheader, Funcb* funcbody)
 {
+   Funcb* out{nullptr};
+   out = new Funcb{};
+   out->setreturntype(funcheader->returntype);
+   
+   funcheader->name;
+   funcheader->ttype;
+   funcheader->paramlist;
    return nullptr;
 }
 

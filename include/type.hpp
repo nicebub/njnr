@@ -75,6 +75,12 @@ enum class statement_type
    DOUNTIL,
    SWITCH
 };
+enum class trans_unit_type
+{
+   INVALID,
+   VARDECL,
+   FUNCTION
+};
 
 struct Pair
 {

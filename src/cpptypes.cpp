@@ -279,4 +279,25 @@ Paramb::~Paramb() {}
 Statement::Statement() : ReturnPacket{} {}
 Statement::~Statement() {}
 
+Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
+
+Translation_Unit::~Translation_Unit() {}
+
+ReturnPacket* Translation_Unit::get_translation()
+{
+    return translation;
+}
+void Translation_Unit::set_translation(ReturnPacket* translation)
+{
+   this->translation = translation;
+}
+void Translation_Unit::set_trans_unit_type(trans_unit_type intype)
+{
+   trans_type = intype;
+}
+trans_unit_type Translation_Unit::get_trans_unit_type()
+{
+   return trans_type;
+}
+
 }

@@ -11,7 +11,10 @@ enum class eNodeType
 {
     STANDARD,
     EXPR,
-    P
+    P,
+    STMT,
+    TRANSLATION_UNIT,  // functions or variable declarations
+
 };
 
 class BasicListNode

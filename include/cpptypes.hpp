@@ -169,6 +169,20 @@ namespace njnr
       private:
          statement_type stype;
    };
-}
 
+   class Translation_Unit : public ReturnPacket
+   {
+      public:
+         Translation_Unit();
+         virtual ~Translation_Unit();
+         ReturnPacket* get_translation();
+         void set_translation(ReturnPacket* translation);
+         void set_trans_unit_type(trans_unit_type intype);
+         trans_unit_type get_trans_unit_type();
+      private:
+         ReturnPacket* translation;
+         trans_unit_type trans_type;
+   };
+
+}
 #endif
