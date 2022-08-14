@@ -19,6 +19,12 @@ void Compiler::block1_start_trans_unit()
     code_generator.gen_call(code_generator.genlabelw("main",mainlabel),0);
     code_generator.gen_instr("return");
 }
+
+Funcb* Compiler::create_full_function(funcheadertype* funcheader, Funcb* funcbody)
+{
+   return nullptr;
+}
+
 void Compiler::block2_func_funcheader_source(funcheadertype** inFuncHeaderptr)
 {
     auto templabel{mainlabel};
@@ -65,20 +71,26 @@ void Compiler::block5_funcheader_error_semi(funcheadertype** inFuncHeaderptr)
     }
 }
 
-funcheadertype*  Compiler::funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier inIdent, List* inParamdeflist,njnr::type inreturntype)
+funcheadertype*  Compiler::funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier inIdent,
+                                                                                 List* inParamdeflist,
+                                                                                 njnr::type inreturntype)
 {
-    funcheadertype* retFuncHeader{nullptr};
+   funcheadertype* retFuncHeader{nullptr};
 
-    retFuncHeader = new funcheadertype;
-    retFuncHeader->returntype = inreturntype;
-    retFuncHeader->name = inIdent.getvalue();
-    retFuncHeader->paramlist=inParamdeflist;
-    return retFuncHeader;
-    /* FIXME: NEED TO REINCORPORATE THIS BACK IN. Somehow lists provide a type? where and why?
-    if(inParamdeflist->gettype() == type::VOID){
-    	retFuncHeader->ttype = type::VOID;
-    }
-    */
+   retFuncHeader             = new funcheadertype;
+   if(nullptr != retFuncHeader)
+   {
+      retFuncHeader->returntype = inreturntype;
+      retFuncHeader->name       = inIdent.getvalue();
+      retFuncHeader->paramlist  = inParamdeflist;
+      /* FIXME: NEED TO REINCORPORATE THIS BACK IN. Somehow lists provide a type? where and why?
+      if(inParamdeflist->gettype() == type::VOID)
+      {
+         retFuncHeader->ttype = type::VOID;
+      }
+      */
+   }
+   return retFuncHeader;
 }
 /*
 funcheadertype* Compiler::block6_funcheader_void_ident_lpar_paramdef_rpar(njnr::Identifier inIdent, List* inParamdeflist){

@@ -91,10 +91,10 @@ struct exprtype
 
 struct funcheadertype
 {
-    std::string 	name;
-    List*				paramlist;
-    type				returntype;
-    type				ttype;
+    std::string   name;
+    List*         paramlist;
+    type          returntype;
+    type          ttype;
 };
 
 }

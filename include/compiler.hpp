@@ -55,6 +55,7 @@ namespace njnr
          bool is_function_decl_or_def_accurate(funcheadertype** inFunc, bool isdeclaration);
          void install_parameters_into_symbol_table_curren_scope(funcheadertype** inFuncHeaderptr);
 
+         Funcb* create_full_function(funcheadertype* funcheader, Funcb* funcbody);
          void block2_func_funcheader_source(funcheadertype** funcheaderptr);
          void block3_func_funcheader_source_funcbody();
          void block4_func_funcheader_semi(funcheadertype* inFuncHeaderptr);
