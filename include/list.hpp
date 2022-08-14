@@ -50,6 +50,7 @@ public:
 private:
     ReturnPacket* expr;
 };
+
 class PListNode : public ListNode
 {
 public:
@@ -61,6 +62,21 @@ public:
 private:
     njnr::type type;
 };
+
+class TranslationUnitListNode : public ListNode
+{
+   public:
+      TranslationUnitListNode();
+      TranslationUnitListNode(Funcb* infunc);
+      TranslationUnitListNode(Varb* invardecl); // need to change actual class used this was placeholder
+      virtual ~TranslationUnitListNode() = default;
+   private:
+      ReturnPacket*         unit;
+      trans_unit_type trans_type;
+};
+
+
+
 class List
 {
 public:
@@ -73,11 +89,15 @@ public:
     static List* mklist(std::string inVal);
     static List* mklist(std::string inVal, type inType);
     static List* mklist(ReturnPacket* expr);
+    static List* mklist(Funcb* expr);
+    static List* mklist(Varb* expr);  // place holder type -- needs changing
     std::vector<BasicListNode*>::iterator begin();
     std::vector<BasicListNode*>::iterator end();
     List* appendList(std::string inVal);
     List* appendList(std::string inVal, njnr::type inType);
     List* appendList(ReturnPacket* expr);
+    List* appendList(Funcb* expr);
+    List* appendList(Varb* expr); // placeholder type -- needs changing
     int size() const;
 private:
     std::vector<BasicListNode*> list;

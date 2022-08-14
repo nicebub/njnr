@@ -281,6 +281,9 @@ Statement::~Statement() {}
 
 Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
 
+//Translation_Unit::Translation_Unit(Funcb* func) : translation{func}, trans_type{trans_unit_type::FUNCTION} {}
+//Translation_Unit::Translation_Unit(Varb* varb) : translation{varb}, trans_type{trans_unit_type::VARDECL} {} // placeholder type -- needs to change
+
 Translation_Unit::~Translation_Unit() {}
 
 ReturnPacket* Translation_Unit::get_translation()

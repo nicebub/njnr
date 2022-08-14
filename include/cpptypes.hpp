@@ -174,6 +174,8 @@ namespace njnr
    {
       public:
          Translation_Unit();
+//         Translation_Unit(Funcb* func);
+//         Translation_Unit(Varb* varb); // placeholder type -- needs to change
          virtual ~Translation_Unit();
          ReturnPacket* get_translation();
          void set_translation(ReturnPacket* translation);

@@ -190,8 +190,8 @@ starter: translation_unit {
 translation_unit: translation_unit_part_list {}
 ;
 
-translation_unit_part_list: translation_unit_part {}
-                          | translation_unit_part_list translation_unit_part {}
+translation_unit_part_list: translation_unit_part { $$ = List::mklist($1);}
+                          | translation_unit_part_list translation_unit_part { $$ = $1->appendList($2);}
 ;
 translation_unit_part: func { $$ = $1;}
 		             | variabledecl { $$ = $1;}

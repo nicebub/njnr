@@ -64,6 +64,13 @@ void PListNode::settype(njnr::type type) {
     this->type = type;
 }
 
+TranslationUnitListNode::TranslationUnitListNode() {}
+TranslationUnitListNode::TranslationUnitListNode(Funcb* infunc) {}
+TranslationUnitListNode::TranslationUnitListNode(Varb* invardecl) {} // need to change actual class used this was placeholder
+
+
+
+
 List::List() : list{} {}
 List::List(const List& cp) : list{cp.list} {}
 List::~List() {
@@ -101,23 +108,53 @@ List* List::mklist(ReturnPacket* inExpr) {
     return (new List{})->appendList(inExpr);
 }
 
-List* List::appendList(std::string inVal) {
-    ListNode* nnode{new ListNode{inVal}};
-    list.push_back(dynamic_cast<BasicListNode*>(nnode));
-    return this;
-}
-List* List::appendList(std::string inVal, type inType) {
-    PListNode* nnode{new PListNode{inVal,inType}};
-    list.push_back(dynamic_cast<BasicListNode*>(nnode));
-    return this;
-}
-List* List::appendList(ReturnPacket* inexpr) {
-    ReturnPacketListNode* nnode{new ReturnPacketListNode{inexpr}};
-    list.push_back(dynamic_cast<BasicListNode*>(nnode));
-    return this;
-}
-std::vector<BasicListNode*> List::getlist() {
-    return list;
-}
+   List* List::appendList(std::string inVal)
+   {
+       ListNode* nnode{new ListNode{inVal}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
 
+   List* List::appendList(std::string inVal, type inType)
+   {
+       PListNode* nnode{new PListNode{inVal,inType}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
+
+   List* List::appendList(ReturnPacket* inexpr)
+   {
+       ReturnPacketListNode* nnode{new ReturnPacketListNode{inexpr}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
+
+   std::vector<BasicListNode*> List::getlist()
+   {
+       return list;
+   }
+
+   List* List::mklist(Funcb* expr)
+   {
+       return (new List{})->appendList(expr);
+   }
+
+   List* List::mklist(Varb* expr)
+   {
+       return (new List{})->appendList(expr);
+   } // place holder type -- needs changing
+
+   List* List::appendList(Funcb* expr)
+   {
+       ListNode* nnode{new TranslationUnitListNode{expr}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
+
+   List* List::appendList(Varb* expr)
+   {
+       ListNode* nnode{new TranslationUnitListNode{expr}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   } // placeholder type -- needs changing
 }
