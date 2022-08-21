@@ -13,7 +13,8 @@ int main(int argc, const char **argv)
     int ret{EXIT_FAILURE};
     Compiler compiler{};
 
-    if((false !=  compiler.openedInputFile(argc,argv)) && (false !=  compiler.openedOutputFile(argc, argv)))
+    if((false !=  compiler.openedInputFile(argc,argv)) &&
+       (false !=  compiler.openedOutputFile(argc, argv)))
     {
         compiler.code_generator.setstream(compiler.outfile);
 

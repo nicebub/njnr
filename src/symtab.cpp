@@ -77,18 +77,22 @@ TableEntry* Table::lookupB(const std::string name) {
     }
     return nullptr;
 }
-bool Table::empty() noexcept {
+bool Table::empty() noexcept
+{
     return table.empty();
 }
 
-bool Table::install(TableEntry* entry) {
+bool Table::install(TableEntry* entry)
+{
     bool answer;
-    try {
+    try
+    {
         table.at(entry->getName());
         std::cerr << "error: symbol already declared in current scope" << std::endl;
         answer = false;
     }
-    catch(std::out_of_range& e) {
+    catch(std::out_of_range& e)
+    {
         debugprint("caught out of range\n","");
         table[entry->getName()] = entry;
         answer = true;
@@ -148,9 +152,11 @@ ReturnPacket* SymbolTable::lookup(const std::string name) {
     }
 }
 
-void SymbolTable::install(TableEntry* temp) {
+void SymbolTable::install(TableEntry* temp)
+{
     Table* locatedTable{stack.back()};
-    if(!locatedTable->install(temp)) {
+    if(!locatedTable->install(temp))
+    {
         compiler.error("symbol already declared in current scope","");
     }
 
@@ -161,7 +167,8 @@ void SymbolTable::install(TableEntry* temp) {
 }
 
 #ifdef DEBUG
-void njnr::SymbolTable::printTree() const {
+void njnr::SymbolTable::printTree() const
+{
 }
 #endif
 /*
@@ -228,23 +235,29 @@ TableEntry* SymbolTable::createParam(std::string name, type t_type, int offset) 
     return temp;
 }
 
-void SymbolTable::addtosymtab(type mytype, List* myList) {
+void SymbolTable::addtosymtab(type mytype, List* myList)
+{
     assert(myList != nullptr);
-    if(myList !=nullptr) {
-        for(auto& element : *myList) {
+    if(myList !=nullptr)
+    {
+        for(auto& element : *myList)
+        {
             TableEntry* temp{nullptr};
             ListNode* n_element{dynamic_cast<ListNode*>(element)};
             temp= createVar(n_element->getval(), mytype, compiler.offset_counter);
-            if(mytype != njnr::type::VOID) {
+            if(mytype != njnr::type::VOID)
+            {
                 compiler.offset_counter++;
             }
-            if( stack.size() == 1) {
+            if( stack.size() == 1)
+            {
                 compiler.globalcount++;
             }
             install(temp);
         }
     }
-    else {
+    else
+    {
         compiler.error("List given was nullptr","");
     }
 }

@@ -115,7 +115,9 @@ ADOF    "&"
 	       BEGIN(INITIAL);
 	    }
 }
-
+fn {
+   return token::fnt;
+}
 void {/*keyword void*/
 	    return token::voidt;
 	 }
@@ -240,6 +242,10 @@ char { /* keyword char*/
 
 \) {
       return token::rpar;
+   }
+
+\( {
+      return token::lpar;
    }
 
 \{ {

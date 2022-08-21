@@ -20,7 +20,7 @@ void Compiler::block1_start_trans_unit()
     code_generator.gen_instr("return");
 }
 
-Funcb* Compiler::create_full_function(funcheadertype* funcheader, Funcb* funcbody)
+Funcb* Compiler::create_full_function(funcheadertype* funcheader, List* funcbody)
 {
    Funcb* out{nullptr};
    out = new Funcb{};
@@ -259,7 +259,7 @@ Funcb* Compiler::create_and_return_a_fn_body_statement_element(Statement* stmt)
 {
    return nullptr;
 }
-Funcb* Compiler::add_statement_to_fn_body_and_return(Funcb* func, Statement* stmt)
+Funcb* Compiler::add_statement_to_fn_body_and_return(List* func, Statement* stmt)
 {
    return nullptr;
 }
@@ -271,7 +271,12 @@ void Compiler::block29_stmt_expr_semi()
 Statement* Compiler::block30_stmt_return_semi()
 {
    Statement* outPacket{nullptr};
+   bool need_code_generated{false};
+
    outPacket = new Statement{};
+   outPacket->settype(njnr::type::STMT);
+   outPacket->setstype(njnr::statement_type::RETURN);
+   outPacket->setrettype(njnr::type::VOID);
 
     if(currentFunc == nullptr)
     {
@@ -285,8 +290,12 @@ Statement* Compiler::block30_stmt_return_semi()
         return nullptr;
     }
 
-    code_generator.gen_instr("returnf");
-    return outPacket;
+   if(true == need_code_generated)
+   {
+      code_generator.gen_instr("returnf");
+   }
+
+   return outPacket;
 }
 
 void Compiler::variableFetch(ReturnPacket* inPacket, bool conversionNeeded)
@@ -322,66 +331,82 @@ void Compiler::variableFetchWithNumericCheck(ReturnPacket* inPacket, bool conver
 }
 Statement* Compiler::block31_stmt_return_expr_semi(ReturnPacket* inPacket)
 {
-    if( ! inPacket->getnumeric() )
-    {
-        error("non numeric expression in return statement or return type is void", "");
-        return nullptr;
-    }
-    if(currentFunc == nullptr )
-    {
-        if( inPacket->gettype() != type::INT)
-        {
-            warning("main function has int return type","");
-        }
+   Statement* outStatement{nullptr};
+   bool need_code_generated{false};
 
-        variableFetchWithNumericCheck(inPacket,true); //conversion to integer needed
+   outStatement = new Statement{};
+   outStatement->settype(type::STMT);
+   outStatement->setstype(statement_type::RETURN);
+   outStatement->setstmt(inPacket);
 
-        code_generator.gen_instr("setrvI");
-        return nullptr;
-    }
-#ifdef DEBUG
-//	std::cerr << "type and returntype : " << inPacket->gettype()  << ": "<< currentFunc->getreturntype()) << std::endl;
-#endif
+//   if( type::VOID == inPacket->gettype )
+//   {
+//       error("return type is void", "");
+//       return nullptr;
+//   }
+   if(currentFunc == nullptr )
+   {
+      if( inPacket->gettype() != type::INT)
+      {
+         warning("main function has int return type","");
+      }
 
-    if( inPacket->gettype() != currentFunc->getreturntype())
-    {
-        warning("function has different returntype","");
-    }
+      variableFetchWithNumericCheck(inPacket,true); //conversion to integer needed
 
-    variableFetchWithNumericCheck(inPacket,false);//conversion to integer not needed
+      if(true == need_code_generated)
+      {
+         code_generator.gen_instr("setrvI");
+      }
 
-    switch(currentFunc->getreturntype())
-    {
-    case type::INT:
-        switch(inPacket->gettype())
-        {
-        case type::FLOAT:
-            code_generator.gen_instr("int");
-        case type::INT:
-            code_generator.gen_instr("setrvI");
+      return outStatement;
+   }
+  #ifdef DEBUG
+   //	std::cerr << "type and returntype : " << inPacket->gettype()  << ": "<< currentFunc->getreturntype()) << std::endl;
+  #endif
+
+   if( inPacket->gettype() != currentFunc->getreturntype())
+   {
+       warning("function has different returntype","");
+   }
+
+   variableFetchWithNumericCheck(inPacket,false);//conversion to integer not needed
+
+   if(true == need_code_generated)
+   {
+      switch(currentFunc->getreturntype())
+      {
+         case type::INT:
+            switch(inPacket->gettype())
+            {
+               case type::FLOAT:
+                  code_generator.gen_instr("int");
+               case type::INT:
+                  code_generator.gen_instr("setrvI");
+                  break;
+               default:
+                  break;
+            }
             break;
-        default:
+         case type::FLOAT:
+            switch( inPacket->gettype() )
+            {
+               case type::INT:
+                  code_generator.gen_instr("flt");
+               case type::FLOAT:
+                  code_generator.gen_instr("setrvR");
+                  break;
+               default:
+                  break;
+            }
             break;
-        }
-        break;
-    case type::FLOAT:
-        switch( inPacket->gettype() )
-        {
-        case type::INT:
-            code_generator.gen_instr("flt");
-        case type::FLOAT:
-            code_generator.gen_instr("setrvR");
+         default:
             break;
-        default:
-            break;
-        }
-        break;
-    default:
-        break;
-    }
-    code_generator.gen_instr("returnf");
-    return nullptr;
+      }
+      code_generator.gen_instr("returnf");
+   }
+   return outStatement;
 }
+
 ReturnPacket* Compiler::block32_stmt_while_source()
 {
     ReturnPacket* inPacket{new ReturnPacket{}};
@@ -518,11 +543,11 @@ ReturnPacket* Compiler::block40_expr_equalexpr_equal_equalexpr(ReturnPacket** in
         error("Cannot make assignment. Left hand side is not a correct lval","");
         return outPacket;
     }
-    else if( ! inotherequalexprPacket->getnumeric() )
-    {
-        error("Cannot make assignment, Right hand side is not numeric.","");
-        return outPacket;
-    }
+//    else if( ! inotherequalexprPacket->getnumeric() )
+//    {
+//        error("Cannot make assignment, Right hand side is not numeric.","");
+//        return outPacket;
+//    }
     variableFetchWithNumericCheck(inotherequalexprPacket,false); //conversion to integer not needed
 
     if( inequalexprPacket->gettype() == inotherequalexprPacket->gettype() )

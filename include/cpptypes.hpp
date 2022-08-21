@@ -165,9 +165,17 @@ namespace njnr
    {
       public:
          Statement();
+         statement_type getstype();
+         ReturnPacket* getstmt();
+         void setstmt(ReturnPacket* stmt);
+         void setstype(statement_type t);
          virtual ~Statement();
+         type getrettype();
+         void setrettype(njnr::type t);
       private:
          statement_type stype;
+         ReturnPacket* stmt;
+         type         rettype;
    };
 
    class Translation_Unit : public ReturnPacket

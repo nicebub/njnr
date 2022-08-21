@@ -278,6 +278,31 @@ Paramb::~Paramb() {}
 
 Statement::Statement() : ReturnPacket{} {}
 Statement::~Statement() {}
+statement_type Statement::getstype()
+{
+   return stype;
+}
+void Statement::setstype(statement_type t)
+{
+   stype = t;
+}
+void Statement::setstmt(ReturnPacket* stmt)
+{
+   this->stmt = stmt;
+}
+ReturnPacket* Statement::getstmt()
+{
+   return stmt;
+}
+
+type Statement::getrettype()
+{
+    return rettype;
+}
+void Statement::setrettype(njnr::type t)
+{
+    rettype = t;
+}
 
 Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
 

@@ -51,7 +51,8 @@ enum class type
     REFINT,
     REFFLOAT,
     REFSTR,
-    IDENT
+    IDENT,
+    STMT
 };
 
 enum class mbool

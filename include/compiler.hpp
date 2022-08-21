@@ -55,7 +55,7 @@ namespace njnr
          bool is_function_decl_or_def_accurate(funcheadertype** inFunc, bool isdeclaration);
          void install_parameters_into_symbol_table_curren_scope(funcheadertype** inFuncHeaderptr);
 
-         Funcb* create_full_function(funcheadertype* funcheader, Funcb* funcbody);
+         Funcb* create_full_function(funcheadertype* funcheader, List* funcbody);
          void block2_func_funcheader_source(funcheadertype** funcheaderptr);
          void block3_func_funcheader_source_funcbody();
          void block4_func_funcheader_semi(funcheadertype* inFuncHeaderptr);
@@ -99,7 +99,7 @@ namespace njnr
          void block29_stmt_expr_semi();
   
          Funcb* create_and_return_a_fn_body_statement_element(Statement* stmt);
-         Funcb* add_statement_to_fn_body_and_return(Funcb* func, Statement* stmt);
+         Funcb* add_statement_to_fn_body_and_return(List* func, Statement* stmt);
          Statement* block30_stmt_return_semi();
          Statement* block31_stmt_return_expr_semi(ReturnPacket* inPacket);
   
@@ -181,7 +181,7 @@ namespace njnr
          List* block70_identlist_comma_ident(List** inIdentListptr, njnr::Identifier inIdent);
   
       protected:
-         static bool filenameDoesEndsInDotC(const std::string& in)  noexcept;
+         static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
          void closeOrRemoveOutputFile(bool needtoremove);
   
       private:

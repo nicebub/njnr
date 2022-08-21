@@ -7,15 +7,18 @@
 
 using namespace njnr;
 
-namespace njnr {
-//		njnrLexer::njnrLexer() : string_buf{}, yylval{nullptr}, loc{new njnrParser::location_type()}, compiler() {}
-njnrLexer::~njnrLexer() {
-    delete loc;
-    loc = nullptr;
-}
+namespace njnr
+{
+   //		njnrLexer::njnrLexer() : string_buf{}, yylval{nullptr}, loc{new njnrParser::location_type()}, compiler() {}
+   njnrLexer::~njnrLexer()
+   {
+       delete loc;
+       loc = nullptr;
+   }
 
-njnrLexer::njnrLexer(std::istream* in, Compiler& compiler) : yyFlexLexer(in), compiler{compiler} {
-    loc = new njnrParser::location_type();
-    string_buf = "";
-}
+   njnrLexer::njnrLexer(std::istream* in, Compiler& compiler) : yyFlexLexer(in), compiler{compiler}
+   {
+       loc = new njnrParser::location_type();
+       string_buf = "";
+   }
 }

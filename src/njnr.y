@@ -43,7 +43,8 @@ int yyerror(std::string err,Compiler& compiler);
 %define api.parser.class {njnrParser}
 
 %code requires {
-	namespace njnr{
+	namespace njnr
+	{
 		class Compiler;
 		class TableEntry;
 	}
@@ -66,7 +67,8 @@ int yyerror(std::string err,Compiler& compiler);
 	#undef yylex
 	#define yylex compiler.lexer.yylex
 	
-	void njnr::njnrParser::error(njnr::location const & loc, const std::string & message){
+	void njnr::njnrParser::error(njnr::location const & loc, const std::string & message)
+	{
 		std::cout << "at " << loc << " : " << message << std::endl;
 	}
 } 
@@ -164,8 +166,8 @@ int yyerror(std::string err,Compiler& compiler);
 %type <eqtype> equequ neq
 %type <multype> divide star
 %type <int> uminus
-%type <List*> translation_unit_part_list translation_unit
-%type <Funcb*> translation_unit_part func funcbody funcbody_internal variabledecl
+%type <List*> translation_unit_part_list translation_unit funcbody_internal funcbody
+%type <Funcb*> func variabledecl
 %nterm <List*> paramdeflist paramdef
 %nterm <funcheadertype*> funcheader
 %nterm <ReturnPacket*> expr
@@ -187,19 +189,13 @@ starter: translation_unit {
                           }
 ;
 
-translation_unit: translation_unit_part_list {}
+translation_unit: translation_unit_part_list { $$ = $1;}
 ;
 
-translation_unit_part_list: translation_unit_part { $$ = List::mklist($1);}
-                          | translation_unit_part_list translation_unit_part { $$ = $1->appendList($2);}
-;
-translation_unit_part: func { $$ = $1;}
-		             | variabledecl { $$ = $1;}
-//		| translation_unit_parts func {}
-//		| translation_unit_parts variabledecl {}
-//		| translation_unit_parts error {
-//			                        compiler.error("(unexpected token between translation units or at end of program)","");
-//								 }
+translation_unit_part_list: func { $$ = List::mklist($1);}
+                          | variabledecl { $$ = List::mklist($1);}
+                          | translation_unit_part_list func { $$ = $1->appendList($2);}
+                          | translation_unit_part_list variabledecl { $$ = $1->appendList($2);}
 ;
 
 func: funcheader {
@@ -266,18 +262,21 @@ funcbody: lcbra funcbody_internal rcbra {
 ;
 
 funcbody_internal: variabledecl {
-	                               $$ = $1;
-								   compiler.block25_funcbody_lcbra_decls_source();
+                                   $$ = List::mklist($1);
+//								   compiler.block25_funcbody_lcbra_decls_source();
 								}
                  | stmt {
-					       $$ = compiler.create_and_return_a_fn_body_statement_element($1);
+                           $$ = List::mklist($1);
+					       compiler.create_and_return_a_fn_body_statement_element($1);
 						   /*compiler.block26_funcbody_lcbra_decls_source_stmtlist_rcbra();*/
                         }
 				 | funcbody_internal variabledecl {
 					                                 compiler.block25_funcbody_lcbra_decls_source();
+                                                     $$ = $1->appendList($2);
 												  }
 				 | funcbody_internal stmt {
-					                         $$ = compiler.add_statement_to_fn_body_and_return($1,$2);
+					                         compiler.add_statement_to_fn_body_and_return($1,$2);
+                                             $$ = $1->appendList($2);
 										  }
 ;
 //decls: /*empty*/
@@ -288,7 +287,7 @@ variabledecl: vart identlist {
                                 compiler.mysymtab->addtosymtab(type::INT, $2);
 							 }
 			  lett identlist {
-                                compiler.mysymtab->addtosymtab(type::INT, $2);
+                               compiler.mysymtab->addtosymtab(type::INT, $2);
 			                 }
 ;
 
@@ -328,7 +327,6 @@ stmt:     expr semi {
 					 }
 
 		| lcbra funcbody_internal rcbra {
-
 		                                } //closescope(mysymtab);
 //		| returnt error {
 //	                       yyerrok;
@@ -490,6 +488,7 @@ identlist: Ident {
          | identlist comma error {
 			                        yyerrok;
 									compiler.error("(unexpected token after comma)","");
+									$$ = $1;
 								 }
 ;
 

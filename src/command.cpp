@@ -7,17 +7,17 @@
 #include "compiler.hpp"
 namespace njnr {
 
-bool Compiler::filenameDoesEndsInDotC(const std::string& inFilename)  noexcept {
+bool Compiler::filenameDoesEndsInDotN(const std::string& inFilename)  noexcept {
     std::string extra{""};
     auto f_sz{ inFilename.size() };
 
     extra = inFilename[(f_sz-1)];
     extra += inFilename[(f_sz-2)];
-    return extra == "c.";
+    return extra == "n.";
 }
 bool Compiler::openedInputFile(int argc, const char** argv) {
     if(argc >1) {
-        if(filenameDoesEndsInDotC(argv[1])) {
+        if(filenameDoesEndsInDotN(argv[1])) {
             try {
                 std::ifstream* next{new std::ifstream{argv[1], std::ifstream::in}};
                 if(next->is_open()) {
@@ -31,7 +31,7 @@ bool Compiler::openedInputFile(int argc, const char** argv) {
             std::cerr << argv[1] << ": cannot open input file\n";
         }
         else
-            std::cerr << argv[1] << ": does not end in .c\n";
+            std::cerr << argv[1] << ": does not end in .n\n";
     }
     else
         std::cerr << "did not recieve an input file\n";
@@ -40,7 +40,7 @@ bool Compiler::openedInputFile(int argc, const char** argv) {
 
 bool Compiler::openedOutputFile(int argc, const char** argv) {
     std::string tempstr{argv[1]};
-    if(filenameDoesEndsInDotC(tempstr)) {
+    if(filenameDoesEndsInDotN(tempstr)) {
         const size_t a{tempstr.length()-2};
 
         tempstr[a] = '.';
@@ -71,7 +71,7 @@ int main(int argc, const char** argv) {
     Compiler compiler{};
 
     if(! compiler.openedInputFile(argc,argv) ) {
-        compiler.filename = "main.c";
+        compiler.filename = "main.n";
         return -1;
     }
     if(!compiler.openedOutputFile(argc, argv)) {

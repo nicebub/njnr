@@ -101,7 +101,7 @@ test_clean:
 .PRECIOUS: $(PATHO)%.o
 .PRECIOUS: $(PATHR)%.txt
 
-$(PATHS)njnr.tab.cpp : $(PATHS)njnr.ypp
+$(PATHS)njnr.tab.cpp : $(PATHS)njnr.y
 	$(BISON) $(BISOP) -o $@ $^
 	mv $(PATHS)njnr.tab.hpp $(PATHI)
 	mv $(PATHS)location.hh $(PATHI)
