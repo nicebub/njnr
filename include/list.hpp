@@ -14,6 +14,7 @@ enum class eNodeType
     P,
     STMT,
     TRANSLATION_UNIT,  // functions or variable declarations
+    TYPE,
 
 };
 
@@ -75,6 +76,27 @@ class TranslationUnitListNode : public ListNode
       trans_unit_type trans_type;
 };
 
+class StmtListNode : public ListNode
+{
+   public:
+      StmtListNode();
+      StmtListNode(ReturnPacket* instmt);
+      virtual ~StmtListNode() = default;
+   private:
+      ReturnPacket*         unit;
+};
+
+class TypeListNode : public ListNode
+{
+   public:
+      TypeListNode();
+      TypeListNode(njnr::type intype); // need to change actual class used this was placeholder
+      virtual ~TypeListNode() = default;
+      njnr::type gettype() const;
+      void settype(njnr::type type);
+   private:
+      njnr::type         type;
+};
 
 
 class List
@@ -91,6 +113,7 @@ public:
     static List* mklist(ReturnPacket* expr);
     static List* mklist(Funcb* expr);
     static List* mklist(Varb* expr);  // place holder type -- needs changing
+    static List* mklist(njnr::type type);
     std::vector<BasicListNode*>::iterator begin();
     std::vector<BasicListNode*>::iterator end();
     List* appendList(std::string inVal);
@@ -98,6 +121,7 @@ public:
     List* appendList(ReturnPacket* expr);
     List* appendList(Funcb* expr);
     List* appendList(Varb* expr); // placeholder type -- needs changing
+    List* appendList(njnr::type type);
     int size() const;
 private:
     std::vector<BasicListNode*> list;

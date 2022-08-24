@@ -6,7 +6,7 @@
 
 namespace njnr
 {
-void setflags(int flags);
-int  getflags();
+   void setflags(int flags);
+   int  getflags();
 }
 #endif

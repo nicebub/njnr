@@ -1,7 +1,8 @@
 #include "cpptypes.hpp"
 #include "type.hpp"
 
-namespace njnr {
+namespace njnr
+{
 ReturnPacket::ReturnPacket() :
     params{0},
     offset{0},
@@ -23,28 +24,35 @@ ReturnPacket::ReturnPacket(bool lval,
 
 ReturnPacket::~ReturnPacket() {}
 
-bool ReturnPacket::getlval() const {
+bool ReturnPacket::getlval() const
+{
     return lval;
 }
-void ReturnPacket::setlval(const bool in) {
+void ReturnPacket::setlval(const bool in)
+{
     lval = in;
 }
-njnr::type  ReturnPacket::gettype() const {
+njnr::type  ReturnPacket::gettype() const
+{
     return ttype;
 }
-void ReturnPacket::settype(const njnr::type in) {
+void ReturnPacket::settype(const njnr::type in)
+{
     ttype = in;
 }
 bool ReturnPacket::getnumeric() const {
     return numeric;
 }
-void ReturnPacket::setnumeric(const bool in) {
+void ReturnPacket::setnumeric(const bool in)
+{
     numeric = in;
 }
-int ReturnPacket::getoffset() const {
+int ReturnPacket::getoffset() const
+{
     return offset;
 }
-void ReturnPacket::setoffset(const int in) {
+void ReturnPacket::setoffset(const int in)
+{
     offset = in;
 }
 
@@ -61,8 +69,10 @@ CharConstant::CharConstant(const CharConstant& in) : Constant{false,njnr::type::
 
 CharConstant::~CharConstant() {}
 
-CharConstant& CharConstant::operator=(const CharConstant& in) {
-    if(&in != this) {
+CharConstant& CharConstant::operator=(const CharConstant& in)
+{
+    if(&in != this)
+    {
         value = in.value;
         lval = false;
         numeric = false;
@@ -70,11 +80,13 @@ CharConstant& CharConstant::operator=(const CharConstant& in) {
     }
     return *this;
 }
-char CharConstant::getvalue() const {
+char CharConstant::getvalue() const
+{
     return value;
 }
 
-void CharConstant::setvalue(const char in) {
+void CharConstant::setvalue(const char in)
+{
     value = in;
 }
 
@@ -86,8 +98,10 @@ IntConstant::IntConstant(const IntConstant& in) : Constant{false,njnr::type::INT
 
 IntConstant::~IntConstant() {}
 
-IntConstant& IntConstant::operator=(const IntConstant& in) {
-    if(&in != this) {
+IntConstant& IntConstant::operator=(const IntConstant& in)
+{
+    if(&in != this)
+    {
         value = in.value;
         lval = false;
         numeric = true;
@@ -95,11 +109,13 @@ IntConstant& IntConstant::operator=(const IntConstant& in) {
     }
     return *this;
 }
-int IntConstant::getvalue() const {
+int IntConstant::getvalue() const
+{
     return value;
 }
 
-void IntConstant::setvalue(const int in) {
+void IntConstant::setvalue(const int in)
+{
     value = in;
 }
 
@@ -111,8 +127,10 @@ StrConstant::StrConstant(const StrConstant& in) : Constant{false,njnr::type::STR
 
 StrConstant::~StrConstant() {}
 
-StrConstant& StrConstant::operator=(const StrConstant& in) {
-    if(&in != this) {
+StrConstant& StrConstant::operator=(const StrConstant& in)
+{
+    if(&in != this)
+    {
         value = in.value;
         lval = false;
         numeric = false;
@@ -121,11 +139,13 @@ StrConstant& StrConstant::operator=(const StrConstant& in) {
     }
     return *this;
 }
-std::string StrConstant::getvalue() const {
+std::string StrConstant::getvalue() const
+{
     return value;
 }
 
-void StrConstant::setvalue(const std::string in) {
+void StrConstant::setvalue(const std::string in)
+{
     value = in;
 }
 
@@ -138,8 +158,10 @@ FloatConstant::FloatConstant(const FloatConstant& in ) : Constant{false,njnr::ty
 
 FloatConstant::~FloatConstant() {}
 
-FloatConstant& FloatConstant::operator=(const FloatConstant& in) {
-    if(&in != this) {
+FloatConstant& FloatConstant::operator=(const FloatConstant& in)
+{
+    if(&in != this)
+    {
         value = in.value;
         lval = false;
         numeric = true;
@@ -148,10 +170,12 @@ FloatConstant& FloatConstant::operator=(const FloatConstant& in) {
     }
     return *this;
 }
-float FloatConstant::getvalue() const {
+float FloatConstant::getvalue() const
+{
     return value;
 }
-void FloatConstant::setvalue(const float in) {
+void FloatConstant::setvalue(const float in)
+{
     value = in;
 }
 
@@ -163,8 +187,10 @@ Identifier::Identifier(const StrConstant& in) : Constant{in.getlval(),njnr::type
 
 Identifier::~Identifier() {}
 
-Identifier& Identifier::operator=(const Identifier& in) {
-    if(&in != this) {
+Identifier& Identifier::operator=(const Identifier& in)
+{
+    if(&in != this)
+    {
         value = in.value;
         lval = in.lval;
         numeric = false;
@@ -173,11 +199,13 @@ Identifier& Identifier::operator=(const Identifier& in) {
     }
     return *this;
 }
-std::string Identifier::getvalue() const {
+std::string Identifier::getvalue() const
+{
     return value;
 }
 
-void Identifier::setvalue(const std::string in) {
+void Identifier::setvalue(const std::string in)
+{
     value = in;
 }
 
@@ -198,7 +226,8 @@ Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param, std::vector<njn
     localcount{localcount},
     actual_num{actual_num}
 {}
-Funcb::Funcb(njnr::type returntype) : Funcb{} {
+Funcb::Funcb(njnr::type returntype) : Funcb{}
+{
     this->returntype = returntype;
 }
 Funcb::Funcb(const Funcb& in) :
@@ -213,7 +242,8 @@ Funcb::Funcb(const Funcb& in) :
     setvalue(in.getvalue());
 }
 
-Funcb& Funcb::operator=(const Funcb& in) {
+Funcb& Funcb::operator=(const Funcb& in)
+{
     if(&in != this) {
         returntype = in.returntype;
         bodydef = in.bodydef;
@@ -227,46 +257,60 @@ Funcb& Funcb::operator=(const Funcb& in) {
     return *this;
 }
 Funcb::~Funcb() {}
-std::vector<njnr::type>& Funcb::getparam_type() {
+std::vector<njnr::type>& Funcb::getparam_type()
+{
     return param_type;
 }
-njnr::type Funcb::getreturntype() {
+njnr::type Funcb::getreturntype()
+{
     return returntype;
 }
-bool Funcb::getbodydef() {
+bool Funcb::getbodydef()
+{
     return bodydef;
 }
-int Funcb::getnum_param() {
+int Funcb::getnum_param()
+{
     return num_param;
 }
-int Funcb::getlabel() {
+int Funcb::getlabel()
+{
     return label;
 }
-int Funcb::getlocalcount() {
+int Funcb::getlocalcount()
+{
     return localcount;
 }
-int Funcb::getactual_num() {
+int Funcb::getactual_num()
+{
     return actual_num;
 }
-void Funcb::Funcb::setparam_type(std::vector<njnr::type> param_type) {
+void Funcb::Funcb::setparam_type(std::vector<njnr::type> param_type)
+{
     this->param_type = param_type;
 }
-void Funcb::setreturntype( njnr::type returntype ) {
+void Funcb::setreturntype( njnr::type returntype )
+{
     this->returntype = returntype;
 }
-void Funcb::setbodydef(bool bodydef) {
+void Funcb::setbodydef(bool bodydef)
+{
     this->bodydef = bodydef;
 }
-void Funcb::setnum_param(int num_param) {
+void Funcb::setnum_param(int num_param)
+{
     this->num_param = num_param;
 }
-void Funcb::setlabel(int label) {
+void Funcb::setlabel(int label)
+{
     this->label = label;
 }
-void Funcb::setlocalcount(int localcount) {
+void Funcb::setlocalcount(int localcount)
+{
     this->localcount = localcount;
 }
-void Funcb::setactual_num(int actual_num ) {
+void Funcb::setactual_num(int actual_num )
+{
     this->actual_num = actual_num;
 }
 

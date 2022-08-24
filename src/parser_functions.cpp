@@ -257,10 +257,22 @@ void Compiler::block28_variabledecl_float_identlist_semi(List** inIdentlist){
 */
 Funcb* Compiler::create_and_return_a_fn_body_statement_element(Statement* stmt)
 {
+    if(stmt->getstype() == statement_type::RETURN)
+    {
+        std::cout << "found a return statement of type " << static_cast<int>(stmt->getrettype()) << std::endl;
+        this->returnTypes.appendList(stmt->getrettype());
+    }
+
    return nullptr;
 }
 Funcb* Compiler::add_statement_to_fn_body_and_return(List* func, Statement* stmt)
 {
+    if(stmt->getstype() == statement_type::RETURN)
+    {
+        std::cout << "attaching found a return statement of type " << static_cast<int>(stmt->getrettype()) << std::endl;
+        this->returnTypes.appendList(stmt->getrettype());
+    }
+
    return nullptr;
 }
 
@@ -268,32 +280,15 @@ void Compiler::block29_stmt_expr_semi()
 {
     code_generator.gen_instr_I("popI",4);
 }
+
 Statement* Compiler::block30_stmt_return_semi()
 {
    Statement* outPacket{nullptr};
-   bool need_code_generated{false};
 
    outPacket = new Statement{};
    outPacket->settype(njnr::type::STMT);
    outPacket->setstype(njnr::statement_type::RETURN);
    outPacket->setrettype(njnr::type::VOID);
-
-    if(currentFunc == nullptr)
-    {
-        error("main function has to return a value","");
-        return nullptr;
-    }
-
-    if(currentFunc->getreturntype() != type::VOID)
-    {
-        error("Function has return type that is not void","");
-        return nullptr;
-    }
-
-   if(true == need_code_generated)
-   {
-      code_generator.gen_instr("returnf");
-   }
 
    return outPacket;
 }
@@ -332,78 +327,13 @@ void Compiler::variableFetchWithNumericCheck(ReturnPacket* inPacket, bool conver
 Statement* Compiler::block31_stmt_return_expr_semi(ReturnPacket* inPacket)
 {
    Statement* outStatement{nullptr};
-   bool need_code_generated{false};
 
    outStatement = new Statement{};
    outStatement->settype(type::STMT);
    outStatement->setstype(statement_type::RETURN);
    outStatement->setstmt(inPacket);
+   outStatement->setrettype(njnr::type::CHECK);
 
-//   if( type::VOID == inPacket->gettype )
-//   {
-//       error("return type is void", "");
-//       return nullptr;
-//   }
-   if(currentFunc == nullptr )
-   {
-      if( inPacket->gettype() != type::INT)
-      {
-         warning("main function has int return type","");
-      }
-
-      variableFetchWithNumericCheck(inPacket,true); //conversion to integer needed
-
-      if(true == need_code_generated)
-      {
-         code_generator.gen_instr("setrvI");
-      }
-
-      return outStatement;
-   }
-  #ifdef DEBUG
-   //	std::cerr << "type and returntype : " << inPacket->gettype()  << ": "<< currentFunc->getreturntype()) << std::endl;
-  #endif
-
-   if( inPacket->gettype() != currentFunc->getreturntype())
-   {
-       warning("function has different returntype","");
-   }
-
-   variableFetchWithNumericCheck(inPacket,false);//conversion to integer not needed
-
-   if(true == need_code_generated)
-   {
-      switch(currentFunc->getreturntype())
-      {
-         case type::INT:
-            switch(inPacket->gettype())
-            {
-               case type::FLOAT:
-                  code_generator.gen_instr("int");
-               case type::INT:
-                  code_generator.gen_instr("setrvI");
-                  break;
-               default:
-                  break;
-            }
-            break;
-         case type::FLOAT:
-            switch( inPacket->gettype() )
-            {
-               case type::INT:
-                  code_generator.gen_instr("flt");
-               case type::FLOAT:
-                  code_generator.gen_instr("setrvR");
-                  break;
-               default:
-                  break;
-            }
-            break;
-         default:
-            break;
-      }
-      code_generator.gen_instr("returnf");
-   }
    return outStatement;
 }
 

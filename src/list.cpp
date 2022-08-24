@@ -81,6 +81,29 @@ namespace njnr
    TranslationUnitListNode::TranslationUnitListNode(Funcb* infunc) {}
    TranslationUnitListNode::TranslationUnitListNode(Varb* invardecl) {} // need to change actual class used this was placeholder
 
+   TypeListNode::TypeListNode() : ListNode{}, type{}
+   {
+       set_nodeType(eNodeType::TYPE);
+       setval("");
+   }
+
+   TypeListNode::TypeListNode(njnr::type type) : ListNode{}, type{type}
+   {
+       set_nodeType(eNodeType::TYPE);
+       setval("");
+   }
+
+   njnr::type TypeListNode::gettype() const
+   {
+       return type;
+   }
+   void TypeListNode::settype(njnr::type type)
+   {
+       this->type = type;
+   }
+
+
+
    List::List() : list{} {}
    List::List(const List& cp) : list{cp.list} {}
    List::~List()
@@ -115,6 +138,11 @@ namespace njnr
        list.push_back(in);
    }
 
+   List* List::mklist(njnr::type inType)
+   {
+       return (new List{})->appendList(inType);
+   }
+
    List* List::mklist(std::string inVal)
    {
        return (new List{})->appendList(inVal);
@@ -145,6 +173,13 @@ namespace njnr
    List* List::appendList(ReturnPacket* inexpr)
    {
        ReturnPacketListNode* nnode{new ReturnPacketListNode{inexpr}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
+
+   List* List::appendList(njnr::type intype)
+   {
+       TypeListNode* nnode{new TypeListNode{intype}};
        list.push_back(dynamic_cast<BasicListNode*>(nnode));
        return this;
    }

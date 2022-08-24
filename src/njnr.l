@@ -36,9 +36,9 @@ using token = njnrParser::token;
 %x	astring
 %x	comment
 
-DIGIT	[0-9]
-LETTER	[A-Za-z\_]
-SPACE	[ ]
+DIGIT  [0-9]
+LETTER [A-Za-z\_]
+SPACE  [ ]
 EOLN	\\n
 PERCENT	\%
 QUESTION \?

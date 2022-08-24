@@ -18,7 +18,8 @@ Compiler::Compiler(): mysymtab{nullptr},
     othercounter{1},
     param_offset{0},
     mainlocal{0},
-    founderror{false}
+    founderror{false},
+    returnTypes{}
 {
     try
     {

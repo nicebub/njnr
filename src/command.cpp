@@ -7,7 +7,8 @@
 #include "compiler.hpp"
 namespace njnr {
 
-bool Compiler::filenameDoesEndsInDotN(const std::string& inFilename)  noexcept {
+bool Compiler::filenameDoesEndsInDotN(const std::string& inFilename)  noexcept
+{
     std::string extra{""};
     auto f_sz{ inFilename.size() };
 
@@ -15,17 +16,23 @@ bool Compiler::filenameDoesEndsInDotN(const std::string& inFilename)  noexcept {
     extra += inFilename[(f_sz-2)];
     return extra == "n.";
 }
-bool Compiler::openedInputFile(int argc, const char** argv) {
-    if(argc >1) {
-        if(filenameDoesEndsInDotN(argv[1])) {
-            try {
+bool Compiler::openedInputFile(int argc, const char** argv)
+{
+    if(argc >1)
+    {
+        if(filenameDoesEndsInDotN(argv[1]))
+        {
+            try
+            {
                 std::ifstream* next{new std::ifstream{argv[1], std::ifstream::in}};
-                if(next->is_open()) {
+                if(next->is_open())
+                {
                     lexer.switch_streams(next);
                     return true;
                 }
             }
-            catch(std::bad_alloc& e) {
+            catch(std::bad_alloc& e)
+            {
                 debugprint(e.what(),"");
             }
             std::cerr << argv[1] << ": cannot open input file\n";
@@ -38,9 +45,11 @@ bool Compiler::openedInputFile(int argc, const char** argv) {
     return false;
 }
 
-bool Compiler::openedOutputFile(int argc, const char** argv) {
+bool Compiler::openedOutputFile(int argc, const char** argv)
+{
     std::string tempstr{argv[1]};
-    if(filenameDoesEndsInDotN(tempstr)) {
+    if(filenameDoesEndsInDotN(tempstr))
+    {
         const size_t a{tempstr.length()-2};
 
         tempstr[a] = '.';
@@ -48,15 +57,18 @@ bool Compiler::openedOutputFile(int argc, const char** argv) {
         tempstr += "sm";
 
         debugprint("trying to open file: ", tempstr);
-        try {
+        try
+        {
             std::ofstream* next{new std::ofstream{tempstr, std::fstream::out}};
-            if(next->is_open()) {
+            if(next->is_open())
+            {
                 outfile = next;
                 filename = tempstr;
                 return true;
             }
         }
-        catch(std::bad_alloc& e) {
+        catch(std::bad_alloc& e)
+        {
             std::cerr << "error: cannot open file " << tempstr << " for writing\n";
             debugprint(e.what(),"");
         }
@@ -67,14 +79,17 @@ bool Compiler::openedOutputFile(int argc, const char** argv) {
 #ifndef MAIN
 #define MAIN
 
-int main(int argc, const char** argv) {
+int main(int argc, const char** argv)
+{
     Compiler compiler{};
 
-    if(! compiler.openedInputFile(argc,argv) ) {
+    if(! compiler.openedInputFile(argc,argv) )
+    {
         compiler.filename = "main.n";
         return -1;
     }
-    if(!compiler.openedOutputFile(argc, argv)) {
+    if(!compiler.openedOutputFile(argc, argv))
+    {
         return -1;
     }
     return 0;

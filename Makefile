@@ -68,7 +68,7 @@ LINK=$(COMPILER)
 DEPEND=$(COMPILER) -MM -MG -MF
 CPPFLAGS = -Wall -std=c++17 #-DDEBUGON
 CPPFLAGS += -Wall -Wpedantic -pedantic-errors -Wno-comment -I. -I$(PATHI)
-#CPPFLAGS += -g
+CPPFLAGS += -g
 CPPFLAGS += -Os -pipe -time
 #CPPFLAGS += -ll -lm
 ifeq ($(OSTYPE),Darwin)

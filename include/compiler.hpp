@@ -36,6 +36,7 @@ namespace njnr
          int               param_offset;
          int                  mainlocal;
          int                  mainlabel;
+         List               returnTypes;
 
          constexpr static int INITIAL_TREE_SIZE{100};
 
