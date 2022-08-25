@@ -1,13 +1,9 @@
 S → Translation_Unit
 
-Translation_Unit → Function_Definition
-
+Translation_Unit → Function_Definition</br>
 Translation_Unit → Variable_Declaration
-
 Translation_Unit → Translation_Unit Function_Definition
-
 Translation_Unit → Translation_Unit Variable_Declaration
-
 Translation_Unit → Translation_Unit ERROR ←any token found after a translation unit that doesn’t start a Function Definition or a Variable Declaration is an error
 
 Function_Definition → Function_Header Function_Body
