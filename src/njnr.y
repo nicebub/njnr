@@ -258,15 +258,7 @@ paramdeflist: Ident {
 
 funcbody: lcbra funcbody_internal rcbra {
 	                                       $$ = $2;
-										   std::cout << "list size: " << $2->size() << std::endl;
-										   for(auto& element: *$2)
-										   {
-											  Statement* s = dynamic_cast<Statement*>(element);
-											if(nullptr != s)
-										      std::cout << "statement type: " << static_cast<int>(s->getstype()) << std::endl;
-										   }
-
-										   
+										   compiler.dealwithstmtlist($2);
 										}
 ;
 

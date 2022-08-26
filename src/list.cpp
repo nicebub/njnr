@@ -102,6 +102,10 @@ namespace njnr
        this->type = type;
    }
 
+      StmtListNode::StmtListNode() : stmt{nullptr} {}
+      StmtListNode::StmtListNode(Statement* instmt) : stmt{instmt} {}
+      Statement* StmtListNode::getstmt(void){ return stmt; }
+      void StmtListNode::setstmt(Statement* instmt) { stmt = instmt; }
 
 
    List::List() : list{} {}
@@ -156,6 +160,11 @@ namespace njnr
        return (new List{})->appendList(inExpr);
    }
 
+   List* List::mklist(Statement* instmt)
+   {
+       return (new List{})->appendList(instmt);
+   }
+
    List* List::appendList(std::string inVal)
    {
        ListNode* nnode{new ListNode{inVal}};
@@ -180,6 +189,13 @@ namespace njnr
    List* List::appendList(njnr::type intype)
    {
        TypeListNode* nnode{new TypeListNode{intype}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
+
+   List* List::appendList(Statement* instmt)
+   {
+       StmtListNode* nnode{new StmtListNode{instmt}};
        list.push_back(dynamic_cast<BasicListNode*>(nnode));
        return this;
    }

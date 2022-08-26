@@ -80,10 +80,12 @@ class StmtListNode : public ListNode
 {
    public:
       StmtListNode();
-      StmtListNode(ReturnPacket* instmt);
+      StmtListNode(Statement* instmt);
       virtual ~StmtListNode() = default;
+      Statement* getstmt(void);
+      void setstmt(Statement* instmt);
    private:
-      ReturnPacket*         unit;
+      Statement*         stmt;
 };
 
 class TypeListNode : public ListNode
@@ -114,6 +116,7 @@ public:
     static List* mklist(Funcb* expr);
     static List* mklist(Varb* expr);  // place holder type -- needs changing
     static List* mklist(njnr::type type);
+    static List* mklist(Statement* instmt);
     std::vector<BasicListNode*>::iterator begin();
     std::vector<BasicListNode*>::iterator end();
     List* appendList(std::string inVal);
@@ -122,6 +125,7 @@ public:
     List* appendList(Funcb* expr);
     List* appendList(Varb* expr); // placeholder type -- needs changing
     List* appendList(njnr::type type);
+    List* appendList(Statement* type);
     int size() const;
 private:
     std::vector<BasicListNode*> list;

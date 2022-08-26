@@ -255,6 +255,19 @@ List* Compiler::block24_paramdeflist_paramdeflist_comma_char_star_ident(List** i
    		#endif
    }
    */
+void Compiler::dealwithstmtlist(List* stmtlist)
+{
+    if(nullptr != stmtlist)
+    {
+ 		std::cout << "list size: " << stmtlist->size() << std::endl;
+	    for(auto element: *stmtlist)
+	    {
+		   StmtListNode* s = dynamic_cast<StmtListNode*>(element);
+		   if(nullptr != s)
+   	          std::cout << "statement type: " << static_cast<int>(s->getstmt()->getstype()) << std::endl;
+	    }
+    }
+}
    Funcb* Compiler::create_and_return_a_fn_body_statement_element(Statement* stmt)
    {
        if(stmt->getstype() == statement_type::RETURN)

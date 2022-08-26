@@ -98,7 +98,9 @@ namespace njnr
          void block28_variabledecl_float_identlist_semi(List** inIdentlist);
   
          void block29_stmt_expr_semi();
-  
+
+         void dealwithstmtlist(List* stmtlist);
+
          Funcb* create_and_return_a_fn_body_statement_element(Statement* stmt);
          Funcb* add_statement_to_fn_body_and_return(List* func, Statement* stmt);
          Statement* block30_stmt_return_semi();
