@@ -3,373 +3,369 @@
 
 namespace njnr
 {
-ReturnPacket::ReturnPacket() :
-    params{0},
-    offset{0},
-    lval{false},
-    numeric{false},
-    ttype{njnr::type::INT}
-{}
+   ReturnPacket::ReturnPacket() :
+       params{0},
+       offset{0},
+       lval{false},
+       numeric{false},
+       ttype{njnr::type::INT}
+   {}
 
-ReturnPacket::ReturnPacket(bool lval,
-                           njnr::type ttype=njnr::type::INT,
-                           bool ifnum=false,
-                           int inoffset=0) :
-    params{0},
-    offset{inoffset},
-    lval{lval},
-    numeric{ifnum},
-    ttype{ttype}
-{}
+   ReturnPacket::ReturnPacket(bool lval,
+                              njnr::type ttype=njnr::type::INT,
+                              bool ifnum=false,
+                              int inoffset=0) :
+       params{0},
+       offset{inoffset},
+       lval{lval},
+       numeric{ifnum},
+       ttype{ttype}
+   {}
 
-ReturnPacket::~ReturnPacket() {}
+   ReturnPacket::~ReturnPacket() {}
 
-bool ReturnPacket::getlval() const
-{
-    return lval;
-}
-void ReturnPacket::setlval(const bool in)
-{
-    lval = in;
-}
-njnr::type  ReturnPacket::gettype() const
-{
-    return ttype;
-}
-void ReturnPacket::settype(const njnr::type in)
-{
-    ttype = in;
-}
-bool ReturnPacket::getnumeric() const {
-    return numeric;
-}
-void ReturnPacket::setnumeric(const bool in)
-{
-    numeric = in;
-}
-int ReturnPacket::getoffset() const
-{
-    return offset;
-}
-void ReturnPacket::setoffset(const int in)
-{
-    offset = in;
-}
+   bool ReturnPacket::getlval() const
+   {
+       return lval;
+   }
+   void ReturnPacket::setlval(const bool in)
+   {
+       lval = in;
+   }
+   njnr::type  ReturnPacket::gettype() const
+   {
+       return ttype;
+   }
+   void ReturnPacket::settype(const njnr::type in)
+   {
+       ttype = in;
+   }
+   bool ReturnPacket::getnumeric() const {
+       return numeric;
+   }
+   void ReturnPacket::setnumeric(const bool in)
+   {
+       numeric = in;
+   }
+   int ReturnPacket::getoffset() const
+   {
+       return offset;
+   }
+   void ReturnPacket::setoffset(const int in)
+   {
+       offset = in;
+   }
 
-Constant::~Constant() {}
+   Constant::~Constant() {}
 
-Constant::Constant() : ReturnPacket{} {}
-Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
+   Constant::Constant() : ReturnPacket{} {}
+   Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
 
-CharConstant::CharConstant() : Constant{false,njnr::type::CHAR, true, 0}, value{0} {}
+   CharConstant::CharConstant() : Constant{false,njnr::type::CHAR, true, 0}, value{0} {}
 
-CharConstant::CharConstant(const char invalue) : Constant{false,njnr::type::CHAR, true, 0}, value{invalue} {}
+   CharConstant::CharConstant(const char invalue) : Constant{false,njnr::type::CHAR, true, 0}, value{invalue} {}
 
-CharConstant::CharConstant(const CharConstant& in) : Constant{false,njnr::type::CHAR, true, 0}, value{in.value} {}
+   CharConstant::CharConstant(const CharConstant& in) : Constant{false,njnr::type::CHAR, true, 0}, value{in.value} {}
 
-CharConstant::~CharConstant() {}
+   CharConstant::~CharConstant() {}
 
-CharConstant& CharConstant::operator=(const CharConstant& in)
-{
-    if(&in != this)
-    {
-        value = in.value;
-        lval = false;
-        numeric = false;
-        ttype = njnr::type::CHAR;
-    }
-    return *this;
-}
-char CharConstant::getvalue() const
-{
-    return value;
-}
+   CharConstant& CharConstant::operator=(const CharConstant& in)
+   {
+       if(&in != this)
+       {
+           value = in.value;
+           lval = false;
+           numeric = false;
+           ttype = njnr::type::CHAR;
+       }
+       return *this;
+   }
+   char CharConstant::getvalue() const
+   {
+       return value;
+   }
 
-void CharConstant::setvalue(const char in)
-{
-    value = in;
-}
+   void CharConstant::setvalue(const char in)
+   {
+       value = in;
+   }
 
-IntConstant::IntConstant() : Constant{false,njnr::type::INT, true, 0}, value{0} {}
+   IntConstant::IntConstant() : Constant{false,njnr::type::INT, true, 0}, value{0} {}
 
-IntConstant::IntConstant(const int invalue) : Constant{false,njnr::type::INT, true, 0}, value{invalue} {}
+   IntConstant::IntConstant(const int invalue) : Constant{false,njnr::type::INT, true, 0}, value{invalue} {}
 
-IntConstant::IntConstant(const IntConstant& in) : Constant{false,njnr::type::INT, true, 0}, value{in.value} {}
+   IntConstant::IntConstant(const IntConstant& in) : Constant{false,njnr::type::INT, true, 0}, value{in.value} {}
 
-IntConstant::~IntConstant() {}
+   IntConstant::~IntConstant() {}
 
-IntConstant& IntConstant::operator=(const IntConstant& in)
-{
-    if(&in != this)
-    {
-        value = in.value;
-        lval = false;
-        numeric = true;
-        ttype = njnr::type::INT;
-    }
-    return *this;
-}
-int IntConstant::getvalue() const
-{
-    return value;
-}
+   IntConstant& IntConstant::operator=(const IntConstant& in)
+   {
+       if(&in != this)
+       {
+           value = in.value;
+           lval = false;
+           numeric = true;
+           ttype = njnr::type::INT;
+       }
+       return *this;
+   }
+   int IntConstant::getvalue() const
+   {
+       return value;
+   }
 
-void IntConstant::setvalue(const int in)
-{
-    value = in;
-}
+   void IntConstant::setvalue(const int in)
+   {
+       value = in;
+   }
 
-StrConstant::StrConstant() : Constant{false,njnr::type::STR, false, 0} {}
+   StrConstant::StrConstant() : Constant{false,njnr::type::STR, false, 0} {}
 
-StrConstant::StrConstant(const std::string invalue) : Constant{false,njnr::type::STR, false, 0}, value{invalue} {}
+   StrConstant::StrConstant(const std::string invalue) : Constant{false,njnr::type::STR, false, 0}, value{invalue} {}
 
-StrConstant::StrConstant(const StrConstant& in) : Constant{false,njnr::type::STR, false, in.offset}, value{in.value} {}
+   StrConstant::StrConstant(const StrConstant& in) : Constant{false,njnr::type::STR, false, in.offset}, value{in.value} {}
 
-StrConstant::~StrConstant() {}
+   StrConstant::~StrConstant() {}
 
-StrConstant& StrConstant::operator=(const StrConstant& in)
-{
-    if(&in != this)
-    {
-        value = in.value;
-        lval = false;
-        numeric = false;
-        ttype = njnr::type::STR;
-        offset = in.offset;
-    }
-    return *this;
-}
-std::string StrConstant::getvalue() const
-{
-    return value;
-}
+   StrConstant& StrConstant::operator=(const StrConstant& in)
+   {
+       if(&in != this)
+       {
+           value = in.value;
+           lval = false;
+           numeric = false;
+           ttype = njnr::type::STR;
+           offset = in.offset;
+       }
+       return *this;
+   }
+   std::string StrConstant::getvalue() const
+   {
+       return value;
+   }
 
-void StrConstant::setvalue(const std::string in)
-{
-    value = in;
-}
+   void StrConstant::setvalue(const std::string in)
+   {
+       value = in;
+   }
 
-FloatConstant::FloatConstant() : Constant{false,njnr::type::FLOAT, true, 0}, value{0.0f} {}
+   FloatConstant::FloatConstant() : Constant{false,njnr::type::FLOAT, true, 0}, value{0.0f} {}
 
-FloatConstant::FloatConstant(const float invalue ) : Constant{false,njnr::type::FLOAT, true, 0}, value{invalue } {}
+   FloatConstant::FloatConstant(const float invalue ) : Constant{false,njnr::type::FLOAT, true, 0}, value{invalue } {}
 
 
-FloatConstant::FloatConstant(const FloatConstant& in ) : Constant{false,njnr::type::FLOAT, true, in.offset}, value{in.value } {}
+   FloatConstant::FloatConstant(const FloatConstant& in ) : Constant{false,njnr::type::FLOAT, true, in.offset}, value{in.value } {}
 
-FloatConstant::~FloatConstant() {}
+   FloatConstant::~FloatConstant() {}
 
-FloatConstant& FloatConstant::operator=(const FloatConstant& in)
-{
-    if(&in != this)
-    {
-        value = in.value;
-        lval = false;
-        numeric = true;
-        ttype = njnr::type::FLOAT;
-        offset = in.offset;
-    }
-    return *this;
-}
-float FloatConstant::getvalue() const
-{
-    return value;
-}
-void FloatConstant::setvalue(const float in)
-{
-    value = in;
-}
+   FloatConstant& FloatConstant::operator=(const FloatConstant& in)
+   {
+       if(&in != this)
+       {
+           value = in.value;
+           lval = false;
+           numeric = true;
+           ttype = njnr::type::FLOAT;
+           offset = in.offset;
+       }
+       return *this;
+   }
+   float FloatConstant::getvalue() const
+   {
+       return value;
+   }
+   void FloatConstant::setvalue(const float in)
+   {
+       value = in;
+   }
 
-Identifier::Identifier() : Constant{false,njnr::type::IDENT, false, 0} {}
+   Identifier::Identifier() : Constant{false,njnr::type::IDENT, false, 0} {}
 
-Identifier::Identifier(const std::string invalue) : Constant{false,njnr::type::IDENT, false, 0}, value{invalue} {}
+   Identifier::Identifier(const std::string invalue) : Constant{false,njnr::type::IDENT, false, 0}, value{invalue} {}
 
-Identifier::Identifier(const StrConstant& in) : Constant{in.getlval(),njnr::type::IDENT, false, in.getoffset()}, value{in.getvalue()} {}
+   Identifier::Identifier(const StrConstant& in) : Constant{in.getlval(),njnr::type::IDENT, false, in.getoffset()}, value{in.getvalue()} {}
 
-Identifier::~Identifier() {}
+   Identifier::~Identifier() {}
 
-Identifier& Identifier::operator=(const Identifier& in)
-{
-    if(&in != this)
-    {
-        value = in.value;
-        lval = in.lval;
-        numeric = false;
-        ttype = njnr::type::IDENT;
-        offset = in.offset;
-    }
-    return *this;
-}
-std::string Identifier::getvalue() const
-{
-    return value;
-}
+   Identifier& Identifier::operator=(const Identifier& in)
+   {
+       if(&in != this)
+       {
+           value = in.value;
+           lval = in.lval;
+           numeric = false;
+           ttype = njnr::type::IDENT;
+           offset = in.offset;
+       }
+       return *this;
+   }
+   std::string Identifier::getvalue() const
+   {
+       return value;
+   }
 
-void Identifier::setvalue(const std::string in)
-{
-    value = in;
-}
+   void Identifier::setvalue(const std::string in)
+   {
+       value = in;
+   }
 
-Funcb::Funcb() :	param_type{},
-    returntype{njnr::type::VOID},
-    bodydef{false},
-    num_param{0},
-    label{0},
-    localcount{0},
-    actual_num{0}
-{}
-Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param, std::vector<njnr::type> param_type, int label, int localcount, int actual_num) :
-    param_type{param_type},
-    returntype{returntype},
-    bodydef{bodydef},
-    num_param{num_param},
-    label{label},
-    localcount{localcount},
-    actual_num{actual_num}
-{}
-Funcb::Funcb(njnr::type returntype) : Funcb{}
-{
-    this->returntype = returntype;
-}
-Funcb::Funcb(const Funcb& in) :
-    param_type{in.param_type},
-    returntype{in.returntype},
-    bodydef{in.bodydef},
-    num_param{in.num_param},
-    label{in.label},
-    localcount{in.localcount},
-    actual_num{in.actual_num}
-{
-    setvalue(in.getvalue());
-}
+   Funcb::Funcb() :	param_type{},
+       returntype{njnr::type::VOID},
+       bodydef{false},
+       num_param{0},
+       label{0},
+       localcount{0},
+       actual_num{0}
+   {}
+   Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param, std::vector<njnr::type> param_type, int label, int localcount, int actual_num) :
+       param_type{param_type},
+       returntype{returntype},
+       bodydef{bodydef},
+       num_param{num_param},
+       label{label},
+       localcount{localcount},
+       actual_num{actual_num}
+   {}
+   Funcb::Funcb(njnr::type returntype) : Funcb{}
+   {
+       this->returntype = returntype;
+   }
+   Funcb::Funcb(const Funcb& in) :
+       param_type{in.param_type},
+       returntype{in.returntype},
+       bodydef{in.bodydef},
+       num_param{in.num_param},
+       label{in.label},
+       localcount{in.localcount},
+       actual_num{in.actual_num}
+   {
+       setvalue(in.getvalue());
+   }
 
-Funcb& Funcb::operator=(const Funcb& in)
-{
-    if(&in != this) {
-        returntype = in.returntype;
-        bodydef = in.bodydef;
-        num_param = in.num_param;
-        label = in.label;
-        localcount = in.localcount;
-        actual_num = in.actual_num;
-        param_type = in.param_type;
-        setvalue(in.getvalue());
-    }
-    return *this;
-}
-Funcb::~Funcb() {}
-std::vector<njnr::type>& Funcb::getparam_type()
-{
-    return param_type;
-}
-njnr::type Funcb::getreturntype()
-{
-    return returntype;
-}
-bool Funcb::getbodydef()
-{
-    return bodydef;
-}
-int Funcb::getnum_param()
-{
-    return num_param;
-}
-int Funcb::getlabel()
-{
-    return label;
-}
-int Funcb::getlocalcount()
-{
-    return localcount;
-}
-int Funcb::getactual_num()
-{
-    return actual_num;
-}
-void Funcb::Funcb::setparam_type(std::vector<njnr::type> param_type)
-{
-    this->param_type = param_type;
-}
-void Funcb::setreturntype( njnr::type returntype )
-{
-    this->returntype = returntype;
-}
-void Funcb::setbodydef(bool bodydef)
-{
-    this->bodydef = bodydef;
-}
-void Funcb::setnum_param(int num_param)
-{
-    this->num_param = num_param;
-}
-void Funcb::setlabel(int label)
-{
-    this->label = label;
-}
-void Funcb::setlocalcount(int localcount)
-{
-    this->localcount = localcount;
-}
-void Funcb::setactual_num(int actual_num )
-{
-    this->actual_num = actual_num;
-}
+   Funcb& Funcb::operator=(const Funcb& in)
+   {
+       if(&in != this) {
+           returntype = in.returntype;
+           bodydef = in.bodydef;
+           num_param = in.num_param;
+           label = in.label;
+           localcount = in.localcount;
+           actual_num = in.actual_num;
+           param_type = in.param_type;
+           setvalue(in.getvalue());
+       }
+       return *this;
+   }
+   Funcb::~Funcb() {}
+   std::vector<njnr::type>& Funcb::getparam_type()
+   {
+       return param_type;
+   }
+   njnr::type Funcb::getreturntype()
+   {
+       return returntype;
+   }
+   bool Funcb::getbodydef()
+   {
+       return bodydef;
+   }
+   int Funcb::getnum_param()
+   {
+       return num_param;
+   }
+   int Funcb::getlabel()
+   {
+       return label;
+   }
+   int Funcb::getlocalcount()
+   {
+       return localcount;
+   }
+   int Funcb::getactual_num()
+   {
+       return actual_num;
+   }
+   void Funcb::Funcb::setparam_type(std::vector<njnr::type> param_type)
+   {
+       this->param_type = param_type;
+   }
+   void Funcb::setreturntype( njnr::type returntype )
+   {
+       this->returntype = returntype;
+   }
+   void Funcb::setbodydef(bool bodydef)
+   {
+       this->bodydef = bodydef;
+   }
+   void Funcb::setnum_param(int num_param)
+   {
+       this->num_param = num_param;
+   }
+   void Funcb::setlabel(int label)
+   {
+       this->label = label;
+   }
+   void Funcb::setlocalcount(int localcount)
+   {
+       this->localcount = localcount;
+   }
+   void Funcb::setactual_num(int actual_num )
+   {
+       this->actual_num = actual_num;
+   }
 
-Varb::Varb() : Identifier{} {}
-Varb::~Varb() {}
+   Varb::Varb() : Identifier{} {}
+   Varb::~Varb() {}
 
-Paramb::Paramb() : ReturnPacket{} {}
-Paramb::~Paramb() {}
+   Paramb::Paramb() : ReturnPacket{} {}
+   Paramb::~Paramb() {}
 
-Statement::Statement() : ReturnPacket{} {}
-Statement::~Statement() {}
-statement_type Statement::getstype()
-{
-   return stype;
-}
-void Statement::setstype(statement_type t)
-{
-   stype = t;
-}
-void Statement::setstmt(ReturnPacket* stmt)
-{
-   this->stmt = stmt;
-}
-ReturnPacket* Statement::getstmt()
-{
-   return stmt;
-}
+   Statement::Statement() : ReturnPacket{} {}
+   Statement::~Statement() {}
+   statement_type Statement::getstype()
+   {
+      return stype;
+   }
+   void Statement::setstype(statement_type t)
+   {
+      stype = t;
+   }
+   void Statement::setstmt(ReturnPacket* stmt)
+   {
+      this->stmt = stmt;
+   }
+   ReturnPacket* Statement::getstmt()
+   {
+      return stmt;
+   }
+   
+   type Statement::getrettype()
+   {
+       return rettype;
+   }
+   void Statement::setrettype(njnr::type t)
+   {
+       rettype = t;
+   }
 
-type Statement::getrettype()
-{
-    return rettype;
-}
-void Statement::setrettype(njnr::type t)
-{
-    rettype = t;
-}
+   Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
 
-Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
+   Translation_Unit::~Translation_Unit() {}
 
-//Translation_Unit::Translation_Unit(Funcb* func) : translation{func}, trans_type{trans_unit_type::FUNCTION} {}
-//Translation_Unit::Translation_Unit(Varb* varb) : translation{varb}, trans_type{trans_unit_type::VARDECL} {} // placeholder type -- needs to change
-
-Translation_Unit::~Translation_Unit() {}
-
-ReturnPacket* Translation_Unit::get_translation()
-{
-    return translation;
-}
-void Translation_Unit::set_translation(ReturnPacket* translation)
-{
-   this->translation = translation;
-}
-void Translation_Unit::set_trans_unit_type(trans_unit_type intype)
-{
-   trans_type = intype;
-}
-trans_unit_type Translation_Unit::get_trans_unit_type()
-{
-   return trans_type;
-}
-
+   ReturnPacket* Translation_Unit::get_translation()
+   {
+      return translation;
+   }
+   void Translation_Unit::set_translation(ReturnPacket* translation)
+   {
+      this->translation = translation;
+   }
+   void Translation_Unit::set_trans_unit_type(trans_unit_type intype)
+   {
+      trans_type = intype;
+   }
+   trans_unit_type Translation_Unit::get_trans_unit_type()
+   {
+      return trans_type;
+   }
 }
