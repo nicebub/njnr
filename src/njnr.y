@@ -262,6 +262,7 @@ funcbody: lcbra funcbody_internal rcbra {
 										   for(auto& element: *$2)
 										   {
 											  Statement* s = dynamic_cast<Statement*>(element);
+											if(nullptr != s)
 										      std::cout << "statement type: " << static_cast<int>(s->getstype()) << std::endl;
 										   }
 
