@@ -13,11 +13,8 @@ namespace njnr
    void Compiler::block1_start_trans_unit()
    {
        code_generator.gen_label("main");
-       code_generator.gen_instr_I("enter",0);
-       code_generator.gen_instr_I("alloc", globalcount);
-       code_generator.gen_instr_I("enter",0);
        code_generator.gen_call(code_generator.genlabelw("main",mainlabel),0);
-       code_generator.gen_instr("return");
+
    }
 
    Funcb* Compiler::create_full_function(funcheadertype* funcheader, List* funcbody)
@@ -48,13 +45,11 @@ namespace njnr
    }
    void Compiler::block3_func_funcheader_source_funcbody()
    {
-       code_generator.gen_instr("returnf");
        mysymtab->closescope();
    }
 
    void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
    {
-   //   TableEntry* tempEntry{nullptr};
        auto found = mysymtab->lookupB(inFuncHeader->name);
        if(  found  == nullptr )
        {
@@ -99,110 +94,6 @@ namespace njnr
       }
       return retFuncHeader;
    }
-/*
-funcheadertype* Compiler::block6_funcheader_void_ident_lpar_paramdef_rpar(njnr::Identifier inIdent, List* inParamdeflist){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(inIdent, inParamdeflist,  njnr::type::VOID);
-}
-funcheadertype* Compiler::block7_funcheader_int_ident_lpar_paramdef_rpar(njnr::Identifier inIdent, List* inParamdeflist){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(inIdent, inParamdeflist,  njnr::type::INT);
-}
-funcheadertype* Compiler::block8_funcheader_float_ident_lpar_paramdef_rpar(njnr::Identifier inIdent, List* inParamdeflist){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(inIdent, inParamdeflist,  njnr::type::FLOAT);
-}
-funcheadertype* Compiler::block9_funcheader_void_error_rpar(){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier{""}, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
-}
-
-funcheadertype* Compiler::block10_funcheader_int_error_rpar(){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier{""}, List::mklist(std::string{"error"}, type::VOID),  njnr::type::INT);
-}
-funcheadertype* Compiler::block11_funcheader_float_error_rpar(){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier{""}, List::mklist(std::string{"error"}, type::VOID),  njnr::type::FLOAT);
-}
-
-funcheadertype* Compiler::block12_funcheader_void_ident_lpar_error_rpar(njnr::Identifier inIdent){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(inIdent, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
-}
-funcheadertype* Compiler::block13_funcheader_float_ident_lpar_error_rpar(njnr::Identifier inIdent){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(inIdent, List::mklist(std::string{"error"}, type::VOID),  njnr::type::FLOAT);
-}
-funcheadertype* Compiler::block14_funcheader_int_ident_lpar_error_rpar(njnr::Identifier inIdent){
-	return funcheader_returntype_ident_lpar_paramdef_rpar_helper(inIdent, List::mklist(std::string{"error"}, type::VOID),  njnr::type::INT);
-}
-*/
-/*
-void Compiler::block15_paramdef_paramdeflist(List** outParamdefptr, List** inParamdeflistptr){
-	*outParamdefptr = *inParamdeflistptr;
-//	$<value.lstpvalue>$= $1;
-}
-*/
-/*
-List* Compiler::block15_paramdef_paramdeflist_comma_elip(List** inParamdeflistptr){
-
-		return (*inParamdeflistptr)->appendList("...", type::VOID);
-
-		#ifdef DEBUG
-//		printListP(*outParamdefptr);
-		#endif
-}
-List* Compiler::block16_paramdef_void(){
-	return List::mklist("", njnr::type::VOID);
-//	(*outParamdefptr) = nullptr;
-//	(*outParamdefptr)->ttype = type::VOID; //FIXME need to add this back in somehow or see how it fits in
-}
-*/
-/*
- void Compiler::block17_paramdef_paramdeflist_error_rpar(List** inParamdeflistptr){
-	delete (*inParamdeflistptr);
-	(*inParamdeflistptr) = nullptr;
-}
- void Compiler::block18_paramdef_paramdeflist_comma_error_rpar(List** inParamdeflistptr){
-	delete (*inParamdeflistptr);
-	(*inParamdeflistptr) = nullptr;
-}
-*/
-/*
-List* Compiler::paramdeflist_type_ident_helper(njnr::Identifier inIdent, njnr::type intype){
-	return List::mklist(inIdent.getvalue(), intype);
-
-	#ifdef DEBUG
-//	printListP((*outParamdeflistptr));
-	#endif
-
-}
-*/
-/*
- List* Compiler::block19_paramdeflist_int_ident(njnr::Identifier inIdent){
-	return paramdeflist_type_ident_helper(inIdent,njnr::type::INT);
-}
- List* Compiler::block20_paramdeflist_float_ident(njnr::Identifier inIdent){
-	return paramdeflist_type_ident_helper(inIdent,njnr::type::FLOAT);
-}
- List* Compiler::block21_paramdeflist_char_star_ident(njnr::Identifier inIdent){
-	return paramdeflist_type_ident_helper(inIdent,njnr::type::STR);
-}
-*/
-/*
-List* Compiler::paramdeflist_paramdeflist_comma_type_ident_helper(List** inParamdeflistptr, njnr::Identifier inIdent, njnr::type intype){
-	return (*inParamdeflistptr)->appendList(inIdent.getvalue(),intype);
-
-	#ifdef DEBUG
-//	printListP((*outParamdeflistptr));
-	#endif
-
-}
-*/
-/*
-List* Compiler::block22_paramdeflist_paramdeflist_comma_int_ident(List** inParamdeflistptr, njnr::Identifier inIdent){
-	return paramdeflist_paramdeflist_comma_type_ident_helper(inParamdeflistptr,inIdent,njnr::type::INT);
-}
-List* Compiler::block23_paramdeflist_paramdeflist_comma_float_ident(List** inParamdeflistptr, njnr::Identifier inIdent){
-	return paramdeflist_paramdeflist_comma_type_ident_helper(inParamdeflistptr,inIdent,njnr::type::FLOAT);
-}
-List* Compiler::block24_paramdeflist_paramdeflist_comma_char_star_ident(List** inParamdeflistptr, njnr::Identifier inIdent){
-	return paramdeflist_paramdeflist_comma_type_ident_helper(inParamdeflistptr,inIdent,njnr::type::STR);
-}
-*/
    void Compiler::block25_funcbody_lcbra_decls_source()
    {
        auto temp{mainlocal};
@@ -224,37 +115,8 @@ List* Compiler::block24_paramdeflist_paramdeflist_comma_char_star_ident(List** i
           }
           temp = currentFunc->getlocalcount();
       }
-      code_generator.gen_instr_I("alloc", temp);
   }
    
-   /*
-    void Compiler::block26_funcbody_lcbra_decls_source_stmtlist_rcbra(){
-   	#ifdef DEBUG
-   //	printTree(mysymtab);
-   	#endif
-   }
-   */
-   /*
-   void Compiler::block27_variabledecl_int_identlist_semi(List** inIdentlist){
-   	if( (*inIdentlist) != nullptr){
-   		mysymtab->addtosymtab(type::INT, (*inIdentlist));
-   	}
-
-   	#ifdef DEBUG
-   //	fprintf(stderr,"Found a single Integer declaration or a list of integers being declared\n");
-   //	printTree(mysymtab);
-   	#endif
-   }
-   void Compiler::block28_variabledecl_float_identlist_semi(List** inIdentlist){
-   		if( (*inIdentlist) != nullptr){
-   			mysymtab->addtosymtab(type::FLOAT, (*inIdentlist) );
-   		}
-
-   		#ifdef DEBUG
-   //		printTree(mysymtab);
-   		#endif
-   }
-   */
 void Compiler::dealwithstmtlist(List* stmtlist)
 {
     if(nullptr != stmtlist)
@@ -291,7 +153,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
 
    void Compiler::block29_stmt_expr_semi()
    {
-       code_generator.gen_instr_I("popI",4);
    }
 
    Statement* Compiler::block30_stmt_return_semi()
@@ -315,16 +176,13 @@ void Compiler::dealwithstmtlist(List* stmtlist)
            {
 
            case type::INT:
-               code_generator.gen_instr(fetch + "I");
                break;
 
            case type::FLOAT:
-               code_generator.gen_instr(fetch + "R");
 
            default:
                if(conversionNeeded)
                {
-                   code_generator.gen_instr("int");
                }
                break;
            }
@@ -364,12 +222,10 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    void Compiler::block33_stmt_while_source_expr_semi_source_lpar_expr_rpar(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket)
    {
        variableFetchWithNumericCheck(inexprPacket,true);
-       code_generator.gen_instr_S("jumpz", code_generator.genlabelw("",insourcePacket->m_pair.two));
    }
 
    void Compiler::block34_5_stmt_helper(int one, int two)
    {
-       code_generator.gen_instr_S("jump", code_generator.genlabelw("",one));
        code_generator.gen_label(code_generator.genlabelw("",two));
    }
    void Compiler::while_and_if_reducer(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket, int number, std::string while_or_if)
@@ -421,7 +277,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
 
    struct Pair Compiler::block38_ifexprstmt_if_lpar_expr_source(ReturnPacket* inexprPacket)
    {
-   //	ReturnPacket* inexprPacket{*inexprPacketptr};
 
        struct Pair rvalue;
 
@@ -431,23 +286,16 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        othercounter++;
 
        variableFetchWithNumericCheck(inexprPacket,true);
-       code_generator.gen_instr_S("jumpz", code_generator.genlabelw("",rvalue.one));
        return rvalue;
    }
-   /*
-   void Compiler::block39_ifexprstmt_if_lpar_expr_source_rpar_stmt(){
-   	$$.lval=$3->lval; $$.numeric=$3->numeric; $$.ttype = $3->type; $$.one = $4.one; $$.two=$4.two;
-   }
-   */
+
    void Compiler::normalStore(njnr::type intype)
    {
        switch(intype)
        {
        case(njnr::type::INT):
-           code_generator.gen_instr("storeI");
            break;
        case(njnr::type::FLOAT):
-           code_generator.gen_instr("storeR");
            break;
        default:
            break;
@@ -472,8 +320,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        warning("expressons are of different type, data may be lost","");
 
-       code_generator.gen_instr(instruction);
-       code_generator.gen_instr("store" + letter);
    }
    ReturnPacket* Compiler::block40_expr_equalexpr_equal_equalexpr(ReturnPacket** inequalexprPacketptr,ReturnPacket** inotherequalexprPacketptr)
    {
@@ -512,12 +358,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        return outPacket;
    }
-   /*
-   void Compiler::block41_expr_equalexpr(){
-   	$$ = (exprtype*) malloc(sizeof(exprtype));
-   	$$->lval = $1.lval; $$->numeric = $1.numeric; $$->type =$1.ttype;
-   }
-   */
 
    void Compiler::block42_equalexpr_relexpr_eqop_source(ReturnPacket** relexprPacketptr)
    {
@@ -530,12 +370,8 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        switch(ineqop)
        {
        case eqtype::NEQ:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("neR");
            break;
        case eqtype::EQEQ:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("eqR");
            break;
        default:
            break;
@@ -561,16 +397,12 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                switch(ineqop)
                {
                case eqtype::NEQ:
-                   if(relexprPacket->gettype() == njnr::type::INT)
-                       code_generator.gen_instr("neI");
-                   else if(relexprPacket->gettype() == njnr::type::FLOAT)
-                       code_generator.gen_instr("neR");
+                   if(relexprPacket->gettype() == njnr::type::INT){}
+                   else if(relexprPacket->gettype() == njnr::type::FLOAT){}
                    break;
                case eqtype::EQEQ:
-                   if(relexprPacket->gettype() == njnr::type::INT)
-                       code_generator.gen_instr("eqI");
-                   else if(relexprPacket->gettype() == njnr::type::FLOAT)
-                       code_generator.gen_instr("eqR");
+                   if(relexprPacket->gettype() == njnr::type::INT){}
+                   else if(relexprPacket->gettype() == njnr::type::FLOAT){}
                    break;
                default:
                    break;
@@ -594,11 +426,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        return outPacket;
    }
-   /*
-   void Compiler::block44_equalexpr_relexpr(){
-   $$.lval = $1.lval; $$.ttype = $1.ttype; $$.numeric= $1.numeric;
-   }
-   */
+
    void Compiler::block45_relexpr_simpleexpr_relop_source(ReturnPacket** insimplePacketptr)
    {
        variableFetchWithNumericCheck(*insimplePacketptr,false);
@@ -606,25 +434,16 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_helper(njnr::reltype inrelop, std::string need_letter_b)
    {
        warning("expressons are of different type, data may be lost","");
-   //	ReturnPacket * outPacket{new ReturnPacket{}};
-   //	outPacket->settype( njnr::type::INT);
+
        switch(inrelop)
        {
        case reltype::LES:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("ltR");
            break;
        case reltype::LEQ:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("leR");
            break;
        case reltype::GRE:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("gtR");
            break;
        case reltype::GEQ:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("geR");
            break;
        default:
            break;
@@ -649,28 +468,20 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                switch(inrelop)
                {
                case reltype::LES:
-                   if(simpleexprPacket->gettype() == type::INT)
-                       code_generator.gen_instr("ltI");
-                   else if(simpleexprPacket->gettype() == type::FLOAT)
-                       code_generator.gen_instr("ltR");
+                   if(simpleexprPacket->gettype() == type::INT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT){}
                    break;
                case reltype::LEQ:
-                   if(simpleexprPacket->gettype() == type::INT)
-                       code_generator.gen_instr("leI");
-                   else if(simpleexprPacket->gettype() == type::FLOAT)
-                       code_generator.gen_instr("leR");
+                   if(simpleexprPacket->gettype() == type::INT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT){}
                    break;
                case reltype::GRE:
-                   if(simpleexprPacket->gettype() == type::INT)
-                       code_generator.gen_instr("gtI");
-                   else if(simpleexprPacket->gettype() == type::FLOAT)
-                       code_generator.gen_instr("gtR");
+                   if(simpleexprPacket->gettype() == type::INT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT){}
                    break;
                case reltype::GEQ:
-                   if(simpleexprPacket->gettype() == type::INT)
-                       code_generator.gen_instr("geI");
-                   else if(simpleexprPacket->gettype() == type::FLOAT)
-                       code_generator.gen_instr("geR");
+                   if(simpleexprPacket->gettype() == type::INT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT){}
                    break;
                default:
                    break;
@@ -694,11 +505,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        return outPacket;
    }
-   /*
-   void Compiler::block47_relexpr_simpleexpr(){
-   		$$.lval = $1.lval; $$.ttype = $1.ttype; $$.numeric=$1.numeric;
-   }
-   */
+
    void Compiler::variableFetchWithNumericCheckAndLvalCheck(ReturnPacket* insimplePacket, bool conversionNeeded)
    {
        if(insimplePacket->getlval())
@@ -714,17 +521,11 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    ReturnPacket* Compiler::block49_simpleexpr_addop_helper(njnr::addtype inaddop,std::string need_letter_b)
    {
        warning("expressons are of different type, data may be lost","");
-   //	ReturnPacket* outPacket{new ReturnPacket{}};
-   //	outPacket->settype( njnr::type::FLOAT);
        switch(inaddop)
        {
        case addtype::PLS:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("addR");
            break;
        case addtype::MIN:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("subR");
            break;
        default:
            break;
@@ -749,16 +550,12 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                switch(inaddop)
                {
                case addtype::PLS:
-                   if(simpleexprPacket->gettype() == type::INT)
-                       code_generator.gen_instr("addI");
-                   else if(simpleexprPacket->gettype() == type::FLOAT)
-                       code_generator.gen_instr("addR");
+                   if(simpleexprPacket->gettype() == type::INT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT){}
                    break;
                case addtype::MIN:
-                   if(simpleexprPacket->gettype() == type::INT)
-                       code_generator.gen_instr("subI");
-                   else if(simpleexprPacket->gettype() == type::FLOAT)
-                       code_generator.gen_instr("subR");
+                   if(simpleexprPacket->gettype() == type::INT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT){}
                    break;
                default:
                    break;
@@ -782,11 +579,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        return outPacket;
    }
-   /*
-   void Compiler::block50_simpleepr_term(){
-   	$$.lval = $1.lval; $$.ttype = $1.ttype; $$.numeric = $1.numeric;
-   }
-   */
+
    void Compiler::block51_term_term_mulop_source(ReturnPacket** inPacketptr)
    {
        variableFetchWithNumericCheckAndLvalCheck(*inPacketptr,false);
@@ -795,17 +588,11 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    ReturnPacket* Compiler::block52_term_mulop_helper(njnr::multype inmulop,std::string need_letter_b)
    {
        warning("expressons are of different type, data may be lost","");
-   //	ReturnPacket *outPacket{new ReturnPacket{}};
-   //	outPacket->settype(type::FLOAT);
        switch(inmulop)
        {
        case multype::DIV:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("divR");
            break;
        case multype::MULT:
-           code_generator.gen_instr("flt" + need_letter_b);
-           code_generator.gen_instr("mulR");
            break;
        default:
            break;
@@ -830,21 +617,17 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                case multype::DIV:
                    if(intermPacket->gettype()== type::INT)
                    {
-                       code_generator.gen_instr("divI");
                    }
                    else if(intermPacket->gettype()== type::FLOAT)
                    {
-                       code_generator.gen_instr("divR");
                    }
                    break;
                case multype::MULT:
                    if(intermPacket->gettype()== type::INT)
                    {
-                       code_generator.gen_instr("mulI");
                    }
                    else if(intermPacket->gettype()== type::FLOAT)
                    {
-                       code_generator.gen_instr("mulR");
                    }
                    break;
                default:
@@ -868,11 +651,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        return outtermPacket;
    }
-   /*
-   void Compiler::block53_term_factor(){
-   	$$.lval = $1.lval; $$.ttype = $1.ttype; $$ = $1; $$.numeric=$1.numeric;
-   }
-   */
+
    ReturnPacket* Compiler::block54_factor_constant(Constant* inConstant)
    {
       bool need_gen = false;
@@ -883,13 +662,10 @@ void Compiler::dealwithstmtlist(List* stmtlist)
          switch(inConstant->gettype())
          {
             case type::INT:
-               code_generator.gen_instr_I("pushcI",dynamic_cast<IntConstant*>(inConstant)->getvalue());
                break;
             case type::FLOAT:
-               code_generator.gen_instr_F("pushcR",dynamic_cast<FloatConstant*>(inConstant)->getvalue());
                break;
             case type::STR:
-               code_generator.gen_instr_S("pushs",dynamic_cast<StrConstant*>(inConstant)->getvalue());
                break;
             default:
                error("constant is not a correct type of constant","");
@@ -926,7 +702,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                }
                if(mysymtab->inCscope(inIdent.getvalue()))
                {
-                  code_generator.gen_instr_I("pusha", resultLookup->getBinding()->getoffset());
                }
                else
                {
@@ -942,7 +717,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                         int level_diff {mysymtab->getleveldif(inIdent.getvalue())};
                         if(level_diff != -1)
                         {
-                           code_generator.gen_instr_tI("pushga",level_diff,resultLookup->getBinding()->getoffset());
                         }
                         else
                         {
@@ -976,11 +750,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
       }
       return outPacket;
    }
-   /*
-   void Compiler::block56_factor_lpar_expr_rpar(ReturnPacket** outPacket, ReturnPacket** inPacket){
-   	(*outPacket) = (*inPacket);
-   }
-   */
+
    ReturnPacket* Compiler::block57_factor_addop_factor_uminus(njnr::addtype inop, ReturnPacket** inPacketptr)
    {
        ReturnPacket* outPacket{new ReturnPacket{}};
@@ -994,10 +764,8 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                switch(inPacket->gettype())
                {
                case type::INT:
-                   code_generator.gen_instr("negI");
                    break;
                case type::FLOAT:
-                   code_generator.gen_instr("negR");
                    break;
                default:
                    break;
@@ -1033,7 +801,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                error("variable undeclared, please declare variables before using them","");
            else
            {
-   //			tempE2 = new TableEntry{inPacket.getvalue()};
                tempE =	mysymtab->lookupB(inPacket.getvalue());
                if(tempE != nullptr)
                {
@@ -1051,14 +818,12 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                                outPacket->setnumeric(true);
                            if(mysymtab->inCscope(inPacket.getvalue()))
                            {
-                               code_generator.gen_instr_I("pusha", ((Varb*)(tempE->getBinding()))->getoffset());
                            }
                            else
                            {
                                int level_diff{mysymtab->getleveldif(inPacket.getvalue())};
                                if(level_diff != -1)
                                {
-                                   code_generator.gen_instr_tI("pushga", level_diff,((Varb*)(tempE->getBinding()))->getoffset());
                                }
                                else
                                {
@@ -1077,7 +842,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                                outPacket->setnumeric(true);
                            if(mysymtab->inCscope(inPacket.getvalue()))
                            {
-                               code_generator.gen_instr_I("pusha", ((Varb*)(tempE->getBinding()))->getoffset());
                            }
                            else
                            {
@@ -1107,11 +871,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        return outPacket;
    }
-   /*
-   void Compiler::block59_factor_function_call(){
-   	(*outPacket)->ttype = $1.ttype; (*outPacket)->lval = false; (*outPacket)->numeric=$1.numeric;
-   }
-   */
+
    ReturnPacket* Compiler::block60_function_call_ident_lpar_rpar(njnr::Identifier inIdent)
    {
        ReturnPacket* outPacket{new ReturnPacket{}};
@@ -1159,7 +919,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                    {
                        outPacket->setnumeric(false);
                    }
-                   code_generator.gen_instr_I("enter",1);
                    code_generator.gen_call(code_generator.genlabelw(inIdent.getvalue(), tempb->getlabel()), 0);
                }
                else
@@ -1177,11 +936,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        }
        return outPacket;
    }
-   /*
-   void Compiler::block61_function_call_func_call_with_params(){
-   	(*outPacket)->ttype =$1.ttype; (*outPacket)->numeric = $1.numeric; (*outPacket)->lval = $1.lval;
-   }
-   */
+
    ReturnPacket* Compiler::block62_func_call_with_params_name_and_params_rpar(ReturnPacket** nameAndparamptr)
    {
        ReturnPacket* funcCallWparam{new ReturnPacket{}};
@@ -1226,11 +981,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    ReturnPacket* Compiler::block63_name_and_params_ident_lpar_source(njnr::Identifier inPacket)
    {
        ReturnPacket* inEntry{new ReturnPacket{}};
-       /*
-       if( *inEntryptr == nullptr){
-          error("name and params is null","");
-          return;
-       }*/
+
        inEntry->funcent = nullptr;
        inEntry->funcent =  mysymtab->lookupB(inPacket.getvalue());
    #ifdef DEBUG
@@ -1244,7 +995,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        if (inEntry->funcent != nullptr)
        {
            inEntry->funcent->setName(inPacket.getvalue());
-           code_generator.gen_instr_I("enter",1);
        }
        return inEntry;
    }
@@ -1316,16 +1066,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                    else
                    {
                        variableFetchWithNumericCheck(inPacket,false);
-                       /*
-                       if(inPacket->getlval()  && inPacket->getnumeric()){
-                       	switch(inPacket->gettype()){
-                       		case type::INT:	code_generator.gen_instr("fetchI");
-                       								break;
-                       		case type::FLOAT:	code_generator.gen_instr("fetchR");
-                       								break;
-                       		default:				break;
-                       	}
-                       	}*/
+
                        if( ! tempB->getparam_type().empty())
                        {
                            if(inPacket->gettype() != tempB->getparam_type()[0])
@@ -1350,7 +1091,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                                    {
                                    case type::FLOAT:
                                        warning("Paramter expression will lose data because of different type","");
-                                       code_generator.gen_instr("int");
                                        break;
                                    case type::INT:
                                        break;
@@ -1368,7 +1108,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                                    {
                                    case type::INT:
                                        warning("Parameter expression is different type than in declaration","");
-                                       code_generator.gen_instr("flt");
                                        break;
                                    case type::FLOAT:
                                        break;
@@ -1418,7 +1157,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        {
            outPacket->funcent = innameAndparamPacket->funcent;
            tempE2 = new TableEntry{innameAndparamPacket->funcent->getName()};
-           //	tempE2->name = innameAndparamPacket->funcent->name;
+
            tempB= (Funcb*) mysymtab->lookup( innameAndparamPacket->funcent->getName());
            if( (tempE=  mysymtab->lookupB(innameAndparamPacket->funcent->getName()))!=nullptr)
            {
@@ -1449,17 +1188,6 @@ void Compiler::dealwithstmtlist(List* stmtlist)
                        {
                            variableFetchWithNumericCheck(inexprPacket,false);
                        }
-                       /*
-                       if(inexprPacket->getlval() && inexprPacket->getnumeric() && "scanf" != outPacket->funcent->getName()){
-                       	switch(inexprPacket->gettype()){
-                       		case type::INT:		code_generator.gen_instr("fetchI");
-                       									break;
-                       		case type::FLOAT:		code_generator.gen_instr("fetchR");
-                       									break;
-                       		default:					break;
-                       	}
-                       }
-                       */
                    }
                    else if( innameAndparamPacket->params < tempB->getnum_param())
                    {
@@ -1471,37 +1199,16 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    
                            warning("Parameter type is different in declaration and in function call","");
                            variableFetch(inexprPacket,false);
-                           /*
-                           if(inexprPacket->getlval()){
-                           	switch(inexprPacket->gettype()){
-                           		case type::INT:	code_generator.gen_instr("fetchI"); break;
-                           		case type::FLOAT:	code_generator.gen_instr("fetchR"); break;
-                           		default:    break;
-                           	}
-                           }
-                           */
                            if(tempB->getparam_type()[innameAndparamPacket->params]== type::FLOAT)
                            {
-                               code_generator.gen_instr("flt");
                            }
                            else if(tempB->getparam_type()[innameAndparamPacket->params]== type::INT)
                            {
-                               code_generator.gen_instr("int");
                            }
                        }
                        else
                        {
                            variableFetch(inexprPacket,false);
-                           /*
-                           	if(inexprPacket->getlval()){
-                           		switch(inexprPacket->gettype()){
-                           			case type::INT:	code_generator.gen_instr("fetchI"); break;
-                           			case type::FLOAT:	code_generator.gen_instr("fetchR"); break;
-                           			default:    break;
-                           		}
-                           	}
-                           	*/
-
                        }
                        outPacket->settype( tempB->getparam_type()[innameAndparamPacket->params] );
                        if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT)
@@ -1525,29 +1232,8 @@ void Compiler::dealwithstmtlist(List* stmtlist)
            tempE2=nullptr;
        }
        return outPacket;
-   }/*
-   void Compiler::block66_constant_strconstant(njnr::Constant* mcon, std::string instrconstant){
-    			*mcon = instrconstant;
-   			(*mcon).ttype = type::STR;
-   			(*mcon).lval = false;
-   			(*mcon).numeric=false;
    }
 
-   void Compiler::block67_constant_intconstant(njnr::Constant* mcon, int intconstant){
-   	 	(*mcon) = intconstant;
-   		(*mcon).ttype = type::INT;
-   		(*mcon).lval = false;
-   		(*mcon).numeric= true;
-   }
-
-   void Compiler::block68_constant_floatconstant(njnr::Constant* mcon, float floatconstant){
-   	(*mcon) = new Constant{};
-   		(*mcon) = floatconstant;
-   		(*mcon).ttype = type::FLOAT;
-   		(*mcon).lval = false;
-   		(*mcon).numeric= true;
-   }
-   */
    List* Compiler::block69_identlist_ident(njnr::Identifier inIdent)
    {
        return List::mklist(&inIdent);

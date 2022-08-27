@@ -184,12 +184,10 @@ int yyerror(std::string err,Compiler& compiler);
 %start starter
 
 %%
-starter: translation_unit {
-                            // compiler.block1_start_trans_unit();
-                          }
+starter: translation_unit {}
 ;
 
-translation_unit: translation_unit_part_list { $$ = $1;}
+translation_unit: translation_unit_part_list {}
 ;
 
 translation_unit_part_list: func { $$ = List::mklist($1);}
@@ -198,13 +196,9 @@ translation_unit_part_list: func { $$ = List::mklist($1);}
                           | translation_unit_part_list variabledecl { $$ = $1->appendList($2);}
 ;
 
-func: funcheader {
-	                // compiler.block2_func_funcheader_source(&$1);
-				 }
-	  funcbody   {
-		            $$ = compiler.create_full_function($1, $3);
-					// compiler.block3_func_funcheader_source_funcbody(); // send in $3??
-	             }
+func: funcheader funcbody {
+		                     $$ = compiler.create_full_function($1, $2);
+	                      }
 ;
 
 funcheader: fnt Ident lpar paramdef rpar {
@@ -228,9 +222,7 @@ funcheader: fnt Ident lpar paramdef rpar {
 									  }
 ;
 
-paramdef: paramdeflist {
-	                      $$ = $1;
-					   }
+paramdef: paramdeflist {}
         | paramdeflist comma elip {
 			                         $$ = $1->appendList("...", type::VOID);
 								  }
@@ -280,9 +272,6 @@ funcbody_internal: variabledecl {
                                              $$ = $1->appendList($2);
 										  }
 ;
-//decls: /*empty*/
-//      | decls variabledecl {} //$<value.lstvalue>$ = $<value.lstvalue>2;
-//;
 
 variabledecl: vart identlist {
                                 compiler.mysymtab->addtosymtab(type::INT, $2);
@@ -291,10 +280,6 @@ variabledecl: vart identlist {
                                compiler.mysymtab->addtosymtab(type::INT, $2);
 			                 }
 ;
-
-//stmtlist: stmtlist stmt {}
-//        | stmt {}
-//;
 
 stmt:     expr semi {
 	                   compiler.block29_stmt_expr_semi();
@@ -548,9 +533,8 @@ relop: lesst {
 %%
 #include <iostream>
 int yyerror(std::string s, Compiler& compiler)
-//int njnr::njnrParser::error(std::string s, Compiler& compiler)
 {
 	compiler.error(s,"");
-//	std::cerr << "Error:::"<< compiler.filename << ":"<< compiler.Line_Number << "-> " << s << "\n";
+	std::cerr << "Error:::"<< compiler.filename << ":"<< compiler.Line_Number << "-> " << s << "\n";
 	return 0;
 }
