@@ -18,8 +18,8 @@ namespace njnr
        othercounter{1},
        param_offset{0},
        mainlocal{0},
-       founderror{false},
-       returnTypes{}
+       returnTypes{},
+       founderror{false}
    {
        try
        {
@@ -46,7 +46,7 @@ namespace njnr
        mysymtab->install(entry);
    }
 
-   Compiler::Compiler(int argc, const char** argv) : 	Compiler{}
+   Compiler::Compiler(int argc,  char* const* argv) : 	Compiler{}
    {
        openedInputFile(argc,argv);
    }
@@ -96,8 +96,8 @@ namespace njnr
                        remove(this->filename.c_str());
                    }
                }
+              delete outfile;
            }
-           delete outfile;
            outfile = nullptr;
        }
    }

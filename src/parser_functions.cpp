@@ -23,9 +23,6 @@ namespace njnr
       out = new Funcb{};
       out->setreturntype(funcheader->returntype);
 
-      funcheader->name;
-      funcheader->ttype;
-      funcheader->paramlist;
       return nullptr;
    }
 
@@ -96,11 +93,11 @@ namespace njnr
    }
    void Compiler::block25_funcbody_lcbra_decls_source()
    {
-       auto temp{mainlocal};
+//       auto temp{mainlocal};
        if(currentFunc->getvalue() == "main")
        {
            mainlocal = offset_counter-5;
-           temp = mainlocal;
+//           temp = mainlocal;
        }
        else
        {
@@ -113,7 +110,7 @@ namespace njnr
                currentFunc->setlocalcount( offset_counter - 5 - currentFunc->getnum_param());
               break;
           }
-          temp = currentFunc->getlocalcount();
+//          temp = currentFunc->getlocalcount();
       }
   }
    
@@ -655,7 +652,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    ReturnPacket* Compiler::block54_factor_constant(Constant* inConstant)
    {
       bool need_gen = false;
-      int  gen_type = 0;
+//      int  gen_type = 0;
 
       if(true == need_gen)
       {
@@ -681,7 +678,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
       ReturnPacket*  outPacket{nullptr};
       TableEntry *resultLookup{nullptr};
       bool gen_code = false;
-      int  gen_type = 0;
+//      int  gen_type = 0;
 
       outPacket = new Identifier{inIdent};
       if(true == gen_code)

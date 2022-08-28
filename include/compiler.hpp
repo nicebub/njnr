@@ -41,11 +41,11 @@ namespace njnr
          constexpr static int INITIAL_TREE_SIZE{100};
 
          Compiler();
-         Compiler(int argc, const char** argv);
+         Compiler(int argc,  char* const* argv);
          ~Compiler();
 
-         bool openedOutputFile(int argc, const char** argv);
-         bool openedInputFile(int argc, const char** argv);
+         bool openedOutputFile(int argc,  char* const* argv);
+         bool openedInputFile(int argc,  char* const* argv);
 
          void install_functions_into_symbolTable();
 

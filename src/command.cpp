@@ -11,46 +11,46 @@ namespace njnr
    {
        std::string extra{""};
        auto f_sz{ inFilename.size() };
-
-       extra = inFilename[(f_sz-1)];
-       extra += inFilename[(f_sz-2)];
+       if(f_sz >= 2)
+       {
+          extra = inFilename[(f_sz-1)];
+          extra += inFilename[(f_sz-2)];
+       }
        return extra == "n.";
    }
-   bool Compiler::openedInputFile(int argc, const char** argv)
+   bool Compiler::openedInputFile(int argc, char* const* argv)
    {
        if(argc >1)
        {
-           if(filenameDoesEndsInDotN(argv[1]))
+           try
            {
-               try
+               std::ifstream* next{new std::ifstream{argv[1], std::ifstream::in}};
+               if(next->is_open())
                {
-                   std::ifstream* next{new std::ifstream{argv[1], std::ifstream::in}};
-                   if(next->is_open())
-                   {
-                       lexer.switch_streams(next);
-                       return true;
-                   }
+                   lexer.switch_streams(next);
+                   return true;
                }
-               catch(std::bad_alloc& e)
-               {
-                   debugprint(e.what(),"");
-               }
-               std::cerr << argv[1] << ": cannot open input file\n";
            }
-           else
-               std::cerr << argv[1] << ": does not end in .n\n";
+           catch(std::bad_alloc& e)
+           {
+               debugprint(e.what(),"");
+           }
+           std::cerr << argv[1] << ": cannot open input file\n";
        }
        else
-           std::cerr << "did not recieve an input file\n";
-
+       {
+            lexer.switch_streams(&std::cin);
+           return true;
+       }
        return false;
    }
 
-   bool Compiler::openedOutputFile(int argc, const char** argv)
+   bool Compiler::openedOutputFile(int argc,  char* const* argv)
    {
-       std::string tempstr{argv[1]};
-       if(filenameDoesEndsInDotN(tempstr))
+       if(argc > 1)
        {
+          std::string tempstr{argv[1]};
+
            const size_t a{tempstr.length()-2};
 
            tempstr[a] = '.';
@@ -74,13 +74,19 @@ namespace njnr
                debugprint(e.what(),"");
            }
        }
+       else
+       {
+          outfile = &std::cout;
+          filename = "stdout";
+          return true;
+       }
        return false;
    }
 
 #ifndef MAIN
 #define MAIN
    
-   int main(int argc, const char** argv)
+   int main(int argc,  char* const* argv)
    {
        Compiler compiler{};
    
