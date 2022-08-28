@@ -55,6 +55,9 @@ BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 BASE_SRCT = $(wildcard $(PATHT)*base*.cpp)
 
 SRC_FILES := $(subst $(PATHS),,$(wildcard $(PATHS)*.cpp))
+SRC_FILES += $(subst $(PATHS)/functions/,,$(wildcard $(PATHS)/functions/*.cpp))
+SRC_FILES += $(subst $(PATHS)/statements/,,$(wildcard $(PATHS)/statements/*.cpp))
+
 ASSEM_FILES := $(subst $(PATHS),,$(wildcard $(PATHS)*.s))
 
 HEAD_FILES:= $(subst $(PATHI),,$(wildcard $(PATHI)*.hpp))
@@ -95,6 +98,7 @@ clean: test_clean
 	$(CLEANDIR) $(PATHO)
 	$(CLEANDIR) $(PATHR)
 	$(CLEANDIR) $(PATHB)
+	$(CLEANUP) test.asm
 test_clean:
 
 .PRECIOUS: $(PATHD)%.d
@@ -163,6 +167,11 @@ $(PATHO)%.o:: $(PATHS)%.cpp $(PATHI)%.hpp
 $(PATHO)%.o:: $(PATHT)%.cpp
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
 
+$(PATHO)%.o:: $(PATHS)/functions/%.cpp
+	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
+
+$(PATHO)%.o:: $(PATHS)/statements/%.cpp
+	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
 
 $(PATHO)%.o:: $(PATHS)%.cpp
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
