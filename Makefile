@@ -57,6 +57,7 @@ BASE_SRCT = $(wildcard $(PATHT)*base*.cpp)
 SRC_FILES := $(subst $(PATHS),,$(wildcard $(PATHS)*.cpp))
 SRC_FILES += $(subst $(PATHS)/functions/,,$(wildcard $(PATHS)/functions/*.cpp))
 SRC_FILES += $(subst $(PATHS)/statements/,,$(wildcard $(PATHS)/statements/*.cpp))
+SRC_FILES += $(subst $(PATHS)/expressions/,,$(wildcard $(PATHS)/expressions/*.cpp))
 
 ASSEM_FILES := $(subst $(PATHS),,$(wildcard $(PATHS)*.s))
 
@@ -171,6 +172,9 @@ $(PATHO)%.o:: $(PATHS)/functions/%.cpp
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
 
 $(PATHO)%.o:: $(PATHS)/statements/%.cpp
+	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
+
+$(PATHO)%.o:: $(PATHS)/expressions/%.cpp
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
 
 $(PATHO)%.o:: $(PATHS)%.cpp
