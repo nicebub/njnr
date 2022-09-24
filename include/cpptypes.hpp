@@ -2,25 +2,41 @@
 #define _CPPSTYPES_HPP
 
 #include <string>
+
 #include "type.hpp"
 namespace njnr
 {
    class TableEntry;
 
-   class ReturnPacket
+   class BaseData
+   {
+      public:
+         virtual ~BaseData() {};
+         virtual const std::string toString() const = 0;
+         virtual const bool getlval() const = 0;
+         virtual void setlval(const bool in) = 0;
+         virtual const njnr::type gettype() const = 0;
+         virtual void settype(const njnr::type in) = 0;
+         virtual const bool getnumeric() const = 0;
+         virtual void setnumeric(const bool in) = 0;
+   };
+
+   class ReturnPacket : public BaseData
    {
       public:
          ReturnPacket();
          ReturnPacket(bool lval, njnr::type ttype, bool ifnum, int offset);
-         bool getlval() const;
+         const bool getlval() const;
          void setlval(const bool in);
-         njnr::type gettype() const;
+         const njnr::type gettype() const;
          void settype(const njnr::type in);
-         bool getnumeric() const;
+         const bool getnumeric() const;
          void setnumeric(const bool in);
          virtual ~ReturnPacket();
          int getoffset() const;
          void setoffset(const int in);
+         const std::string toString() const;
+
          struct Pair m_pair;
          TableEntry* funcent;
          int params;
@@ -51,6 +67,7 @@ namespace njnr
          CharConstant& operator=(const CharConstant& in);
          char getvalue() const;
          void setvalue(const char in);
+         const std::string toString() const;
       private:
          char value;
    };
@@ -65,6 +82,7 @@ namespace njnr
          IntConstant& operator=(const IntConstant& in);
          int getvalue() const;
          void setvalue(const int in);
+         const std::string toString() const;
       private:
          int value;
    };
@@ -79,6 +97,7 @@ namespace njnr
          StrConstant& operator=(const StrConstant& in);
          std::string getvalue() const;
          void setvalue(const std::string in);
+         const std::string toString() const;
       private:
          std::string value;
    };
@@ -93,6 +112,7 @@ namespace njnr
          FloatConstant& operator=(const FloatConstant& in);
          float getvalue() const;
          void setvalue(const float in);
+         const std::string toString() const;
       private:
          float value;
    };
@@ -107,6 +127,7 @@ namespace njnr
          Identifier& operator=(const Identifier& in);
          std::string getvalue() const;
          void setvalue(const std::string in);
+         const std::string toString() const;
       private:
          std::string value;
    };
@@ -158,6 +179,7 @@ namespace njnr
       public:
          Paramb();
          virtual ~Paramb();
+         const std::string toString() const;
       private:
    };
 
@@ -172,6 +194,7 @@ namespace njnr
          virtual ~Statement();
          type getrettype();
          void setrettype(njnr::type t);
+         const std::string toString() const;
       private:
          statement_type stype;
          ReturnPacket* stmt;
@@ -189,6 +212,7 @@ namespace njnr
          void set_translation(ReturnPacket* translation);
          void set_trans_unit_type(trans_unit_type intype);
          trans_unit_type get_trans_unit_type();
+         const std::string toString() const;
       private:
          ReturnPacket* translation;
          trans_unit_type trans_type;

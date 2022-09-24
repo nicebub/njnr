@@ -1,0 +1,41 @@
+fn no_return_stmt()
+{
+   return "c";
+}
+
+fn no_return
+{
+    return;
+}
+
+fn hi 
+{
+ return 5;
+}
+
+fn hello()
+{
+    return big_man;
+}
+
+fn good(bye, again)
+{
+    return 7;
+    return "hello";
+    return;
+}
+
+fn tester()
+{
+    /* if token */
+    /* left paren '(' */
+    /* expression */
+    /* right paren ')' */
+    /* statement */
+
+    if (t == 5)
+    {
+        print("found answer: " + t);
+    }
+
+}

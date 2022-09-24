@@ -24,7 +24,7 @@ namespace njnr
 
    ReturnPacket::~ReturnPacket() {}
 
-   bool ReturnPacket::getlval() const
+   const bool ReturnPacket::getlval() const
    {
        return lval;
    }
@@ -32,7 +32,7 @@ namespace njnr
    {
        lval = in;
    }
-   njnr::type  ReturnPacket::gettype() const
+   const njnr::type  ReturnPacket::gettype() const
    {
        return ttype;
    }
@@ -40,7 +40,7 @@ namespace njnr
    {
        ttype = in;
    }
-   bool ReturnPacket::getnumeric() const {
+   const bool ReturnPacket::getnumeric() const {
        return numeric;
    }
    void ReturnPacket::setnumeric(const bool in)
@@ -56,10 +56,27 @@ namespace njnr
        offset = in;
    }
 
+   const std::string ReturnPacket::toString() const
+   {
+      std::string slval{lval};
+      std::string soff{std::to_string(offset)};
+      std::string snum{numeric};
+//      std::string styp{ttype};
+      std::string sparam{std::to_string(params)};
+      return "slval: " + slval + "\nsoff: " + soff + "\nsnum: "
+              + snum + "\nparam: " + sparam;
+   }
+
    Constant::~Constant() {}
 
    Constant::Constant() : ReturnPacket{} {}
    Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
+
+   const std::string CharConstant::toString() const
+   {  
+      std::string ret = ReturnPacket::toString();
+      return "value: " + std::to_string(value) + "\n" + ret;
+   }
 
    CharConstant::CharConstant() : Constant{false,njnr::type::CHAR, true, 0}, value{0} {}
 
@@ -90,6 +107,11 @@ namespace njnr
        value = in;
    }
 
+   const std::string IntConstant::toString() const
+   {  
+      std::string ret = ReturnPacket::toString();
+      return "value: " + std::to_string(value) + "\n" + ret;
+   }
    IntConstant::IntConstant() : Constant{false,njnr::type::INT, true, 0}, value{0} {}
 
    IntConstant::IntConstant(const int invalue) : Constant{false,njnr::type::INT, true, 0}, value{invalue} {}
@@ -119,6 +141,11 @@ namespace njnr
        value = in;
    }
 
+   const std::string StrConstant::toString() const
+   {  
+      std::string ret = ReturnPacket::toString();
+      return "value: " + value + "\n" + ret;
+   }
    StrConstant::StrConstant() : Constant{false,njnr::type::STR, false, 0} {}
 
    StrConstant::StrConstant(const std::string invalue) : Constant{false,njnr::type::STR, false, 0}, value{invalue} {}
@@ -149,6 +176,11 @@ namespace njnr
        value = in;
    }
 
+   const std::string FloatConstant::toString() const
+   {  
+      std::string ret = ReturnPacket::toString();
+      return "value: " + std::to_string(value) + "\n" + ret;
+   }
    FloatConstant::FloatConstant() : Constant{false,njnr::type::FLOAT, true, 0}, value{0.0f} {}
 
    FloatConstant::FloatConstant(const float invalue ) : Constant{false,njnr::type::FLOAT, true, 0}, value{invalue } {}
@@ -179,6 +211,11 @@ namespace njnr
        value = in;
    }
 
+   const std::string Identifier::toString() const
+   {  
+      std::string ret = ReturnPacket::toString();
+      return "value: " + value + "\n" + ret;
+   }
    Identifier::Identifier() : Constant{false,njnr::type::IDENT, false, 0} {}
 
    Identifier::Identifier(const std::string invalue) : Constant{false,njnr::type::IDENT, false, 0}, value{invalue} {}
@@ -317,9 +354,22 @@ namespace njnr
    Varb::Varb() : Identifier{} {}
    Varb::~Varb() {}
 
+   const std::string Paramb::toString() const
+   {  
+      return ReturnPacket::toString();
+   }
    Paramb::Paramb() : ReturnPacket{} {}
    Paramb::~Paramb() {}
 
+   const std::string Statement::toString() const
+   {  
+      std::string ret = ReturnPacket::toString();
+   //      statement_type stype;
+         ReturnPacket* stmt;
+//         type         rettype;
+
+      return "stmt: " + stmt->toString() + "\n" + ret;
+   }
    Statement::Statement() : ReturnPacket{} {}
    Statement::~Statement() {}
    statement_type Statement::getstype()
@@ -348,6 +398,14 @@ namespace njnr
        rettype = t;
    }
 
+   const std::string Translation_Unit::toString() const
+   {  
+      std::string ret = ReturnPacket::toString();
+         ReturnPacket* translation;
+//         trans_unit_type trans_type;
+
+      return "translation unit: " + translation->toString() + "\n" + ret;
+   }
    Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
 
    Translation_Unit::~Translation_Unit() {}
