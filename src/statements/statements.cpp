@@ -9,6 +9,192 @@
 using namespace njnr;
 namespace njnr
 {
+   const std::string Statement::toString() const
+   {
+    /**
+         statement_type stype;
+         ReturnPacket* stmt;
+         type         rettype;
+     */
+      std::string r = ReturnPacket::toString();
+   //      statement_type stype;
+//         ReturnPacket* stmt;
+//         type         rettype;
+         r += "stmt type: ";
+         if(nullptr != stmt)
+         {
+            switch(stype)
+            {
+               case njnr::statement_type::DOUNTIL:
+                  r += "DOUNTIL";
+                  break;
+               case njnr::statement_type::DOWHILE:
+                  r += "DOWHILE";
+                  break;
+               case njnr::statement_type::FOR:
+                  r += "FOR";
+                  break;
+               case njnr::statement_type::FOREACH:
+                  r += "FOREACH";
+                  break;
+               case njnr::statement_type::IF:
+                  r += "IF";
+                  break;
+               case njnr::statement_type::IFELSE:
+                  r += "IFELSE";
+                  break;
+               case njnr::statement_type::LOOP:
+                  r += "LOOP";
+                  break;
+               case njnr::statement_type::RETURN:
+                  r += "RETURN";
+                  break;
+               case njnr::statement_type::SWITCH:
+                  r += "SWITCH";
+                  break;
+               case njnr::statement_type::UNTIL:
+                  r += "UNTIL";
+                  break;
+               case njnr::statement_type::WHILE:
+                  r += "WHILE";
+                  break;
+               case njnr::statement_type::INVALID:
+               default:
+                  r += "INVALID";
+                  break;
+            }
+            switch(rettype)
+            {
+                case njnr::type::CHAR:
+                   r += "CHAR: ";
+                   break;
+                case njnr::type::CHECK:
+                   r += "Set to Check: ...\n";
+                   r += printCheckReturn();
+                   break;
+                case njnr::type::FLOAT:
+                   r += "FLOAT: ";
+                   break;
+                case njnr::type::IDENT:
+                   r += "IDENT: ";
+                   break;
+                case njnr::type::INT:
+                   r += "INT: ";
+                   break;
+                case njnr::type::REFFLOAT:
+                   r += "REFFLOAT: ";
+                   break;
+                case njnr::type::REFINT:
+                   r += "REFINT: ";
+                   break;
+                case njnr::type::REFSTR:
+                   r += "REFSTR: ";
+                   break;
+                case njnr::type::STMT:
+                   r += "STMT: ";
+                   break;
+                case njnr::type::STR:
+                   r += "STR: ";
+                   break;
+                case njnr::type::VOID:
+                   r += "VOID: ";
+                   break;
+                default:
+                   r += "INVALID";
+                   break;
+            }
+         }
+      return r;
+   }
+
+   Statement::Statement() : ReturnPacket{} {}
+
+   Statement::~Statement() {}
+
+   statement_type Statement::getstype()
+   {
+      return stype;
+   }
+
+   void Statement::setstype(statement_type t)
+   {
+      stype = t;
+   }
+
+   void Statement::setstmt(ReturnPacket* stmt)
+   {
+      this->stmt = stmt;
+   }
+
+   ReturnPacket* Statement::getstmt()
+   {
+      return stmt;
+   }
+   
+   type Statement::getrettype()
+   {
+       return rettype;
+   }
+
+   void Statement::setrettype(njnr::type t)
+   {
+       rettype = t;
+   }
+
+std::string Statement::printCheckReturn(void) const
+{  std::string r{};
+    r = "Checking return type ....\n";
+    switch(stmt->gettype())
+    {
+        case njnr::type::CHAR:
+           r += "CHAR: ";
+           r += dynamic_cast<CharConstant*>(stmt)->toString() + "\n";           
+           break;
+        case njnr::type::CHECK:
+           r +="Internal Error\n";
+           break;
+        case njnr::type::FLOAT:
+           r += "FLOAT: ";
+           r += dynamic_cast<FloatConstant*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::IDENT:
+           r += "IDENT: ";
+           r += dynamic_cast<Identifier*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::INT:
+           r += "INT: ";
+           r += dynamic_cast<IntConstant*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::REFFLOAT:
+           r += "REFFLOAT: ";
+//           r += dynamic_cast<CharConstant*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::REFINT:
+           r += "REFINT: ";
+//           r += dynamic_cast<CharConstant*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::REFSTR:
+           r += "REFSTR: ";
+//           r += dynamic_cast<CharConstant*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::STMT:
+           r += "STMT: ";
+           r += dynamic_cast<Statement*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::STR:
+           r += "STR: ";
+           r += dynamic_cast<StrConstant*>(stmt)->toString() + "\n";
+           break;
+        case njnr::type::VOID:
+           r += "VOID: ";
+           break;
+        default:
+           r += "INVALID";
+           break;
+    }
+   return r;
+}
+
 void Compiler::dealwithstmtlist(List* stmtlist)
 {
     if(nullptr != stmtlist)
@@ -31,9 +217,12 @@ void Compiler::dealwithstmtlist(List* stmtlist)
       Statement* outPacket{nullptr};
 
       outPacket = new Statement{};
-      outPacket->settype(njnr::type::STMT);
-      outPacket->setstype(njnr::statement_type::RETURN);
-      outPacket->setrettype(njnr::type::VOID);
+      if(nullptr != outPacket)
+      {
+         outPacket->settype(njnr::type::STMT);
+         outPacket->setstype(njnr::statement_type::RETURN);
+         outPacket->setrettype(njnr::type::VOID);
+      }
 
       return outPacket;
    }
@@ -42,10 +231,13 @@ void Compiler::dealwithstmtlist(List* stmtlist)
       Statement* outStatement{nullptr};
 
       outStatement = new Statement{};
-      outStatement->settype(type::STMT);
-      outStatement->setstype(statement_type::RETURN);
-      outStatement->setstmt(inPacket);
-      outStatement->setrettype(njnr::type::CHECK);
+      if(nullptr != outStatement)
+      {
+         outStatement->settype(type::STMT);
+         outStatement->setstype(statement_type::RETURN);
+         outStatement->setstmt(inPacket);
+         outStatement->setrettype(njnr::type::CHECK);
+      }
 
       return outStatement;
    }

@@ -46,7 +46,7 @@ NULLS	\\0
 BEGCOM	"\/\*"
 ENDCOM	"\*\/"
 ELIP	"..."
-
+PRINTABLE_CHAR [!@#$%^&*\(\)\-_=+\[\]\{\}\\|;:'",<.>/?0-9A-Za-z]
 EQUEQU	"=="
 NEQ	    "\!="
 LEQ	    "<="
@@ -225,6 +225,11 @@ char { /* keyword char*/
    }
 
 \'{LETTER}\' {
+                yylval = lval;
+                yylval->emplace<njnr::CharConstant>() = yytext[1];
+                return(token::CharConstant);
+             }
+\'{PRINTABLE_CHAR}\' {
                 yylval = lval;
                 yylval->emplace<njnr::CharConstant>() = yytext[1];
                 return(token::CharConstant);

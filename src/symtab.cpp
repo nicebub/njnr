@@ -57,7 +57,21 @@ namespace njnr
    {
        return self;
    }
-
+   const std::string TableEntry::toString() const
+   {
+    /**
+         std::string name;
+         ReturnPacket* binding;
+         btype self;
+     */
+      std::string r{"name: " + name};
+      r += " btype self: " + std::to_string(static_cast<int>(self)) + "\n";
+      if(nullptr != binding)
+      {
+        r += binding->toString();
+      }
+      return r;
+   }
 
    Table::Table() : table{} {}
    Table::~Table()

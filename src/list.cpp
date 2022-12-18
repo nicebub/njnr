@@ -21,6 +21,42 @@ namespace njnr
 
    BasicListNode::~BasicListNode() {}
 
+   const std::string BasicListNode::toString() const
+   {
+      std::string r{"nodeType: Invalid"};
+      switch(nodeType)
+      {
+        case njnr::eNodeType::EXPR:
+           r = "nodeType: njnr::eNodeType::EXPR";
+           break;
+        case njnr::eNodeType::P:
+           r = "nodeType: njnr::eNodeType::P";
+           break;
+        case njnr::eNodeType::STANDARD:
+           r = "nodeType: njnr::eNodeType::STANDARD";
+           break;
+        case njnr::eNodeType::STMT:
+           r = "nodeType: njnr::eNodeType::STMT";
+           break;
+        case njnr::eNodeType::TRANSLATION_UNIT:
+           r = "nodeType: njnr::eNodeType::TRANSLATION_UNIT";
+           break;
+        case njnr::eNodeType::TYPE:
+           r = "nodeType: njnr::eNodeType::TYPE";
+           break;
+        default:
+           // set as default "Invalid"
+           break;
+      }
+
+      return r;
+   }
+
+    const std::string ListNode::toString() const
+    {
+       return BasicListNode::toString() + "\nval: " + val;
+    }
+
    ListNode::ListNode() : ListNode("") {}
 
    ListNode::ListNode(std::string in) : BasicListNode{eNodeType::STANDARD}, val{in} {}
@@ -57,6 +93,17 @@ namespace njnr
        }
        return *this;
    }
+
+   const std::string ReturnPacketListNode::toString() const
+   {
+      std::string r{BasicListNode::toString() + "\n Expr: "};
+      if(NULL != expr)
+      {
+         r += expr->toString();
+      }
+      return r;
+   }
+
    PListNode::PListNode() : ListNode{}, type{}
    {
        set_nodeType(eNodeType::P);
@@ -77,9 +124,111 @@ namespace njnr
        this->type = type;
    }
 
-   TranslationUnitListNode::TranslationUnitListNode() {}
-   TranslationUnitListNode::TranslationUnitListNode(Funcb* infunc) {}
-   TranslationUnitListNode::TranslationUnitListNode(Varb* invardecl) {} // need to change actual class used this was placeholder
+   const std::string PListNode::toString() const
+   {
+       std::string r{ListNode::toString() + "\n PListNode: type: "};
+       switch(type)
+       {
+          case njnr::type::INT:      // Integer
+             r += "njnr::type::INT";
+             break;
+          case njnr::type::FLOAT:    // Float
+             r += "njnr::type::FLOAT";
+             break;
+          case njnr::type::VOID:     // Void
+             r += "njnr::type::VOID";
+             break;
+          case njnr::type::CHAR:     // Character
+             r += "njnr::type::CHAR";
+             break;
+          case njnr::type::STR:      // String
+             r += "njnr::type::STR";
+             break;
+          case njnr::type::REFINT:   // Reference to an Integer
+             r += "njnr::type::REFINT";
+             break;
+          case njnr::type::REFFLOAT: // Reference to a Float
+             r += "njnr::type::REFFLOAT";
+             break;
+          case njnr::type::REFSTR:   // Reference to a String
+             r += "njnr::type::REFSTR";
+             break;
+          case njnr::type::IDENT:    // Identifer
+             r += "njnr::type::IDENT";
+             break;
+          case njnr::type::STMT:     // Statement
+             r += "njnr::type::STMT";
+             break;
+          case njnr::type::CHECK:     // Hasn't been determined yet and needs to be checked later
+             r += "njnr::type::CHECK";
+             break;
+          default:
+             r += "Invalid";
+             break;
+       }
+       return r;
+   }
+
+   TranslationUnitListNode::TranslationUnitListNode()
+   {
+      set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
+   }
+   TranslationUnitListNode::TranslationUnitListNode(Funcb* infunc) : unit{infunc},trans_type{njnr::trans_unit_type::FUNCTION}
+   {
+      set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
+   }
+   TranslationUnitListNode::TranslationUnitListNode(Varb* invardecl): unit{invardecl}, trans_type{njnr::trans_unit_type::VARDECL}
+   {
+      set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
+   } // need to change actual class used this was placeholder
+
+   const njnr::trans_unit_type TranslationUnitListNode::get_trans_unit_type(void) const
+   {
+      return trans_type;
+   }
+
+   const std::string TranslationUnitListNode::toString() const
+   {
+      std::string r{ListNode::toString() + "\n TranslationUnit: trans type: "};
+
+      switch(trans_type)
+      {
+        case njnr::trans_unit_type::VARDECL:  // Variable Declaration translation unit
+           r += "VARDECL";
+           break;
+
+        case njnr::trans_unit_type::FUNCTION:  // Function translation unit
+           r += "FUNCTION";
+           break;
+
+        case njnr::trans_unit_type::INVALID:  // Invalid translation unit type
+        default:
+           r += "INVALID";
+           break;
+      }
+
+      r += " unit: ";
+      if(NULL != unit)
+      {
+         switch(trans_type)
+         {
+            case njnr::trans_unit_type::VARDECL:  // Variable Declaration translation unit
+               r += dynamic_cast<Varb*>(unit)->toString() + "\n";
+               break;
+
+            case njnr::trans_unit_type::FUNCTION:  // Function translation unit
+               r += dynamic_cast<Funcb*>(unit)->toString();
+               break;
+
+           case njnr::trans_unit_type::INVALID:  // Invalid translation unit type
+           default:
+              r += "INVALID";
+              break;
+         }
+      }
+
+      return r;
+   }
 
    TypeListNode::TypeListNode() : ListNode{}, type{}
    {
@@ -102,10 +251,74 @@ namespace njnr
        this->type = type;
    }
 
-      StmtListNode::StmtListNode() : stmt{nullptr} {}
-      StmtListNode::StmtListNode(Statement* instmt) : stmt{instmt} {}
+
+   const std::string TypeListNode::toString() const
+   {
+       std::string r{ListNode::toString() + "\n TypeListNode: type: "};
+       switch(type)
+       {
+          case njnr::type::INT:      // Integer
+             r += "njnr::type::INT";
+             break;
+          case njnr::type::FLOAT:    // Float
+             r += "njnr::type::FLOAT";
+             break;
+          case njnr::type::VOID:     // Void
+             r += "njnr::type::VOID";
+             break;
+          case njnr::type::CHAR:     // Character
+             r += "njnr::type::CHAR";
+             break;
+          case njnr::type::STR:      // String
+             r += "njnr::type::STR";
+             break;
+          case njnr::type::REFINT:   // Reference to an Integer
+             r += "njnr::type::REFINT";
+             break;
+          case njnr::type::REFFLOAT: // Reference to a Float
+             r += "njnr::type::REFFLOAT";
+             break;
+          case njnr::type::REFSTR:   // Reference to a String
+             r += "njnr::type::REFSTR";
+             break;
+          case njnr::type::IDENT:    // Identifer
+             r += "njnr::type::IDENT";
+             break;
+          case njnr::type::STMT:     // Statement
+             r += "njnr::type::STMT";
+             break;
+          case njnr::type::CHECK:     // Hasn't been determined yet and needs to be checked later
+             r += "njnr::type::CHECK";
+             break;
+          default:
+             r += "Invalid";
+             break;
+       }
+       return r;
+   }
+
+      StmtListNode::StmtListNode() : stmt{nullptr}
+      {
+      set_nodeType(njnr::eNodeType::STMT);
+      }
+      StmtListNode::StmtListNode(Statement* instmt) : stmt{instmt}
+      {
+      set_nodeType(njnr::eNodeType::STMT);
+      }
       Statement* StmtListNode::getstmt(void){ return stmt; }
       void StmtListNode::setstmt(Statement* instmt) { stmt = instmt; }
+
+   const std::string StmtListNode::toString() const
+   {
+      std::string r{ListNode::toString() + "\n StmtListNode: stmt: "};
+
+      if(NULL != stmt)
+      {
+         r += stmt->toString();
+      }
+
+      return r;
+   }
 
 
    List::List() : list{} {}
@@ -228,4 +441,39 @@ namespace njnr
        list.push_back(dynamic_cast<BasicListNode*>(nnode));
        return this;
    } // placeholder type -- needs changing
+
+    const std::string List::toString() const
+    {
+       std::string r{"List: "};
+
+       for(auto e: list)
+       {
+        switch(e->get_nodeType())
+        {
+          case njnr::eNodeType::EXPR:
+             r += dynamic_cast<ReturnPacketListNode*>(e)->toString();
+             break;
+         case njnr::eNodeType::P:
+             r += dynamic_cast<PListNode*>(e)->toString();
+             break;
+          case njnr::eNodeType::STANDARD:
+             r += dynamic_cast<ListNode*>(e)->toString();
+             break;
+          case njnr::eNodeType::STMT:
+             r += dynamic_cast<StmtListNode*>(e)->toString();
+             break;
+          case njnr::eNodeType::TRANSLATION_UNIT:
+             r += dynamic_cast<TranslationUnitListNode*>(e)->toString();
+             break;
+          case njnr::eNodeType::TYPE:
+             r += dynamic_cast<TypeListNode*>(e)->toString();
+             break;
+          default:
+             // set as default "Invalid"
+             break;
+        }
+       }
+       return r;
+    }
+
 }

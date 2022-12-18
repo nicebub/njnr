@@ -5,28 +5,31 @@
 
 namespace njnr
 {
-class CodeGenerator
-{
-public:
-    CodeGenerator();
-    CodeGenerator(std::ostream& outfile);
-    ~CodeGenerator();
-    void initializelabel(void);
-    void setstream(std::ostream* outfile);
-    int getlabel(void); 	                                    // return next available label number
-    void gen_label(std::string name);	                     // generate label with label name : name
-    std::string genlabelw(std::string name, int labelnum);   // generate a label with $<labelname><labelnumber>
-    void gen_call(std::string funcname, int numargs);
-    bool canGenerateCode() const noexcept;
-    void stop() noexcept;
-    void start() noexcept;
-    static std::string concat(std::string, std::string);	    // concat 2 strings and return the answer, remember to free it when done
-    static void nullout(std::string& name, int length);
-private:
-    int 				labelcounter;
-    bool				canGenerate;
-    std::ostream* 	outfile;
-    bool           lastInstructionWasReturnf;
+   class CodeGenerator
+   {
+      public:
+         CodeGenerator();                                         // Default Constructor
+         CodeGenerator(std::ostream& outfile);                    // Constructor with given ostream reference
+         ~CodeGenerator();                                        // Deconstructor
+         void setstream(std::ostream* outfile);                   // Set ostream after already Constructed
+         bool canGenerateCode() const noexcept;                   // Returns whether we can generate code or not
+         void stop() noexcept;                                    // Sets Code Generator as disabled
+         void start() noexcept;                                   // Sets Code Generator as enabled
+
+         void initializelabel(void);                              // label initializer - helper function
+         int getlabel(void); 	                                    // return next available label number
+         void gen_label(std::string name);	                     // generate label with label name : name
+         std::string genlabelw(std::string name, int labelnum);   // generate a label with $<labelname><labelnumber>
+
+         void gen_call(std::string funcname, int numargs);        // generate a function call
+
+         static std::string concat(std::string, std::string);	    // concat 2 strings and return the answer, remember to free it when done
+         static void nullout(std::string& name, int length);       // Empties a string. Not being used currently
+      private:
+         int 				labelcounter;                              // Which lable number are we on in generating labels
+         bool				canGenerate;                               // our variable used to determine enabled/disabled
+         std::ostream* 	outfile;                                   // stream for writing
+         bool           lastInstructionWasReturnf;                 // was our last instruction we wrote a returnf instruction
+   };
 };
-}
 #endif // _MYTRANS_H

@@ -102,6 +102,20 @@ namespace njnr
        }
    }
 
+   void  Compiler::setfinished(List* inlist)
+   {
+      finished = inlist;    
+   }
+
+    void  Compiler::printProgramTree(void)
+    {
+        std::cout << "-- Program Printout --" << std::endl;
+        if(nullptr != finished)
+        {
+           std::cout << finished->toString() << std::endl;
+        }
+    }
+
    int Compiler::error(const std::string s1, const std::string s2) noexcept
    {
        std::cerr << "Error:::"<< filename << ":"<< Line_Number << "-> " << s1 << " "
@@ -110,5 +124,20 @@ namespace njnr
        code_generator.stop();
        closeOrRemoveOutputFile(true);
        return 0;
+   }
+
+
+   void Compiler::checkfunctionReturnValues(void)
+   {
+    if(nullptr != finished)
+    {
+       for(auto e : *finished)
+       {
+           if(dynamic_cast<TranslationUnitListNode*>(e)->get_trans_unit_type() == njnr::trans_unit_type::FUNCTION)
+           {
+            
+           }
+       }
+    }
    }
 }

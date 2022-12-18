@@ -25,6 +25,8 @@ public:
     virtual ~BasicListNode();
     eNodeType get_nodeType() const;
     void set_nodeType(eNodeType);
+    const std::string toString() const;
+
 private:
     eNodeType nodeType;
 };
@@ -37,9 +39,11 @@ public:
     virtual ~ListNode() = default;
     std::string getval() const;
     void setval(std::string in);
+    const std::string toString() const;
 private:
     std::string val;
 };
+
 class ReturnPacketListNode : public BasicListNode
 {
 public:
@@ -48,6 +52,7 @@ public:
     virtual ~ReturnPacketListNode();
     ReturnPacketListNode(const ReturnPacketListNode& in);
     virtual ReturnPacketListNode& operator=(const ReturnPacketListNode& in);
+    const std::string toString() const;
 private:
     ReturnPacket* expr;
 };
@@ -60,6 +65,7 @@ public:
     virtual ~PListNode() = default;
     njnr::type gettype() const;
     void settype(njnr::type type);
+    const std::string toString() const;
 private:
     njnr::type type;
 };
@@ -71,6 +77,8 @@ class TranslationUnitListNode : public ListNode
       TranslationUnitListNode(Funcb* infunc);
       TranslationUnitListNode(Varb* invardecl); // need to change actual class used this was placeholder
       virtual ~TranslationUnitListNode() = default;
+      const std::string toString() const;
+      const njnr::trans_unit_type get_trans_unit_type(void) const;
    private:
       ReturnPacket*         unit;
       trans_unit_type trans_type;
@@ -84,6 +92,7 @@ class StmtListNode : public ListNode
       virtual ~StmtListNode() = default;
       Statement* getstmt(void);
       void setstmt(Statement* instmt);
+      const std::string toString() const;
    private:
       Statement*         stmt;
 };
@@ -96,6 +105,7 @@ class TypeListNode : public ListNode
       virtual ~TypeListNode() = default;
       njnr::type gettype() const;
       void settype(njnr::type type);
+      const std::string toString() const;
    private:
       njnr::type         type;
 };
@@ -127,6 +137,7 @@ public:
     List* appendList(njnr::type type);
     List* appendList(Statement* type);
     int size() const;
+    const std::string toString() const;
 private:
     std::vector<BasicListNode*> list;
 };

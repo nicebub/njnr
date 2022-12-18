@@ -184,10 +184,14 @@ int yyerror(std::string err,Compiler& compiler);
 %start starter
 
 %%
-starter: translation_unit {}
+starter: translation_unit {
+	                         compiler.checkfunctionReturnValues();
+                          }
 ;
 
-translation_unit: translation_unit_part_list {}
+translation_unit: translation_unit_part_list {
+                                                compiler.setfinished($1);
+											 }
 ;
 
 translation_unit_part_list: func { $$ = List::mklist($1);}

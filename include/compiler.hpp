@@ -16,41 +16,43 @@
 
 namespace njnr
 {
+   /* defined elsewhere but needed below */
    class SymbolTable;
 
+   /* The Compiler class runs the compiler and keeps its state */
    class Compiler
    {
       public:
-         SymbolTable*        mysymtab{};
-         CodeGenerator code_generator{};
-         njnrLexer                lexer;
-         njnrParser*           parser{};
-         Funcb*             currentFunc;
-         std::ostream*          outfile;
-         std::string           filename;
-         int                Line_Number;
-         int                globalcount;
-         int             offset_counter;
-         int               labelcounter;
-         int               othercounter;
-         int               param_offset;
-         int                  mainlocal;
-         int                  mainlabel;
-         List               returnTypes;
+         SymbolTable*        mysymtab{};  // symbol table
+         CodeGenerator code_generator{};  // code generator
+         njnrLexer                lexer;  // lexical analyzer
+         njnrParser*           parser{};  // syntactic parser
+         Funcb*             currentFunc;  // stores current function reading
+         std::ostream*          outfile;  // current output stream reference
+         std::string           filename;  // name to file needing to output to
+         int                Line_Number;  // currently counted line number in a read file
+         int                globalcount;  // number of global variables read in a source file
+         int             offset_counter;  //
+         int               labelcounter;  // count of how many lablels we've created
+         int               othercounter;  // count of ..
+         int               param_offset;  // ...
+         int                  mainlocal;  // ....
+         int                  mainlabel;  // .....
+         List               returnTypes;  // .......
 
          constexpr static int INITIAL_TREE_SIZE{100};
 
-         Compiler();
-         Compiler(int argc,  char* const* argv);
-         ~Compiler();
+         Compiler();  // Default Constructor
+         ~Compiler(); // Deconstructor
+         Compiler(int argc,  char* const* argv); // Constructor with main() arguments passed in
 
-         bool openedOutputFile(int argc,  char* const* argv);
-         bool openedInputFile(int argc,  char* const* argv);
+         bool openedOutputFile(int argc,  char* const* argv);  // open the command-line given output file
+         bool openedInputFile(int argc,  char* const* argv);   // open the command-line given input file
 
-         void install_functions_into_symbolTable();
+         void install_functions_into_symbolTable();  // install a function into the symbol table
 
-         int error(std::string,std::string) noexcept;
-         int warning(std::string,std::string) noexcept;
+         int error(std::string,std::string) noexcept;    // parsing error function
+         int warning(std::string,std::string) noexcept;  // parsing warning function
 
          void block1_start_trans_unit();
          bool is_function_decl_or_def_accurate(funcheadertype** inFunc, bool isdeclaration);
@@ -183,12 +185,16 @@ namespace njnr
          List* block69_identlist_ident(njnr::Identifier inIdent);
          List* block70_identlist_comma_ident(List** inIdentListptr, njnr::Identifier inIdent);
   
+         void  setfinished(List* inlist);
+         void  printProgramTree(void);
+         void checkfunctionReturnValues(void);
       protected:
          static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
          void closeOrRemoveOutputFile(bool needtoremove);
   
       private:
          bool   founderror;
+         List*  finished;
    };
 }
 #endif

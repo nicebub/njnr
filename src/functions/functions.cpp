@@ -11,9 +11,26 @@ namespace njnr
 {
    Funcb* Compiler::create_full_function(funcheadertype* funcheader, List* funcbody)
    {
+    /**
+     *    funcheadertype
+     *      std::string   name;       // fn name
+      njnr::List*   paramlist;  // list of parameters the fn accept as input
+      njnr::type    returntype; // return type(if any) of fn
+      njnr::type    ttype;      // type of fn?(TBD)
+
+     * 
+     */
       Funcb* out{nullptr};
       out = new Funcb{};
-      out->setreturntype(funcheader->returntype);
+      if(nullptr != out)
+      {
+         out->setfuncbody_list(funcbody);
+         if(nullptr != funcheader)
+         {
+            out->setfuncheader(funcheader);
+            out->setreturntype(funcheader->returntype);
+         }
+      }
 
       return out;
    }
@@ -107,10 +124,13 @@ namespace njnr
   }
    Funcb* Compiler::create_and_return_a_fn_body_statement_element(Statement* stmt)
    {
-       if(stmt->getstype() == statement_type::RETURN)
+       if(NULL != stmt)
        {
-           std::cout << "found a return statement of type " << static_cast<int>(stmt->getrettype()) << std::endl;
-           this->returnTypes.appendList(stmt->getrettype());
+          if(stmt->getstype() == statement_type::RETURN)
+          {
+              std::cout << "found a return statement of type " << static_cast<int>(stmt->getrettype()) << std::endl;
+              this->returnTypes.appendList(stmt->getrettype());
+          }
        }
 
       return nullptr;

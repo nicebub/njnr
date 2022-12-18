@@ -7,104 +7,118 @@
 
 namespace njnr
 {
-class List;
-enum class addtype
-{
-    PLS,
-    MIN
-};
+   /* defined elsewhere but need below */
+   class List;
 
-enum class multype
-{
-    DIV,
-    MULT
-};
+   /* additive operator types */
+   enum class addtype
+   {
+      PLS,   // Plus      +
+      MIN    // Minus     -
+   };
 
-enum class eqtype
-{
-    NEQ,
-    EQEQ
-};
+   /* multiplicitive operator types */
+   enum class multype
+   {
+      DIV,   // Divide    *
+      MULT   // Multiply  /
+   };
 
-enum class reltype
-{
-    LES,
-    LEQ,
-    GRE,
-    GEQ
-};
+   /* euqality testing operator types */
+   enum class eqtype
+   {
+      NEQ,   // Not Equal   !=
+      EQEQ   // Equal Equal ==
+   };
 
-enum class btype
-{
-    FUNC,
-    VAR,
-    PARAM
-};
+   /* relational operator types */
+   enum class reltype
+   {
+      LES,   // Less than              <
+      LEQ,   // Less than or equal     <=
+      GRE,   // Greater than           >
+      GEQ    // Greather than or equal >=
+   };
 
-enum class type
-{
-    INT,
-    FLOAT,
-    VOID,
-    CHAR,
-    STR,
-    REFINT,
-    REFFLOAT,
-    REFSTR,
-    IDENT,
-    STMT,
-    CHECK
-};
+   /* group types */
+   enum class btype
+   {
+      FUNC,  // Function
+      VAR,   // Variable
+      PARAM  // Parameter
+   };
 
-enum class mbool
-{
-    TRUE,
-    FALSE
-};
+   /* data types */
+   enum class type
+   {
+      INT,      // Integer
+      FLOAT,    // Float
+      VOID,     // Void
+      CHAR,     // Character
+      STR,      // String
+      REFINT,   // Reference to an Integer
+      REFFLOAT, // Reference to a Float
+      REFSTR,   // Reference to a String
+      IDENT,    // Identifer
+      STMT,     // Statement
+      CHECK     // Hasn't been determined yet and needs to be checked later
+   };
 
-enum class statement_type
-{
-   INVALID,
-   RETURN,
-   WHILE,
-   UNTIL,
-   IF,
-   LOOP,
-   FOR,
-   FOREACH,
-   IFELSE,
-   DOWHILE,
-   DOUNTIL,
-   SWITCH
-};
-enum class trans_unit_type
-{
-   INVALID,
-   VARDECL,
-   FUNCTION
-};
+   /* boolean types */
+   enum class mbool
+   {
+      TRUE,  // true
+      FALSE  // false
+   };
 
-struct Pair
-{
-    int one;
-    int two;
+   /* statement types */
+   enum class statement_type
+   {
+      INVALID,  // Invalid statement type
+      RETURN,   // Return statement
+      WHILE,    // While statement
+      UNTIL,    // Until statement
+      IF,       // If statement
+      LOOP,     // Loop statement
+      FOR,      // For statement
+      FOREACH,  // Foreach statement
+      IFELSE,   // If...else statement
+      DOWHILE,  // Do...while statement
+      DOUNTIL,  // Do...until statement
+      SWITCH    // Switch statement
+   };
+
+   /* translation unit types */
+   enum class trans_unit_type
+   {
+      INVALID,  // Invalid translation unit type
+      VARDECL,  // Variable Declaration translation unit
+      FUNCTION  // Function translation unit
+   };
+
+   /* Used for passing data during parsing, inside generated parser */
+   struct Pair
+   {
+      int one;
+      int two;
+      const std::string toString(void) const { return "one: " + std::to_string(one) + " two: " + std::to_string(two) + "\n";}
+   };
+
+   /* expression type data structure */
+   struct exprtype
+   {
+      bool lval;        // are we an lval or not - LHS vs RHS
+      bool numeric;     // are we numeric and can compute numbers
+      njnr::type type;  // what type of expression are we
+   };
+
+   /* function prototype data structure */
+   struct funcheadertype
+   {
+      std::string   name;       // fn name
+      njnr::List*   paramlist;  // list of parameters the fn accept as input
+      njnr::type    returntype; // return type(if any) of fn
+      njnr::type    ttype;      // type of fn?(TBD)
+   };
 };
-
-struct exprtype
-{
-    bool lval;
-    njnr::type type;
-    bool numeric;
-};
-
-struct funcheadertype
-{
-    std::string   name;
-    List*         paramlist;
-    type          returntype;
-    type          ttype;
-};
-
-}
-
 #endif // _MYTYPE_H

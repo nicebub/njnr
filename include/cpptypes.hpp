@@ -156,6 +156,9 @@ namespace njnr
          void setlabel(int label);
          void setlocalcount(int localcount);
          void setactual_num(int actual_num);
+         void setfuncbody_list(List* funcbody);
+         void setfuncheader(funcheadertype* funcheader);
+         const std::string toString() const;
       private:
          std::vector<njnr::type> param_type;
          type 	returntype;
@@ -164,6 +167,8 @@ namespace njnr
          int 	label;
          int 	localcount;
          int 	actual_num;
+         funcheadertype* funcheader;
+         List* funcbody_list;
    };
 
    class Varb : public Identifier
@@ -171,6 +176,7 @@ namespace njnr
       public:
          Varb();
          virtual ~Varb();
+         const std::string toString() const;
       private:
    };
 
@@ -195,6 +201,7 @@ namespace njnr
          type getrettype();
          void setrettype(njnr::type t);
          const std::string toString() const;
+         std::string printCheckReturn(void) const;
       private:
          statement_type stype;
          ReturnPacket* stmt;

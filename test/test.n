@@ -15,7 +15,7 @@ fn hi
 
 fn hello()
 {
-    return big_man;
+    return respond_ok;
 }
 
 fn good(bye, again)
@@ -25,17 +25,22 @@ fn good(bye, again)
     return;
 }
 
-fn tester()
+fn coinToss(r,  b)
 {
+    return 't';
+    return '!';
+}
+/*fn tester()
+{*/
     /* if token */
     /* left paren '(' */
     /* expression */
     /* right paren ')' */
     /* statement */
 
-    if (t == 5)
+/*    if (t == 5)
     {
         print("found answer: " + t);
     }
-
-}
+*/
+/*}*/

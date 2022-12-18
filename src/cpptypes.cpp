@@ -1,6 +1,7 @@
 #include "cpptypes.hpp"
 #include "type.hpp"
-
+#include "list.hpp"
+#include "symtab.hpp"
 namespace njnr
 {
    ReturnPacket::ReturnPacket() :
@@ -58,14 +59,35 @@ namespace njnr
 
    const std::string ReturnPacket::toString() const
    {
-      std::string slval{lval};
-      std::string soff{std::to_string(offset)};
-      std::string snum{numeric};
-//      std::string styp{ttype};
-      std::string sparam{std::to_string(params)};
-      return "slval: " + slval + "\nsoff: " + soff + "\nsnum: "
-              + snum + "\nparam: " + sparam;
-   }
+    /**
+         int offset;
+         bool lval;
+         bool numeric;
+         njnr::type ttype;
+
+         struct Pair m_pair;
+         TableEntry* funcent;
+         int params;
+     */
+      std::string r{"lval: "};
+      r += (lval == true ? "true" : "false");
+      r += "\noffset: ";
+      r += std::to_string(offset);
+      r += "\nnumeric: ";
+      r += (numeric == true ? "true" : "false");
+      r += "\nparameters: ";
+      r += std::to_string(params);
+      r += "\nttype: ";
+      r += std::to_string(static_cast<int>(ttype));
+
+      r += "\n" + m_pair.toString() + "\n";
+      if(nullptr != funcent)
+      {
+        r += funcent->toString() + "\n";
+      }
+      return r;
+   };
+
 
    Constant::~Constant() {}
 
@@ -73,9 +95,12 @@ namespace njnr
    Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
 
    const std::string CharConstant::toString() const
-   {  
+   {
       std::string ret = ReturnPacket::toString();
-      return "value: " + std::to_string(value) + "\n" + ret;
+      ret += "\nvalue: ";
+      ret += std::string{1,value} ;
+      ret += "\n";
+      return ret;
    }
 
    CharConstant::CharConstant() : Constant{false,njnr::type::CHAR, true, 0}, value{0} {}
@@ -110,7 +135,7 @@ namespace njnr
    const std::string IntConstant::toString() const
    {  
       std::string ret = ReturnPacket::toString();
-      return "value: " + std::to_string(value) + "\n" + ret;
+      return "\nvalue: " + std::to_string(value) + "\n" + ret;
    }
    IntConstant::IntConstant() : Constant{false,njnr::type::INT, true, 0}, value{0} {}
 
@@ -144,7 +169,7 @@ namespace njnr
    const std::string StrConstant::toString() const
    {  
       std::string ret = ReturnPacket::toString();
-      return "value: " + value + "\n" + ret;
+      return "\nvalue: " + value + "\n" + ret;
    }
    StrConstant::StrConstant() : Constant{false,njnr::type::STR, false, 0} {}
 
@@ -179,7 +204,7 @@ namespace njnr
    const std::string FloatConstant::toString() const
    {  
       std::string ret = ReturnPacket::toString();
-      return "value: " + std::to_string(value) + "\n" + ret;
+      return "\nvalue: " + std::to_string(value) + "\n" + ret;
    }
    FloatConstant::FloatConstant() : Constant{false,njnr::type::FLOAT, true, 0}, value{0.0f} {}
 
@@ -214,7 +239,7 @@ namespace njnr
    const std::string Identifier::toString() const
    {  
       std::string ret = ReturnPacket::toString();
-      return "value: " + value + "\n" + ret;
+      return "\nvalue: " + value + "\n" + ret;
    }
    Identifier::Identifier() : Constant{false,njnr::type::IDENT, false, 0} {}
 
@@ -351,52 +376,101 @@ namespace njnr
        this->actual_num = actual_num;
    }
 
+   void Funcb::setfuncbody_list(List* funcbody)
+   {
+      funcbody_list = funcbody;
+   }
+   void Funcb::setfuncheader(funcheadertype* funcheader)
+   {
+      this->funcheader = funcheader;
+   }
+   const std::string Funcb::toString() const
+   {
+    /**
+         std::vector<njnr::type> param_type;
+         type 	returntype;
+         bool 	bodydef;
+         int 	num_param;
+         int 	label;
+         int 	localcount;
+         int 	actual_num;
+         funcheadertype* funcheader;
+         List* funcbody_list;
+     */
+
+      std::string r{};
+      r += "Current Set Return Type: ";
+      switch(returntype)
+      {
+         case njnr::type::CHAR:
+            r += "CHAR\n";
+            break;
+         case njnr::type::CHECK:
+            r += "CHECK\n";
+            break;
+         case njnr::type::FLOAT:
+            r += "FLOAT\n";
+            break;
+         case njnr::type::IDENT:
+            r += "IDENT\n";
+            break;
+         case njnr::type::INT:
+            r += "INT\n";
+            break;
+         case njnr::type::REFFLOAT:
+            r += "REFFLOAT\n";
+            break;
+         case njnr::type::REFINT:
+            r += "REFINT\n";
+            break;
+         case njnr::type::REFSTR:
+            r += "REFSTR\n";
+            break;
+         case njnr::type::STMT:
+            r += "STMT\n";
+            break;
+         case njnr::type::STR:
+            r += "STR\n";
+            break;
+         case njnr::type::VOID:
+            r += "VOID\n";
+            break;
+         default:
+            r += "INVALID\n";
+            break;
+      }
+
+      r += "bodydef:? " + (true == bodydef) ? "true\n" : "false\n";
+//      r += "label: " + label + "\n";
+//      r += "localcount: " + localcount + "\n";
+//      r += "actual_num" + actual_num + "\n";
+//      r += "num_param" + num_param + "\n";
+/* TODO : params list vector */
+      if(nullptr != funcheader)
+      {
+//         r += funcheader->toString() + "\n";
+      }
+      if(nullptr != funcbody_list)
+      {
+         r += funcbody_list->toString();
+      }
+      return r;
+   }
+
    Varb::Varb() : Identifier{} {}
    Varb::~Varb() {}
 
+   const std::string Varb::toString() const
+   {
+      return ReturnPacket::toString();
+   }
+
    const std::string Paramb::toString() const
-   {  
+   {
       return ReturnPacket::toString();
    }
    Paramb::Paramb() : ReturnPacket{} {}
    Paramb::~Paramb() {}
-
-   const std::string Statement::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-   //      statement_type stype;
-         ReturnPacket* stmt;
-//         type         rettype;
-
-      return "stmt: " + stmt->toString() + "\n" + ret;
-   }
-   Statement::Statement() : ReturnPacket{} {}
-   Statement::~Statement() {}
-   statement_type Statement::getstype()
-   {
-      return stype;
-   }
-   void Statement::setstype(statement_type t)
-   {
-      stype = t;
-   }
-   void Statement::setstmt(ReturnPacket* stmt)
-   {
-      this->stmt = stmt;
-   }
-   ReturnPacket* Statement::getstmt()
-   {
-      return stmt;
-   }
-   
-   type Statement::getrettype()
-   {
-       return rettype;
-   }
-   void Statement::setrettype(njnr::type t)
-   {
-       rettype = t;
-   }
 
    const std::string Translation_Unit::toString() const
    {  
