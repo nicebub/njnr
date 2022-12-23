@@ -187,7 +187,11 @@ namespace njnr
   
          void  setfinished(List* inlist);
          void  printProgramTree(void);
-         void checkfunctionReturnValues(void);
+         void  checkfunctionReturnValues(Funcb* f);
+         bool  aresimilartypes(njnr::type t1, njnr::type t2);
+         static std::string getStringFromType(njnr::type t);
+         njnr::type getReturnTypeFromStatement(Statement* s);
+         List* getfinished(void);
       protected:
          static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
          void closeOrRemoveOutputFile(bool needtoremove);

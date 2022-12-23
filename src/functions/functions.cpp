@@ -31,7 +31,7 @@ namespace njnr
             out->setreturntype(funcheader->returntype);
          }
       }
-
+      checkfunctionReturnValues(out);
       return out;
    }
 
@@ -145,5 +145,29 @@ namespace njnr
 
       return nullptr;
    }
-   
+   List* Compiler::getfinished(void)
+   {
+    return finished;
+   }
+
+   njnr::type Compiler::getReturnTypeFromStatement(Statement* s)
+   {
+      njnr::type r{njnr::type::VOID};
+
+      if(nullptr != s)
+      {
+         if(s->getstmt() != nullptr)
+         {
+            r = s->getstmt()->gettype();
+         }
+      }
+      else
+      {
+        std::cerr << "NULL argument given\n";
+      }
+
+      return r;
+   }
+
+
 }

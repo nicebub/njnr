@@ -80,7 +80,9 @@ CPPFLAGS += -Wno-deprecated-register
 endif
 CPPFLAGS += ${LDFLAGS} -Wmissing-include-dirs -Winvalid-pch -Wno-overloaded-virtual
 TFLAGS = $(CPPFLAGS) $(FCFLAGS) #-DTEST 
-
+ifdef DEBUG
+TFLAGS += -DDEBUG=$(DEBUG)
+endif
 all: $(BUILD_PATHS) $(EXEC)
 
 clean: test_clean
@@ -116,11 +118,11 @@ $(PATHS)lex.yy.cc : $(PATHS)njnr.l $(PATHS)njnr.tab.cpp
 	$(FLEX) $(FLOP) -o $@ $<
 
 $(PATHD)%.d:: %.cpp %.hpp $(BUILD_PATHS)
-	$(COMPILER) $(CPPFLAGS) $(FCFLAGS) $(DEBUG) -MM -MG $< -o $@
+	$(COMPILER) $(CPPFLAGS) $(FCFLAGS) -MM -MG $< -o $@
 
 $(PATHO)%.o:: %.s
-	$(COMPILER) -E -dM $(CPPFLAGS) $(DEBUG) $<
-	$(COMPILER) $(CPPFLAGS) $(DEBUG) -c $< -o $@
+	$(COMPILER) -E -dM $(CPPFLAGS) $<
+	$(COMPILER) $(CPPFLAGS) -c $< -o $@
 
 ifeq ($(shell ls ${PATHO}njnr.tab.o),)
 UCC=$(PATHO)njnr.tab.o
@@ -128,7 +130,7 @@ else
 UCC=
 endif
 $(EXEC):: $(BUILD_PATHS) $(ASSEMBLYS) $(PATHO)njnr.tab.o $(PATHO)lex.yy.o $(OBJECTS) $(OUTFILE)   #$(DEPS)
-	$(COMPILER) $(CPPFLAGS) $(FCFLAGS) $(DEBUG) $(ASSEMBLYS) $(UCC) $(PATHO)lex.yy.o $(OBJECTS)  -o $@
+	$(COMPILER) $(CPPFLAGS) $(FCFLAGS) $(ASSEMBLYS) $(UCC) $(PATHO)lex.yy.o $(OBJECTS)  -o $@
 
 run: $(EXEC)
 	./$(EXEC) $(EXAMPLES)expr.l

@@ -157,7 +157,9 @@ namespace njnr
          void setlocalcount(int localcount);
          void setactual_num(int actual_num);
          void setfuncbody_list(List* funcbody);
+         List* getfuncbody_list(void);
          void setfuncheader(funcheadertype* funcheader);
+         funcheadertype* getfuncheader(void);
          const std::string toString() const;
       private:
          std::vector<njnr::type> param_type;

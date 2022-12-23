@@ -126,18 +126,173 @@ namespace njnr
        return 0;
    }
 
-
-   void Compiler::checkfunctionReturnValues(void)
+   std::string Compiler::getStringFromType(njnr::type t)
    {
-    if(nullptr != finished)
+      std::string r{"INVALID"};
+      switch(t)
+      {
+        case njnr::type::CHAR:
+           r = "CHAR";
+           break;
+        case njnr::type::CHECK:
+           r = "CHECK";
+           break;
+        case njnr::type::FLOAT:
+           r = "FLOAT";
+           break;
+        case njnr::type::IDENT:
+           r = "IDENT";
+           break;
+        case njnr::type::INT:
+           r = "INT";
+           break;
+        case njnr::type::REFFLOAT:
+           r = "REFFLOAT";
+           break;
+        case njnr::type::REFINT:
+           r = "REFINT";
+           break;
+        case njnr::type::REFSTR:
+           r = "REFSTR";
+           break;
+        case njnr::type::STMT:
+           r = "STMT";
+           break;
+        case njnr::type::STR:
+           r = "STR";
+           break;
+        case njnr::type::VOID:
+           r = "VOID";
+           break;
+        default:
+           break;
+      }
+      return r;
+   }
+
+   constexpr bool typeisintegral(njnr::type t)
+   {
+    return (t == njnr::type::CHAR || t == njnr::type::FLOAT || t == njnr::type::INT);// ||
+//            t == njnr::type::REFFLOAT || t == njnr::type::REFINT || t == njnr::type::REFSTR);
+   }
+   bool  Compiler::aresimilartypes(njnr::type t1, njnr::type t2)
+   {
+      if(t1 == t2)
+      {
+        return true;
+      }
+      if(typeisintegral(t1) && typeisintegral(t2))
+      {
+         return true;
+      }
+      return false;
+   }
+
+   void Compiler::checkfunctionReturnValues(Funcb* f)
+   {
+    if(nullptr != f)
+    {
+        std::cout << "current func return type: " + getStringFromType(f->getreturntype()) + "\n";
+        if(nullptr != f->getfuncheader())
+        {
+            std::cout << "given return type by programmer: " + getStringFromType(f->getfuncheader()->returntype) + "\n"; 
+        }
+        if(nullptr != f->getfuncbody_list())
+        {
+            njnr::type foundtype{njnr::type::VOID};
+            bool first{true};
+            bool success{true};
+            std::cout << "Calculating Return types from return statements found in function...\n";
+            for(auto e: *f->getfuncbody_list())
+            {
+                if(e->get_nodeType() == njnr::eNodeType::STMT)
+                {
+                    StmtListNode *s{dynamic_cast<StmtListNode*>(e)};
+                    Statement* st{s->getstmt()};
+                    if(nullptr != st)
+                    {
+                        if(st->getstype() == njnr::statement_type::RETURN)
+                        {
+                            std::cout << "found return type of " + getStringFromType(st->getrettype()) + "\n";
+                            if(st->getrettype() == njnr::type::CHECK && (first == true))
+                            {
+                               ReturnPacket* rt{st->getstmt()};
+                               if(nullptr != rt)
+                               {
+                                  std::cout << "return type checked..... " + Compiler::getStringFromType(rt->gettype()) + "\n";
+
+                                  if(rt->gettype() != njnr::type::CHECK)
+                                  {
+                                     foundtype = rt->gettype();
+                                     first = false;
+                                  }
+                                  else
+                                  {
+                                     std::cout << "needs further checking later on down road, perhaps at runtime\n";
+                                  }
+
+                               }
+                            }
+                            else if(first)
+                            {
+                                foundtype = Compiler::getReturnTypeFromStatement(st);
+                                first = false;
+                            }
+                            else
+                            {
+                                if(aresimilartypes(Compiler::getReturnTypeFromStatement(st), foundtype))
+                                {
+                                   std::cout << "so far compatible...\n";
+                                }
+                                else
+                                {
+                                    std::cerr << "types are not compatible with each other: \n";
+                                    success = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            std::cout << "skipping non-RETURN statement statement\n";
+                        }
+                    }
+                }
+                else
+                {
+                    std::cout << "skipping non-STMT node\n";
+                }
+            }
+            if(success == true)
+            {
+                std::cout << "Setting new return type to: " + getStringFromType(foundtype) + "\n";
+               f->setreturntype(foundtype);
+            }
+        }
+        else
+        {
+            std::cerr << "Function body is empty\n";
+        }
+    }
+    else
+    {
+        std::cerr << "NULL argument\n";
+    }
+/*    if(nullptr != finished)
     {
        for(auto e : *finished)
        {
-           if(dynamic_cast<TranslationUnitListNode*>(e)->get_trans_unit_type() == njnr::trans_unit_type::FUNCTION)
+           TranslationUnitListNode* t{nullptr};
+           if( (t = dynamic_cast<TranslationUnitListNode*>(e))->get_trans_unit_type() == njnr::trans_unit_type::FUNCTION)
            {
-            
+              Funcb* f{nullptr};
+              if(nullptr != (f = t->getFunc()))
+              {
+
+              }
+
            }
        }
     }
+    */
    }
 }

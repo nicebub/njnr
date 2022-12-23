@@ -79,6 +79,8 @@ class TranslationUnitListNode : public ListNode
       virtual ~TranslationUnitListNode() = default;
       const std::string toString() const;
       const njnr::trans_unit_type get_trans_unit_type(void) const;
+      const Varb* getVarDecl(void) const;
+      Funcb* getFunc(void) const;
    private:
       ReturnPacket*         unit;
       trans_unit_type trans_type;

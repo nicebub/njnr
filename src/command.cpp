@@ -54,8 +54,7 @@ namespace njnr
            const size_t a{tempstr.length()-2};
 
            tempstr[a] = '.';
-           tempstr[a+1] = 'a';
-           tempstr += "sm";
+           tempstr[a+1] = 'c';
 
            debugprint("trying to open file: ", tempstr);
            try

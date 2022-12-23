@@ -5,6 +5,10 @@
 #include <iostream>
 
 #include "trans.hpp"
+#include "list.hpp"
+#include "type.hpp"
+#include "cpptypes.hpp"
+#include "compiler.hpp"
 
 using namespace njnr;
 
@@ -78,4 +82,69 @@ void CodeGenerator::start() noexcept
     canGenerate = true;
 }
 
-
+void CodeGenerator::generateFunction(Funcb* f)
+{
+   if(nullptr != f)
+   {
+      *outfile << Compiler::getStringFromType(f->getreturntype());
+      *outfile << " ";
+      *outfile << f->getfuncheader()->name + "()\n{\n}\n";
+   }
+   else
+   {
+      std::cerr << "NULL argument given: generateFunction\n";
+   }
+}
+void CodeGenerator::generateTranslationUnit(njnr::TranslationUnitListNode* tn)
+{
+    if(nullptr != tn)
+    {
+        switch(tn->get_trans_unit_type())
+        {
+            case njnr::trans_unit_type::FUNCTION:
+               generateFunction(tn->getFunc());
+               break;
+            case njnr::trans_unit_type::VARDECL:
+               std::cout << "not implemented yet\n";
+               break;
+            case njnr::trans_unit_type::INVALID:
+               break;
+            default:
+               std::cerr << "invalid tranlation unit type\n";
+               break;
+        }
+    }
+    else
+    {
+        std::cerr << "Null Argument given: generateTranslationUnit\n";
+    }
+}
+void CodeGenerator::generate(List* f)
+{
+    if(nullptr != f)
+    {
+       for(auto e : *f)
+       {
+        switch(e->get_nodeType())
+        {
+            case njnr::eNodeType::TRANSLATION_UNIT:
+               generateTranslationUnit(dynamic_cast<njnr::TranslationUnitListNode*>(e));
+               break;
+            case njnr::eNodeType::EXPR:
+            case njnr::eNodeType::P:
+            case njnr::eNodeType::STANDARD:
+            case njnr::eNodeType::STMT:
+            case njnr::eNodeType::TYPE:
+               std::cerr << "Node type should not be at this level\n";
+               break;
+            default:
+               std::cerr << "unknown node type\n";
+               break;
+        }
+       }
+    }
+    else
+    {
+       std::cerr << "NULL argument given: generate\n";
+    }
+}

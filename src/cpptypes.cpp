@@ -380,9 +380,17 @@ namespace njnr
    {
       funcbody_list = funcbody;
    }
+   List* Funcb::getfuncbody_list(void)
+   {
+    return funcbody_list;
+   }
    void Funcb::setfuncheader(funcheadertype* funcheader)
    {
       this->funcheader = funcheader;
+   }
+   funcheadertype* Funcb::getfuncheader(void)
+   {
+    return funcheader;
    }
    const std::string Funcb::toString() const
    {
@@ -400,46 +408,7 @@ namespace njnr
 
       std::string r{};
       r += "Current Set Return Type: ";
-      switch(returntype)
-      {
-         case njnr::type::CHAR:
-            r += "CHAR\n";
-            break;
-         case njnr::type::CHECK:
-            r += "CHECK\n";
-            break;
-         case njnr::type::FLOAT:
-            r += "FLOAT\n";
-            break;
-         case njnr::type::IDENT:
-            r += "IDENT\n";
-            break;
-         case njnr::type::INT:
-            r += "INT\n";
-            break;
-         case njnr::type::REFFLOAT:
-            r += "REFFLOAT\n";
-            break;
-         case njnr::type::REFINT:
-            r += "REFINT\n";
-            break;
-         case njnr::type::REFSTR:
-            r += "REFSTR\n";
-            break;
-         case njnr::type::STMT:
-            r += "STMT\n";
-            break;
-         case njnr::type::STR:
-            r += "STR\n";
-            break;
-         case njnr::type::VOID:
-            r += "VOID\n";
-            break;
-         default:
-            r += "INVALID\n";
-            break;
-      }
-
+      r += Compiler::getStringFromType(returntype);
       r += "bodydef:? " + (true == bodydef) ? "true\n" : "false\n";
 //      r += "label: " + label + "\n";
 //      r += "localcount: " + localcount + "\n";

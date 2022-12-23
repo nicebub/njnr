@@ -4,7 +4,9 @@
 #ifndef MAIN
 # define MAIN
 #endif
-
+#ifndef DEBUG
+#define DEBUG 0
+#endif
 #include "debug.hpp"
 #include "compiler.hpp"
 
@@ -32,12 +34,18 @@ int main(int argc,  char * const *argv)
 
       /* start the parser */
       compiler.parser->parse();
-
-     #ifdef DEBUG
-      compiler.printProgramTree();
+      if(DEBUG)
+      {
+         compiler.printProgramTree();
+      }
+     #if DEBUG
       compiler.mysymtab->printTree();
      #endif
 
+      if(true == compiler.code_generator.canGenerateCode())
+      {
+         compiler.code_generator.generate(compiler.getfinished());
+      }
       /* always succeed if we got this far */
       ret = EXIT_SUCCESS;
    }

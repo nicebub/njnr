@@ -185,7 +185,6 @@ int yyerror(std::string err,Compiler& compiler);
 
 %%
 starter: translation_unit {
-	                         compiler.checkfunctionReturnValues();
                           }
 ;
 
@@ -264,7 +263,7 @@ funcbody_internal: variabledecl {
 								}
                  | stmt {
                            $$ = List::mklist($1);
-					       compiler.create_and_return_a_fn_body_statement_element($1);
+//					       compiler.create_and_return_a_fn_body_statement_element($1);
 						   /*compiler.block26_funcbody_lcbra_decls_source_stmtlist_rcbra();*/
                         }
 				 | funcbody_internal variabledecl {
@@ -272,7 +271,7 @@ funcbody_internal: variabledecl {
                                                      $$ = $1->appendList($2);
 												  }
 				 | funcbody_internal stmt {
-					                         compiler.add_statement_to_fn_body_and_return($1,$2);
+//					                         compiler.add_statement_to_fn_body_and_return($1,$2);
                                              $$ = $1->appendList($2);
 										  }
 ;

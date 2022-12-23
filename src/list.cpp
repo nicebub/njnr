@@ -3,7 +3,7 @@
 #include "debug.hpp"
 #include "list.hpp"
 #include "type.hpp"
-
+#include "compiler.hpp"
 using namespace njnr;
 
 namespace njnr
@@ -127,45 +127,8 @@ namespace njnr
    const std::string PListNode::toString() const
    {
        std::string r{ListNode::toString() + "\n PListNode: type: "};
-       switch(type)
-       {
-          case njnr::type::INT:      // Integer
-             r += "njnr::type::INT";
-             break;
-          case njnr::type::FLOAT:    // Float
-             r += "njnr::type::FLOAT";
-             break;
-          case njnr::type::VOID:     // Void
-             r += "njnr::type::VOID";
-             break;
-          case njnr::type::CHAR:     // Character
-             r += "njnr::type::CHAR";
-             break;
-          case njnr::type::STR:      // String
-             r += "njnr::type::STR";
-             break;
-          case njnr::type::REFINT:   // Reference to an Integer
-             r += "njnr::type::REFINT";
-             break;
-          case njnr::type::REFFLOAT: // Reference to a Float
-             r += "njnr::type::REFFLOAT";
-             break;
-          case njnr::type::REFSTR:   // Reference to a String
-             r += "njnr::type::REFSTR";
-             break;
-          case njnr::type::IDENT:    // Identifer
-             r += "njnr::type::IDENT";
-             break;
-          case njnr::type::STMT:     // Statement
-             r += "njnr::type::STMT";
-             break;
-          case njnr::type::CHECK:     // Hasn't been determined yet and needs to be checked later
-             r += "njnr::type::CHECK";
-             break;
-          default:
-             r += "Invalid";
-             break;
-       }
+       r += "njnr::type::";
+       r += Compiler::getStringFromType(type);
        return r;
    }
 
@@ -185,6 +148,30 @@ namespace njnr
    const njnr::trans_unit_type TranslationUnitListNode::get_trans_unit_type(void) const
    {
       return trans_type;
+   }
+   const Varb* TranslationUnitListNode::getVarDecl(void) const
+   {
+      Varb* r{nullptr};
+      if(trans_type == njnr::trans_unit_type::VARDECL)
+      {
+         if(nullptr != unit)
+         {
+            r = dynamic_cast<Varb*>(unit);
+         }
+      }
+      return r;
+   }
+   Funcb* TranslationUnitListNode::getFunc(void) const
+   {
+      Funcb* r{nullptr};
+      if(trans_type == njnr::trans_unit_type::FUNCTION)
+      {
+         if(nullptr != unit)
+         {
+            r = dynamic_cast<Funcb*>(unit);
+         }
+      }
+      return r;
    }
 
    const std::string TranslationUnitListNode::toString() const
@@ -255,45 +242,8 @@ namespace njnr
    const std::string TypeListNode::toString() const
    {
        std::string r{ListNode::toString() + "\n TypeListNode: type: "};
-       switch(type)
-       {
-          case njnr::type::INT:      // Integer
-             r += "njnr::type::INT";
-             break;
-          case njnr::type::FLOAT:    // Float
-             r += "njnr::type::FLOAT";
-             break;
-          case njnr::type::VOID:     // Void
-             r += "njnr::type::VOID";
-             break;
-          case njnr::type::CHAR:     // Character
-             r += "njnr::type::CHAR";
-             break;
-          case njnr::type::STR:      // String
-             r += "njnr::type::STR";
-             break;
-          case njnr::type::REFINT:   // Reference to an Integer
-             r += "njnr::type::REFINT";
-             break;
-          case njnr::type::REFFLOAT: // Reference to a Float
-             r += "njnr::type::REFFLOAT";
-             break;
-          case njnr::type::REFSTR:   // Reference to a String
-             r += "njnr::type::REFSTR";
-             break;
-          case njnr::type::IDENT:    // Identifer
-             r += "njnr::type::IDENT";
-             break;
-          case njnr::type::STMT:     // Statement
-             r += "njnr::type::STMT";
-             break;
-          case njnr::type::CHECK:     // Hasn't been determined yet and needs to be checked later
-             r += "njnr::type::CHECK";
-             break;
-          default:
-             r += "Invalid";
-             break;
-       }
+       r += "njnr::type::";
+       r += Compiler::getStringFromType(type);
        return r;
    }
 

@@ -63,45 +63,18 @@ namespace njnr
                   r += "INVALID";
                   break;
             }
-            switch(rettype)
+            if (rettype == njnr::type::CHECK)
             {
-                case njnr::type::CHAR:
-                   r += "CHAR: ";
-                   break;
-                case njnr::type::CHECK:
-                   r += "Set to Check: ...\n";
-                   r += printCheckReturn();
-                   break;
-                case njnr::type::FLOAT:
-                   r += "FLOAT: ";
-                   break;
-                case njnr::type::IDENT:
-                   r += "IDENT: ";
-                   break;
-                case njnr::type::INT:
-                   r += "INT: ";
-                   break;
-                case njnr::type::REFFLOAT:
-                   r += "REFFLOAT: ";
-                   break;
-                case njnr::type::REFINT:
-                   r += "REFINT: ";
-                   break;
-                case njnr::type::REFSTR:
-                   r += "REFSTR: ";
-                   break;
-                case njnr::type::STMT:
-                   r += "STMT: ";
-                   break;
-                case njnr::type::STR:
-                   r += "STR: ";
-                   break;
-                case njnr::type::VOID:
-                   r += "VOID: ";
-                   break;
-                default:
-                   r += "INVALID";
-                   break;
+               r += "Set to Check: ...\n";
+               r += printCheckReturn();
+               if(stmt->gettype() == njnr::type::CHECK)
+               {
+                  r += "INTERNAL ERROR\n";
+               }
+            }
+            else
+            {
+               r += Compiler::getStringFromType(rettype);
             }
          }
       return r;
@@ -151,7 +124,7 @@ std::string Statement::printCheckReturn(void) const
            r += dynamic_cast<CharConstant*>(stmt)->toString() + "\n";           
            break;
         case njnr::type::CHECK:
-           r +="Internal Error\n";
+           r +="Check\n";
            break;
         case njnr::type::FLOAT:
            r += "FLOAT: ";
