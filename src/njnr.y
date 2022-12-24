@@ -245,9 +245,11 @@ paramdef: paramdeflist {$$ = $1;}
 
 paramdeflist: Ident {
 	                   $$ = List::mklist(&$1);
+					   compiler.installParameterIntoSymbolTable(&$1, njnr::type::INT);
 					}
             | paramdeflist comma Ident {
 				                          $$ = $1->appendList(&$3);
+                 	                      compiler.installParameterIntoSymbolTable(&$3, njnr::type::INT);
 									   }
 ;
 
@@ -420,6 +422,7 @@ factor: constant {
 				 }
       | Ident {
 		         $$ = compiler.block55_factor_ident($1);
+				 compiler.installVariableIntoSymbolTable(&$1, njnr::type::INT);
 			  }
       | lpar expr rpar {
 		                  $$ = $2;

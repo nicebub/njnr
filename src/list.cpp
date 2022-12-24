@@ -81,6 +81,12 @@ namespace njnr
            delete expr;
        }
    }
+
+   ReturnPacket* ReturnPacketListNode::getexpr(void)
+   {
+    return expr;
+   }
+
    ReturnPacketListNode::ReturnPacketListNode(const ReturnPacketListNode& in) : BasicListNode{in.get_nodeType()}
    {
        expr = in.expr;

@@ -304,4 +304,22 @@ namespace njnr
     }
     */
    }
+
+void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t)
+{
+   if(Id != nullptr)
+   {
+      TableEntry* te = mysymtab->createVar(Id->getvalue(), t, 0); 
+      mysymtab->install(te);
+   }
+}
+void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t)
+{
+   if(Id != nullptr)
+   {
+      TableEntry* te = mysymtab->createParam(Id->getvalue(), t, 0); 
+      mysymtab->install(te);
+   }
+}
+
 }

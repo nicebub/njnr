@@ -45,6 +45,7 @@ int main(int argc,  char * const *argv)
       if(true == compiler.code_generator.canGenerateCode())
       {
          std::cout << "-- Generating Code --\n";
+         compiler.code_generator.setSymbolTable(compiler.mysymtab);
          compiler.code_generator.generate(compiler.getfinished());
       }
       else

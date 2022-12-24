@@ -192,6 +192,9 @@ namespace njnr
          static std::string getStringFromType(njnr::type t);
          njnr::type getReturnTypeFromStatement(Statement* s);
          List* getfinished(void);
+         void installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
+         void installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
+
       protected:
          static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
          void closeOrRemoveOutputFile(bool needtoremove);

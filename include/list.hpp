@@ -57,6 +57,7 @@ public:
     ReturnPacketListNode(const ReturnPacketListNode& in);
     virtual ReturnPacketListNode& operator=(const ReturnPacketListNode& in);
     const std::string toString() const;
+    ReturnPacket* getexpr(void);
 private:
     ReturnPacket* expr;
 };

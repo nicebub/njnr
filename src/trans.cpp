@@ -9,6 +9,7 @@
 #include "type.hpp"
 #include "cpptypes.hpp"
 #include "compiler.hpp"
+//#include "symtab.hpp"
 
 using namespace njnr;
 
@@ -18,6 +19,10 @@ CodeGenerator::CodeGenerator(std::ostream& out) : labelcounter{1},  canGenerate{
 
 CodeGenerator::~CodeGenerator() {}
 
+void CodeGenerator::setSymbolTable(SymbolTable* s)
+{
+   symtab = s;
+}
 void CodeGenerator::setstream(std::ostream* outfile)
 {
     this->outfile = outfile;
@@ -117,6 +122,63 @@ std::string CodeGenerator::getOutputTypeForCINType(Funcb* f)
         std::cerr << "NULL argument given: getOutputTypeForCINType\n";
     }
     return r;
+}
+
+void CodeGenerator::generateVariabledeclarations(Funcb* f)
+{
+   if(f != nullptr && nullptr != symtab)
+   {
+      if(f->getfuncheader()->paramlist != nullptr)
+      {
+         for(auto p: *(f->getfuncheader())->paramlist)
+         {
+            if(p == nullptr)
+            {
+               std::cerr <<"INTERNAL ERROR\n";
+            }
+            ReturnPacketListNode* RP{dynamic_cast<ReturnPacketListNode*>(p)};
+            if(RP == nullptr)
+            {
+               std::cerr <<"INTERNAL ERROR\n";
+            }
+            else
+            if(RP->getexpr() == nullptr)
+            {
+               std::cerr << "INTERNAL ERROR: rp->getexpr()\n";
+            }
+            else
+            {
+            Identifier* Id{dynamic_cast<Identifier*>(RP->getexpr())};
+            if(Id == nullptr)
+            {
+               std::cerr <<"INTERNAL ERROR\n";
+            }
+            std::string name{Id->getvalue()};
+            if(name.empty())
+            {
+               std::cerr <<"INTERNAL ERROR\n";
+            }
+            ReturnPacket* r = symtab->lookup(name);
+            if(r == nullptr)
+            {
+               std::cerr <<"INTERNAL ERROR\n";
+            }
+            if(nullptr != r)
+            {
+               std::cerr << "FOUND parameter in symbol table\n";
+            }
+            else
+            {
+               std::cerr << "did not find parameter in symbol table\n";
+            }
+            }
+         }
+      }
+   }
+   else
+   {
+      std::cerr << "NULL argument given: generateVariabledeclarations\n";
+   }
 }
 void CodeGenerator::generateReturnStatement(Statement* s)
 {
@@ -220,6 +282,7 @@ void CodeGenerator::generateFunction(Funcb* f)
       *outfile << ")\n{\n";
       if(f->getfuncbody_list() != nullptr)
       {
+//        generateVariabledeclarations(f);
         List* l{f->getfuncbody_list()};
          for(auto e: *l)
          {
