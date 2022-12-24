@@ -24,11 +24,15 @@ namespace njnr
 
          void gen_call(std::string funcname, int numargs);        // generate a function call
 
+         std::string getOutputTypeForCINType(Funcb* f);
          static std::string concat(std::string, std::string);	    // concat 2 strings and return the answer, remember to free it when done
          static void nullout(std::string& name, int length);       // Empties a string. Not being used currently
          void generate(List* f);
          void generateTranslationUnit(njnr::TranslationUnitListNode* tn);
          void generateFunction(Funcb* f);
+         void generateStatement(njnr::StmtListNode* e);
+         void generateReturnStatement(Statement* s);
+
       private:
          int 				labelcounter;                              // Which lable number are we on in generating labels
          bool				canGenerate;                               // our variable used to determine enabled/disabled

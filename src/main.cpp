@@ -44,7 +44,12 @@ int main(int argc,  char * const *argv)
 
       if(true == compiler.code_generator.canGenerateCode())
       {
+         std::cout << "-- Generating Code --\n";
          compiler.code_generator.generate(compiler.getfinished());
+      }
+      else
+      {
+         std::cout << "not generating code\n";
       }
       /* always succeed if we got this far */
       ret = EXIT_SUCCESS;

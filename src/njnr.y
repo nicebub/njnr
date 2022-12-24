@@ -225,7 +225,7 @@ funcheader: fnt Ident lpar paramdef rpar {
 									  }
 ;
 
-paramdef: paramdeflist {}
+paramdef: paramdeflist {$$ = $1;}
         | paramdeflist comma elip {
 			                         $$ = $1->appendList("...", type::VOID);
 								  }
@@ -244,10 +244,10 @@ paramdef: paramdeflist {}
 ;
 
 paramdeflist: Ident {
-	                   $$ = List::mklist($1.getvalue(), njnr::type::INT);
+	                   $$ = List::mklist(&$1);
 					}
             | paramdeflist comma Ident {
-				                          $$ = $1->appendList($3.getvalue(),njnr::type::INT);
+				                          $$ = $1->appendList(&$3);
 									   }
 ;
 

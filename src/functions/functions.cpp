@@ -90,6 +90,15 @@ namespace njnr
       {
          retFuncHeader->returntype = inreturntype;
          retFuncHeader->name       = inIdent.getvalue();
+         if(inParamdeflist == nullptr)
+         {
+            std::cout << "notification: parameters list is nullptr\n";
+         }
+         else
+         {
+            std::cout << "parameter count: " + std::to_string(inParamdeflist->size()) + "\n";
+//            std::cout << "found parameters: " + inParamdeflist->toString();
+         }
          retFuncHeader->paramlist  = inParamdeflist;
          /* FIXME: NEED TO REINCORPORATE THIS BACK IN. Somehow lists provide a type? where and why?
          if(inParamdeflist->gettype() == type::VOID)
@@ -97,6 +106,10 @@ namespace njnr
             retFuncHeader->ttype = type::VOID;
          }
          */
+      }
+      else
+      {
+        std::cerr << "error in new\n";
       }
       return retFuncHeader;
    }
@@ -159,6 +172,11 @@ namespace njnr
          if(s->getstmt() != nullptr)
          {
             r = s->getstmt()->gettype();
+            if(njnr::type::IDENT == r)
+            {
+                std::cout << "need to get data into symbol table so we can read it here and get this identifiers data type\n";
+                r = njnr::type::INT;
+            }
          }
       }
       else

@@ -221,7 +221,16 @@ namespace njnr
                                {
                                   std::cout << "return type checked..... " + Compiler::getStringFromType(rt->gettype()) + "\n";
 
-                                  if(rt->gettype() != njnr::type::CHECK)
+                                  if(njnr::type::IDENT == rt->gettype())
+                                  {
+                                    Identifier* Id{dynamic_cast<Identifier*>(rt)};
+                                    std::string s{Id->getvalue()};
+                                    /* TODO: check symbol table for this name and get is data type to put here */
+                                    foundtype = njnr::type::INT;
+                                    first = false;
+
+                                  }
+                                  else if(rt->gettype() != njnr::type::CHECK)
                                   {
                                      foundtype = rt->gettype();
                                      first = false;
