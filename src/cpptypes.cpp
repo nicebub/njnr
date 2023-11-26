@@ -443,11 +443,11 @@ namespace njnr
 
    const std::string Translation_Unit::toString() const
    {  
-      std::string ret = ReturnPacket::toString();
-         ReturnPacket* translation;
+      std::string ret{ReturnPacket::toString()};
+//         ReturnPacket* translation{};
 //         trans_unit_type trans_type;
 
-      return "translation unit: " + translation->toString() + "\n" + ret;
+      return "translation unit: " + this->toString() + "\n" + ret;
    }
    Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
 

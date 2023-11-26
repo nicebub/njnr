@@ -26,8 +26,8 @@ int main(int argc,  char * const *argv)
    njnr_getopt(&argc,&argv);
 
    /* must supply an input and output file or the defaults must open successfully */
-   if((false !=  compiler.openedInputFile(argc,argv)) &&
-      (false !=  compiler.openedOutputFile(argc, argv)))
+   if((true ==  compiler.openedInputFile(argc,argv)) &&
+      (true ==  compiler.openedOutputFile(argc, argv)))
    {
       /* setup the output file stream */
       compiler.code_generator.setstream(compiler.outfile);

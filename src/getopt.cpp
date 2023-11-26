@@ -10,7 +10,7 @@
 
 void njnr_getopt(int* argc,  char * const **argv)
 {
-    int opt{-1};
+    int opt{GETOPT_DONE};
 
     while ((opt = getopt(*argc,*argv,"hv")) != GETOPT_DONE)
     {

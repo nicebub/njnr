@@ -193,10 +193,14 @@ translation_unit: translation_unit_part_list {
 											 }
 ;
 
-translation_unit_part_list: func { $$ = List::mklist($1);}
-                          | variabledecl { $$ = List::mklist($1);}
-                          | translation_unit_part_list func { $$ = $1->appendList($2);}
-                          | translation_unit_part_list variabledecl { $$ = $1->appendList($2);}
+translation_unit_part_list: func { $$ = List::mklist($1); }
+                          | variabledecl {
+//							                $$ = List::mklist($1);
+						                 }
+                          | translation_unit_part_list func { $$ = $1->appendList($2); }
+                          | translation_unit_part_list variabledecl {
+//							                                           $$ = $1->appendList($2);
+						                                            }
 ;
 
 func: funcheader funcbody {

@@ -22,20 +22,27 @@ namespace njnr
    {
        if(argc >1)
        {
-           try
-           {
-               std::ifstream* next{new std::ifstream{argv[1], std::ifstream::in}};
-               if(next->is_open())
-               {
-                   lexer.switch_streams(next);
-                   return true;
-               }
-           }
-           catch(std::bad_alloc& e)
-           {
-               debugprint(e.what(),"");
-           }
-           std::cerr << argv[1] << ": cannot open input file\n";
+            if(true == filenameDoesEndsInDotN(argv[1]))
+            {
+                try
+                {
+                    std::ifstream* inputStream{new std::ifstream{argv[1], std::ifstream::in}};
+                    if(inputStream->is_open())
+                    {
+                        lexer.switch_streams(inputStream);
+                        return true;
+                    }
+                }
+                catch(std::bad_alloc& e)
+                {
+                    debugprint(e.what(),"");
+                    std::cerr << argv[1] << ": cannot open input file\n";
+                }
+            }
+            else
+            {
+                std::cerr << argv[1] << ": does not end in .n\n";
+            }
        }
        else
        {
@@ -59,10 +66,10 @@ namespace njnr
            debugprint("trying to open file: ", tempstr);
            try
            {
-               std::ofstream* next{new std::ofstream{tempstr, std::fstream::out}};
-               if(next->is_open())
+               std::ofstream* outputStream{new std::ofstream{tempstr, std::fstream::out}};
+               if(outputStream->is_open())
                {
-                   outfile = next;
+                   outfile = outputStream;
                    filename = tempstr;
                    return true;
                }
