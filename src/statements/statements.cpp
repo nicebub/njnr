@@ -187,32 +187,32 @@ void Compiler::dealwithstmtlist(List* stmtlist)
 
    Statement* Compiler::block30_stmt_return_semi()
    {
-      Statement* outPacket{nullptr};
+      Statement* statement{nullptr};
 
-      outPacket = new Statement{};
-      if(nullptr != outPacket)
+      statement = new Statement{};
+      if(nullptr != statement)
       {
-         outPacket->settype(njnr::type::STMT);
-         outPacket->setstype(njnr::statement_type::RETURN);
-         outPacket->setrettype(njnr::type::VOID);
+         statement->settype(njnr::type::STMT);
+         statement->setstype(njnr::statement_type::RETURN);
+         statement->setrettype(njnr::type::VOID);
       }
 
-      return outPacket;
+      return statement;
    }
-   Statement* Compiler::block31_stmt_return_expr_semi(ReturnPacket* inPacket)
+   Statement* Compiler::block31_stmt_return_expr_semi(ReturnPacket* expr)
    {
-      Statement* outStatement{nullptr};
+      Statement* statement{nullptr};
 
-      outStatement = new Statement{};
-      if(nullptr != outStatement)
+      statement = new Statement{};
+      if(nullptr != statement)
       {
-         outStatement->settype(type::STMT);
-         outStatement->setstype(statement_type::RETURN);
-         outStatement->setstmt(inPacket);
-         outStatement->setrettype(njnr::type::CHECK);
+         statement->settype(type::STMT);
+         statement->setstype(statement_type::RETURN);
+         statement->setrettype(njnr::type::CHECK);
+         statement->setstmt(expr);
       }
 
-      return outStatement;
+      return statement;
    }
 
    ReturnPacket* Compiler::block32_stmt_while_source()

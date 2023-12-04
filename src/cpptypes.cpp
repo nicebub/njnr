@@ -1,7 +1,9 @@
 #include "cpptypes.hpp"
 #include "type.hpp"
 #include "list.hpp"
-#include "symtab.hpp"
+#include "symbol_table_entry.hpp"
+#include "symbol_table.hpp"
+#include "symbol_table_stack.hpp"
 namespace njnr
 {
    ReturnPacket::ReturnPacket() :
@@ -66,7 +68,7 @@ namespace njnr
          njnr::type ttype;
 
          struct Pair m_pair;
-         TableEntry* funcent;
+         S_TableEntry* funcent;
          int params;
      */
       std::string r{"lval: "};

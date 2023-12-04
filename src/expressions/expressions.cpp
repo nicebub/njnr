@@ -5,7 +5,7 @@
 #include "debug.hpp"
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
-
+#include "symbol_table_stack.hpp"
 using namespace njnr;
 namespace njnr
 {
@@ -358,7 +358,7 @@ namespace njnr
    ReturnPacket* Compiler::block55_factor_ident(njnr::Identifier inIdent)
    {
       ReturnPacket*  outPacket{nullptr};
-      TableEntry *resultLookup{nullptr};
+      S_TableEntry *resultLookup{nullptr};
       bool gen_code = false;
 //      int  gen_type = 0;
 
@@ -373,18 +373,18 @@ namespace njnr
 
             if( (nullptr != (resultLookup =  mysymtab->lookupB(inIdent.getvalue()))))
             {
-               outPacket->settype(resultLookup->getBinding()->gettype());
+               outPacket->settype(((S_TableEntry*)resultLookup->getBinding())->getType());
                outPacket->setlval(true);
-               if(resultLookup->getBinding()->gettype() == type::INT || resultLookup->getBinding()->gettype() == type::FLOAT)
+               if(((S_TableEntry*)resultLookup->getBinding())->getType() == type::INT || ((S_TableEntry*)resultLookup->getBinding())->getType() == type::FLOAT)
                {
                   outPacket->setnumeric(true);
                }
-               if(mysymtab->inCscope(inIdent.getvalue()))
+               if(mysymtab->inCurrentScope(inIdent.getvalue()))
                {
                }
                else
                {
-                  switch(resultLookup->getself())
+                  switch(resultLookup->getGroup())
                   {
                      case btype::VAR:
                      {
@@ -473,7 +473,7 @@ namespace njnr
    ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket)
    {
        ReturnPacket* outPacket{new ReturnPacket{}};
-       TableEntry*tempE; //, *tempE2;
+       S_TableEntry*tempE; //, *tempE2;
        if( inPacket.getvalue() != "main")
        {
            if( mysymtab->lookup(inPacket.getvalue()) == nullptr)
@@ -483,9 +483,9 @@ namespace njnr
                tempE =	mysymtab->lookupB(inPacket.getvalue());
                if(tempE != nullptr)
                {
-                   if(tempE->getself() == btype::VAR || tempE->getself() == btype::PARAM)
+                   if(tempE->getGroup() == btype::VAR || tempE->getGroup() == btype::PARAM)
                    {
-                       switch(tempE->getself())
+                       switch(tempE->getGroup())
                        {
                        case btype::VAR:
                            outPacket->settype(((Varb*)(tempE->getBinding()))->gettype());
@@ -495,7 +495,7 @@ namespace njnr
                            outPacket->setlval(false);
                            if(((Varb*)(tempE->getBinding()))->gettype() == type::INT || ((Varb*)(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
-                           if(mysymtab->inCscope(inPacket.getvalue()))
+                           if(mysymtab->inCurrentScope(inPacket.getvalue()))
                            {
                            }
                            else
@@ -519,7 +519,7 @@ namespace njnr
                            outPacket->setlval(false);
                            if(((Paramb*)(tempE->getBinding()))->gettype() == type::INT || ((Paramb*)(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
-                           if(mysymtab->inCscope(inPacket.getvalue()))
+                           if(mysymtab->inCurrentScope(inPacket.getvalue()))
                            {
                            }
                            else

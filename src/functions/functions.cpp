@@ -5,7 +5,7 @@
 #include "debug.hpp"
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
-
+#include "symbol_table_stack.hpp"
 using namespace njnr;
 namespace njnr
 {
@@ -56,7 +56,7 @@ namespace njnr
 
    void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
    {
-       auto found = mysymtab->lookupB(inFuncHeader->name);
+       njnr::S_TableEntry* found = mysymtab->lookupB(inFuncHeader->name);
        if(  found  == nullptr )
        {
            auto tempEntry =  mysymtab->createFunc(	inFuncHeader->name,
@@ -163,19 +163,19 @@ namespace njnr
     return finished;
    }
 
-   njnr::type Compiler::getReturnTypeFromStatement(Statement* s)
+   njnr::type Compiler::getReturnTypeFromStatement(Statement* stmt)
    {
-      njnr::type r{njnr::type::VOID};
+      njnr::type retType{njnr::type::VOID};
 
-      if(nullptr != s)
+      if(nullptr != stmt)
       {
-         if(s->getstmt() != nullptr)
+         if(stmt->getstmt() != nullptr)
          {
-            r = s->getstmt()->gettype();
-            if(njnr::type::IDENT == r)
+            retType = stmt->getstmt()->gettype();
+            if(njnr::type::IDENT == retType)
             {
                 std::cout << "need to get data into symbol table so we can read it here and get this identifiers data type\n";
-                r = njnr::type::INT;
+                retType = njnr::type::INT;
             }
          }
       }
@@ -184,7 +184,7 @@ namespace njnr
         std::cerr << "NULL argument given\n";
       }
 
-      return r;
+      return retType;
    }
 
 

@@ -5,7 +5,7 @@
 #include "debug.hpp"
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
-
+#include "symbol_table_stack.hpp"
 using namespace njnr;
 namespace njnr
 {
@@ -14,19 +14,22 @@ namespace njnr
        ReturnPacket* outPacket{new ReturnPacket{}};
        outPacket->setlval(false);
        Funcb* tempb;
-       TableEntry* tempE;
-       TableEntry*tempE2;
+       S_TableEntry* tempE;
+       S_TableEntry*tempE2;
        if((tempb=(Funcb*) mysymtab->lookup(inIdent.getvalue())) == nullptr)
        {
            error("function undeclared, please declare functions before using them","");
        }
        else
        {
-           tempE2 = new TableEntry{inIdent.getvalue()};
+           tempE2 = new S_TableEntry(*new std::string{inIdent.getvalue()},
+                                     new njnr::Identifier{inIdent},
+                                     njnr::type::IDENT);
+
            tempE =	mysymtab->lookupB(inIdent.getvalue());
            if( tempE !=nullptr)
            {
-               if(tempE->getself() == btype::FUNC)
+               if(tempE->getGroup() == btype::FUNC)
                {
                    if(tempb->getreturntype() != type::VOID)
                    {
@@ -82,7 +85,7 @@ namespace njnr
        funcCallWparam->settype((* nameAndparamptr)->gettype());
        if((* nameAndparamptr)->funcent!=nullptr)
        {
-           if(((* nameAndparamptr)->funcent)->getself() == btype::FUNC)
+           if(((* nameAndparamptr)->funcent)->getGroup() == btype::FUNC)
            {
                if( ((Funcb*)(((* nameAndparamptr)->funcent)->getBinding()))->getreturntype() != type::VOID)
                {
@@ -138,7 +141,7 @@ namespace njnr
 
    ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(njnr::Identifier inIdent, ReturnPacket** inEntryptr, ReturnPacket** inPacketptr)
    {
-       TableEntry*tempE, *tempE2;
+       S_TableEntry*tempE, *tempE2;
        ReturnPacket* outPacket{new ReturnPacket{}};
        ReturnPacket* inPacket{*inPacketptr};
        ReturnPacket* inEntry{*inEntryptr};
@@ -154,11 +157,14 @@ namespace njnr
        else
        {
            //warning("just checking value of entry: %s",$<value.funcentvalue>$->name);
-           tempE2 = new TableEntry{inIdent.getvalue()};
+           tempE2 = new S_TableEntry(*new std::string{inIdent.getvalue()},
+                                     new njnr::Identifier{inIdent},
+                                     njnr::type::IDENT);
+
            tempE = mysymtab->lookupB(inIdent.getvalue());
            if( tempE !=nullptr)
            {
-               if(tempE->getself() != btype::FUNC)
+               if(tempE->getGroup() != btype::FUNC)
                {
                    error("function undeclared, please declare functions before using them", "");
                    error("2","");
@@ -282,7 +288,7 @@ namespace njnr
        ReturnPacket* innameAndparamPacket{*innameAndparamPacketptr};
        ReturnPacket* inexprPacket{*inexprPacketptr};
 
-       TableEntry*tempE, *tempE2;
+       S_TableEntry*tempE, *tempE2;
        outPacket->setlval( false);
        Funcb* tempB;
        if(innameAndparamPacket->funcent == nullptr)
@@ -293,12 +299,14 @@ namespace njnr
        else
        {
            outPacket->funcent = innameAndparamPacket->funcent;
-           tempE2 = new TableEntry{innameAndparamPacket->funcent->getName()};
+           tempE2 = new S_TableEntry(*new std::string{innameAndparamPacket->funcent->getName()},
+                                     innameAndparamPacket->funcent,
+                                     njnr::type::IDENT);
 
            tempB= (Funcb*) mysymtab->lookup( innameAndparamPacket->funcent->getName());
            if( (tempE=  mysymtab->lookupB(innameAndparamPacket->funcent->getName()))!=nullptr)
            {
-               if(tempE->getself() != btype::FUNC)
+               if(tempE->getGroup() != btype::FUNC)
                {
                    error("function undeclared, please declare functions before using them", "");
                    error("4","");

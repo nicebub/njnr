@@ -9,7 +9,9 @@
 #include "cpptypes.hpp"
 #include "lex.hpp"
 #include "list.hpp"
-#include "symtab.hpp"
+#include "symbol_table_entry.hpp"
+#include "symbol_table.hpp"
+#include "symbol_table_stack.hpp"
 #include "data.hpp"
 
 /* we redefine our declaration for the lexer as we changed it */

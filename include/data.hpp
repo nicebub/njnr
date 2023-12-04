@@ -4,7 +4,9 @@
 #include <string>
 
 #include "type.hpp"
-#include "symtab.hpp"
+#include "symbol_table_entry.hpp"
+#include "symbol_table.hpp"
+#include "symbol_table_stack.hpp"
 #include "list.hpp"
 
 namespace njnr
@@ -32,8 +34,8 @@ public:
         //Entry *funcentvalue;
     } value;
 
-    TableEntry* 		  entry;
-    TableEntry* 		funcent;
+    S_TableEntry* 		  entry;
+    S_TableEntry* 		funcent;
     Funcb* 			funcbinding;
     std::string 	 	   name;
     type 				  ttype;

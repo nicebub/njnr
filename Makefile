@@ -40,13 +40,14 @@ endif
 
 
 PATHS = src/
+PATHSC = $(PATHS)/common/
 PATHI = include/
 PATHT = test/
 PATHB = build/
 PATHD = build/depends/
 PATHO = build/objs/
 PATHR = build/results/
-
+PATHC = $(PATHI)/common/
 EXAMPLES = example/
 EXEC = $(PATHB)njnr
 
@@ -55,6 +56,7 @@ BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 BASE_SRCT = $(wildcard $(PATHT)*base*.cpp)
 
 SRC_FILES := $(subst $(PATHS),,$(wildcard $(PATHS)*.cpp))
+SRC_FILES := $(subst $(PATHSC),,$(wildcard $(PATHSC)*.cpp))
 SRC_FILES += $(subst $(PATHS)/functions/,,$(wildcard $(PATHS)/functions/*.cpp))
 SRC_FILES += $(subst $(PATHS)/statements/,,$(wildcard $(PATHS)/statements/*.cpp))
 SRC_FILES += $(subst $(PATHS)/expressions/,,$(wildcard $(PATHS)/expressions/*.cpp))
@@ -71,7 +73,7 @@ COMPILE=$(COMPILER) -c
 LINK=$(COMPILER)
 DEPEND=$(COMPILER) -MM -MG -MF
 CPPFLAGS = -Wall -std=c++17 #-DDEBUGON
-CPPFLAGS += -Wall -Wpedantic -pedantic-errors -Wno-comment -I. -I$(PATHI)
+CPPFLAGS += -Wall -Wpedantic -pedantic-errors -Wno-comment -I. -I$(PATHI) -I$(PATHC)
 CPPFLAGS += -g
 CPPFLAGS += -Os -pipe -time
 #CPPFLAGS += -ll -lm
@@ -165,6 +167,9 @@ $(PATHO)lex.yy.o: $(PATHS)lex.yy.cc
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
 	
 $(PATHO)%.o:: $(PATHS)%.cpp $(PATHI)%.hpp
+	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
+
+$(PATHO)%.o:: $(PATHSC)%.cpp $(PATHC)%.hpp
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
 
 $(PATHO)%.o:: $(PATHT)%.cpp

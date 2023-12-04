@@ -42,7 +42,7 @@ namespace njnr
    void Compiler::install_functions_into_symbolTable()
    {
        List* params{List::mklist("",njnr::type::VOID)};
-       TableEntry* entry{mysymtab->createFunc("main", njnr::type::INT,params )};
+       S_TableEntry* entry{mysymtab->createFunc("main", njnr::type::INT,params )};
        mysymtab->install(entry);
    }
 
@@ -188,51 +188,50 @@ namespace njnr
       return false;
    }
 
-   void Compiler::checkfunctionReturnValues(Funcb* f)
+   void Compiler::checkfunctionReturnValues(Funcb* functionBinding)
    {
-    if(nullptr != f)
+    if(nullptr != functionBinding)
     {
-        std::cout << "current func return type: " + getStringFromType(f->getreturntype()) + "\n";
-        if(nullptr != f->getfuncheader())
+        std::cout << "current func return type: " + getStringFromType(functionBinding->getreturntype()) + "\n";
+        if(nullptr != functionBinding->getfuncheader())
         {
-            std::cout << "given return type by programmer: " + getStringFromType(f->getfuncheader()->returntype) + "\n"; 
+            std::cout << "given return type by programmer: " + getStringFromType(functionBinding->getfuncheader()->returntype) + "\n"; 
         }
-        if(nullptr != f->getfuncbody_list())
+        if(nullptr != functionBinding->getfuncbody_list())
         {
             njnr::type foundtype{njnr::type::VOID};
             bool first{true};
             bool success{true};
             std::cout << "Calculating Return types from return statements found in function...\n";
-            for(auto e: *f->getfuncbody_list())
+            for(auto stmt: *functionBinding->getfuncbody_list())
             {
-                if(e->get_nodeType() == njnr::eNodeType::STMT)
+                if(stmt->get_nodeType() == njnr::eNodeType::STMT)
                 {
-                    StmtListNode *s{dynamic_cast<StmtListNode*>(e)};
-                    Statement* st{s->getstmt()};
-                    if(nullptr != st)
+                    Statement* realstmt{(dynamic_cast<StmtListNode*>(stmt))->getstmt()};
+                    if(nullptr != realstmt)
                     {
-                        if(st->getstype() == njnr::statement_type::RETURN)
+                        if(realstmt->getstype() == njnr::statement_type::RETURN)
                         {
-                            std::cout << "found return type of " + getStringFromType(st->getrettype()) + "\n";
-                            if(st->getrettype() == njnr::type::CHECK && (first == true))
+                            std::cout << "found return type of " + getStringFromType(realstmt->getrettype()) + "\n";
+                            if(realstmt->getrettype() == njnr::type::CHECK && (first == true))
                             {
-                               ReturnPacket* rt{st->getstmt()};
-                               if(nullptr != rt)
+                               ReturnPacket* realType{realstmt->getstmt()};
+                               if(nullptr != realType)
                                {
-                                  std::cout << "return type checked..... " + Compiler::getStringFromType(rt->gettype()) + "\n";
+                                  std::cout << "return type checked..... " + Compiler::getStringFromType(realType->gettype()) + "\n";
 
-                                  if(njnr::type::IDENT == rt->gettype())
+                                  if(njnr::type::IDENT == realType->gettype())
                                   {
-                                    Identifier* Id{dynamic_cast<Identifier*>(rt)};
+                                    Identifier* Id{dynamic_cast<Identifier*>(realType)};
                                     std::string s{Id->getvalue()};
                                     /* TODO: check symbol table for this name and get is data type to put here */
                                     foundtype = njnr::type::INT;
                                     first = false;
 
                                   }
-                                  else if(rt->gettype() != njnr::type::CHECK)
+                                  else if(realType->gettype() != njnr::type::CHECK)
                                   {
-                                     foundtype = rt->gettype();
+                                     foundtype = realType->gettype();
                                      first = false;
                                   }
                                   else
@@ -242,14 +241,19 @@ namespace njnr
 
                                }
                             }
-                            else if(first)
+                            else if(true == first)
                             {
-                                foundtype = Compiler::getReturnTypeFromStatement(st);
+                                foundtype = Compiler::getReturnTypeFromStatement(realstmt);
                                 first = false;
+                            }
+                            else if(realstmt->getrettype() == njnr::type::CHECK)
+                            {
+                                std::cout << "we ever here : CHECK?\n";
+                                /* whoops what do here? */
                             }
                             else
                             {
-                                if(aresimilartypes(Compiler::getReturnTypeFromStatement(st), foundtype))
+                                if(true == aresimilartypes(Compiler::getReturnTypeFromStatement(realstmt), foundtype))
                                 {
                                    std::cout << "so far compatible...\n";
                                 }
@@ -274,7 +278,7 @@ namespace njnr
             if(success == true)
             {
                 std::cout << "Setting new return type to: " + getStringFromType(foundtype) + "\n";
-               f->setreturntype(foundtype);
+               functionBinding->setreturntype(foundtype);
             }
         }
         else
@@ -309,7 +313,7 @@ void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t
 {
    if(Id != nullptr)
    {
-      TableEntry* te = mysymtab->createVar(Id->getvalue(), t, 0); 
+      S_TableEntry* te = mysymtab->createVar(Id->getvalue(), t, 0); 
       mysymtab->install(te);
    }
 }
@@ -317,7 +321,7 @@ void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type 
 {
    if(Id != nullptr)
    {
-      TableEntry* te = mysymtab->createParam(Id->getvalue(), t, 0); 
+      S_TableEntry* te = mysymtab->createParam(Id->getvalue(), t, 0); 
       mysymtab->install(te);
    }
 }

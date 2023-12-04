@@ -6,7 +6,7 @@
 #include "type.hpp"
 namespace njnr
 {
-   class TableEntry;
+   class S_TableEntry;
 
    class BaseData
    {
@@ -38,7 +38,7 @@ namespace njnr
          const std::string toString() const;
 
          struct Pair m_pair;
-         TableEntry* funcent;
+         S_TableEntry* funcent;
          int params;
       protected:
          int offset;

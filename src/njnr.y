@@ -6,7 +6,9 @@
 
 #include "type.hpp"
 #include "list.hpp"
-#include "symtab.hpp"
+#include "symbol_table_entry.hpp"
+#include "symbol_table.hpp"
+#include "symbol_table_stack.hpp"
 #include "data.hpp"
 #include "trans.hpp"
 #include "lex.hpp"
@@ -46,7 +48,7 @@ int yyerror(std::string err,Compiler& compiler);
 	namespace njnr
 	{
 		class Compiler;
-		class TableEntry;
+		class S_TableEntry;
 	}
 	#include "cpptypes.hpp"
 	#include "list.hpp"

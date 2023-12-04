@@ -32,7 +32,7 @@ namespace njnr
       {
          error_and_return_false("Function name not in symbol mysymtab");
       }
-      if(foundPacket->getself() != njnr::btype::FUNC)
+      if(foundPacket->getGroup() != njnr::btype::FUNC)
       {
          error_and_return_false("Not a function");
       }
