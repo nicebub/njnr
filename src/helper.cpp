@@ -1,6 +1,6 @@
 #include "helper.hpp"
 #include "compiler.hpp"
-
+#include "symbol_table_stack.hpp"
 namespace njnr
 {
 
@@ -25,7 +25,7 @@ namespace njnr
    {
       funcheadertype* inFuncHeader{*inFuncHeaderptr};
 
-      currentFunc = dynamic_cast<Funcb*>(mysymtab->lookup(inFuncHeader->name));
+      currentFunc = static_cast<Funcb*>(mysymtab->lookup(inFuncHeader->name));
       auto foundPacket{mysymtab->lookupB(inFuncHeader->name)};
 
       if(!foundPacket)

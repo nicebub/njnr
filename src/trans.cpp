@@ -9,6 +9,7 @@
 #include "type.hpp"
 #include "cpptypes.hpp"
 #include "compiler.hpp"
+#include "symbol_table_stack.hpp"
 //#include "symtab.hpp"
 
 using namespace njnr;
@@ -158,7 +159,7 @@ void CodeGenerator::generateVariabledeclarations(Funcb* f)
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
-            ReturnPacket* r = symtab->lookup(name);
+            ReturnPacket* r = (ReturnPacket*)symtab->lookup(name);
             if(r == nullptr)
             {
                std::cerr <<"INTERNAL ERROR\n";

@@ -152,6 +152,9 @@ char { /* keyword char*/
         return token::chart;
 	 }
 
+let {
+   return token::lett;
+}
 {GEQ} {
          return token::geq;
 	  }

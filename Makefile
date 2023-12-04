@@ -56,7 +56,7 @@ BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 BASE_SRCT = $(wildcard $(PATHT)*base*.cpp)
 
 SRC_FILES := $(subst $(PATHS),,$(wildcard $(PATHS)*.cpp))
-SRC_FILES := $(subst $(PATHSC),,$(wildcard $(PATHSC)*.cpp))
+SRC_FILES += $(subst $(PATHSC),,$(wildcard $(PATHSC)*.cpp))
 SRC_FILES += $(subst $(PATHS)/functions/,,$(wildcard $(PATHS)/functions/*.cpp))
 SRC_FILES += $(subst $(PATHS)/statements/,,$(wildcard $(PATHS)/statements/*.cpp))
 SRC_FILES += $(subst $(PATHS)/expressions/,,$(wildcard $(PATHS)/expressions/*.cpp))

@@ -3,7 +3,7 @@
 #include <ostream>
 #include "debug.hpp"
 #include "compiler.hpp"
-
+#include "symbol_table_stack.hpp"
 namespace njnr
 {
    Compiler::Compiler(): mysymtab{nullptr},

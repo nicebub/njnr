@@ -2,7 +2,7 @@
 #define _HELPER_HPP
 
 #include "type.hpp"
-#include "symtab.hpp"
+//#include "symtab.hpp"
 
 namespace njnr
 {
