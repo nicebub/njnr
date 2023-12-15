@@ -296,10 +296,10 @@ stmt:     expr semi {
 	                   compiler.block29_stmt_expr_semi();
 					}
 		| returnt semi {
-			              $$ = compiler.block30_stmt_return_semi();
+			              $$ = compiler.stmt_return_expr_semi(nullptr);
 					   }
 		| returnt expr semi {
-			                   $$ = compiler.block31_stmt_return_expr_semi($2);
+			                   $$ = compiler.stmt_return_expr_semi($2);
 							}
 
 		| whilet <ReturnPacket*>{

@@ -107,8 +107,7 @@ namespace njnr
 
          Funcb* create_and_return_a_fn_body_statement_element(Statement* stmt);
          Funcb* add_statement_to_fn_body_and_return(List* func, Statement* stmt);
-         Statement* block30_stmt_return_semi();
-         Statement* block31_stmt_return_expr_semi(ReturnPacket* inPacket);
+         Statement* stmt_return_expr_semi(ReturnPacket* inPacket);
   
          void variableFetch(ReturnPacket* inPacket, bool conversionNeeded);
          void variableFetchWithNumericCheck(ReturnPacket* inPacket, bool conversionNeeded);
@@ -196,7 +195,8 @@ namespace njnr
          List* getfinished(void);
          void installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
          void installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
-
+         bool checkAllFunctionReturnStatements(njnr::List* x, njnr::type&);
+         bool checkSingleReturnStatement(Statement *realstmt, njnr::type& foundtype, bool first);
       protected:
          static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
          void closeOrRemoveOutputFile(bool needtoremove);

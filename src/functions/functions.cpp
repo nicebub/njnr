@@ -169,9 +169,9 @@ namespace njnr
 
       if(nullptr != stmt)
       {
-         if(stmt->getstmt() != nullptr)
+         if(stmt->getexpr() != nullptr)
          {
-            retType = stmt->getstmt()->gettype();
+            retType = stmt->getexpr()->gettype();
             if(njnr::type::IDENT == retType)
             {
                 std::cout << "need to get data into symbol table so we can read it here and get this identifiers data type\n";

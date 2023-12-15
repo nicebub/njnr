@@ -188,94 +188,144 @@ namespace njnr
       return false;
    }
 
-   void Compiler::checkfunctionReturnValues(Funcb* functionBinding)
-   {
-    if(nullptr != functionBinding)
+    bool Compiler::checkSingleReturnStatement(Statement *realstmt, njnr::type& foundtype, bool first)
     {
-        std::cout << "current func return type: " + getStringFromType(functionBinding->getreturntype()) + "\n";
-        if(nullptr != functionBinding->getfuncheader())
+        bool success{true};
+//        njnr::type found = {};
+        njnr::type similar{};
+
+        if(nullptr != realstmt)
         {
-            std::cout << "given return type by programmer: " + getStringFromType(functionBinding->getfuncheader()->returntype) + "\n"; 
-        }
-        if(nullptr != functionBinding->getfuncbody_list())
-        {
-            njnr::type foundtype{njnr::type::VOID};
-            bool first{true};
-            bool success{true};
-            std::cout << "Calculating Return types from return statements found in function...\n";
-            for(auto stmt: *functionBinding->getfuncbody_list())
+            /* make sure we only look at return statements */
+            if(realstmt->getstype() == njnr::statement_type::RETURN)
             {
-                if(stmt->get_nodeType() == njnr::eNodeType::STMT)
+                std::cout << "found return type of " + getStringFromType(realstmt->getrettype()) + "\n";
+                switch(realstmt->getrettype())
                 {
-                    Statement* realstmt{(dynamic_cast<StmtListNode*>(stmt))->getstmt()};
-                    if(nullptr != realstmt)
-                    {
-                        if(realstmt->getstype() == njnr::statement_type::RETURN)
-                        {
-                            std::cout << "found return type of " + getStringFromType(realstmt->getrettype()) + "\n";
-                            if(realstmt->getrettype() == njnr::type::CHECK && (first == true))
+                    case njnr::type::CHECK:
+                         checkSingleReturnStatement(realstmt, similar, first);
+                            if(true == first)
                             {
-                               ReturnPacket* realType{realstmt->getstmt()};
-                               if(nullptr != realType)
-                               {
-                                  std::cout << "return type checked..... " + Compiler::getStringFromType(realType->gettype()) + "\n";
-
-                                  if(njnr::type::IDENT == realType->gettype())
-                                  {
-                                    Identifier* Id{dynamic_cast<Identifier*>(realType)};
-                                    std::string s{Id->getvalue()};
-                                    /* TODO: check symbol table for this name and get is data type to put here */
-                                    foundtype = njnr::type::INT;
-                                    first = false;
-
-                                  }
-                                  else if(realType->gettype() != njnr::type::CHECK)
-                                  {
-                                     foundtype = realType->gettype();
-                                     first = false;
-                                  }
-                                  else
-                                  {
-                                     std::cout << "needs further checking later on down road, perhaps at runtime\n";
-                                  }
-
-                               }
-                            }
-                            else if(true == first)
-                            {
-                                foundtype = Compiler::getReturnTypeFromStatement(realstmt);
-                                first = false;
-                            }
-                            else if(realstmt->getrettype() == njnr::type::CHECK)
-                            {
-                                std::cout << "we ever here : CHECK?\n";
-                                /* whoops what do here? */
+                                foundtype = similar;
                             }
                             else
                             {
-                                if(true == aresimilartypes(Compiler::getReturnTypeFromStatement(realstmt), foundtype))
-                                {
-                                   std::cout << "so far compatible...\n";
-                                }
-                                else
-                                {
-                                    std::cerr << "types are not compatible with each other: \n";
-                                    success = false;
-                                }
+                                std::cerr << "types are not compatible with each other: \n";
+                                success = false;
                             }
+                            break;
+                        break;
+                    default:
+                        similar = Compiler::getReturnTypeFromStatement(realstmt);
+                        if(true == aresimilartypes(similar, foundtype))
+                        {
+                            std::cout << "so far compatible...\n";
                         }
                         else
                         {
-                            std::cout << "skipping non-RETURN statement statement\n";
+                            if(true == first)
+                            {
+                                foundtype = similar;
+                            }
+                            else
+                            {
+                                std::cerr << "types are not compatible with each other: \n";
+                                success = false;
+                            }
+                            break;
                         }
+                }
+                if(realstmt->getrettype() == njnr::type::CHECK && (first == true))
+                {
+                    ReturnPacket* realType{realstmt->getexpr()};
+                    if(nullptr != realType)
+                    {
+                        std::cout << "return type checked..... " + Compiler::getStringFromType(realType->gettype()) + "\n";
+
+                        if(njnr::type::IDENT == realType->gettype())
+                        {
+                          Identifier* Id{dynamic_cast<Identifier*>(realType)};
+                          std::string s{Id->getvalue()};
+                          /* TODO: check symbol table for this name and get is data type to put here */
+                          foundtype = njnr::type::INT;
+                          first = false;
+                        }
+                        else if(realType->gettype() != njnr::type::CHECK)
+                        {
+                           foundtype = realType->gettype();
+                           first = false;
+                        }
+                        else
+                        {
+                           std::cout << "needs further checking later on down road, perhaps at runtime\n";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                std::cout << "skipping non-RETURN statement statement\n";
+            }
+        }
+
+        return success;
+    }
+
+    bool Compiler::checkAllFunctionReturnStatements(njnr::List* statementList, njnr::type& foundtype)
+    {
+        bool first{true};
+        bool success{false};
+        if(nullptr != statementList)
+        {
+            std::cout << "Calculating Return types from return statements found in function...\n";
+            // go through all return statements and compare to existing return type
+            //  either we set it initially here or we start to compare and find out
+            //  if they all match or not.
+            for(auto stmt: *statementList)
+            {
+                if(stmt->get_nodeType() == njnr::eNodeType::STMT)
+                {
+//                    Statement* realstmt{(dynamic_cast<StmtListNode*>(stmt))->getstmt()};
+                    if(true != checkSingleReturnStatement((dynamic_cast<StmtListNode*>(stmt))->getstmt(), foundtype, first))
+                    {
+                        break;
                     }
                 }
                 else
                 {
                     std::cout << "skipping non-STMT node\n";
                 }
+                if(true == first)
+                {
+                    first = false;
+                }
             }
-            if(success == true)
+            success = true;
+        }
+        else
+        {
+            std::cerr << "Function body is empty\n";
+        }
+
+        return success;
+    }
+
+    void Compiler::checkfunctionReturnValues(Funcb* functionBinding)
+    {
+        njnr::type foundtype{njnr::type::VOID};
+
+        // IF passed in good pointer
+        if(nullptr != functionBinding)
+        {
+            std::cout << "current func return type: " + getStringFromType(functionBinding->getreturntype()) + "\n";
+            // IF we have a function header 
+            if(nullptr != functionBinding->getfuncheader())
+            {
+                std::cout << "given return type by programmer: " + getStringFromType(functionBinding->getfuncheader()->returntype) + "\n"; 
+               functionBinding->setreturntype(functionBinding->getfuncheader()->returntype);
+            }
+            // IF we have a function body
+            if(true == checkAllFunctionReturnStatements(functionBinding->getfuncbody_list(), foundtype))
             {
                 std::cout << "Setting new return type to: " + getStringFromType(foundtype) + "\n";
                functionBinding->setreturntype(foundtype);
@@ -283,13 +333,8 @@ namespace njnr
         }
         else
         {
-            std::cerr << "Function body is empty\n";
+            std::cerr << "NULL argument\n";
         }
-    }
-    else
-    {
-        std::cerr << "NULL argument\n";
-    }
 /*    if(nullptr != finished)
     {
        for(auto e : *finished)

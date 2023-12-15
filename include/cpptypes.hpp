@@ -196,8 +196,8 @@ namespace njnr
       public:
          Statement();
          statement_type getstype();
-         ReturnPacket* getstmt();
-         void setstmt(ReturnPacket* stmt);
+         ReturnPacket* getexpr();
+         void setexpr(ReturnPacket* expr);
          void setstype(statement_type t);
          virtual ~Statement();
          type getrettype();
@@ -206,7 +206,7 @@ namespace njnr
          std::string printCheckReturn(void) const;
       private:
          statement_type stype;
-         ReturnPacket* stmt;
+         ReturnPacket* expr;
          type         rettype;
    };
 
