@@ -33,9 +33,9 @@ void* Table::lookupB(const std::string& key)
    return nullptr;
 }              // get data for symbol ?
 
-bool Table::install(std::string& key, void* value)
+bool Table::install(std::string& key, void* value, njnr::type t)
 {
-   S_TableEntry entry{key,value, njnr::type::INT};
+   S_TableEntry entry{key,value, t};
    bool answer{false};
    try
    {
@@ -54,8 +54,13 @@ bool Table::install(std::string& key, void* value)
    return answer;
 } // install key:value in table
 
-bool  Table::isEmpty() noexcept
+bool  Table::isEmpty() const noexcept
 {
    return table.empty();
 }                          // return true if table is empty
 
+/* number of symbols in table */
+bool  Table::count() const noexcept
+{
+   return table.size();   
+}

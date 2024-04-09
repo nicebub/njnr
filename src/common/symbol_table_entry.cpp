@@ -11,17 +11,17 @@ S_TableEntry::S_TableEntry() : key{""},
 }
 
 S_TableEntry::S_TableEntry(std::string& key,
-                           void* value,
-                           type entry_type) noexcept : key{key},
-                                                  value{value},
-                                                  entry_type{entry_type}
+                           void* value = nullptr,
+                           type entry_type = njnr::type::VOID) noexcept : key{key},
+                                                                          value{value},
+                                                                          entry_type{entry_type}
 {
 }
 S_TableEntry::S_TableEntry(const S_TableEntry& in) noexcept : key{in.key},
                                                               value{in.value},
                                                               entry_type{in.entry_type}
 {
-  // TODO: need to make deep copy - value needs to be casted then copied
+  // TODO: need to make deep copy - 'value' needs to be casted then copied
 }  // copy constructor
 
 S_TableEntry& S_TableEntry::operator=(const S_TableEntry& in)

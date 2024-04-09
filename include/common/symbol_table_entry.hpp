@@ -40,17 +40,22 @@ namespace njnr
          njnr::btype getGroup(void) const noexcept;
 
          void* getBinding();
+
          std::string getName() const;
          void setName(std::string name);
 
       private:
          std::string  key;
          void*      value;
+
          /* element type */
          njnr::type entry_type;
+
          /* group type */
          njnr::btype group_type;
+
          ReturnPacket* binding;
+
          std::string name;
 
    };

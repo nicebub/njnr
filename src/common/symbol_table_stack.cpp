@@ -24,7 +24,7 @@ SymbolTable::~SymbolTable()
 void SymbolTable::install(S_TableEntry* entry)
 {
    std::string key{entry->getKey()};
-   stack.front().install(key, entry->getValue());
+   stack.front().install(key, entry->getValue(), entry->getType());
 }
 // install a symbol in the symbol table
 void* SymbolTable::lookup(const std::string name)
