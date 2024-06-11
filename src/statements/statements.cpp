@@ -196,7 +196,7 @@ void Compiler::dealwithstmtlist(List* stmtlist)
          statement->setstype(statement_type::RETURN);
          if(nullptr != expr)
          {
-            statement->setrettype(njnr::type::CHECK);
+            statement->setrettype(njnr::type::INT);
             statement->setexpr(expr);
          }
          else

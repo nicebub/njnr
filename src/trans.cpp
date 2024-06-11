@@ -209,7 +209,14 @@ void CodeGenerator::generateReturnStatement(Statement* s)
                break;
             case njnr::type::INT:
                std::cout << "found Integer constant return type\n";
-               *outfile << " " + std::to_string(dynamic_cast<IntConstant*>(s->getexpr())->getvalue());
+               if(dynamic_cast<IntConstant*>(s->getexpr()) != NULL)
+               {
+                  *outfile << " " + std::to_string(dynamic_cast<IntConstant*>(s->getexpr())->getvalue());
+               }
+               else
+               {
+                  *outfile << " " + std::to_string(0);
+               }
                break;
             case njnr::type::FLOAT:
                std::cout << "found Float constant return type\n";
