@@ -53,7 +53,7 @@ namespace njnr
          Constant();
          Constant(bool lval, njnr::type ttype, bool ifnum, int offset);
          virtual ~Constant();
-         //		ReturnPacket
+         //  ReturnPacket
       private:
    };
 
@@ -163,12 +163,12 @@ namespace njnr
          const std::string toString() const;
       private:
          std::vector<njnr::type> param_type;
-         type 	returntype;
-         bool 	bodydef;
-         int 	num_param;
-         int 	label;
-         int 	localcount;
-         int 	actual_num;
+         type  returntype;
+         bool  bodydef;
+         int   num_param;
+         int   label;
+         int   localcount;
+         int   actual_num;
          funcheadertype* funcheader;
          List* funcbody_list;
    };

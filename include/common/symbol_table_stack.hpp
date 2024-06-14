@@ -25,7 +25,7 @@ namespace njnr
          bool inCurrentScope(const std::string name);  // true if symbol is in current scope
          void openscope();  // open a new stack/lifetime scope
          void closescope(); // close the topmost stack/lifetime scope
-         //		static SymbolTable* createTree(Compiler& compiler,int Stacksize);
+         //   static SymbolTable* createTree(Compiler& compiler,int Stacksize);
          void addtosymtab(type mytype, List* myList);                                //FIXME: take in a ReturnPacket* instead?
          void addtosymtab(const std::string key, void* value, njnr::type ttype);
          int getleveldif(std::string name);

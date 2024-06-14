@@ -46,7 +46,7 @@ namespace njnr
        mysymtab->install(entry);
    }
 
-   Compiler::Compiler(int argc,  char* const* argv) : 	Compiler{}
+   Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
    {
        openedInputFile(argc,argv);
    }

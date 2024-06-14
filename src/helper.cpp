@@ -5,7 +5,7 @@ namespace njnr
 {
 
    #define error_and_return_false(x) error((x),""); \
-   	return false
+      return false
 
    void Compiler::install_parameters_into_symbol_table_curren_scope(funcheadertype** inFuncHeaderptr)
    {
@@ -57,7 +57,7 @@ namespace njnr
          {
             std::cerr << "Error: Line: " << Line_Number << ": argument " << (list_index+1) << ": has different parameter type than in function declaration\n";
            #ifdef DEBUG
-           //				std::cerr << "\nThey are " <<  currentFunc->getparam_type()[list_index] << " and " << nelement->gettype() << std::endl ;
+           //  std::cerr << "\nThey are " <<  currentFunc->getparam_type()[list_index] << " and " << nelement->gettype() << std::endl ;
            #endif
             return false;
          }

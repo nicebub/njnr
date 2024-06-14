@@ -273,7 +273,7 @@ namespace njnr
        value = in;
    }
 
-   Funcb::Funcb() :	param_type{},
+   Funcb::Funcb() : param_type{},
        returntype{njnr::type::VOID},
        bodydef{false},
        num_param{0},
@@ -398,12 +398,12 @@ namespace njnr
    {
     /**
          std::vector<njnr::type> param_type;
-         type 	returntype;
-         bool 	bodydef;
-         int 	num_param;
-         int 	label;
-         int 	localcount;
-         int 	actual_num;
+         type   returntype;
+         bool   bodydef;
+         int    num_param;
+         int    label;
+         int    localcount;
+         int    actual_num;
          funcheadertype* funcheader;
          List* funcbody_list;
      */

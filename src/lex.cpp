@@ -9,7 +9,7 @@ using namespace njnr;
 
 namespace njnr
 {
-   //		njnrLexer::njnrLexer() : string_buf{}, yylval{nullptr}, loc{new njnrParser::location_type()}, compiler() {}
+   //  njnrLexer::njnrLexer() : string_buf{}, yylval{nullptr}, loc{new njnrParser::location_type()}, compiler() {}
    njnrLexer::~njnrLexer()
    {
        delete loc;

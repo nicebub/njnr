@@ -53,7 +53,7 @@ void SymbolTable::closescope()
    stack.pop_front();
 }
 // close the topmost stack/lifetime scope
-//		static SymbolTable* createTree(Compiler& compiler,int Stacksize);
+//  static SymbolTable* createTree(Compiler& compiler,int Stacksize);
 void SymbolTable::addtosymtab(type mytype, List* myList)
 {
 }

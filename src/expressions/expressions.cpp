@@ -368,7 +368,7 @@ namespace njnr
          if(inIdent.getvalue() != "main")
          {
            #ifdef DEBUG
-            //				fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
+            //  fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
            #endif
 
             if( (nullptr != (resultLookup =  mysymtab->lookupB(inIdent.getvalue()))))
@@ -480,7 +480,7 @@ namespace njnr
                error("variable undeclared, please declare variables before using them","");
            else
            {
-               tempE =	mysymtab->lookupB(inPacket.getvalue());
+               tempE = mysymtab->lookupB(inPacket.getvalue());
                if(tempE != nullptr)
                {
                    if(tempE->getGroup() == btype::VAR || tempE->getGroup() == btype::PARAM)
@@ -490,7 +490,7 @@ namespace njnr
                        case btype::VAR:
                            outPacket->settype(((Varb*)(tempE->getBinding()))->gettype());
    #ifdef DEBUG
-   //						std::cerr << "type is: "  << (int)outPacket->gettype()) << std::endl;
+   //  std::cerr << "type is: "  << (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
                            if(((Varb*)(tempE->getBinding()))->gettype() == type::INT || ((Varb*)(tempE->getBinding()))->gettype() == type::FLOAT)
@@ -514,7 +514,7 @@ namespace njnr
                        case btype::PARAM:
                            outPacket->settype( ((Paramb*)(tempE->getBinding()))->gettype());
    #ifdef DEBUG
-   //						std::cerr <<  "type is: " <<  (int)outPacket->gettype()) << std::endl;
+   //  std::cerr <<  "type is: " <<  (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
                            if(((Paramb*)(tempE->getBinding()))->gettype() == type::INT || ((Paramb*)(tempE->getBinding()))->gettype() == type::FLOAT)

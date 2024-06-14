@@ -26,7 +26,7 @@ namespace njnr
                                      new njnr::Identifier{inIdent},
                                      njnr::type::IDENT);
 
-           tempE =	mysymtab->lookupB(inIdent.getvalue());
+           tempE = mysymtab->lookupB(inIdent.getvalue());
            if( tempE !=nullptr)
            {
                if(tempE->getGroup() == btype::FUNC)
@@ -125,8 +125,8 @@ namespace njnr
        inEntry->funcent = nullptr;
        inEntry->funcent =  mysymtab->lookupB(inPacket.getvalue());
    #ifdef DEBUG
-       //	printTree(mysymtab);
-   //	std::cerr <<  "this the name of function called and the lookup value: "  << inPacket.getvalue().c_str()) << std::endl;
+       //  printTree(mysymtab);
+   //  std::cerr <<  "this the name of function called and the lookup value: "  << inPacket.getvalue().c_str()) << std::endl;
        if( mysymtab->lookupB(inPacket.getvalue())==nullptr)
            std::cerr <<  "it was null\n";
        else
@@ -179,12 +179,12 @@ namespace njnr
                    else if(tempB->getnum_param() == -1)
                    {
    #ifdef DEBUG
-   //					fprintf(stderr,"SPRINTF OR PRINTF mismatch: FUNCTION NAME: %s\n",$1);
-                       //				fprintf(stderr,"SPRINTF OR PRINTF: FUNCTION TYPE: %d\n",(int)$4->type);
-   //					fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
-   //					fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
-   //					fprintf(stderr,"SPRINTF OR PRINTF: $4 TYPE: %d\n",(int)$4->type);
-   //					fprintf(stderr,"SPRINTF OR PRINTF: tempB->param_type[0] TYPE: %d\n",(int)tempB->param_type[0]);
+   //  fprintf(stderr,"SPRINTF OR PRINTF mismatch: FUNCTION NAME: %s\n",$1);
+                       //  fprintf(stderr,"SPRINTF OR PRINTF: FUNCTION TYPE: %d\n",(int)$4->type);
+   //  fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"SPRINTF OR PRINTF: $4 TYPE: %d\n",(int)$4->type);
+   //  fprintf(stderr,"SPRINTF OR PRINTF: tempB->param_type[0] TYPE: %d\n",(int)tempB->param_type[0]);
    #endif
                        if(inPacket->gettype() != tempB->getparam_type()[0])
                        {
@@ -192,7 +192,7 @@ namespace njnr
                        }
                        else
                        {
-   //							code_generator.gen_instr_S("pushs",$<value.svalue>4);
+   //  code_generator.gen_instr_S("pushs",$<value.svalue>4);
                        }
                        outPacket->settype(tempB->getparam_type()[0]);
                        if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT)
@@ -215,20 +215,20 @@ namespace njnr
                            if(inPacket->gettype() != tempB->getparam_type()[0])
                            {
    #ifdef DEBUG
-   //							fprintf(stderr,"Function mismatch 2: FUNCTION NAME: %s\n",$1);
-   //							fprintf(stderr,"Function mismatch 2: FUNCTION TYPE: %d\n",(int)$4->type);
-   //							fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
-   //							fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 2: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 2: FUNCTION TYPE: %d\n",(int)$4->type);
+   //  fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
    #endif
                                if(tempB->getparam_type()[0]!= type::INT && tempB->getparam_type()[0]!= type::FLOAT)
                                    error("Parameter type is different in declaration and in function call","");
                                else if(tempB->getparam_type()[0]== type::INT)
                                {
    #ifdef DEBUG
-   //								fprintf(stderr,"Function mismatch 3: FUNCTION NAME: %s\n",$1);
-   //								fprintf(stderr,"Function mismatch 3: FUNCTION TYPE: %d\n",(int)$4->type);
-   //								fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
-   //								fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 3: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 3: FUNCTION TYPE: %d\n",(int)$4->type);
+   //  fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 1: FUNCTION NAME: %s\n",$1);
    #endif
                                    switch(inPacket->gettype())
                                    {
@@ -245,7 +245,7 @@ namespace njnr
                                else if(tempB->getparam_type()[0]== type::FLOAT)
                                {
    #ifdef DEBUG
-   //								fprintf(stderr,"Function mismatch 4: FUNCTION NAME: %s\n",$1);
+   //  fprintf(stderr,"Function mismatch 4: FUNCTION NAME: %s\n",$1);
    #endif
                                    switch(inPacket->gettype())
                                    {
@@ -339,7 +339,7 @@ namespace njnr
                        if(inexprPacket->gettype() != tempB->getparam_type()[innameAndparamPacket->params])
                        {
    #ifdef DEBUG
-   //						fprintf(stderr,"Function mismatch before warning: FUNCTION NAME: %s\n", innameAndparamPacket->getname());
+   //  fprintf(stderr,"Function mismatch before warning: FUNCTION NAME: %s\n", innameAndparamPacket->getname());
    #endif
    
                            warning("Parameter type is different in declaration and in function call","");

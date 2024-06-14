@@ -49,7 +49,7 @@ bool Table::install(std::string& key, void* value, njnr::type t)
       answer = true;
    }
    //std::cout << "through install function of symbol table. Printing symbol table tree\n";
-   //	printTree(symtab);
+   // printTree(symtab);
 
    return answer;
 } // install key:value in table

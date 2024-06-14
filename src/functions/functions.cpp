@@ -59,7 +59,7 @@ namespace njnr
        njnr::S_TableEntry* found = mysymtab->lookupB(inFuncHeader->name);
        if(  found  == nullptr )
        {
-           auto tempEntry =  mysymtab->createFunc(	inFuncHeader->name,
+           auto tempEntry =  mysymtab->createFunc( inFuncHeader->name,
                                                    inFuncHeader->returntype,
                                                    inFuncHeader->paramlist
                                                  );
