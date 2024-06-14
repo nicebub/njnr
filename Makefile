@@ -165,7 +165,7 @@ $(PATHO)njnr.tab.o: $(PATHS)njnr.tab.cpp
 
 $(PATHO)lex.yy.o: $(PATHS)lex.yy.cc
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
-	
+
 $(PATHO)%.o:: $(PATHS)%.cpp $(PATHI)%.hpp
 	$(COMPILER) $(TFLAGS) $(FCFLAGS) -c $< -o $@
 
@@ -205,7 +205,7 @@ $(PATHO):
 $(PATHR):
 	$(MKDIR) $(PATHR)
 
-LINT = `cpplint`
+LINT = cpplint
 LINTFLAGS = --verbose=2
 ASTYLE = `which astyle`
 AFLAGS = 
