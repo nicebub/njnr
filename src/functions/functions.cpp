@@ -40,7 +40,7 @@ namespace njnr
        auto templabel{mainlabel};
        if(is_function_decl_or_def_accurate(inFuncHeaderptr,false))
        {
-           mysymtab->openscope();
+           symbolTable->openscope();
            if((*inFuncHeaderptr)->name != "main")
            {
                templabel = currentFunc->getlabel();
@@ -51,19 +51,19 @@ namespace njnr
    }
    void Compiler::block3_func_funcheader_source_funcbody()
    {
-       mysymtab->closescope();
+       symbolTable->closescope();
    }
 
    void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
    {
-       njnr::S_TableEntry* found = mysymtab->lookupB(inFuncHeader->name);
+       njnr::S_TableEntry* found = symbolTable->lookupB(inFuncHeader->name);
        if(  found  == nullptr )
        {
-           auto tempEntry =  mysymtab->createFunc( inFuncHeader->name,
+           auto tempEntry =  symbolTable->createFunc( inFuncHeader->name,
                                                    inFuncHeader->returntype,
                                                    inFuncHeader->paramlist
                                                  );
-           mysymtab->install(tempEntry);
+           symbolTable->install(tempEntry);
            return;
        }
        is_function_decl_or_def_accurate(&inFuncHeader,true);

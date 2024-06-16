@@ -6,7 +6,7 @@
 #include "symbol_table_stack.hpp"
 namespace njnr
 {
-   Compiler::Compiler(): mysymtab{nullptr},
+   Compiler::Compiler(): symbolTable{nullptr},
        code_generator{},
        lexer{nullptr,*this},
        parser{nullptr},
@@ -23,7 +23,7 @@ namespace njnr
    {
        try
        {
-           mysymtab = new SymbolTable{ *this};
+           symbolTable = new SymbolTable{ *this};
            install_functions_into_symbolTable();
            parser = new njnrParser{*this};
            parser->set_debug_stream(std::cerr);
@@ -42,8 +42,8 @@ namespace njnr
    void Compiler::install_functions_into_symbolTable()
    {
        List* params{List::mklist("",njnr::type::VOID)};
-       S_TableEntry* entry{mysymtab->createFunc("main", njnr::type::INT,params )};
-       mysymtab->install(entry);
+       S_TableEntry* entry{symbolTable->createFunc("main", njnr::type::INT,params )};
+       symbolTable->install(entry);
    }
 
    Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
@@ -55,11 +55,11 @@ namespace njnr
    {
 
        closeOrRemoveOutputFile(false);
-       if(mysymtab != nullptr)
+       if(symbolTable != nullptr)
        {
            debugprint("deleteting symbol table\n","");
-           delete mysymtab;
-           mysymtab = nullptr;
+           delete symbolTable;
+           symbolTable = nullptr;
        }
        if(parser != nullptr)
        {
@@ -358,16 +358,16 @@ void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t
 {
    if(Id != nullptr)
    {
-      S_TableEntry* te = mysymtab->createVar(Id->getvalue(), t, 0); 
-      mysymtab->install(te);
+      S_TableEntry* te = symbolTable->createVar(Id->getvalue(), t, 0); 
+      symbolTable->install(te);
    }
 }
 void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t)
 {
    if(Id != nullptr)
    {
-      S_TableEntry* te = mysymtab->createParam(Id->getvalue(), t, 0); 
-      mysymtab->install(te);
+      S_TableEntry* te = symbolTable->createParam(Id->getvalue(), t, 0); 
+      symbolTable->install(te);
    }
 }
 

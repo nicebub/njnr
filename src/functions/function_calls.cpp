@@ -16,7 +16,7 @@ namespace njnr
        Funcb* tempb;
        S_TableEntry* tempE;
        S_TableEntry*tempE2;
-       if((tempb=(Funcb*) mysymtab->lookup(inIdent.getvalue())) == nullptr)
+       if((tempb=(Funcb*) symbolTable->lookup(inIdent.getvalue())) == nullptr)
        {
            error("function undeclared, please declare functions before using them","");
        }
@@ -26,7 +26,7 @@ namespace njnr
                                      new njnr::Identifier{inIdent},
                                      njnr::type::IDENT);
 
-           tempE = mysymtab->lookupB(inIdent.getvalue());
+           tempE = symbolTable->lookupB(inIdent.getvalue());
            if( tempE !=nullptr)
            {
                if(tempE->getGroup() == btype::FUNC)
@@ -123,11 +123,11 @@ namespace njnr
        ReturnPacket* inEntry{new ReturnPacket{}};
 
        inEntry->funcent = nullptr;
-       inEntry->funcent =  mysymtab->lookupB(inPacket.getvalue());
+       inEntry->funcent =  symbolTable->lookupB(inPacket.getvalue());
    #ifdef DEBUG
-       //  printTree(mysymtab);
+       //  printTree(symbolTable);
    //  std::cerr <<  "this the name of function called and the lookup value: "  << inPacket.getvalue().c_str()) << std::endl;
-       if( mysymtab->lookupB(inPacket.getvalue())==nullptr)
+       if( symbolTable->lookupB(inPacket.getvalue())==nullptr)
            std::cerr <<  "it was null\n";
        else
            std::cerr << "wasn't null\n";
@@ -147,7 +147,7 @@ namespace njnr
        ReturnPacket* inEntry{*inEntryptr};
        outPacket->setlval(false);
        Funcb* tempB;
-       tempB = (Funcb*) mysymtab->lookup(inIdent.getvalue());
+       tempB = (Funcb*) symbolTable->lookup(inIdent.getvalue());
        if(tempB ==nullptr)
        {
            error("function undelcared, please declare functions before using them","");
@@ -161,7 +161,7 @@ namespace njnr
                                      new njnr::Identifier{inIdent},
                                      njnr::type::IDENT);
 
-           tempE = mysymtab->lookupB(inIdent.getvalue());
+           tempE = symbolTable->lookupB(inIdent.getvalue());
            if( tempE !=nullptr)
            {
                if(tempE->getGroup() != btype::FUNC)
@@ -303,8 +303,8 @@ namespace njnr
                                      innameAndparamPacket->funcent,
                                      njnr::type::IDENT);
 
-           tempB= (Funcb*) mysymtab->lookup( innameAndparamPacket->funcent->getName());
-           if( (tempE=  mysymtab->lookupB(innameAndparamPacket->funcent->getName()))!=nullptr)
+           tempB= (Funcb*) symbolTable->lookup( innameAndparamPacket->funcent->getName());
+           if( (tempE=  symbolTable->lookupB(innameAndparamPacket->funcent->getName()))!=nullptr)
            {
                if(tempE->getGroup() != btype::FUNC)
                {

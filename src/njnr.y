@@ -285,10 +285,10 @@ funcbody_internal: variabledecl {
 ;
 
 variabledecl: vart identlist {
-                                compiler.mysymtab->addtosymtab(type::INT, $2);
+                                compiler.symbolTable->addtosymtab(type::INT, $2);
 							 }
 			  lett identlist {
-                               compiler.mysymtab->addtosymtab(type::INT, $2);
+                               compiler.symbolTable->addtosymtab(type::INT, $2);
 			                 }
 ;
 
@@ -324,7 +324,7 @@ stmt:     expr semi {
 					 }
 
 		| lcbra funcbody_internal rcbra {
-		                                } //closescope(mysymtab);
+		                                } //closescope(symbolTable);
 //		| returnt error {
 //	                       yyerrok;
 //						   compiler.error("(unexpected token after return in return stmt)","");
@@ -340,7 +340,7 @@ stmt:     expr semi {
 		| lcbra funcbody_internal error rcbra {
 			                                     yyerrok;
 												 compiler.error("(unexpected token before rcbra in stmt)","");
-											  }	//closescope(mysymtab);
+											  }	//closescope(symbolTable);
 ;
 
 ifexprstmt: ift lpar expr <struct Pair	>{
@@ -546,7 +546,7 @@ relop: lesst {
 #include <iostream>
 int yyerror(std::string s, Compiler& compiler)
 {
-	compiler.error(s,"");
-	std::cerr << "Error:::"<< compiler.filename << ":"<< compiler.Line_Number << "-> " << s << "\n";
-	return 0;
+   compiler.error(s,"");
+   std::cerr << "Error:::"<< compiler.filename << ":"<< compiler.Line_Number << "-> " << s << "\n";
+   return 0;
 }

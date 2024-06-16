@@ -371,7 +371,7 @@ namespace njnr
             //  fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
            #endif
 
-            if( (nullptr != (resultLookup =  mysymtab->lookupB(inIdent.getvalue()))))
+            if( (nullptr != (resultLookup =  symbolTable->lookupB(inIdent.getvalue()))))
             {
                outPacket->settype(((S_TableEntry*)resultLookup->getBinding())->getType());
                outPacket->setlval(true);
@@ -379,7 +379,7 @@ namespace njnr
                {
                   outPacket->setnumeric(true);
                }
-               if(mysymtab->inCurrentScope(inIdent.getvalue()))
+               if(symbolTable->inCurrentScope(inIdent.getvalue()))
                {
                }
                else
@@ -393,7 +393,7 @@ namespace njnr
                         // if((*outPacket)->gettype() !=  nullptr) fprintf(stderr,"type is: %s\n", &temp_char);
                         // if(resultLookup->getBinding()->gettype() != nullptr) fprintf(stderr,"type is: %d\n", resultLookup->getBinding()->gettype());
                        #endif
-                        int level_diff {mysymtab->getleveldif(inIdent.getvalue())};
+                        int level_diff {symbolTable->getleveldif(inIdent.getvalue())};
                         if(level_diff != -1)
                         {
                         }
@@ -476,11 +476,11 @@ namespace njnr
        S_TableEntry*tempE; //, *tempE2;
        if( inPacket.getvalue() != "main")
        {
-           if( mysymtab->lookup(inPacket.getvalue()) == nullptr)
+           if( symbolTable->lookup(inPacket.getvalue()) == nullptr)
                error("variable undeclared, please declare variables before using them","");
            else
            {
-               tempE = mysymtab->lookupB(inPacket.getvalue());
+               tempE = symbolTable->lookupB(inPacket.getvalue());
                if(tempE != nullptr)
                {
                    if(tempE->getGroup() == btype::VAR || tempE->getGroup() == btype::PARAM)
@@ -495,12 +495,12 @@ namespace njnr
                            outPacket->setlval(false);
                            if(((Varb*)(tempE->getBinding()))->gettype() == type::INT || ((Varb*)(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
-                           if(mysymtab->inCurrentScope(inPacket.getvalue()))
+                           if(symbolTable->inCurrentScope(inPacket.getvalue()))
                            {
                            }
                            else
                            {
-                               int level_diff{mysymtab->getleveldif(inPacket.getvalue())};
+                               int level_diff{symbolTable->getleveldif(inPacket.getvalue())};
                                if(level_diff != -1)
                                {
                                }
@@ -519,7 +519,7 @@ namespace njnr
                            outPacket->setlval(false);
                            if(((Paramb*)(tempE->getBinding()))->gettype() == type::INT || ((Paramb*)(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
-                           if(mysymtab->inCurrentScope(inPacket.getvalue()))
+                           if(symbolTable->inCurrentScope(inPacket.getvalue()))
                            {
                            }
                            else

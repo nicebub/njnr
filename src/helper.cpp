@@ -13,8 +13,8 @@ namespace njnr
       for(auto element : *inFuncHeader->paramlist)
       {
          PListNode* nelement{dynamic_cast<PListNode*>(element)};
-         auto tempEntry = mysymtab->createParam(nelement->getval(), nelement->gettype(),(offset_counter));
-         mysymtab->install(tempEntry);
+         auto tempEntry = symbolTable->createParam(nelement->getval(), nelement->gettype(),(offset_counter));
+         symbolTable->install(tempEntry);
          if(nelement->gettype() != njnr::type::VOID)
          {
             offset_counter++;
@@ -25,12 +25,12 @@ namespace njnr
    {
       funcheadertype* inFuncHeader{*inFuncHeaderptr};
 
-      currentFunc = static_cast<Funcb*>(mysymtab->lookup(inFuncHeader->name));
-      auto foundPacket{mysymtab->lookupB(inFuncHeader->name)};
+      currentFunc = static_cast<Funcb*>(symbolTable->lookup(inFuncHeader->name));
+      auto foundPacket{symbolTable->lookupB(inFuncHeader->name)};
 
       if(!foundPacket)
       {
-         error_and_return_false("Function name not in symbol mysymtab");
+         error_and_return_false("Function name not in symbol symbolTable");
       }
       if(foundPacket->getGroup() != njnr::btype::FUNC)
       {
