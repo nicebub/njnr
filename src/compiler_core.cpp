@@ -7,6 +7,7 @@
 namespace njnr
 {
    Compiler::Compiler(): symbolTable{nullptr},
+       constantTable{nulptr},
        code_generator{},
        lexer{nullptr,*this},
        parser{nullptr},
@@ -25,6 +26,7 @@ namespace njnr
        {
            symbolTable = new SymbolTable{ *this};
            install_functions_into_symbolTable();
+           constantTable = new SymbolTable{*this};
            parser = new njnrParser{*this};
            parser->set_debug_stream(std::cerr);
    #ifdef DEBUG
@@ -61,6 +63,13 @@ namespace njnr
            delete symbolTable;
            symbolTable = nullptr;
        }
+       if(constantTable != nullptr)
+       {
+           debugprint("deleteting constant symbol table\n","");
+           delete constantTable;
+           constantTable = nullptr;
+       }
+
        if(parser != nullptr)
        {
            debugprint("deleteing parser\n","");

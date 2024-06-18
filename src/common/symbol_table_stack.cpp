@@ -26,6 +26,27 @@ void SymbolTable::install(S_TableEntry* entry)
    std::string key{entry->getKey()};
    stack.front().install(key, entry->getValue(), entry->getType());
 }
+
+void SymbolTable::install(std::string val)
+{
+   stack.front().install(val, val, njnr::type::STR);
+}
+void SymbolTable::install(int val)
+{
+   std::string key{val};
+   stack.front().install(key, val, njnr::type::INT);
+}
+void SymbolTable::install(float val)
+{
+   std::string key{val};
+   stack.front().install(key, val, njnr::type::FLOAT);
+}
+void SymbolTable::install(char val)
+{
+   std::string key{val};
+   stack.front().install(key, val, njnr::type::CHAR);
+}
+
 // install a symbol in the symbol table
 void* SymbolTable::lookup(const std::string name)
 {

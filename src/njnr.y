@@ -492,16 +492,21 @@ identlist: Ident {
 
 constant: StrConstant {
 	                     $$ = new StrConstant{$1};
+                          compiler.constantTable->install(type::STR, $1);
 					  }
         | IntConstant {
 			             $$ = new IntConstant{$1};
+                          compiler.constantTable->install(type::INT, $1);
 					  }
         | FloatConstant {
 			               $$ = new FloatConstant{$1};
+                          compiler.constantTable->install(type::FLOAT, $1);
 						}
 		| CharConstant {
 			              $$ = new CharConstant{$1};
+                          compiler.constantTable->install(type::CHAR, $1);
 					   }
+					   
 ;
 
 addop: plus {

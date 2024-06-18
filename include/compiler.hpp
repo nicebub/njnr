@@ -25,8 +25,8 @@ namespace njnr
    class Compiler
    {
       public:
-         SymbolTable*        symbolTable{};  // symbol table
-         SymbolTable*     constantTable;
+         SymbolTable*     symbolTable{};  // symbol table
+         SymbolTable*   constantTable{};
          CodeGenerator code_generator{};  // code generator
          njnrLexer                lexer;  // lexical analyzer
          njnrParser*           parser{};  // syntactic parser

@@ -20,6 +20,12 @@ namespace njnr
          ~SymbolTable();                   // Deconstructor
 //         void printTree() const;                       // print symbol table tree
          void install(S_TableEntry* entry);              // install a symbol in the symbol table
+
+         void install(std::string val);              // install a symbol in the symbol table
+         void install(int val);              // install a symbol in the symbol table
+         void install(float val);              // install a symbol in the symbol table
+         void install(char val);              // install a symbol in the symbol table
+
          void* lookup(const std::string name); // look up a symbol in scope and return its value
          S_TableEntry* lookupB(const std::string name);  // look up a symbol in scope and return its table entry
          bool inCurrentScope(const std::string name);  // true if symbol is in current scope
