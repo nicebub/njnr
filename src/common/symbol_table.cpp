@@ -2,8 +2,6 @@
 #include <string>
 #include <iostream>
 
-#include "type.hpp"
-#include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"
 
 using namespace njnr;
@@ -16,7 +14,7 @@ void* Table::lookup(const std::string key)
       return result->second;
    }
    return nullptr;
-}               // get data for symbol
+} // get data for symbol
 
 void* Table::lookupB(const std::string key)
 {
@@ -31,7 +29,7 @@ void* Table::lookupB(const std::string key)
        std::cout << "caught out of range\n";
    }
    return nullptr;
-}              // get data for symbol ?
+} // get data for symbol ?
 
 bool Table::install(std::string key, void* value)
 {
