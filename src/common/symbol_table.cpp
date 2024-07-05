@@ -8,17 +8,17 @@
 
 using namespace njnr;
 
-void* Table::lookup(const std::string& key)
+void* Table::lookup(const std::string key)
 {
    auto result{table.find(key)};
    if(result != table.end())
    {
-      return result->second.getValue();
+      return result->second;
    }
    return nullptr;
 }               // get data for symbol
 
-S_TableEntry Table::lookupB(const std::string& key)
+void* Table::lookupB(const std::string key)
 {
    try
    {
@@ -30,22 +30,21 @@ S_TableEntry Table::lookupB(const std::string& key)
        // not in table
        std::cout << "caught out of range\n";
    }
-   return S_TableEntry();
+   return nullptr;
 }              // get data for symbol ?
 
-bool Table::install(std::string& key, void* value, njnr::type t)
+bool Table::install(std::string key, void* value)
 {
-   S_TableEntry entry{key,value, t};
    bool answer{false};
    try
    {
-      table.at(entry.getKey());
+      table.at(key);
       std::cerr << "error: symbol already declared in current scope\n";
    }
    catch(std::out_of_range& e)
    {
-      std::cout << "caught out of range, does not exist:" << entry.getKey() << " installing into table\n";
-      table[entry.getKey()] = entry;
+      std::cout << "caught out of range, does not exist:" << key << " installing into table\n";
+      table[key] = value;
       answer = true;
    }
    //std::cout << "through install function of symbol table. Printing symbol table tree\n";

@@ -23,32 +23,36 @@ SymbolTable::~SymbolTable()
 //      void printTree() const;                       // print symbol table tree
 void SymbolTable::install(S_TableEntry* entry)
 {
-   std::string key{entry->getKey()};
-   stack.front().install(key, entry->getValue(), entry->getType());
+   stack.front().install(entry->getKey(), entry);
 }
 
 void SymbolTable::install(std::string val)
 {
-   std::string* v = new std::string{val};
-   stack.front().install(val, v, njnr::type::STR);
+   S_TableEntry* s{new S_TableEntry{}};
+   s->setName(val);
+   s->setType(njnr::type::STR);
+   stack.front().install(val, s);
 }
 void SymbolTable::install(int val)
 {
-   std::string key{std::to_string(val)};
-   int* v = new int(val);
-   stack.front().install(key, v, njnr::type::INT);
+   S_TableEntry* s{new S_TableEntry{}};
+   s->setName(std::to_string(val));
+   s->setType(njnr::type::INT);
+   stack.front().install(s->getName(), s);
 }
 void SymbolTable::install(float val)
 {
-   std::string key{std::to_string(val)};
-   float* v = new float(val);
-   stack.front().install(key, v, njnr::type::FLOAT);
+   S_TableEntry* s{new S_TableEntry{}};
+   s->setName(std::to_string(val));
+   s->setType(njnr::type::FLOAT);
+   stack.front().install(s->getName(), s);
 }
 void SymbolTable::install(char val)
 {
-   std::string key{val};
-   char* v = new char(val);
-   stack.front().install(key, v, njnr::type::CHAR);
+   S_TableEntry* s{new S_TableEntry{}};
+   s->setName(std::to_string(val));
+   s->setType(njnr::type::CHAR);
+   stack.front().install(s->getName(), s);
 }
 
 // install a symbol in the symbol table
@@ -57,7 +61,7 @@ void* SymbolTable::lookup(const std::string name)
    return stack.front().lookup(name);
 }
 // look up a symbol in scope and return its value
-S_TableEntry SymbolTable::lookupB(const std::string name)
+void* SymbolTable::lookupB(const std::string name)
 {
    return stack.front().lookupB(name);
 }

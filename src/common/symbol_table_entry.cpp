@@ -74,3 +74,7 @@ void* S_TableEntry::getBinding()
    {
        name = inName;
    }
+   void S_TableEntry::setType(njnr::type inType)
+   {
+       entry_type = inType;
+   }

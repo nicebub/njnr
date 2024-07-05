@@ -56,7 +56,7 @@ namespace njnr
 
    void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
    {
-       njnr::S_TableEntry found = symbolTable->lookupB(inFuncHeader->name);
+       njnr::S_TableEntry found = *static_cast<S_TableEntry*>(symbolTable->lookupB(inFuncHeader->name));
            auto tempEntry =  symbolTable->createFunc( inFuncHeader->name,
                                                    inFuncHeader->returntype,
                                                    inFuncHeader->paramlist

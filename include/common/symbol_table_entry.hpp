@@ -43,7 +43,7 @@ namespace njnr
 
          std::string getName() const;
          void setName(std::string name);
-
+         void setType(njnr::type type);
       private:
          std::string  key;
          void*      value;

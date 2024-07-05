@@ -371,7 +371,7 @@ namespace njnr
             //  fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
            #endif
             S_TableEntry* s{new S_TableEntry{}};
-            *s = symbolTable->lookupB(inIdent.getvalue());
+            *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(inIdent.getvalue()));
             resultLookup = s;
             if(nullptr != resultLookup)
             {
@@ -483,7 +483,7 @@ namespace njnr
            else
            {
             S_TableEntry* s{new S_TableEntry{}};
-            *s = symbolTable->lookupB(inPacket.getvalue());
+            *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(inPacket.getvalue()));
                tempE = s;
                if(tempE != nullptr)
                {

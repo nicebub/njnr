@@ -26,7 +26,7 @@ namespace njnr
                                      new njnr::Identifier{inIdent},
                                      njnr::type::IDENT);
 
-           tempE = symbolTable->lookupB(inIdent.getvalue());
+           tempE = *static_cast<S_TableEntry*>(symbolTable->lookupB(inIdent.getvalue()));
                if(tempE.getGroup() == btype::FUNC)
                {
                    if(tempb->getreturntype() != type::VOID)
@@ -116,7 +116,7 @@ namespace njnr
        ReturnPacket* inEntry{new ReturnPacket{}};
        S_TableEntry* s{new S_TableEntry{}};
        inEntry->funcent = nullptr;
-       *s = symbolTable->lookupB(inPacket.getvalue());;
+       *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(inPacket.getvalue()));
        inEntry->funcent = s;
    #ifdef DEBUG
        //  printTree(symbolTable);
@@ -155,7 +155,7 @@ namespace njnr
            tempE2 = new S_TableEntry(*new std::string{inIdent.getvalue()},
                                      new njnr::Identifier{inIdent},
                                      njnr::type::IDENT);
-           *s = symbolTable->lookupB(inIdent.getvalue());;
+           *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(inIdent.getvalue()));
            tempE = s;
            if( tempE !=nullptr)
            {
@@ -300,7 +300,7 @@ namespace njnr
 
            tempB= (Funcb*) symbolTable->lookup( innameAndparamPacket->funcent->getName());
            S_TableEntry* s{new S_TableEntry{}};
-           *s = symbolTable->lookupB(innameAndparamPacket->funcent->getName());
+           *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(innameAndparamPacket->funcent->getName()));
            tempE = s;
            if( tempE  !=nullptr)
            {
