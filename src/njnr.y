@@ -76,11 +76,11 @@ int yyerror(std::string err,Compiler& compiler);
 } 
 
 
-%token <njnr::Identifier> Ident "Identifier"
-%token <njnr::IntConstant> IntConstant "IntConstant"
-%token <njnr::FloatConstant> FloatConstant "FloatConstant"
-%token <njnr::StrConstant> StrConstant "StrConstant"
-%token <njnr::CharConstant> CharConstant "CharConstant"
+%token <std::string> Ident "Identifier"
+%token <int> IntConstant "IntConstant"
+%token <float> FloatConstant "FloatConstant"
+%token <std::string> StrConstant "StrConstant"
+%token <char> CharConstant "CharConstant"
 %token voidt
 %token intt
 %token floatt
@@ -250,12 +250,12 @@ paramdef: paramdeflist {$$ = $1;}
 ;
 
 paramdeflist: Ident {
-	                   $$ = List::mklist(&$1);
-					   compiler.installParameterIntoSymbolTable(&$1, njnr::type::INT);
+	                   $$ = List::mklist($1);
+					   compiler.installParameterIntoSymbolTable($1, njnr::type::INT);
 					}
             | paramdeflist comma Ident {
-				                          $$ = $1->appendList(&$3);
-                 	                      compiler.installParameterIntoSymbolTable(&$3, njnr::type::INT);
+				                          $$ = $1->appendList($3);
+                 	                      compiler.installParameterIntoSymbolTable($3, njnr::type::INT);
 									   }
 ;
 
@@ -428,7 +428,7 @@ factor: constant {
 				 }
       | Ident {
 		         $$ = compiler.block55_factor_ident($1);
-				 compiler.installVariableIntoSymbolTable(&$1, njnr::type::INT);
+				 compiler.installVariableIntoSymbolTable($1, njnr::type::INT);
 			  }
       | lpar expr rpar {
 		                  $$ = $2;
@@ -478,10 +478,10 @@ name_and_params: Ident lpar <ReturnPacket*>{
 
 
 identlist: Ident {
-	                $$ = List::mklist($1.getvalue());
+	                $$ = List::mklist($1);
 				 }
          | identlist comma Ident {
-			                        $$ = $1->appendList($3.getvalue());
+			                        $$ = $1->appendList($3);
 								 }
          | identlist comma error {
 			                        yyerrok;
@@ -492,19 +492,19 @@ identlist: Ident {
 
 constant: StrConstant {
 	                     $$ = new StrConstant{$1};
-                          compiler.constantTable->install(type::STR, $1);
+                          compiler.constantTable->install($1);
 					  }
         | IntConstant {
 			             $$ = new IntConstant{$1};
-                          compiler.constantTable->install(type::INT, $1);
+                          compiler.constantTable->install($1);
 					  }
         | FloatConstant {
 			               $$ = new FloatConstant{$1};
-                          compiler.constantTable->install(type::FLOAT, $1);
+                          compiler.constantTable->install($1);
 						}
 		| CharConstant {
 			              $$ = new CharConstant{$1};
-                          compiler.constantTable->install(type::CHAR, $1);
+                          compiler.constantTable->install($1);
 					   }
 					   
 ;

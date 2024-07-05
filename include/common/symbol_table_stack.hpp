@@ -27,7 +27,7 @@ namespace njnr
          void install(char val);              // install a symbol in the symbol table
 
          void* lookup(const std::string name); // look up a symbol in scope and return its value
-         S_TableEntry* lookupB(const std::string name);  // look up a symbol in scope and return its table entry
+         S_TableEntry lookupB(const std::string name);  // look up a symbol in scope and return its table entry
          bool inCurrentScope(const std::string name);  // true if symbol is in current scope
          void openscope();  // open a new stack/lifetime scope
          void closescope(); // close the topmost stack/lifetime scope

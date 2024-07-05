@@ -29,22 +29,26 @@ void SymbolTable::install(S_TableEntry* entry)
 
 void SymbolTable::install(std::string val)
 {
-   stack.front().install(val, val, njnr::type::STR);
+   std::string* v = new std::string{val};
+   stack.front().install(val, v, njnr::type::STR);
 }
 void SymbolTable::install(int val)
 {
-   std::string key{val};
-   stack.front().install(key, val, njnr::type::INT);
+   std::string key{std::to_string(val)};
+   int* v = new int(val);
+   stack.front().install(key, v, njnr::type::INT);
 }
 void SymbolTable::install(float val)
 {
-   std::string key{val};
-   stack.front().install(key, val, njnr::type::FLOAT);
+   std::string key{std::to_string(val)};
+   float* v = new float(val);
+   stack.front().install(key, v, njnr::type::FLOAT);
 }
 void SymbolTable::install(char val)
 {
    std::string key{val};
-   stack.front().install(key, val, njnr::type::CHAR);
+   char* v = new char(val);
+   stack.front().install(key, v, njnr::type::CHAR);
 }
 
 // install a symbol in the symbol table
@@ -53,9 +57,9 @@ void* SymbolTable::lookup(const std::string name)
    return stack.front().lookup(name);
 }
 // look up a symbol in scope and return its value
-S_TableEntry* SymbolTable::lookupB(const std::string name)
+S_TableEntry SymbolTable::lookupB(const std::string name)
 {
-   return static_cast<S_TableEntry*>(stack.front().lookupB(name));
+   return stack.front().lookupB(name);
 }
 // look up a symbol in scope and return its table entry
 bool SymbolTable::inCurrentScope(const std::string name)

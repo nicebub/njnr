@@ -16,7 +16,7 @@ namespace njnr
          Table() = default;                                    // Default Constructor
          ~Table() = default;                                   // Destructor
          void* lookup(const std::string& key);         // get data for symbol
-         void* lookupB(const std::string& key);        // get data for symbol ?
+         S_TableEntry lookupB(const std::string& key);        // get data for symbol ?
          bool  install(std::string& key, void* value, njnr::type t); // install key:value in table
          bool  remove(std::string& key);               // remove from table
          bool  isEmpty() const noexcept;                     // return true if table is empty

@@ -7,7 +7,7 @@
 namespace njnr
 {
    Compiler::Compiler(): symbolTable{nullptr},
-       constantTable{nulptr},
+       constantTable{nullptr},
        code_generator{},
        lexer{nullptr,*this},
        parser{nullptr},
@@ -371,6 +371,11 @@ void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t
       symbolTable->install(te);
    }
 }
+void Compiler::installVariableIntoSymbolTable(std::string Id, njnr::type t)
+{
+      S_TableEntry* te = symbolTable->createVar(Id, t, 0); 
+      symbolTable->install(te);
+}
 void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t)
 {
    if(Id != nullptr)
@@ -378,6 +383,11 @@ void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type 
       S_TableEntry* te = symbolTable->createParam(Id->getvalue(), t, 0); 
       symbolTable->install(te);
    }
+}
+void Compiler::installParameterIntoSymbolTable(std::string Id, njnr::type t)
+{
+      S_TableEntry* te = symbolTable->createParam(Id, t, 0); 
+      symbolTable->install(te);
 }
 
 }

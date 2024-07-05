@@ -18,19 +18,19 @@ void* Table::lookup(const std::string& key)
    return nullptr;
 }               // get data for symbol
 
-void* Table::lookupB(const std::string& key)
+S_TableEntry Table::lookupB(const std::string& key)
 {
    try
    {
       auto result{table.at(key)};
-      return result.getValue();
+      return result;
    }
    catch(std::out_of_range& e)
    {
        // not in table
        std::cout << "caught out of range\n";
    }
-   return nullptr;
+   return S_TableEntry();
 }              // get data for symbol ?
 
 bool Table::install(std::string& key, void* value, njnr::type t)

@@ -56,16 +56,12 @@ namespace njnr
 
    void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
    {
-       njnr::S_TableEntry* found = symbolTable->lookupB(inFuncHeader->name);
-       if(  found  == nullptr )
-       {
+       njnr::S_TableEntry found = symbolTable->lookupB(inFuncHeader->name);
            auto tempEntry =  symbolTable->createFunc( inFuncHeader->name,
                                                    inFuncHeader->returntype,
                                                    inFuncHeader->paramlist
                                                  );
            symbolTable->install(tempEntry);
-           return;
-       }
        is_function_decl_or_def_accurate(&inFuncHeader,true);
    }
 

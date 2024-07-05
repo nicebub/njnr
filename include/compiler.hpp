@@ -195,7 +195,9 @@ namespace njnr
          njnr::type getReturnTypeFromStatement(Statement* s);
          List* getfinished(void);
          void installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
+         void installVariableIntoSymbolTable(std::string Id, njnr::type t);
          void installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
+         void installParameterIntoSymbolTable(std::string Id, njnr::type t);
          bool checkAllFunctionReturnStatements(njnr::List* x, njnr::type&);
          bool checkSingleReturnStatement(Statement *realstmt, njnr::type& foundtype, bool first);
       protected:

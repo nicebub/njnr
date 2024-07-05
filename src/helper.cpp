@@ -26,13 +26,14 @@ namespace njnr
       funcheadertype* inFuncHeader{*inFuncHeaderptr};
 
       currentFunc = static_cast<Funcb*>(symbolTable->lookup(inFuncHeader->name));
-      auto foundPacket{symbolTable->lookupB(inFuncHeader->name)};
-
+      S_TableEntry foundPacket{symbolTable->lookupB(inFuncHeader->name)};
+/*
       if(!foundPacket)
       {
          error_and_return_false("Function name not in symbol symbolTable");
       }
-      if(foundPacket->getGroup() != njnr::btype::FUNC)
+*/
+      if(foundPacket.getGroup() != njnr::btype::FUNC)
       {
          error_and_return_false("Not a function");
       }

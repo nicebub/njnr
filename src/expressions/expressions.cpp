@@ -370,8 +370,10 @@ namespace njnr
            #ifdef DEBUG
             //  fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
            #endif
-
-            if( (nullptr != (resultLookup =  symbolTable->lookupB(inIdent.getvalue()))))
+            S_TableEntry* s{new S_TableEntry{}};
+            *s = symbolTable->lookupB(inIdent.getvalue());
+            resultLookup = s;
+            if(nullptr != resultLookup)
             {
                outPacket->settype(((S_TableEntry*)resultLookup->getBinding())->getType());
                outPacket->setlval(true);
@@ -480,7 +482,9 @@ namespace njnr
                error("variable undeclared, please declare variables before using them","");
            else
            {
-               tempE = symbolTable->lookupB(inPacket.getvalue());
+            S_TableEntry* s{new S_TableEntry{}};
+            *s = symbolTable->lookupB(inPacket.getvalue());
+               tempE = s;
                if(tempE != nullptr)
                {
                    if(tempE->getGroup() == btype::VAR || tempE->getGroup() == btype::PARAM)

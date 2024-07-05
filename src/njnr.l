@@ -81,7 +81,7 @@ PRINTABLE_CHAR [!@#$%^&*\(\)\-_=+\[\]\{\}\\|;:'",<.>/?0-9A-Za-z]
 
 \" {
       BEGIN(INITIAL);
-      yylval->emplace<njnr::StrConstant>() = string_buf;
+      yylval->emplace<std::string>() = string_buf;
       return(token::StrConstant);
    }
 
@@ -186,7 +186,7 @@ let {
 
 {LETTER}({LETTER}|{DIGIT})*  { /* identifier*/
                                 std::string tempstr(yytext);
-                                yylval->emplace<njnr::Identifier>() = Identifier{tempstr};
+                                yylval->emplace<std::string>() = tempstr;
                                 return(token::Ident);
                              }
 
@@ -207,7 +207,7 @@ let {
                      }
 
 (0|([1-9]{DIGIT}*))\.{DIGIT}{DIGIT}* {/*float*/
-                                        yylval->emplace<njnr::FloatConstant>() = std::atof(yytext);
+                                        yylval->emplace<float>() = std::atof(yytext);
                                         return(token::FloatConstant);
                                      }
 
@@ -221,7 +221,7 @@ let {
 
 (0|([1-9]{DIGIT}*))     { /*integer constant*/
                            yylval = lval;
-                           yylval->emplace<njnr::IntConstant>() = std::atoi(yytext);
+                           yylval->emplace<int>() = std::atoi(yytext);
                            return(token::IntConstant);
                         }
 
@@ -236,12 +236,12 @@ let {
 
 \'{LETTER}\' {
                 yylval = lval;
-                yylval->emplace<njnr::CharConstant>() = yytext[1];
+                yylval->emplace<char>() = yytext[1];
                 return(token::CharConstant);
              }
 \'{PRINTABLE_CHAR}\' {
                         yylval = lval;
-                        yylval->emplace<njnr::CharConstant>() = yytext[1];
+                        yylval->emplace<char>() = yytext[1];
                         return(token::CharConstant);
                      }
 \n {
