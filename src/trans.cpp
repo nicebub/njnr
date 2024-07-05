@@ -205,13 +205,13 @@ void CodeGenerator::generateReturnStatement(Statement* s)
                break;
             case njnr::type::CHAR:
                std::cout << "found Char constant return type\n";
-               *outfile << " \'" + std::string{dynamic_cast<CharConstant*>(s->getexpr())->getvalue()} + "\'";
+               *outfile << " \'" + std::string{dynamic_cast<Constant*>(s->getexpr())->getValue()} + "\'";
                break;
             case njnr::type::INT:
                std::cout << "found Integer constant return type\n";
-               if(dynamic_cast<IntConstant*>(s->getexpr()) != NULL)
+               if(dynamic_cast<Constant*>(s->getexpr()) != NULL)
                {
-                  *outfile << " " + std::to_string(dynamic_cast<IntConstant*>(s->getexpr())->getvalue());
+                  *outfile << " " + dynamic_cast<Constant*>(s->getexpr())->getValue();
                }
                else
                {
@@ -220,15 +220,15 @@ void CodeGenerator::generateReturnStatement(Statement* s)
                break;
             case njnr::type::FLOAT:
                std::cout << "found Float constant return type\n";
-               *outfile << " " + std::to_string(dynamic_cast<FloatConstant*>(s->getexpr())->getvalue());
+               *outfile << " " + dynamic_cast<Constant*>(s->getexpr())->getValue();
                break;
             case njnr::type::STR:
                std::cout << "found Constant String return\n";
-               *outfile << " \"" + dynamic_cast<StrConstant*>(s->getexpr())->getvalue() + "\"";
+               *outfile << " \"" + dynamic_cast<Constant*>(s->getexpr())->getValue() + "\"";
                break;
             case njnr::type::IDENT:
                std::cout << "found Identifier return\n";
-               *outfile << " " + dynamic_cast<Identifier*>(s->getexpr())->getvalue();
+               *outfile << " " + dynamic_cast<Identifier*>(s->getexpr())->getValue();
                break;
             default:
                std::cout << "error in return type? " + Compiler::getStringFromType(s->getrettype())+"\n";

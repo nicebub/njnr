@@ -121,14 +121,14 @@ std::string Statement::printCheckReturn(void) const
     {
         case njnr::type::CHAR:
            r += "CHAR: ";
-           r += dynamic_cast<CharConstant*>(expr)->toString() + "\n";           
+           r += dynamic_cast<Constant*>(expr)->toString() + "\n";           
            break;
         case njnr::type::CHECK:
            r +="Check\n";
            break;
         case njnr::type::FLOAT:
            r += "FLOAT: ";
-           r += dynamic_cast<FloatConstant*>(expr)->toString() + "\n";
+           r += dynamic_cast<Constant*>(expr)->toString() + "\n";
            break;
         case njnr::type::IDENT:
            r += "IDENT: ";
@@ -136,7 +136,7 @@ std::string Statement::printCheckReturn(void) const
            break;
         case njnr::type::INT:
            r += "INT: ";
-           r += dynamic_cast<IntConstant*>(expr)->toString() + "\n";
+           r += dynamic_cast<Constant*>(expr)->toString() + "\n";
            break;
         case njnr::type::REFFLOAT:
            r += "REFFLOAT: ";
@@ -156,7 +156,7 @@ std::string Statement::printCheckReturn(void) const
            break;
         case njnr::type::STR:
            r += "STR: ";
-           r += dynamic_cast<StrConstant*>(expr)->toString() + "\n";
+           r += dynamic_cast<Constant*>(expr)->toString() + "\n";
            break;
         case njnr::type::VOID:
            r += "VOID: ";

@@ -161,7 +161,7 @@ namespace njnr
   
          ReturnPacket* block52_term_mulop_helper(njnr::multype inmulop,std::string need_letter_b);
   
-         ReturnPacket* block52_term_term_mulop_source_factor(ReturnPacket** intermptr, njnr::multype inmulop,ReturnPacket** infactorptr);
+         ReturnPacket* block52_term_term_mulop_source_factor(ReturnPacket** intermptr, njnr::multype inmulop, ReturnPacket* infactorptr);
          void block53_term_factor();
   
          ReturnPacket* block54_factor_constant(Constant* inConstant);

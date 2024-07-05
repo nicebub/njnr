@@ -95,148 +95,28 @@ namespace njnr
 
    Constant::Constant() : ReturnPacket{} {}
    Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
+   Constant::Constant(std::string val, njnr::type t): val{val}, typ{t} {}
 
-   const std::string CharConstant::toString() const
+   std::string Constant::getValue() const
    {
-      std::string ret = ReturnPacket::toString();
-      ret += "\nvalue: ";
-      ret += std::string{1,value} ;
-      ret += "\n";
-      return ret;
+      return val;
    }
 
-   CharConstant::CharConstant() : Constant{false,njnr::type::CHAR, true, 0}, value{0} {}
-
-   CharConstant::CharConstant(const char invalue) : Constant{false,njnr::type::CHAR, true, 0}, value{invalue} {}
-
-   CharConstant::CharConstant(const CharConstant& in) : Constant{false,njnr::type::CHAR, true, 0}, value{in.value} {}
-
-   CharConstant::~CharConstant() {}
-
-   CharConstant& CharConstant::operator=(const CharConstant& in)
+   void Constant::setValue(const std::string in)
    {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = false;
-           ttype = njnr::type::CHAR;
-       }
-       return *this;
+      val = in;
    }
-   char CharConstant::getvalue() const
+
+   njnr::type Constant::getType() const
    {
-       return value;
+      return typ;
    }
 
-   void CharConstant::setvalue(const char in)
+   void Constant::setType(const njnr::type t)
    {
-       value = in;
+      typ = t;
    }
 
-   const std::string IntConstant::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-      return "\nvalue: " + std::to_string(value) + "\n" + ret;
-   }
-   IntConstant::IntConstant() : Constant{false,njnr::type::INT, true, 0}, value{0} {}
-
-   IntConstant::IntConstant(const int invalue) : Constant{false,njnr::type::INT, true, 0}, value{invalue} {}
-
-   IntConstant::IntConstant(const IntConstant& in) : Constant{false,njnr::type::INT, true, 0}, value{in.value} {}
-
-   IntConstant::~IntConstant() {}
-
-   IntConstant& IntConstant::operator=(const IntConstant& in)
-   {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = true;
-           ttype = njnr::type::INT;
-       }
-       return *this;
-   }
-   int IntConstant::getvalue() const
-   {
-       return value;
-   }
-
-   void IntConstant::setvalue(const int in)
-   {
-       value = in;
-   }
-
-   const std::string StrConstant::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-      return "\nvalue: " + value + "\n" + ret;
-   }
-   StrConstant::StrConstant() : Constant{false,njnr::type::STR, false, 0} {}
-
-   StrConstant::StrConstant(const std::string invalue) : Constant{false,njnr::type::STR, false, 0}, value{invalue} {}
-
-   StrConstant::StrConstant(const StrConstant& in) : Constant{false,njnr::type::STR, false, in.offset}, value{in.value} {}
-
-   StrConstant::~StrConstant() {}
-
-   StrConstant& StrConstant::operator=(const StrConstant& in)
-   {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = false;
-           ttype = njnr::type::STR;
-           offset = in.offset;
-       }
-       return *this;
-   }
-   std::string StrConstant::getvalue() const
-   {
-       return value;
-   }
-
-   void StrConstant::setvalue(const std::string in)
-   {
-       value = in;
-   }
-
-   const std::string FloatConstant::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-      return "\nvalue: " + std::to_string(value) + "\n" + ret;
-   }
-   FloatConstant::FloatConstant() : Constant{false,njnr::type::FLOAT, true, 0}, value{0.0f} {}
-
-   FloatConstant::FloatConstant(const float invalue ) : Constant{false,njnr::type::FLOAT, true, 0}, value{invalue } {}
-
-
-   FloatConstant::FloatConstant(const FloatConstant& in ) : Constant{false,njnr::type::FLOAT, true, in.offset}, value{in.value } {}
-
-   FloatConstant::~FloatConstant() {}
-
-   FloatConstant& FloatConstant::operator=(const FloatConstant& in)
-   {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = true;
-           ttype = njnr::type::FLOAT;
-           offset = in.offset;
-       }
-       return *this;
-   }
-   float FloatConstant::getvalue() const
-   {
-       return value;
-   }
-   void FloatConstant::setvalue(const float in)
-   {
-       value = in;
-   }
 
    const std::string Identifier::toString() const
    {  
@@ -247,7 +127,7 @@ namespace njnr
 
    Identifier::Identifier(const std::string invalue) : Constant{false,njnr::type::IDENT, false, 0}, value{invalue} {}
 
-   Identifier::Identifier(const StrConstant& in) : Constant{in.getlval(),njnr::type::IDENT, false, in.getoffset()}, value{in.getvalue()} {}
+   Identifier::Identifier(const Constant& in) : Constant{in.getlval(),njnr::type::IDENT, false, in.getoffset()}, value{in.getValue()} {}
 
    Identifier::~Identifier() {}
 

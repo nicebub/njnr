@@ -412,7 +412,7 @@ TERM: TERM mulop {
 	                compiler.block51_term_term_mulop_source(&$1);
 				 }
        factor {
-		         $$ = compiler.block52_term_term_mulop_source_factor(&$1,$2,&$4);
+		         $$ = compiler.block52_term_term_mulop_source_factor(&$1,$2,$4);
 			  }
      | factor {
 		         $$ = $1;
@@ -492,15 +492,19 @@ identlist: Ident {
 
 constant: StrConstant {
                           compiler.constantTable->installStrConstant($1);
+						  $$ = new Constant{$1, njnr::type::STR};
 					  }
         | IntConstant {
                           compiler.constantTable->installIntConstant($1);
+						  $$ = new Constant{$1, njnr::type::INT};
 					  }
         | FloatConstant {
                           compiler.constantTable->installFloatConstant($1);
+						  $$ = new Constant{$1, njnr::type::FLOAT};
 						}
 		| CharConstant {
                           compiler.constantTable->installCharConstant($1);
+						  $$ = new Constant{$1, njnr::type::CHAR};
 					   }
 					   
 ;

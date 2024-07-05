@@ -278,12 +278,12 @@ namespace njnr
        }
        return new ReturnPacket{false,njnr::type::FLOAT,true,0};
    }
-   ReturnPacket* Compiler::block52_term_term_mulop_source_factor(ReturnPacket** intermPacketptr, njnr::multype inmulop,ReturnPacket** infactorPacketptr)
+   ReturnPacket* Compiler::block52_term_term_mulop_source_factor(ReturnPacket** intermPacketptr, njnr::multype inmulop,ReturnPacket* infactorPacketptr)
    {
        ReturnPacket* outtermPacket{new ReturnPacket{}};
        ReturnPacket* intermPacket{*intermPacketptr};
-       ReturnPacket* infactorPacket{*infactorPacketptr};
-       variableFetchWithNumericCheck(*infactorPacketptr,false);
+       ReturnPacket* infactorPacket{infactorPacketptr};
+       variableFetchWithNumericCheck(infactorPacketptr,false);
        outtermPacket->setlval(false);
        if(intermPacket->getnumeric() && infactorPacket->getnumeric())
        {
@@ -332,27 +332,8 @@ namespace njnr
    }
 
    ReturnPacket* Compiler::block54_factor_constant(Constant* inConstant)
-   {
-      bool need_gen = false;
-//      int  gen_type = 0;
-
-      if(true == need_gen)
-      {
-         switch(inConstant->gettype())
-         {
-            case type::INT:
-               break;
-            case type::FLOAT:
-               break;
-            case type::STR:
-               break;
-            default:
-               error("constant is not a correct type of constant","");
-               break;
-         }
-      }
-   
-      return inConstant;
+   {   
+      return static_cast<ReturnPacket*>(inConstant);
    }
 
    ReturnPacket* Compiler::block55_factor_ident(njnr::Identifier inIdent)

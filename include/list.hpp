@@ -119,56 +119,6 @@ class IdentListNode : public ReturnPacketListNode
       Identifier*         ident;
 };
 
-class CharCListNode : public ReturnPacketListNode
-{
-   public:
-      CharCListNode();
-      CharCListNode(CharConstant* incharc);
-      virtual ~CharCListNode() = default;
-      CharConstant* getcharc(void);
-      void setcharc(CharConstant* inchar);
-      const std::string toString() const;
-   private:
-      CharConstant*         charC;
-};
-class IntCListNode : public ReturnPacketListNode
-{
-   public:
-      IntCListNode();
-      IntCListNode(IntConstant* inint);
-      virtual ~IntCListNode() = default;
-      IntConstant* getint(void);
-      void setint(IntConstant* inint);
-      const std::string toString() const;
-   private:
-      IntConstant*         intC;
-};
-class FloatListNode : public ReturnPacketListNode
-{
-   public:
-      FloatListNode();
-      FloatListNode(FloatConstant* infloat);
-      virtual ~FloatListNode() = default;
-      FloatConstant* getfloat(void);
-      void setfloat(FloatConstant* infloat);
-      const std::string toString() const;
-   private:
-      FloatConstant*         floatC;
-};
-class StringListNode : public ReturnPacketListNode
-{
-   public:
-      StringListNode();
-      StringListNode(StrConstant* instr);
-      virtual ~StringListNode() = default;
-      StrConstant* getstr(void);
-      void setstr(StrConstant* instr);
-      const std::string toString() const;
-   private:
-      StrConstant*         str;
-};
-
-
 class TypeListNode : public ListNode
 {
    public:
@@ -193,10 +143,7 @@ public:
     void push_back(BasicListNode* node);
     std::vector<BasicListNode*> getlist();
     static List* mklist(Identifier*);
-    static List* mklist(CharConstant*);
-    static List* mklist(IntConstant*);
-    static List* mklist(FloatConstant*);
-    static List* mklist(StrConstant*);
+    static List* mklist(Constant*);
     static List* mklist(std::string inVal);
     static List* mklist(std::string inVal, type inType);
     static List* mklist(ReturnPacket* expr);
@@ -214,10 +161,7 @@ public:
     List* appendList(njnr::type type);
     List* appendList(Statement* type);
     List* appendList(Identifier*);
-    List* appendList(CharConstant*);
-    List* appendList(IntConstant*);
-    List* appendList(FloatConstant*);
-    List* appendList(StrConstant*);
+    List* appendList(Constant*);
     int size() const;
     const std::string toString() const;
 private:

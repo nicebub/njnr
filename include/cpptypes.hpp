@@ -52,69 +52,16 @@ namespace njnr
       public:
          Constant();
          Constant(bool lval, njnr::type ttype, bool ifnum, int offset);
+         Constant(std::string val, njnr::type t);
          virtual ~Constant();
+         std::string getValue() const;
+         void setValue(const std::string in);
+         njnr::type getType() const;
+         void setType(const njnr::type t);
          //  ReturnPacket
       private:
-   };
-
-   class CharConstant : public Constant
-   {
-      public:
-         CharConstant();
-         CharConstant(const char invalue);
-         CharConstant(const CharConstant&);
-         virtual ~CharConstant();
-         CharConstant& operator=(const CharConstant& in);
-         char getvalue() const;
-         void setvalue(const char in);
-         const std::string toString() const;
-      private:
-         char value;
-   };
-
-   class IntConstant : public Constant
-   {
-      public:
-         IntConstant();
-         IntConstant(const int invalue);
-         IntConstant(const IntConstant&);
-         virtual ~IntConstant();
-         IntConstant& operator=(const IntConstant& in);
-         int getvalue() const;
-         void setvalue(const int in);
-         const std::string toString() const;
-      private:
-         int value;
-   };
-
-   class StrConstant : public Constant
-   {
-      public:
-         StrConstant();
-         StrConstant(const std::string invalue);
-         StrConstant(const StrConstant&);
-         virtual ~StrConstant();
-         StrConstant& operator=(const StrConstant& in);
-         std::string getvalue() const;
-         void setvalue(const std::string in);
-         const std::string toString() const;
-      private:
-         std::string value;
-   };
-
-   class FloatConstant : public Constant
-   {
-      public:
-         FloatConstant();
-         FloatConstant(const float invalue);
-         FloatConstant(const FloatConstant&);
-         virtual ~FloatConstant();
-         FloatConstant& operator=(const FloatConstant& in);
-         float getvalue() const;
-         void setvalue(const float in);
-         const std::string toString() const;
-      private:
-         float value;
+         std::string val;
+         njnr::type typ;
    };
 
    class Identifier : public Constant
@@ -122,7 +69,7 @@ namespace njnr
       public:
          Identifier();
          Identifier(const std::string invalue);
-         Identifier(const StrConstant&);
+         Identifier(const Constant&);
          virtual ~Identifier();
          Identifier& operator=(const Identifier& in);
          std::string getvalue() const;
@@ -142,14 +89,14 @@ namespace njnr
          Funcb(const Funcb& in);
          Funcb& operator=(const Funcb& in);
          virtual ~Funcb();
-         std::vector<type>& getparam_type();
-         type getreturntype();
+         std::vector<njnr::type>& getparam_type();
+         njnr::type getreturntype();
          bool getbodydef();
          int getnum_param();
          int getlabel();
          int getlocalcount();
          int getactual_num();
-         void setparam_type(std::vector<type> param_type);
+         void setparam_type(std::vector<njnr::type> param_type);
          void setreturntype( njnr::type returntype );
          void setbodydef(bool bodydef);
          void setnum_param(int num_param);
@@ -163,7 +110,7 @@ namespace njnr
          const std::string toString() const;
       private:
          std::vector<njnr::type> param_type;
-         type  returntype;
+         njnr::type  returntype;
          bool  bodydef;
          int   num_param;
          int   label;
@@ -206,8 +153,8 @@ namespace njnr
          std::string printCheckReturn(void) const;
       private:
          statement_type stype;
-         ReturnPacket* expr;
-         type         rettype;
+         ReturnPacket*  expr;
+         njnr::type     rettype;
    };
 
    class Translation_Unit : public ReturnPacket

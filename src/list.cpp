@@ -338,21 +338,9 @@ namespace njnr
    {
       return (new List{})->appendList(i);
    }
-   List* List::mklist(CharConstant* c)
+   List* List::mklist(Constant* c)
    {
       return (new List{})->appendList(c);
-   }
-   List* List::mklist(IntConstant* i)
-   {
-      return (new List{})->appendList(i);
-   }
-   List* List::mklist(FloatConstant* f)
-   {
-      return (new List{})->appendList(f);
-   }
-   List* List::mklist(StrConstant* s)
-   {
-      return (new List{})->appendList(s);
    }
    List* List::appendList(Identifier* inVal)
    {
@@ -360,25 +348,7 @@ namespace njnr
        list.push_back(dynamic_cast<BasicListNode*>(nnode));
        return this;
    }
-   List* List::appendList(CharConstant* inVal)
-   {
-       ReturnPacketListNode* nnode{new ReturnPacketListNode{inVal}};
-       list.push_back(dynamic_cast<BasicListNode*>(nnode));
-       return this;
-   }
-   List* List::appendList(IntConstant* inVal)
-   {
-       ReturnPacketListNode* nnode{new ReturnPacketListNode{inVal}};
-       list.push_back(dynamic_cast<BasicListNode*>(nnode));
-       return this;
-   }
-   List* List::appendList(FloatConstant* inVal)
-   {
-       ReturnPacketListNode* nnode{new ReturnPacketListNode{inVal}};
-       list.push_back(dynamic_cast<BasicListNode*>(nnode));
-       return this;
-   }
-   List* List::appendList(StrConstant* inVal)
+   List* List::appendList(Constant* inVal)
    {
        ReturnPacketListNode* nnode{new ReturnPacketListNode{inVal}};
        list.push_back(dynamic_cast<BasicListNode*>(nnode));
