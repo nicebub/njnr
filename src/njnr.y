@@ -285,10 +285,10 @@ funcbody_internal: variabledecl {
 ;
 
 variabledecl: vart identlist {
-                                compiler.symbolTable->addtosymtab(type::INT, $2);
+//                                compiler.symbolTable->addtosymtab(type::INT, $2);
 							 }
 			  lett identlist {
-                               compiler.symbolTable->addtosymtab(type::INT, $2);
+//                               compiler.symbolTable->addtosymtab(type::INT, $2);
 			                 }
 ;
 

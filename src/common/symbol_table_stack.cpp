@@ -10,17 +10,20 @@
 
 using namespace njnr;
 
-SymbolTable::SymbolTable(Compiler& c) : compiler{c}, stack{}
+// Constructor
+SymbolTable::SymbolTable(Compiler& c) : compiler{c}, stack{Table{}} {}
+
+// Destructor
+SymbolTable::~SymbolTable() {}
+
+void SymbolTable::installIdentifier(std::string val)
 {
-   stack.push_back(Table{});
+   S_TableEntry* s{new S_TableEntry{}};
+   s->setName(val);
+   s->setType(njnr::type::IDENT);
+   stack.front().install(val, s);
 }
-// Default Constructor
-//      SymbolTable(Compiler& compiler);  // Constructor that takes a compiler object - they point to each other
-SymbolTable::~SymbolTable()
-{
-}
-// Deconstructor
-//      void printTree() const;                       // print symbol table tree
+
 void SymbolTable::install(S_TableEntry* entry)
 {
    stack.front().install(entry->getKey(), entry);
@@ -33,6 +36,7 @@ void SymbolTable::install(std::string val)
    s->setType(njnr::type::STR);
    stack.front().install(val, s);
 }
+
 void SymbolTable::install(int val)
 {
    S_TableEntry* s{new S_TableEntry{}};
@@ -40,6 +44,7 @@ void SymbolTable::install(int val)
    s->setType(njnr::type::INT);
    stack.front().install(s->getName(), s);
 }
+
 void SymbolTable::install(float val)
 {
    S_TableEntry* s{new S_TableEntry{}};
@@ -47,6 +52,7 @@ void SymbolTable::install(float val)
    s->setType(njnr::type::FLOAT);
    stack.front().install(s->getName(), s);
 }
+
 void SymbolTable::install(char val)
 {
    S_TableEntry* s{new S_TableEntry{}};
@@ -58,108 +64,132 @@ void SymbolTable::install(char val)
 // install a symbol in the symbol table
 void* SymbolTable::lookup(const std::string name)
 {
-   return stack.front().lookup(name);
+   void* res = nullptr;
+   auto tbl = stack.begin();
+   for(; tbl != stack.end(); tbl++)
+   {
+      res = tbl->lookup(name);
+      if(nullptr != res)
+      {
+         // found element in the symbol table stack, exit loop and return it
+         break;
+      }
+   }
+
+   // output error if we went through whole stack without finding an element
+   if(tbl == stack.end())
+   {
+      std::cout << "member not found in symbol table stack" << std::endl;
+   }
+
+   return res;
 }
+
 // look up a symbol in scope and return its value
 void* SymbolTable::lookupB(const std::string name)
 {
    return stack.front().lookupB(name);
 }
+
 // look up a symbol in scope and return its table entry
 bool SymbolTable::inCurrentScope(const std::string name)
 {
    return stack.front().lookup(name) ? true : false;
 }
+
 // true if symbol is in current scope
 void SymbolTable::openscope()
 {
-   Table newTable{};
-   stack.push_front(newTable);
+   stack.push_front(Table{});
 }
+
 // open a new stack/lifetime scope
 void SymbolTable::closescope()
 {
    stack.pop_front();
 }
+
 // close the topmost stack/lifetime scope
 //  static SymbolTable* createTree(Compiler& compiler,int Stacksize);
+/*
 void SymbolTable::addtosymtab(type mytype, List* myList)
 {
 }
+
 //FIXME: take in a ReturnPacket* instead?
 void SymbolTable::addtosymtab(const std::string key, void* value, njnr::type ttype)
 {
 }
+*/
 int SymbolTable::getleveldif(std::string name)
 {
    return 0;
 }
 
-   S_TableEntry* SymbolTable::createFunc(std::string name, type returntype, List* paramlist)
+S_TableEntry* SymbolTable::createFunc(std::string name, type returntype, List* paramlist)
+{
+   S_TableEntry* temp{nullptr};
+   bool elip{false};
+
+   if( name.empty() )
    {
-       S_TableEntry* temp{nullptr};
-       bool elip{false};
-
-       if( name.empty() )
-       {
-           compiler.error("name not found\n","");
-       }
-       else
-       {
-           Funcb* tBinding{new Funcb{returntype}};
-           tBinding->setvalue(name);
-
-           if(paramlist!=nullptr )
-           {
-               tBinding->setnum_param(paramlist->size());
-           }
-           if(tBinding->getnum_param() >0)
-           {
-               for(auto &element : *paramlist)
-               {
-                   PListNode* n_element{dynamic_cast<PListNode*>(element)};
-                   tBinding->getparam_type().push_back(n_element->gettype());
-                   if( n_element->getval() == "..." )
-                   {
-                       elip = true;
-                   }
-                   else
-                   {
-                       elip=false;
-                   }
-               }
-               if(elip == true)
-               {
-                   tBinding->setactual_num(tBinding->getnum_param());
-                   tBinding->setnum_param(-1);
-               }
-           }
-
-           temp = new S_TableEntry{name,tBinding,njnr::type::VOID};
-       }
-       return temp;
+       compiler.error("name not found\n","");
    }
-
-   S_TableEntry* SymbolTable::createVar(std::string name, type t_type, int offset)
+   else
    {
-       Varb* tBindingV{new Varb{}};
+      Funcb* tBinding{new Funcb{returntype}};
+      tBinding->setvalue(name);
 
-       tBindingV->settype(t_type);
-       tBindingV->setoffset(offset);
-       tBindingV->setvalue(name);
+      if(paramlist!=nullptr )
+      {
+         tBinding->setnum_param(paramlist->size());
+      }
+      if(tBinding->getnum_param() >0)
+      {
+         for(auto &element : *paramlist)
+         {
+            PListNode* n_element{dynamic_cast<PListNode*>(element)};
+            tBinding->getparam_type().push_back(n_element->gettype());
+            if( n_element->getval() == "..." )
+            {
+                elip = true;
+            }
+            else
+            {
+                elip=false;
+            }
+         }
+         if(elip == true)
+         {
+            tBinding->setactual_num(tBinding->getnum_param());
+            tBinding->setnum_param(-1);
+         }
+      }
 
-       S_TableEntry* result{new S_TableEntry{name,tBindingV, njnr::type::VOID}};
-       return result;
+      temp = new S_TableEntry{name,tBinding,njnr::type::VOID};
    }
+   return temp;
+}
 
-   S_TableEntry* SymbolTable::createParam(std::string name, type t_type, int offset)
-   {
-       Paramb* tBindingP{new Paramb{}};
+S_TableEntry* SymbolTable::createVar(std::string name, type t_type, int offset)
+{
+   Varb* tBindingV{new Varb{}};
 
-       tBindingP->settype(t_type);
-       tBindingP->setoffset(offset);
+   tBindingV->settype(t_type);
+   tBindingV->setoffset(offset);
+   tBindingV->setvalue(name);
 
-       S_TableEntry* temp{new S_TableEntry{name,tBindingP, njnr::type::VOID}};
-       return temp;
-   }
+   S_TableEntry* result{new S_TableEntry{name,tBindingV, njnr::type::VOID}};
+   return result;
+}
 
+S_TableEntry* SymbolTable::createParam(std::string name, type t_type, int offset)
+{
+   Paramb* tBindingP{new Paramb{}};
+
+   tBindingP->settype(t_type);
+   tBindingP->setoffset(offset);
+
+   S_TableEntry* temp{new S_TableEntry{name,tBindingP, njnr::type::VOID}};
+   return temp;
+}
