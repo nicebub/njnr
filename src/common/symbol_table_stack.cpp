@@ -16,49 +16,42 @@ SymbolTable::SymbolTable(Compiler& c) : compiler{c}, stack{Table{}} {}
 // Destructor
 SymbolTable::~SymbolTable() {}
 
-void SymbolTable::installIdentifier(std::string val)
-{
-   S_TableEntry* s{new S_TableEntry{}};
-   s->setName(val);
-   s->setType(njnr::type::IDENT);
-   stack.front().install(val, s);
-}
-
 void SymbolTable::install(S_TableEntry* entry)
 {
    stack.front().install(entry->getKey(), entry);
 }
 
-void SymbolTable::install(std::string val)
+void SymbolTable::installIdentifier(std::string val)
+{
+   installHelper(val, njnr::type::IDENT);
+}
+
+void SymbolTable::installStrConstant(std::string val)
+{
+   installHelper(val, njnr::type::STR);
+}
+
+void SymbolTable::installIntConstant(std::string val)
+{
+   installHelper(val, njnr::type::INT);
+}
+
+void SymbolTable::installFloatConstant(std::string val)
+{
+   installHelper(val, njnr::type::FLOAT);
+}
+
+void SymbolTable::installCharConstant(std::string val)
+{
+   installHelper(val, njnr::type::CHAR);
+}
+
+void SymbolTable::installHelper(std::string val, njnr::type t)
 {
    S_TableEntry* s{new S_TableEntry{}};
    s->setName(val);
-   s->setType(njnr::type::STR);
+   s->setType(t);
    stack.front().install(val, s);
-}
-
-void SymbolTable::install(int val)
-{
-   S_TableEntry* s{new S_TableEntry{}};
-   s->setName(std::to_string(val));
-   s->setType(njnr::type::INT);
-   stack.front().install(s->getName(), s);
-}
-
-void SymbolTable::install(float val)
-{
-   S_TableEntry* s{new S_TableEntry{}};
-   s->setName(std::to_string(val));
-   s->setType(njnr::type::FLOAT);
-   stack.front().install(s->getName(), s);
-}
-
-void SymbolTable::install(char val)
-{
-   S_TableEntry* s{new S_TableEntry{}};
-   s->setName(std::to_string(val));
-   s->setType(njnr::type::CHAR);
-   stack.front().install(s->getName(), s);
 }
 
 // install a symbol in the symbol table

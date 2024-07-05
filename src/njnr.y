@@ -77,10 +77,10 @@ int yyerror(std::string err,Compiler& compiler);
 
 
 %token <std::string> Ident "Identifier"
-%token <int> IntConstant "IntConstant"
-%token <float> FloatConstant "FloatConstant"
+%token <std::string> IntConstant "IntConstant"
+%token <std::string> FloatConstant "FloatConstant"
 %token <std::string> StrConstant "StrConstant"
-%token <char> CharConstant "CharConstant"
+%token <std::string> CharConstant "CharConstant"
 %token voidt
 %token intt
 %token floatt
@@ -491,20 +491,16 @@ identlist: Ident {
 ;
 
 constant: StrConstant {
-	                     $$ = new StrConstant{$1};
-                          compiler.constantTable->install($1);
+                          compiler.constantTable->installStrConstant($1);
 					  }
         | IntConstant {
-			             $$ = new IntConstant{$1};
-                          compiler.constantTable->install($1);
+                          compiler.constantTable->installIntConstant($1);
 					  }
         | FloatConstant {
-			               $$ = new FloatConstant{$1};
-                          compiler.constantTable->install($1);
+                          compiler.constantTable->installFloatConstant($1);
 						}
 		| CharConstant {
-			              $$ = new CharConstant{$1};
-                          compiler.constantTable->install($1);
+                          compiler.constantTable->installCharConstant($1);
 					   }
 					   
 ;

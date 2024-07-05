@@ -18,12 +18,14 @@ namespace njnr
          SymbolTable(Compiler&);                       // Constructor
          ~SymbolTable();                               // Destructor
 
+         void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
+
          void install(S_TableEntry* entry);            // install a symbol in the symbol table
          void installIdentifier(std::string val);
-         void install(std::string val);                // install a symbol in the symbol table
-         void install(int val);                        // install a symbol in the symbol table
-         void install(float val);                      // install a symbol in the symbol table
-         void install(char val);                       // install a symbol in the symbol table
+         void installStrConstant(std::string val);     // install a symbol in the symbol table
+         void installIntConstant(std::string val);     // install a symbol in the symbol table
+         void installFloatConstant(std::string val);   // install a symbol in the symbol table
+         void installCharConstant(std::string val);    // install a symbol in the symbol table
 
          void* lookup(const std::string name);         // look up a symbol in scope and return its value
          void* lookupB(const std::string name);        // look up a symbol in scope and return its table entry
