@@ -6,6 +6,23 @@
 #include "symbol_table_stack.hpp"
 namespace njnr
 {
+   void report(njnr::logType t, std::string s)
+   {
+      switch (t)
+      {
+         case njnr::logType::debug:
+         {
+            std::cout << s << std::endl;
+            break;
+         }
+         case njnr::logType::error:
+         {
+            std::cout  << s << std::endl;
+            break;
+         }
+      }
+   }
+
    Compiler::Compiler(): symbolTable{nullptr},
        constantTable{nullptr},
        code_generator{},

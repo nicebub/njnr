@@ -3,64 +3,125 @@
 #include <iostream>
 
 #include "symbol_table.hpp"
-#include "symbol_table_entry.hpp"
+#include "compiler.hpp"
 
 using namespace njnr;
 
+/**
+ * @brief lookup key and return its value if found, otherwise nullptr
+ * 
+ * @tparam T -  value type
+ * @param key - key for search
+ * @return T -  value or nullptr
+ */
 template<typename T>T Table::lookup(const std::string key)
 {
+   /* iterator type */
    auto result{table.find(key)};
+
+   /* if iterator doesn't point to end() then we found a <key:value> pair */
    if(result != table.end())
    {
+      /* The iterators 'second' value, which is the 'value' in <key:value>
+          pair */
       return result->second;
    }
-   return nullptr;
-} // get data for symbol
 
+   /* didn't find it */
+   return nullptr;
+}
+
+/**
+ * @brief lookup key and return its value if found, otherwise nullptr
+ * 
+ * @tparam T -  value type
+ * @param key - key for search
+ * @return T -  value or nullptr
+ */
 template<typename T>T Table::lookupB(const std::string key)
 {
    try
    {
+      /* at() throws std::out_of_range exception if key is not found */
       auto result{table.at(key)};
       return result;
    }
    catch(std::out_of_range& e)
    {
-       // not in table
-       std::cout << "caught out of range\n";
+      /* didn't find it */
+       report(njnr::logType::debug,
+              "caught out of range - <key:value> not in table: <" + key + ":value>"
+             );
    }
    return nullptr;
-} // get data for symbol ?
+}
 
+/**
+ * @brief if not already in symbol table, install <key:value> pair
+ * 
+ * @tparam T value type
+ * @param key key for search and install
+ * @param value value for install with key
+ * @return true installed
+ * @return false failed to install
+ */
 template<typename T>bool Table::install(std::string key, T value)
 {
    bool answer{false};
    try
    {
+      /* at() throws std::out_of_range exception if key is not found */
       table.at(key);
-      std::cerr << "error: symbol already declared in current scope\n";
+
+      /* didn't throw exception which means its already in table */
+      report(njnr::logType::error,
+             "error: symbol already declared in current scope"
+            );
    }
    catch(std::out_of_range& e)
    {
-      std::cout << "caught out of range, does not exist:" << key << " installing into table\n";
+      /* didn't find it - we can install */
+      report(njnr::logType::debug,
+             "installing key: " + key +
+             " value: " +
+             " into table\n"
+            );
+
       table[key] = value;
       answer = true;
    }
-   //std::cout << "through install function of symbol table. Printing symbol table tree\n";
-   // printTree(symtab);
-
+   /*
+   report(njnr::logType::debug,
+          "through install function of symbol table. Printing symbol table tree"
+         );
+   printTree(symtab);
+   */
    return answer;
 } // install key:value in table
 
+/**
+ * @brief returns whether or not symbol table is empty
+ *
+ * @return true
+ * @return false
+ */
 bool  Table::isEmpty() const noexcept
 {
    return table.empty();
 }                          // return true if table is empty
 
+
 /* number of symbols in table */
+/**
+ * @brief return integral count of number of <key:value> pairs are installed
+ *         in the table
+ * 
+ * @return size
+ */
 bool  Table::count() const noexcept
 {
    return table.size();   
 }
 
+// developer supplied templates for use
 #include "symbol_table_templates.h"

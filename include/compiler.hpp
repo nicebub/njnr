@@ -18,6 +18,14 @@
 
 namespace njnr
 {
+
+enum class logType
+{
+   debug, error
+};
+
+void report(njnr::logType t, std::string s);
+
    /* defined elsewhere but needed below */
    class SymbolTable;
 
