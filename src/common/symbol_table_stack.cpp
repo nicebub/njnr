@@ -18,7 +18,7 @@ SymbolTable::~SymbolTable() {}
 
 void SymbolTable::install(S_TableEntry* entry)
 {
-   stack.front().install(entry->getKey(), entry);
+   stack.front().install<S_TableEntry*>(entry->getKey(), entry);
 }
 
 void SymbolTable::installIdentifier(std::string val)
@@ -51,7 +51,7 @@ void SymbolTable::installHelper(std::string val, njnr::type t)
    S_TableEntry* s{new S_TableEntry{}};
    s->setName(val);
    s->setType(t);
-   stack.front().install(val, s);
+   stack.front().install<S_TableEntry*>(val, s);
 }
 
 // install a symbol in the symbol table
@@ -61,7 +61,7 @@ void* SymbolTable::lookup(const std::string name)
    auto tbl = stack.begin();
    for(; tbl != stack.end(); tbl++)
    {
-      res = tbl->lookup(name);
+      res = tbl->lookup<void*>(name);
       if(nullptr != res)
       {
          // found element in the symbol table stack, exit loop and return it
@@ -81,13 +81,13 @@ void* SymbolTable::lookup(const std::string name)
 // look up a symbol in scope and return its value
 void* SymbolTable::lookupB(const std::string name)
 {
-   return stack.front().lookupB(name);
+   return stack.front().lookupB<void*>(name);
 }
 
 // look up a symbol in scope and return its table entry
 bool SymbolTable::inCurrentScope(const std::string name)
 {
-   return stack.front().lookup(name) ? true : false;
+   return stack.front().lookup<void*>(name) ? true : false;
 }
 
 // true if symbol is in current scope

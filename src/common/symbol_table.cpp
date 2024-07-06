@@ -3,10 +3,11 @@
 #include <iostream>
 
 #include "symbol_table.hpp"
+#include "symbol_table_entry.hpp"
 
 using namespace njnr;
 
-void* Table::lookup(const std::string key)
+template<typename T>T Table::lookup(const std::string key)
 {
    auto result{table.find(key)};
    if(result != table.end())
@@ -16,7 +17,7 @@ void* Table::lookup(const std::string key)
    return nullptr;
 } // get data for symbol
 
-void* Table::lookupB(const std::string key)
+template<typename T>T Table::lookupB(const std::string key)
 {
    try
    {
@@ -31,7 +32,7 @@ void* Table::lookupB(const std::string key)
    return nullptr;
 } // get data for symbol ?
 
-bool Table::install(std::string key, void* value)
+template<typename T>bool Table::install(std::string key, T value)
 {
    bool answer{false};
    try
@@ -61,3 +62,5 @@ bool  Table::count() const noexcept
 {
    return table.size();   
 }
+
+#include "symbol_table_templates.h"
