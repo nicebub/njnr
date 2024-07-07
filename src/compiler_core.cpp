@@ -6,6 +6,12 @@
 #include "symbol_table_stack.hpp"
 namespace njnr
 {
+   /**
+    * @brief generic logging function
+    *
+    * @param t log type
+    * @param s string to log
+    */
    void report(njnr::logType t, std::string s)
    {
       switch (t)

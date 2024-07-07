@@ -10,7 +10,7 @@ using namespace njnr;
 /**
  * @brief lookup key and return its value if found, otherwise nullptr
  * 
- * @tparam T -  value type
+ * @tparam T -  type of 'value'
  * @param key - key for search
  * @return T -  value or nullptr
  */
@@ -34,7 +34,7 @@ template<typename T>T Table::lookup(const std::string key)
 /**
  * @brief lookup key and return its value if found, otherwise nullptr
  * 
- * @tparam T -  value type
+ * @tparam T -  type of 'value'
  * @param key - key for search
  * @return T -  value or nullptr
  */
@@ -90,6 +90,27 @@ template<typename T>bool Table::install(std::string key, T value)
       table[key] = value;
       answer = true;
    }
+   /*
+   report(njnr::logType::debug,
+          "through install function of symbol table. Printing symbol table tree"
+         );
+   printTree(symtab);
+   */
+   return answer;
+} // install key:value in table
+
+/**
+ * @brief remove element from table return its value(for usage/deletion?)
+ * 
+ * @tparam T parameter type of 'value'
+ * @param key key to loopup element
+ * @return T -'value' of type T
+ */
+template<typename T>T Table::remove(std::string key)
+{
+   bool answer{answer};
+   report(njnr::logType::debug,"found element, removing it");
+   table.erase(key);
    /*
    report(njnr::logType::debug,
           "through install function of symbol table. Printing symbol table tree"
