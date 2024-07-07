@@ -130,13 +130,22 @@ bool SymbolTable::inCurrentScope(const std::string name)
    return stack.front().contains(name) ? true : false;
 }
 
-// true if symbol is in current scope
+/**
+ * @brief open a new scope by pushing an empty symbol table onto the stack and making
+ *         it the current symbol table
+ *
+ */
 void SymbolTable::openscope()
 {
    stack.push_front(Table{});
 }
 
-// open a new stack/lifetime scope
+/**
+ * @brief close the existing current scope by destroying the topmost symbol table
+ *         make the next one in the list the current symbol table(scope) unless
+ *         it was the only symbol table and now the stack is empty
+ *
+ */
 void SymbolTable::closescope()
 {
    stack.pop_front();

@@ -101,7 +101,7 @@ template<typename T>bool Table::install(std::string key, T value)
 
 /**
  * @brief remove element from table return its value(for usage/deletion?)
- * 
+ *
  * @tparam T parameter type of 'value'
  * @param key key to loopup element
  * @return T -'value' of type T
@@ -120,7 +120,13 @@ template<typename T>T Table::remove(std::string key)
    return answer;
 } // install key:value in table
 
-
+/**
+ * @brief return whether the symbol table contains an element or not
+ * 
+ * @param key key to use to lookup
+ * @return true exists
+ * @return false doesn't exist
+ */
 bool Table::contains(const std::string key) const
 {
    return table.contains(key);
