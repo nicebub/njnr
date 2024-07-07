@@ -147,9 +147,16 @@ void SymbolTable::addtosymtab(const std::string key, void* value, njnr::type tty
 {
 }
 */
-int SymbolTable::getleveldif(std::string name)
+int SymbolTable::getleveldif(const std::string name) const
 {
    return 0;
 }
-
+/**
+ * @brief print stack of symbol tables
+ * 
+ */
+void SymbolTable::printTree() const
+{
+   report(njnr::logType::debug,"tree");
+}
 #include "symbol_table_stack_templates.h"

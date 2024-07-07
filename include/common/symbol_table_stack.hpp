@@ -27,11 +27,8 @@ namespace njnr
          bool inCurrentScope(const std::string name);  // true if symbol is in current scope
 
          /** TODO: implement */
-         int getleveldif(std::string name);            // level difference from root
-//         void addtosymtab(type mytype, List* myList);                                //FIXME: take in a ReturnPacket* instead?
-//         void addtosymtab(const std::string key, void* value, njnr::type ttype);
-//         void printTree() const;                       // print symbol table tree
-         //   static SymbolTable* createTree(Compiler& compiler,int Stacksize);
+         int getleveldif(const std::string name) const;            // level difference from root
+         void printTree() const;                       // print symbol table tree
       protected:
          std::deque<Table> stack;  //Stack of 'Symbol' Tables
       private:
