@@ -17,7 +17,7 @@ namespace njnr
       public:
          SymbolTable(Compiler&);                       // Constructor
          ~SymbolTable();                               // Destructor
-
+         template <typename T>bool install(T element);
          void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
 
          void install(S_TableEntry* entry);            // install a symbol in the symbol table

@@ -68,7 +68,7 @@ namespace njnr
    {
        List* params{List::mklist("",njnr::type::VOID)};
        S_TableEntry* entry{symbolTable->createFunc("main", njnr::type::INT,params )};
-       symbolTable->install(entry);
+       symbolTable->install<S_TableEntry*>(entry);
    }
 
    Compiler::Compiler(int argc,  char* const* argv) : Compiler{}

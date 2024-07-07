@@ -9,6 +9,12 @@
 #include "symbol_table_stack.hpp"
 
 using namespace njnr;
+template <typename T>bool SymbolTable::install(T element)
+{
+   
+   stack.front().install<T>(element->getKey(), element);
+   return true;
+}
 
 // Constructor
 SymbolTable::SymbolTable(Compiler& c) : compiler{c}, stack{Table{}} {}
@@ -186,3 +192,4 @@ S_TableEntry* SymbolTable::createParam(std::string name, type t_type, int offset
    S_TableEntry* temp{new S_TableEntry{name,tBindingP, njnr::type::VOID}};
    return temp;
 }
+#include "symbol_table_stack_templates.h"
