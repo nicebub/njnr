@@ -22,11 +22,12 @@ SymbolTable::SymbolTable(Compiler& c) : compiler{c}, stack{Table{}} {}
 // Destructor
 SymbolTable::~SymbolTable() {}
 
+/*
 void SymbolTable::install(S_TableEntry* entry)
 {
    stack.front().install<S_TableEntry*>(entry->getKey(), entry);
 }
-
+*/
 void SymbolTable::installIdentifier(std::string val)
 {
    installHelper(val, njnr::type::IDENT);
