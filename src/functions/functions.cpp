@@ -6,6 +6,7 @@
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
+#include "symbol_table_stackX.hpp"
 using namespace njnr;
 namespace njnr
 {

@@ -6,6 +6,7 @@
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
+#include "symbol_table_stackX.hpp"
 using namespace njnr;
 namespace njnr
 {
@@ -78,9 +79,9 @@ namespace njnr
        funcCallWparam->settype((* nameAndparamptr)->gettype());
        if((* nameAndparamptr)->funcent!=nullptr)
        {
-           if(((* nameAndparamptr)->funcent)->getGroup() == btype::FUNC)
+           if((static_cast<S_TableEntry*>((* nameAndparamptr)->funcent))->getGroup() == btype::FUNC)
            {
-               if( ((Funcb*)(((* nameAndparamptr)->funcent)->getBinding()))->getreturntype() != type::VOID)
+               if( ((Funcb*)(static_cast<S_TableEntry*>((* nameAndparamptr)->funcent)->getBinding()))->getreturntype() != type::VOID)
                {
                    funcCallWparam->setnumeric(true);
                }
@@ -89,23 +90,23 @@ namespace njnr
                    funcCallWparam->setnumeric(false);
                }
            }
-           if( "scanf" == (*nameAndparamptr)->funcent->getName())
+           if( "scanf" == static_cast<S_TableEntry*>((*nameAndparamptr)->funcent)->getName())
            {
                code_generator.gen_call("$scanf",(*nameAndparamptr)->params);
            }
-           else if("printf" ==  (*nameAndparamptr)->funcent->getName())
+           else if("printf" ==  static_cast<S_TableEntry*>((*nameAndparamptr)->funcent)->getName())
            {
                code_generator.gen_call("$printf",(*nameAndparamptr)->params);
            }
            else
            {
-               if( ((Funcb*)((*nameAndparamptr)->funcent->getBinding()))->getlabel()==0)
+               if( ((Funcb*)(static_cast<S_TableEntry*>((*nameAndparamptr)->funcent)->getBinding()))->getlabel()==0)
                {
-                   ((Funcb*)((*nameAndparamptr)->funcent->getBinding()))->setlabel(code_generator.getlabel());
+                   ((Funcb*)(static_cast<S_TableEntry*>((*nameAndparamptr)->funcent)->getBinding()))->setlabel(code_generator.getlabel());
                }
-               code_generator.gen_call( code_generator.genlabelw((*nameAndparamptr)->funcent->getName(),
-                                        ((Funcb*)((*nameAndparamptr)->funcent->getBinding()))->getlabel()),
-                                        ((Funcb*)((*nameAndparamptr)->funcent->getBinding()))->getnum_param());
+               code_generator.gen_call( code_generator.genlabelw(static_cast<S_TableEntry*>((*nameAndparamptr)->funcent)->getName(),
+                                        ((Funcb*)(static_cast<S_TableEntry*>((*nameAndparamptr)->funcent)->getBinding()))->getlabel()),
+                                        ((Funcb*)(static_cast<S_TableEntry*>((*nameAndparamptr)->funcent)->getBinding()))->getnum_param());
            }
        }
        return funcCallWparam;
@@ -128,7 +129,7 @@ namespace njnr
    #endif
        if (inEntry->funcent != nullptr)
        {
-           inEntry->funcent->setName(inPacket.getvalue());
+           static_cast<S_TableEntry*>(inEntry->funcent)->setName(inPacket.getvalue());
        }
        return inEntry;
    }
@@ -294,13 +295,13 @@ namespace njnr
        else
        {
            outPacket->funcent = innameAndparamPacket->funcent;
-           tempE2 = new S_TableEntry(*new std::string{innameAndparamPacket->funcent->getName()},
+           tempE2 = new S_TableEntry(*new std::string{static_cast<S_TableEntry*>(innameAndparamPacket->funcent)->getName()},
                                      innameAndparamPacket->funcent,
                                      njnr::type::IDENT);
 
-           tempB= (Funcb*) symbolTable->lookup( innameAndparamPacket->funcent->getName());
+           tempB= (Funcb*) symbolTable->lookup( static_cast<S_TableEntry*>(innameAndparamPacket->funcent)->getName());
            S_TableEntry* s{new S_TableEntry{}};
-           *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(innameAndparamPacket->funcent->getName()));
+           *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(static_cast<S_TableEntry*>(innameAndparamPacket->funcent)->getName()));
            tempE = s;
            if( tempE  !=nullptr)
            {
@@ -327,7 +328,7 @@ namespace njnr
                        }
                        outPacket->params = innameAndparamPacket->params +1;
                        outPacket->funcent= innameAndparamPacket->funcent;
-                       if(outPacket->funcent->getName() != "scanf")
+                       if(static_cast<S_TableEntry*>(outPacket->funcent)->getName() != "scanf")
                        {
                            variableFetchWithNumericCheck(inexprPacket,false);
                        }

@@ -9,7 +9,7 @@
 #include "type.hpp"
 #include "cpptypes.hpp"
 #include "compiler.hpp"
-#include "symbol_table_stack.hpp"
+#include "symbol_table_stackX.hpp"
 //#include "symtab.hpp"
 
 using namespace njnr;
@@ -20,7 +20,7 @@ CodeGenerator::CodeGenerator(std::ostream& out) : labelcounter{1},  canGenerate{
 
 CodeGenerator::~CodeGenerator() {}
 
-void CodeGenerator::setSymbolTable(SymbolTable* s)
+void CodeGenerator::setSymbolTable(SymbolTableX* s)
 {
    symtab = s;
 }

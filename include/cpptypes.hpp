@@ -4,9 +4,10 @@
 #include <string>
 
 #include "type.hpp"
+
 namespace njnr
 {
-   class S_TableEntry;
+//   class S_TableEntry;
 
    class BaseData
    {
@@ -38,7 +39,7 @@ namespace njnr
          const std::string toString() const;
 
          struct Pair m_pair;
-         S_TableEntry* funcent;
+         void* funcent;
          int params;
       protected:
          int offset;

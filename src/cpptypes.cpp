@@ -2,8 +2,7 @@
 #include "type.hpp"
 #include "list.hpp"
 #include "symbol_table_entry.hpp"
-#include "symbol_table.hpp"
-#include "symbol_table_stack.hpp"
+#include "compiler.hpp"
 namespace njnr
 {
    ReturnPacket::ReturnPacket() :
@@ -85,7 +84,7 @@ namespace njnr
       r += "\n" + m_pair.toString() + "\n";
       if(nullptr != funcent)
       {
-        r += funcent->toString() + "\n";
+        r += static_cast<S_TableEntry*>(funcent)->toString() + "\n";
       }
       return r;
    };

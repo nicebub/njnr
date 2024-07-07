@@ -7,7 +7,7 @@
 
 namespace njnr
 {
-   class SymbolTable;
+   class SymbolTableX;
    class CodeGenerator
    {
       public:
@@ -26,7 +26,7 @@ namespace njnr
 
          void gen_call(std::string funcname, int numargs);        // generate a function call
 
-         void setSymbolTable(SymbolTable* s);
+         void setSymbolTable(SymbolTableX* s);
          std::string getOutputTypeForCINType(Funcb* f);
          static std::string concat(std::string, std::string);      // concat 2 strings and return the answer, remember to free it when done
          static void nullout(std::string& name, int length);       // Empties a string. Not being used currently
@@ -42,7 +42,7 @@ namespace njnr
          bool           canGenerate;                               // our variable used to determine enabled/disabled
          std::ostream*  outfile;                                   // stream for writing
          bool           lastInstructionWasReturnf;                 // was our last instruction we wrote a returnf instruction
-         SymbolTable*   symtab;
+         SymbolTableX*   symtab;
    };
 };
 #endif // _MYTRANS_H

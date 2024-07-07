@@ -27,14 +27,14 @@ enum class logType
 void report(njnr::logType t, std::string s);
 
    /* defined elsewhere but needed below */
-   class SymbolTable;
+   class SymbolTableX;
 
    /* The Compiler class runs the compiler and keeps its state */
    class Compiler
    {
       public:
-         SymbolTable*     symbolTable{};  // symbol table
-         SymbolTable*   constantTable{};
+         SymbolTableX*     symbolTable{};  // symbol table
+         SymbolTableX*   constantTable{};
          CodeGenerator code_generator{};  // code generator
          njnrLexer                lexer;  // lexical analyzer
          njnrParser*           parser{};  // syntactic parser

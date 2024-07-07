@@ -6,7 +6,6 @@
 #include "type.hpp"
 #include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"
-#include "symbol_table_stack.hpp"
 #include "list.hpp"
 
 namespace njnr

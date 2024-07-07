@@ -24,7 +24,7 @@ template<typename T>T Table::lookup(const std::string key)
    {
       /* The iterators 'second' value, which is the 'value' in <key:value>
           pair */
-      return result->second;
+      return static_cast<T>(result->second);
    }
 
    /* didn't find it */

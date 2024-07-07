@@ -3,7 +3,7 @@
 #include <ostream>
 #include "debug.hpp"
 #include "compiler.hpp"
-#include "symbol_table_stack.hpp"
+#include "symbol_table_stackX.hpp"
 namespace njnr
 {
    /**
@@ -47,9 +47,9 @@ namespace njnr
    {
        try
        {
-           symbolTable = new SymbolTable{ *this};
+           symbolTable = new SymbolTableX{ *this};
            install_functions_into_symbolTable();
-           constantTable = new SymbolTable{*this};
+           constantTable = new SymbolTableX{*this};
            parser = new njnrParser{*this};
            parser->set_debug_stream(std::cerr);
    #ifdef DEBUG
