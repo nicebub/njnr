@@ -1,10 +1,7 @@
 #include <map>
 #include <deque>
 #include <string>
-#include <iostream>
 
-#include "type.hpp"
-#include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"
 #include "symbol_table_stack.hpp"
 
@@ -59,7 +56,9 @@ void* SymbolTable::lookup(const std::string name)
    // output error if we went through whole stack without finding an element
    if(tbl == stack.end())
    {
-      std::cout << "member not found in symbol table stack" << std::endl;
+      report(logType::debug,
+             "member not found in symbol table stack"
+            );
    }
 
    return res;
@@ -82,7 +81,9 @@ template<typename T>T SymbolTable::lookup(const std::string name)
    // output error if we went through whole stack without finding an element
    if(tbl == stack.end())
    {
-      std::cout << "member not found in symbol table stack" << std::endl;
+      report(logType::debug,
+             "member not found in symbol table stack"
+            );
    }
 
    return res;
@@ -157,6 +158,6 @@ int SymbolTable::getleveldif(const std::string name) const
  */
 void SymbolTable::printTree() const
 {
-   report(njnr::logType::debug,"tree");
+   report(logType::debug,"tree");
 }
 #include "symbol_table_stack_templates.h"

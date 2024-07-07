@@ -1,13 +1,12 @@
 #include <map>
 #include <deque>
 #include <string>
-#include <iostream>
 
-#include "type.hpp"
-#include "symbol_table_entry.hpp"
-#include "symbol_table.hpp"
-#include "symbol_table_stackX.hpp"
-
+#include "type.hpp"                // for njnr::type
+#include "symbol_table_entry.hpp"  // for class S_TableEntry
+#include "symbol_table.hpp"        // for class Table
+#include "symbol_table_stackX.hpp" // for class SymbolTableX
+#include "compiler.hpp"            // or njnr::report()
 using namespace njnr;
 
 void SymbolTableX::installIdentifier(std::string val)

@@ -1,13 +1,12 @@
 #ifndef SYMBOL_TABLE_STACKX_H
 #define SYMBOL_TABLE_STACKX_H
 
-#include <map>
-#include <deque>
 #include <string>
 
-#include "symbol_table_stack.hpp"
-#include "symbol_table_entry.hpp"
-
+#include "type.hpp"               // for njnr::type
+#include "symbol_table_stack.hpp" // for class SymbolTable
+#include "symbol_table_entry.hpp" // for class S_TableEntry
+#include "compiler.hpp"           // for class Compiler
 namespace njnr
 {
    /**
@@ -30,9 +29,9 @@ namespace njnr
          void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
 
          /* unsure about these functions below */
-         S_TableEntry* createFunc(std::string name, type returntype, List* paramlist); //FIXME: take in a ReturnPacket* instead?
-         S_TableEntry* createVar(std::string name, type t_type, int offset);           //FIXME: take in a ReturnPacket* instead?
-         S_TableEntry* createParam(std::string name, type t_type, int offset);         //FIXME: take in a ReturnPacket* instead?
+         S_TableEntry* createFunc(std::string name, njnr::type returntype, List* paramlist); //FIXME: take in a ReturnPacket* instead?
+         S_TableEntry* createVar(std::string name, njnr::type t_type, int offset);           //FIXME: take in a ReturnPacket* instead?
+         S_TableEntry* createParam(std::string name, njnr::type t_type, int offset);         //FIXME: take in a ReturnPacket* instead?
    };
 }
 #endif // SYMBOL_TABLE_STACKX_H

@@ -17,8 +17,8 @@ namespace njnr
          ~Table() = default;                                          // Destructor
          template<typename T>T lookup(const std::string key);         // get data for symbol
          template<typename T>T lookupB(const std::string key);        // get data for symbol ?
-         template<typename T>bool  install(std::string key, T value); // install key:value in table
-         template<typename T>T  remove(std::string key);              // remove from table
+         template<typename T>bool install(std::string key, T value) ; // install key:value in table
+         template<typename T>T remove(std::string key);               // remove from table
          bool  contains(const std::string key) const;
          bool  isEmpty() const noexcept;                              // return true if table is empty
          bool  count() const noexcept;

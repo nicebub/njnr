@@ -1,9 +1,8 @@
 #include <map>
 #include <string>
-#include <iostream>
 
 #include "symbol_table.hpp"
-#include "compiler.hpp"
+#include "compiler.hpp"     // currently for njnr::report()
 
 using namespace njnr;
 
@@ -49,7 +48,7 @@ template<typename T>T Table::lookupB(const std::string key)
    catch(std::out_of_range& e)
    {
       /* didn't find it */
-       report(njnr::logType::debug,
+       report(logType::debug,
               "caught out of range - <key:value> not in table: <" + key + ":value>"
              );
    }
@@ -74,14 +73,14 @@ template<typename T>bool Table::install(std::string key, T value)
       table.at(key);
 
       /* didn't throw exception which means its already in table */
-      report(njnr::logType::error,
+      report(logType::error,
              "error: symbol already declared in current scope"
             );
    }
    catch(std::out_of_range& e)
    {
       /* didn't find it - we can install */
-      report(njnr::logType::debug,
+      report(logType::debug,
              "installing key: " + key +
              " value: " +
              " into table\n"
@@ -91,7 +90,7 @@ template<typename T>bool Table::install(std::string key, T value)
       answer = true;
    }
    /*
-   report(njnr::logType::debug,
+   report(logType::debug,
           "through install function of symbol table. Printing symbol table tree"
          );
    printTree(symtab);
@@ -109,10 +108,10 @@ template<typename T>bool Table::install(std::string key, T value)
 template<typename T>T Table::remove(std::string key)
 {
    bool answer{answer};
-   report(njnr::logType::debug,"found element, removing it");
    table.erase(key);
+   report(logType::debug,"found element, removing it");
    /*
-   report(njnr::logType::debug,
+   report(logType::debug,
           "through install function of symbol table. Printing symbol table tree"
          );
    printTree(symtab);
