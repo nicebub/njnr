@@ -9,17 +9,31 @@
 #include "symbol_table_stack.hpp"
 
 using namespace njnr;
+/**
+ * @brief install element of type T in top symbol table
+ * 
+ * @tparam T type of element installing into symbol table
+ * @param element element to install
+ * @return true installed
+ * @return false wasn't installed
+ */
 template <typename T>bool SymbolTable::install(T element)
 {
-   
    stack.front().install<T>(element->getKey(), element);
    return true;
 }
 
-// Constructor
+/**
+ * @brief Construct a new Symbol Table:: Symbol Table object
+ * 
+ * @param c reference to compiler that instantiates this symbol table
+ */
 SymbolTable::SymbolTable(Compiler& c) : compiler{c}, stack{Table{}} {}
 
-// Destructor
+/**
+ * @brief Destroy the Symbol Table:: Symbol Table object
+ * 
+ */
 SymbolTable::~SymbolTable() {}
 
 /*
@@ -61,7 +75,12 @@ void SymbolTable::installHelper(std::string val, njnr::type t)
    stack.front().install<S_TableEntry*>(val, s);
 }
 
-// install a symbol in the symbol table
+/**
+ * @brief lookup a <key:value> pair in topmost symbol table in stack
+ * 
+ * @param name key to lookup <key:value> pair
+ * @return void* if return type is void* returns 'value'
+ */
 void* SymbolTable::lookup(const std::string name)
 {
    void* res = nullptr;
@@ -85,16 +104,30 @@ void* SymbolTable::lookup(const std::string name)
    return res;
 }
 
-// look up a symbol in scope and return its value
+/**
+ * @brief lookup symbol of <key:value> with 'name' = 'key' in topmost
+ *         symbol table on stack
+ * 
+ * @param name key name of <key:value> pair
+ * @return void* return 'value' is type of 'value' is void*
+ */
 void* SymbolTable::lookupB(const std::string name)
 {
    return stack.front().lookupB<void*>(name);
 }
 
-// look up a symbol in scope and return its table entry
+
+/**
+ * @brief return whether a symbol can be found in the topmost symbol table on the
+ *         stack
+ * 
+ * @param name key to lookup
+ * @return true found
+ * @return false not found
+ */
 bool SymbolTable::inCurrentScope(const std::string name)
 {
-   return stack.front().lookup<void*>(name) ? true : false;
+   return stack.front().contains(name) ? true : false;
 }
 
 // true if symbol is in current scope

@@ -120,6 +120,11 @@ template<typename T>T Table::remove(std::string key)
    return answer;
 } // install key:value in table
 
+
+bool Table::contains(const std::string key) const
+{
+   return table.contains(key);
+}
 /**
  * @brief returns whether or not symbol table is empty
  *

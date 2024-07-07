@@ -72,7 +72,7 @@ DEPS := $(patsubst %.cpp, $(PATHD)%.d,$(SRC_FILES))
 COMPILE=$(COMPILER) -c
 LINK=$(COMPILER)
 DEPEND=$(COMPILER) -MM -MG -MF
-CPPFLAGS = -Wall -std=c++17 #-DDEBUGON
+CPPFLAGS = -Wall -std=gnu++23 #-DDEBUGON
 CPPFLAGS += -Wall -Wpedantic -pedantic-errors -Wno-comment -I. -I$(PATHI) -I$(PATHC)
 CPPFLAGS += -g
 CPPFLAGS += -Os -pipe -time
