@@ -340,7 +340,7 @@ namespace njnr
    ReturnPacket* Compiler::block55_factor_ident(njnr::Identifier inIdent)
    {
       ReturnPacket*  outPacket{nullptr};
-      S_TableEntry *resultLookup{nullptr};
+      S_TableEntryX *resultLookup{nullptr};
       bool gen_code = false;
 //      int  gen_type = 0;
 
@@ -352,14 +352,14 @@ namespace njnr
            #ifdef DEBUG
             //  fprintf(stderr,"the name of the identifier here is:  %s\n", (char*)$<value.svalue>1);
            #endif
-            S_TableEntry* s{new S_TableEntry{}};
-            *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(inIdent.getvalue()));
+            S_TableEntryX* s{new S_TableEntryX{}};
+            *s = *static_cast<S_TableEntryX*>(symbolTable->lookupB(inIdent.getvalue()));
             resultLookup = s;
             if(nullptr != resultLookup)
             {
-               outPacket->settype(((S_TableEntry*)resultLookup->getBinding())->getType());
+               outPacket->settype(((S_TableEntryX*)resultLookup->getBinding())->getType());
                outPacket->setlval(true);
-               if(((S_TableEntry*)resultLookup->getBinding())->getType() == type::INT || ((S_TableEntry*)resultLookup->getBinding())->getType() == type::FLOAT)
+               if(((S_TableEntryX*)resultLookup->getBinding())->getType() == type::INT || ((S_TableEntryX*)resultLookup->getBinding())->getType() == type::FLOAT)
                {
                   outPacket->setnumeric(true);
                }
@@ -457,15 +457,15 @@ namespace njnr
    ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket)
    {
        ReturnPacket* outPacket{new ReturnPacket{}};
-       S_TableEntry*tempE; //, *tempE2;
+       S_TableEntryX*tempE; //, *tempE2;
        if( inPacket.getvalue() != "main")
        {
            if( symbolTable->lookup(inPacket.getvalue()) == nullptr)
                error("variable undeclared, please declare variables before using them","");
            else
            {
-            S_TableEntry* s{new S_TableEntry{}};
-            *s = *static_cast<S_TableEntry*>(symbolTable->lookupB(inPacket.getvalue()));
+            S_TableEntryX* s{new S_TableEntryX{}};
+            *s = *static_cast<S_TableEntryX*>(symbolTable->lookupB(inPacket.getvalue()));
                tempE = s;
                if(tempE != nullptr)
                {

@@ -27,7 +27,7 @@ namespace njnr
       funcheadertype* inFuncHeader{*inFuncHeaderptr};
 
       currentFunc = static_cast<Funcb*>(symbolTable->lookup(inFuncHeader->name));
-      S_TableEntry foundPacket{*static_cast<S_TableEntry*>(symbolTable->lookupB(inFuncHeader->name))};
+      S_TableEntryX foundPacket{*static_cast<S_TableEntryX*>(symbolTable->lookupB(inFuncHeader->name))};
 /*
       if(!foundPacket)
       {

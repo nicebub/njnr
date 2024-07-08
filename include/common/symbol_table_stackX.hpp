@@ -29,9 +29,9 @@ namespace njnr
          void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
 
          /* unsure about these functions below */
-         S_TableEntry* createFunc(std::string name, njnr::type returntype, List* paramlist); //FIXME: take in a ReturnPacket* instead?
-         S_TableEntry* createVar(std::string name, njnr::type t_type, int offset);           //FIXME: take in a ReturnPacket* instead?
-         S_TableEntry* createParam(std::string name, njnr::type t_type, int offset);         //FIXME: take in a ReturnPacket* instead?
+         S_TableEntryX* createFunc(std::string name, njnr::type returntype, List* paramlist); //FIXME: take in a ReturnPacket* instead?
+         S_TableEntryX* createVar(std::string name, njnr::type t_type, int offset);           //FIXME: take in a ReturnPacket* instead?
+         S_TableEntryX* createParam(std::string name, njnr::type t_type, int offset);         //FIXME: take in a ReturnPacket* instead?
    };
 }
 #endif // SYMBOL_TABLE_STACKX_H

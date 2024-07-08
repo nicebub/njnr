@@ -49,7 +49,7 @@ int yyerror(std::string err,Compiler& compiler);
 	namespace njnr
 	{
 		class Compiler;
-		class S_TableEntry;
+		class S_TableEntryX;
 	}
 	#include "cpptypes.hpp"
 	#include "list.hpp"

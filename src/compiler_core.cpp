@@ -67,8 +67,8 @@ namespace njnr
    void Compiler::install_functions_into_symbolTable()
    {
        List* params{List::mklist("",njnr::type::VOID)};
-       S_TableEntry* entry{symbolTable->createFunc("main", njnr::type::INT,params )};
-       symbolTable->install<S_TableEntry*>(entry);
+       S_TableEntryX* entry{symbolTable->createFunc("main", njnr::type::INT,params )};
+       symbolTable->install<S_TableEntryX*>(entry);
    }
 
    Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
@@ -390,26 +390,26 @@ void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t
 {
    if(Id != nullptr)
    {
-      S_TableEntry* te = symbolTable->createVar(Id->getvalue(), t, 0); 
+      S_TableEntryX* te = symbolTable->createVar(Id->getvalue(), t, 0); 
       symbolTable->install(te);
    }
 }
 void Compiler::installVariableIntoSymbolTable(std::string Id, njnr::type t)
 {
-      S_TableEntry* te = symbolTable->createVar(Id, t, 0); 
+      S_TableEntryX* te = symbolTable->createVar(Id, t, 0); 
       symbolTable->install(te);
 }
 void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t)
 {
    if(Id != nullptr)
    {
-      S_TableEntry* te = symbolTable->createParam(Id->getvalue(), t, 0); 
+      S_TableEntryX* te = symbolTable->createParam(Id->getvalue(), t, 0); 
       symbolTable->install(te);
    }
 }
 void Compiler::installParameterIntoSymbolTable(std::string Id, njnr::type t)
 {
-      S_TableEntry* te = symbolTable->createParam(Id, t, 0); 
+      S_TableEntryX* te = symbolTable->createParam(Id, t, 0); 
       symbolTable->install(te);
 }
 
