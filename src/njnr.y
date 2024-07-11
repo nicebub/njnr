@@ -6,9 +6,6 @@
 
 #include "type.hpp"
 #include "list.hpp"
-#include "symbol_table_entry.hpp"
-#include "symbol_table.hpp"
-#include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
 #include "data.hpp"
 #include "trans.hpp"

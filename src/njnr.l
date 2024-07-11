@@ -302,7 +302,7 @@ let {
       return token::verticalbart;
    }
 
-\_ {
+\\\_ {
       return token::underst;
    }
 

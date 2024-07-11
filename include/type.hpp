@@ -61,7 +61,8 @@ namespace njnr
       REFSTR,   // Reference to a String
       IDENT,    // Identifer
       STMT,     // Statement
-      CHECK     // Hasn't been determined yet and needs to be checked later
+      CHECK,     // Hasn't been determined yet and needs to be checked later
+      OPERATOR,
    };
 
    /* boolean types */
@@ -120,5 +121,17 @@ namespace njnr
       njnr::type    returntype; // return type(if any) of fn
       njnr::type    ttype;      // type of fn?(TBD)
    };
+
+   class TSType
+   {
+      public:
+         virtual ~TSType() {};
+         virtual const std::string toString() const noexcept = 0;
+         virtual const bool getNumeric() const noexcept = 0;
+         virtual const bool getLVal() const noexcept = 0;
+         virtual const njnr::type getType() const noexcept = 0;
+         virtual const std::string getTypeValue() const noexcept = 0;
+   };
+
 };
 #endif // _MYTYPE_H

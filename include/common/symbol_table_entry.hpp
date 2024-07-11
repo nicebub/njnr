@@ -64,7 +64,7 @@ namespace njnr
   //       virtual S_TableEntryX& operator=(const S_TableEntryX& in);
 
          /* Return a stringized version of the object */
-//         virtual std::string toString() const  noexcept;
+         virtual std::string toString() const  noexcept;
 
          /* return the type for the table entry */
          njnr::btype getGroup(void) const noexcept;

@@ -6,24 +6,20 @@ using namespace njnr;
 
 S_TableEntry::S_TableEntry() : key{""},
                                value{NULL},
-                               eType{njnr::type::VOID}
-{
-}
+                               eType{njnr::type::VOID} {}
+
 
 S_TableEntry::S_TableEntry(std::string& key,
                            void* value = nullptr,
                            njnr::type eType = njnr::type::VOID) noexcept : key{key},
                                                                           value{value},
-                                                                          eType{eType}
-{
-}
+                                                                          eType{eType} {}
+
 S_TableEntryX::S_TableEntryX(std::string& key,
                            void* value = nullptr,
                            njnr::type eType = njnr::type::VOID) noexcept : S_TableEntry(key,
                                                                           value,
-                                                                          eType)
-{
-}
+                                                                          eType) {}
 S_TableEntry::S_TableEntry(const S_TableEntry& in) noexcept : key{in.key},
                                                               value{in.value},
                                                               eType{in.eType}
@@ -46,6 +42,11 @@ S_TableEntry& S_TableEntry::operator=(const S_TableEntry& in)
 std::string S_TableEntry::toString() const  noexcept
 {
    return "key: " + key + " type: " + std::to_string((int)eType);
+}
+
+std::string S_TableEntryX::toString() const  noexcept
+{
+   return S_TableEntry{*this}.toString() + "other";
 }
 
 std::string S_TableEntry::getKey(void) const noexcept
@@ -72,16 +73,17 @@ void* S_TableEntryX::getBinding()
     return binding;
 }
 
-   std::string S_TableEntryX::getName() const
-   {
-       return name;
-   }
+std::string S_TableEntryX::getName() const
+{
+    return name;
+}
 
-   void S_TableEntryX::setName(std::string inName)
-   {
-       name = inName;
-   }
-   void S_TableEntry::setType(njnr::type inType)
-   {
-       eType = inType;
-   }
+void S_TableEntryX::setName(std::string inName)
+{
+    name = inName;
+}
+
+void S_TableEntry::setType(njnr::type inType)
+{
+    eType = inType;
+}
