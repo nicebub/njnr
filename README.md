@@ -39,4 +39,4 @@ To choose a different install directory than the default, add this to your "./co
 
     make install
 
-# See <a href=Language_Grammar.md>hi</a>
+# See <a href=Language_Grammar.md>Language_Grammar.md</a>
