@@ -7,7 +7,7 @@ AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror foreign])
 
 # these two lines didn't work, without them does
 #AC_CONFIG_SRCDIR([config.h.in])
-#AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CXX
