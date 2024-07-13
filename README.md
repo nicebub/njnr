@@ -32,7 +32,7 @@ To choose a different install directory than the default, add this to your "./co
 
 **Example**: using the default install directory, ie no **--prefix=** cmd-line option
 
-    ../configure
+    ./configure
     make
 
 #### To Install:
