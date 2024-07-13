@@ -100,18 +100,20 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
-am_njnr_OBJECTS = njnr.tab.$(OBJEXT) lex.yy.$(OBJEXT) \
-	command.$(OBJEXT) compiler_core.$(OBJEXT) cpptypes.$(OBJEXT) \
-	debug.$(OBJEXT) getopt.$(OBJEXT) helper.$(OBJEXT) \
-	lex.$(OBJEXT) list.$(OBJEXT) main.$(OBJEXT) operator.$(OBJEXT) \
-	parser_functions.$(OBJEXT) trans.$(OBJEXT) \
-	common/symbol_table.$(OBJEXT) \
-	common/symbol_table_stack.$(OBJEXT) \
-	common/symbol_table_stackX.$(OBJEXT) \
-	common/symbol_table_entry.$(OBJEXT) \
-	expressions/expressions.$(OBJEXT) \
-	functions/function_calls.$(OBJEXT) \
-	functions/functions.$(OBJEXT) statements/statements.$(OBJEXT)
+am_njnr_OBJECTS = njnr-njnr.tab.$(OBJEXT) njnr-lex.yy.$(OBJEXT) \
+	njnr-command.$(OBJEXT) njnr-compiler_core.$(OBJEXT) \
+	njnr-cpptypes.$(OBJEXT) njnr-debug.$(OBJEXT) \
+	njnr-getopt.$(OBJEXT) njnr-helper.$(OBJEXT) njnr-lex.$(OBJEXT) \
+	njnr-list.$(OBJEXT) njnr-main.$(OBJEXT) \
+	njnr-operator.$(OBJEXT) njnr-parser_functions.$(OBJEXT) \
+	njnr-trans.$(OBJEXT) common/njnr-symbol_table.$(OBJEXT) \
+	common/njnr-symbol_table_stack.$(OBJEXT) \
+	common/njnr-symbol_table_stackX.$(OBJEXT) \
+	common/njnr-symbol_table_entry.$(OBJEXT) \
+	expressions/njnr-expressions.$(OBJEXT) \
+	functions/njnr-function_calls.$(OBJEXT) \
+	functions/njnr-functions.$(OBJEXT) \
+	statements/njnr-statements.$(OBJEXT)
 njnr_OBJECTS = $(am_njnr_OBJECTS)
 njnr_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -129,22 +131,27 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/command.Po \
-	./$(DEPDIR)/compiler_core.Po ./$(DEPDIR)/cpptypes.Po \
-	./$(DEPDIR)/debug.Po ./$(DEPDIR)/getopt.Po \
-	./$(DEPDIR)/helper.Po ./$(DEPDIR)/lex.Po ./$(DEPDIR)/lex.yy.Po \
-	./$(DEPDIR)/list.Po ./$(DEPDIR)/main.Po \
-	./$(DEPDIR)/njnr.tab.Po ./$(DEPDIR)/operator.Po \
-	./$(DEPDIR)/parser_functions.Po ./$(DEPDIR)/trans.Po \
-	common/$(DEPDIR)/symbol_table.Po \
-	common/$(DEPDIR)/symbol_table_entry.Po \
-	common/$(DEPDIR)/symbol_table_stack.Po \
-	common/$(DEPDIR)/symbol_table_stackX.Po \
-	expressions/$(DEPDIR)/expressions.Po \
-	functions/$(DEPDIR)/function_calls.Po \
-	functions/$(DEPDIR)/functions.Po \
-	statements/$(DEPDIR)/statements.Po
+am__depfiles_remade = ./$(DEPDIR)/njnr-command.Po \
+	./$(DEPDIR)/njnr-compiler_core.Po ./$(DEPDIR)/njnr-cpptypes.Po \
+	./$(DEPDIR)/njnr-debug.Po ./$(DEPDIR)/njnr-getopt.Po \
+	./$(DEPDIR)/njnr-helper.Po ./$(DEPDIR)/njnr-lex.Po \
+	./$(DEPDIR)/njnr-lex.yy.Po ./$(DEPDIR)/njnr-list.Po \
+	./$(DEPDIR)/njnr-main.Po ./$(DEPDIR)/njnr-njnr.tab.Po \
+	./$(DEPDIR)/njnr-operator.Po \
+	./$(DEPDIR)/njnr-parser_functions.Po ./$(DEPDIR)/njnr-trans.Po \
+	common/$(DEPDIR)/njnr-symbol_table.Po \
+	common/$(DEPDIR)/njnr-symbol_table_entry.Po \
+	common/$(DEPDIR)/njnr-symbol_table_stack.Po \
+	common/$(DEPDIR)/njnr-symbol_table_stackX.Po \
+	expressions/$(DEPDIR)/njnr-expressions.Po \
+	functions/$(DEPDIR)/njnr-function_calls.Po \
+	functions/$(DEPDIR)/njnr-functions.Po \
+	statements/$(DEPDIR)/njnr-statements.Po
 am__mv = mv -f
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 AM_V_CXX = $(am__v_CXX_@AM_V@)
@@ -158,6 +165,18 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_@AM_V@)
+am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_@AM_V@)
+am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
 SOURCES = $(njnr_SOURCES)
 DIST_SOURCES = $(njnr_SOURCES)
 am__can_run_installinfo = \
@@ -289,11 +308,23 @@ njnr_SOURCES = njnr.tab.cpp lex.yy.cc command.cpp compiler_core.cpp \
 	common/symbol_table.cpp common/symbol_table_stack.cpp \
 	common/symbol_table_stackX.cpp common/symbol_table_entry.cpp \
 	expressions/expressions.cpp functions/function_calls.cpp \
-	functions/functions.cpp statements/statements.cpp
+	functions/functions.cpp statements/statements.cpp \
+	include/debug.hpp include/type.hpp include/list.hpp \
+	include/cpptypes.hpp include/constant.hpp \
+	include/common/symbol_table_stackX.hpp \
+	include/common/symbol_table_stack.hpp \
+	include/common/symbol_table.hpp include/compiler.hpp \
+	include/trans.hpp include/common/symbol_table_entry.hpp \
+	njnr.tab.hpp location.hh include/lex.hpp include/data.hpp \
+	include/helper.hpp include/operator.hpp \
+	include/common/symbol_table_templates.h \
+	include/common/symbol_table_stack_templates.h
 AUTOMAKE_OPTIONS = foreign
+njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
 AM_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
 AM_YFLAG = -d
 CLEANFILES = lex.yy.cc njnr.tab.cpp njnr.tab.hpp njnr.output location.hh
+EXTRA_DIST = njnr.l njnr.y ../autogen.sh
 all: all-am
 
 .SUFFIXES:
@@ -375,13 +406,13 @@ common/$(am__dirstamp):
 common/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) common/$(DEPDIR)
 	@: > common/$(DEPDIR)/$(am__dirstamp)
-common/symbol_table.$(OBJEXT): common/$(am__dirstamp) \
+common/njnr-symbol_table.$(OBJEXT): common/$(am__dirstamp) \
 	common/$(DEPDIR)/$(am__dirstamp)
-common/symbol_table_stack.$(OBJEXT): common/$(am__dirstamp) \
+common/njnr-symbol_table_stack.$(OBJEXT): common/$(am__dirstamp) \
 	common/$(DEPDIR)/$(am__dirstamp)
-common/symbol_table_stackX.$(OBJEXT): common/$(am__dirstamp) \
+common/njnr-symbol_table_stackX.$(OBJEXT): common/$(am__dirstamp) \
 	common/$(DEPDIR)/$(am__dirstamp)
-common/symbol_table_entry.$(OBJEXT): common/$(am__dirstamp) \
+common/njnr-symbol_table_entry.$(OBJEXT): common/$(am__dirstamp) \
 	common/$(DEPDIR)/$(am__dirstamp)
 expressions/$(am__dirstamp):
 	@$(MKDIR_P) expressions
@@ -389,7 +420,7 @@ expressions/$(am__dirstamp):
 expressions/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) expressions/$(DEPDIR)
 	@: > expressions/$(DEPDIR)/$(am__dirstamp)
-expressions/expressions.$(OBJEXT): expressions/$(am__dirstamp) \
+expressions/njnr-expressions.$(OBJEXT): expressions/$(am__dirstamp) \
 	expressions/$(DEPDIR)/$(am__dirstamp)
 functions/$(am__dirstamp):
 	@$(MKDIR_P) functions
@@ -397,9 +428,9 @@ functions/$(am__dirstamp):
 functions/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) functions/$(DEPDIR)
 	@: > functions/$(DEPDIR)/$(am__dirstamp)
-functions/function_calls.$(OBJEXT): functions/$(am__dirstamp) \
+functions/njnr-function_calls.$(OBJEXT): functions/$(am__dirstamp) \
 	functions/$(DEPDIR)/$(am__dirstamp)
-functions/functions.$(OBJEXT): functions/$(am__dirstamp) \
+functions/njnr-functions.$(OBJEXT): functions/$(am__dirstamp) \
 	functions/$(DEPDIR)/$(am__dirstamp)
 statements/$(am__dirstamp):
 	@$(MKDIR_P) statements
@@ -407,7 +438,7 @@ statements/$(am__dirstamp):
 statements/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) statements/$(DEPDIR)
 	@: > statements/$(DEPDIR)/$(am__dirstamp)
-statements/statements.$(OBJEXT): statements/$(am__dirstamp) \
+statements/njnr-statements.$(OBJEXT): statements/$(am__dirstamp) \
 	statements/$(DEPDIR)/$(am__dirstamp)
 
 njnr$(EXEEXT): $(njnr_OBJECTS) $(njnr_DEPENDENCIES) $(EXTRA_njnr_DEPENDENCIES) 
@@ -424,28 +455,28 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/command.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compiler_core.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cpptypes.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/debug.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getopt.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/helper.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lex.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lex.yy.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr.tab.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/operator.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser_functions.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trans.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/symbol_table.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/symbol_table_entry.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/symbol_table_stack.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/symbol_table_stackX.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@expressions/$(DEPDIR)/expressions.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@functions/$(DEPDIR)/function_calls.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@functions/$(DEPDIR)/functions.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@statements/$(DEPDIR)/statements.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-command.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-compiler_core.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-cpptypes.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-debug.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-getopt.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-helper.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-lex.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-lex.yy.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-list.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-main.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-njnr.tab.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-operator.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-parser_functions.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-trans.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/njnr-symbol_table.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/njnr-symbol_table_entry.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/njnr-symbol_table_stack.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/njnr-symbol_table_stackX.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@expressions/$(DEPDIR)/njnr-expressions.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@functions/$(DEPDIR)/njnr-function_calls.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@functions/$(DEPDIR)/njnr-functions.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@statements/$(DEPDIR)/njnr-statements.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -468,6 +499,314 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+njnr-njnr.tab.o: njnr.tab.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-njnr.tab.o -MD -MP -MF $(DEPDIR)/njnr-njnr.tab.Tpo -c -o njnr-njnr.tab.o `test -f 'njnr.tab.cpp' || echo '$(srcdir)/'`njnr.tab.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-njnr.tab.Tpo $(DEPDIR)/njnr-njnr.tab.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='njnr.tab.cpp' object='njnr-njnr.tab.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-njnr.tab.o `test -f 'njnr.tab.cpp' || echo '$(srcdir)/'`njnr.tab.cpp
+
+njnr-njnr.tab.obj: njnr.tab.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-njnr.tab.obj -MD -MP -MF $(DEPDIR)/njnr-njnr.tab.Tpo -c -o njnr-njnr.tab.obj `if test -f 'njnr.tab.cpp'; then $(CYGPATH_W) 'njnr.tab.cpp'; else $(CYGPATH_W) '$(srcdir)/njnr.tab.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-njnr.tab.Tpo $(DEPDIR)/njnr-njnr.tab.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='njnr.tab.cpp' object='njnr-njnr.tab.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-njnr.tab.obj `if test -f 'njnr.tab.cpp'; then $(CYGPATH_W) 'njnr.tab.cpp'; else $(CYGPATH_W) '$(srcdir)/njnr.tab.cpp'; fi`
+
+njnr-lex.yy.o: lex.yy.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-lex.yy.o -MD -MP -MF $(DEPDIR)/njnr-lex.yy.Tpo -c -o njnr-lex.yy.o `test -f 'lex.yy.cc' || echo '$(srcdir)/'`lex.yy.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-lex.yy.Tpo $(DEPDIR)/njnr-lex.yy.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='lex.yy.cc' object='njnr-lex.yy.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-lex.yy.o `test -f 'lex.yy.cc' || echo '$(srcdir)/'`lex.yy.cc
+
+njnr-lex.yy.obj: lex.yy.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-lex.yy.obj -MD -MP -MF $(DEPDIR)/njnr-lex.yy.Tpo -c -o njnr-lex.yy.obj `if test -f 'lex.yy.cc'; then $(CYGPATH_W) 'lex.yy.cc'; else $(CYGPATH_W) '$(srcdir)/lex.yy.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-lex.yy.Tpo $(DEPDIR)/njnr-lex.yy.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='lex.yy.cc' object='njnr-lex.yy.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-lex.yy.obj `if test -f 'lex.yy.cc'; then $(CYGPATH_W) 'lex.yy.cc'; else $(CYGPATH_W) '$(srcdir)/lex.yy.cc'; fi`
+
+njnr-command.o: command.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-command.o -MD -MP -MF $(DEPDIR)/njnr-command.Tpo -c -o njnr-command.o `test -f 'command.cpp' || echo '$(srcdir)/'`command.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-command.Tpo $(DEPDIR)/njnr-command.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='command.cpp' object='njnr-command.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-command.o `test -f 'command.cpp' || echo '$(srcdir)/'`command.cpp
+
+njnr-command.obj: command.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-command.obj -MD -MP -MF $(DEPDIR)/njnr-command.Tpo -c -o njnr-command.obj `if test -f 'command.cpp'; then $(CYGPATH_W) 'command.cpp'; else $(CYGPATH_W) '$(srcdir)/command.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-command.Tpo $(DEPDIR)/njnr-command.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='command.cpp' object='njnr-command.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-command.obj `if test -f 'command.cpp'; then $(CYGPATH_W) 'command.cpp'; else $(CYGPATH_W) '$(srcdir)/command.cpp'; fi`
+
+njnr-compiler_core.o: compiler_core.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-compiler_core.o -MD -MP -MF $(DEPDIR)/njnr-compiler_core.Tpo -c -o njnr-compiler_core.o `test -f 'compiler_core.cpp' || echo '$(srcdir)/'`compiler_core.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-compiler_core.Tpo $(DEPDIR)/njnr-compiler_core.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='compiler_core.cpp' object='njnr-compiler_core.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-compiler_core.o `test -f 'compiler_core.cpp' || echo '$(srcdir)/'`compiler_core.cpp
+
+njnr-compiler_core.obj: compiler_core.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-compiler_core.obj -MD -MP -MF $(DEPDIR)/njnr-compiler_core.Tpo -c -o njnr-compiler_core.obj `if test -f 'compiler_core.cpp'; then $(CYGPATH_W) 'compiler_core.cpp'; else $(CYGPATH_W) '$(srcdir)/compiler_core.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-compiler_core.Tpo $(DEPDIR)/njnr-compiler_core.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='compiler_core.cpp' object='njnr-compiler_core.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-compiler_core.obj `if test -f 'compiler_core.cpp'; then $(CYGPATH_W) 'compiler_core.cpp'; else $(CYGPATH_W) '$(srcdir)/compiler_core.cpp'; fi`
+
+njnr-cpptypes.o: cpptypes.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-cpptypes.o -MD -MP -MF $(DEPDIR)/njnr-cpptypes.Tpo -c -o njnr-cpptypes.o `test -f 'cpptypes.cpp' || echo '$(srcdir)/'`cpptypes.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-cpptypes.Tpo $(DEPDIR)/njnr-cpptypes.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='cpptypes.cpp' object='njnr-cpptypes.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-cpptypes.o `test -f 'cpptypes.cpp' || echo '$(srcdir)/'`cpptypes.cpp
+
+njnr-cpptypes.obj: cpptypes.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-cpptypes.obj -MD -MP -MF $(DEPDIR)/njnr-cpptypes.Tpo -c -o njnr-cpptypes.obj `if test -f 'cpptypes.cpp'; then $(CYGPATH_W) 'cpptypes.cpp'; else $(CYGPATH_W) '$(srcdir)/cpptypes.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-cpptypes.Tpo $(DEPDIR)/njnr-cpptypes.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='cpptypes.cpp' object='njnr-cpptypes.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-cpptypes.obj `if test -f 'cpptypes.cpp'; then $(CYGPATH_W) 'cpptypes.cpp'; else $(CYGPATH_W) '$(srcdir)/cpptypes.cpp'; fi`
+
+njnr-debug.o: debug.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-debug.o -MD -MP -MF $(DEPDIR)/njnr-debug.Tpo -c -o njnr-debug.o `test -f 'debug.cpp' || echo '$(srcdir)/'`debug.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-debug.Tpo $(DEPDIR)/njnr-debug.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='debug.cpp' object='njnr-debug.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-debug.o `test -f 'debug.cpp' || echo '$(srcdir)/'`debug.cpp
+
+njnr-debug.obj: debug.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-debug.obj -MD -MP -MF $(DEPDIR)/njnr-debug.Tpo -c -o njnr-debug.obj `if test -f 'debug.cpp'; then $(CYGPATH_W) 'debug.cpp'; else $(CYGPATH_W) '$(srcdir)/debug.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-debug.Tpo $(DEPDIR)/njnr-debug.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='debug.cpp' object='njnr-debug.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-debug.obj `if test -f 'debug.cpp'; then $(CYGPATH_W) 'debug.cpp'; else $(CYGPATH_W) '$(srcdir)/debug.cpp'; fi`
+
+njnr-getopt.o: getopt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-getopt.o -MD -MP -MF $(DEPDIR)/njnr-getopt.Tpo -c -o njnr-getopt.o `test -f 'getopt.cpp' || echo '$(srcdir)/'`getopt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-getopt.Tpo $(DEPDIR)/njnr-getopt.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='getopt.cpp' object='njnr-getopt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-getopt.o `test -f 'getopt.cpp' || echo '$(srcdir)/'`getopt.cpp
+
+njnr-getopt.obj: getopt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-getopt.obj -MD -MP -MF $(DEPDIR)/njnr-getopt.Tpo -c -o njnr-getopt.obj `if test -f 'getopt.cpp'; then $(CYGPATH_W) 'getopt.cpp'; else $(CYGPATH_W) '$(srcdir)/getopt.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-getopt.Tpo $(DEPDIR)/njnr-getopt.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='getopt.cpp' object='njnr-getopt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-getopt.obj `if test -f 'getopt.cpp'; then $(CYGPATH_W) 'getopt.cpp'; else $(CYGPATH_W) '$(srcdir)/getopt.cpp'; fi`
+
+njnr-helper.o: helper.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-helper.o -MD -MP -MF $(DEPDIR)/njnr-helper.Tpo -c -o njnr-helper.o `test -f 'helper.cpp' || echo '$(srcdir)/'`helper.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-helper.Tpo $(DEPDIR)/njnr-helper.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='helper.cpp' object='njnr-helper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-helper.o `test -f 'helper.cpp' || echo '$(srcdir)/'`helper.cpp
+
+njnr-helper.obj: helper.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-helper.obj -MD -MP -MF $(DEPDIR)/njnr-helper.Tpo -c -o njnr-helper.obj `if test -f 'helper.cpp'; then $(CYGPATH_W) 'helper.cpp'; else $(CYGPATH_W) '$(srcdir)/helper.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-helper.Tpo $(DEPDIR)/njnr-helper.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='helper.cpp' object='njnr-helper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-helper.obj `if test -f 'helper.cpp'; then $(CYGPATH_W) 'helper.cpp'; else $(CYGPATH_W) '$(srcdir)/helper.cpp'; fi`
+
+njnr-lex.o: lex.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-lex.o -MD -MP -MF $(DEPDIR)/njnr-lex.Tpo -c -o njnr-lex.o `test -f 'lex.cpp' || echo '$(srcdir)/'`lex.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-lex.Tpo $(DEPDIR)/njnr-lex.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='lex.cpp' object='njnr-lex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-lex.o `test -f 'lex.cpp' || echo '$(srcdir)/'`lex.cpp
+
+njnr-lex.obj: lex.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-lex.obj -MD -MP -MF $(DEPDIR)/njnr-lex.Tpo -c -o njnr-lex.obj `if test -f 'lex.cpp'; then $(CYGPATH_W) 'lex.cpp'; else $(CYGPATH_W) '$(srcdir)/lex.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-lex.Tpo $(DEPDIR)/njnr-lex.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='lex.cpp' object='njnr-lex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-lex.obj `if test -f 'lex.cpp'; then $(CYGPATH_W) 'lex.cpp'; else $(CYGPATH_W) '$(srcdir)/lex.cpp'; fi`
+
+njnr-list.o: list.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-list.o -MD -MP -MF $(DEPDIR)/njnr-list.Tpo -c -o njnr-list.o `test -f 'list.cpp' || echo '$(srcdir)/'`list.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-list.Tpo $(DEPDIR)/njnr-list.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='list.cpp' object='njnr-list.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-list.o `test -f 'list.cpp' || echo '$(srcdir)/'`list.cpp
+
+njnr-list.obj: list.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-list.obj -MD -MP -MF $(DEPDIR)/njnr-list.Tpo -c -o njnr-list.obj `if test -f 'list.cpp'; then $(CYGPATH_W) 'list.cpp'; else $(CYGPATH_W) '$(srcdir)/list.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-list.Tpo $(DEPDIR)/njnr-list.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='list.cpp' object='njnr-list.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-list.obj `if test -f 'list.cpp'; then $(CYGPATH_W) 'list.cpp'; else $(CYGPATH_W) '$(srcdir)/list.cpp'; fi`
+
+njnr-main.o: main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-main.o -MD -MP -MF $(DEPDIR)/njnr-main.Tpo -c -o njnr-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-main.Tpo $(DEPDIR)/njnr-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.cpp' object='njnr-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
+
+njnr-main.obj: main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-main.obj -MD -MP -MF $(DEPDIR)/njnr-main.Tpo -c -o njnr-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-main.Tpo $(DEPDIR)/njnr-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.cpp' object='njnr-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
+
+njnr-operator.o: operator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-operator.o -MD -MP -MF $(DEPDIR)/njnr-operator.Tpo -c -o njnr-operator.o `test -f 'operator.cpp' || echo '$(srcdir)/'`operator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-operator.Tpo $(DEPDIR)/njnr-operator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='operator.cpp' object='njnr-operator.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-operator.o `test -f 'operator.cpp' || echo '$(srcdir)/'`operator.cpp
+
+njnr-operator.obj: operator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-operator.obj -MD -MP -MF $(DEPDIR)/njnr-operator.Tpo -c -o njnr-operator.obj `if test -f 'operator.cpp'; then $(CYGPATH_W) 'operator.cpp'; else $(CYGPATH_W) '$(srcdir)/operator.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-operator.Tpo $(DEPDIR)/njnr-operator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='operator.cpp' object='njnr-operator.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-operator.obj `if test -f 'operator.cpp'; then $(CYGPATH_W) 'operator.cpp'; else $(CYGPATH_W) '$(srcdir)/operator.cpp'; fi`
+
+njnr-parser_functions.o: parser_functions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-parser_functions.o -MD -MP -MF $(DEPDIR)/njnr-parser_functions.Tpo -c -o njnr-parser_functions.o `test -f 'parser_functions.cpp' || echo '$(srcdir)/'`parser_functions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-parser_functions.Tpo $(DEPDIR)/njnr-parser_functions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parser_functions.cpp' object='njnr-parser_functions.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-parser_functions.o `test -f 'parser_functions.cpp' || echo '$(srcdir)/'`parser_functions.cpp
+
+njnr-parser_functions.obj: parser_functions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-parser_functions.obj -MD -MP -MF $(DEPDIR)/njnr-parser_functions.Tpo -c -o njnr-parser_functions.obj `if test -f 'parser_functions.cpp'; then $(CYGPATH_W) 'parser_functions.cpp'; else $(CYGPATH_W) '$(srcdir)/parser_functions.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-parser_functions.Tpo $(DEPDIR)/njnr-parser_functions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parser_functions.cpp' object='njnr-parser_functions.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-parser_functions.obj `if test -f 'parser_functions.cpp'; then $(CYGPATH_W) 'parser_functions.cpp'; else $(CYGPATH_W) '$(srcdir)/parser_functions.cpp'; fi`
+
+njnr-trans.o: trans.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-trans.o -MD -MP -MF $(DEPDIR)/njnr-trans.Tpo -c -o njnr-trans.o `test -f 'trans.cpp' || echo '$(srcdir)/'`trans.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-trans.Tpo $(DEPDIR)/njnr-trans.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='trans.cpp' object='njnr-trans.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-trans.o `test -f 'trans.cpp' || echo '$(srcdir)/'`trans.cpp
+
+njnr-trans.obj: trans.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-trans.obj -MD -MP -MF $(DEPDIR)/njnr-trans.Tpo -c -o njnr-trans.obj `if test -f 'trans.cpp'; then $(CYGPATH_W) 'trans.cpp'; else $(CYGPATH_W) '$(srcdir)/trans.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-trans.Tpo $(DEPDIR)/njnr-trans.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='trans.cpp' object='njnr-trans.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-trans.obj `if test -f 'trans.cpp'; then $(CYGPATH_W) 'trans.cpp'; else $(CYGPATH_W) '$(srcdir)/trans.cpp'; fi`
+
+common/njnr-symbol_table.o: common/symbol_table.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table.o -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table.Tpo -c -o common/njnr-symbol_table.o `test -f 'common/symbol_table.cpp' || echo '$(srcdir)/'`common/symbol_table.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table.Tpo common/$(DEPDIR)/njnr-symbol_table.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table.cpp' object='common/njnr-symbol_table.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table.o `test -f 'common/symbol_table.cpp' || echo '$(srcdir)/'`common/symbol_table.cpp
+
+common/njnr-symbol_table.obj: common/symbol_table.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table.obj -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table.Tpo -c -o common/njnr-symbol_table.obj `if test -f 'common/symbol_table.cpp'; then $(CYGPATH_W) 'common/symbol_table.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table.Tpo common/$(DEPDIR)/njnr-symbol_table.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table.cpp' object='common/njnr-symbol_table.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table.obj `if test -f 'common/symbol_table.cpp'; then $(CYGPATH_W) 'common/symbol_table.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table.cpp'; fi`
+
+common/njnr-symbol_table_stack.o: common/symbol_table_stack.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table_stack.o -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table_stack.Tpo -c -o common/njnr-symbol_table_stack.o `test -f 'common/symbol_table_stack.cpp' || echo '$(srcdir)/'`common/symbol_table_stack.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table_stack.Tpo common/$(DEPDIR)/njnr-symbol_table_stack.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table_stack.cpp' object='common/njnr-symbol_table_stack.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table_stack.o `test -f 'common/symbol_table_stack.cpp' || echo '$(srcdir)/'`common/symbol_table_stack.cpp
+
+common/njnr-symbol_table_stack.obj: common/symbol_table_stack.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table_stack.obj -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table_stack.Tpo -c -o common/njnr-symbol_table_stack.obj `if test -f 'common/symbol_table_stack.cpp'; then $(CYGPATH_W) 'common/symbol_table_stack.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table_stack.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table_stack.Tpo common/$(DEPDIR)/njnr-symbol_table_stack.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table_stack.cpp' object='common/njnr-symbol_table_stack.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table_stack.obj `if test -f 'common/symbol_table_stack.cpp'; then $(CYGPATH_W) 'common/symbol_table_stack.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table_stack.cpp'; fi`
+
+common/njnr-symbol_table_stackX.o: common/symbol_table_stackX.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table_stackX.o -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table_stackX.Tpo -c -o common/njnr-symbol_table_stackX.o `test -f 'common/symbol_table_stackX.cpp' || echo '$(srcdir)/'`common/symbol_table_stackX.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table_stackX.Tpo common/$(DEPDIR)/njnr-symbol_table_stackX.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table_stackX.cpp' object='common/njnr-symbol_table_stackX.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table_stackX.o `test -f 'common/symbol_table_stackX.cpp' || echo '$(srcdir)/'`common/symbol_table_stackX.cpp
+
+common/njnr-symbol_table_stackX.obj: common/symbol_table_stackX.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table_stackX.obj -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table_stackX.Tpo -c -o common/njnr-symbol_table_stackX.obj `if test -f 'common/symbol_table_stackX.cpp'; then $(CYGPATH_W) 'common/symbol_table_stackX.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table_stackX.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table_stackX.Tpo common/$(DEPDIR)/njnr-symbol_table_stackX.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table_stackX.cpp' object='common/njnr-symbol_table_stackX.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table_stackX.obj `if test -f 'common/symbol_table_stackX.cpp'; then $(CYGPATH_W) 'common/symbol_table_stackX.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table_stackX.cpp'; fi`
+
+common/njnr-symbol_table_entry.o: common/symbol_table_entry.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table_entry.o -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table_entry.Tpo -c -o common/njnr-symbol_table_entry.o `test -f 'common/symbol_table_entry.cpp' || echo '$(srcdir)/'`common/symbol_table_entry.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table_entry.Tpo common/$(DEPDIR)/njnr-symbol_table_entry.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table_entry.cpp' object='common/njnr-symbol_table_entry.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table_entry.o `test -f 'common/symbol_table_entry.cpp' || echo '$(srcdir)/'`common/symbol_table_entry.cpp
+
+common/njnr-symbol_table_entry.obj: common/symbol_table_entry.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table_entry.obj -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table_entry.Tpo -c -o common/njnr-symbol_table_entry.obj `if test -f 'common/symbol_table_entry.cpp'; then $(CYGPATH_W) 'common/symbol_table_entry.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table_entry.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) common/$(DEPDIR)/njnr-symbol_table_entry.Tpo common/$(DEPDIR)/njnr-symbol_table_entry.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='common/symbol_table_entry.cpp' object='common/njnr-symbol_table_entry.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o common/njnr-symbol_table_entry.obj `if test -f 'common/symbol_table_entry.cpp'; then $(CYGPATH_W) 'common/symbol_table_entry.cpp'; else $(CYGPATH_W) '$(srcdir)/common/symbol_table_entry.cpp'; fi`
+
+expressions/njnr-expressions.o: expressions/expressions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT expressions/njnr-expressions.o -MD -MP -MF expressions/$(DEPDIR)/njnr-expressions.Tpo -c -o expressions/njnr-expressions.o `test -f 'expressions/expressions.cpp' || echo '$(srcdir)/'`expressions/expressions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) expressions/$(DEPDIR)/njnr-expressions.Tpo expressions/$(DEPDIR)/njnr-expressions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='expressions/expressions.cpp' object='expressions/njnr-expressions.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o expressions/njnr-expressions.o `test -f 'expressions/expressions.cpp' || echo '$(srcdir)/'`expressions/expressions.cpp
+
+expressions/njnr-expressions.obj: expressions/expressions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT expressions/njnr-expressions.obj -MD -MP -MF expressions/$(DEPDIR)/njnr-expressions.Tpo -c -o expressions/njnr-expressions.obj `if test -f 'expressions/expressions.cpp'; then $(CYGPATH_W) 'expressions/expressions.cpp'; else $(CYGPATH_W) '$(srcdir)/expressions/expressions.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) expressions/$(DEPDIR)/njnr-expressions.Tpo expressions/$(DEPDIR)/njnr-expressions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='expressions/expressions.cpp' object='expressions/njnr-expressions.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o expressions/njnr-expressions.obj `if test -f 'expressions/expressions.cpp'; then $(CYGPATH_W) 'expressions/expressions.cpp'; else $(CYGPATH_W) '$(srcdir)/expressions/expressions.cpp'; fi`
+
+functions/njnr-function_calls.o: functions/function_calls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT functions/njnr-function_calls.o -MD -MP -MF functions/$(DEPDIR)/njnr-function_calls.Tpo -c -o functions/njnr-function_calls.o `test -f 'functions/function_calls.cpp' || echo '$(srcdir)/'`functions/function_calls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) functions/$(DEPDIR)/njnr-function_calls.Tpo functions/$(DEPDIR)/njnr-function_calls.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='functions/function_calls.cpp' object='functions/njnr-function_calls.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o functions/njnr-function_calls.o `test -f 'functions/function_calls.cpp' || echo '$(srcdir)/'`functions/function_calls.cpp
+
+functions/njnr-function_calls.obj: functions/function_calls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT functions/njnr-function_calls.obj -MD -MP -MF functions/$(DEPDIR)/njnr-function_calls.Tpo -c -o functions/njnr-function_calls.obj `if test -f 'functions/function_calls.cpp'; then $(CYGPATH_W) 'functions/function_calls.cpp'; else $(CYGPATH_W) '$(srcdir)/functions/function_calls.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) functions/$(DEPDIR)/njnr-function_calls.Tpo functions/$(DEPDIR)/njnr-function_calls.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='functions/function_calls.cpp' object='functions/njnr-function_calls.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o functions/njnr-function_calls.obj `if test -f 'functions/function_calls.cpp'; then $(CYGPATH_W) 'functions/function_calls.cpp'; else $(CYGPATH_W) '$(srcdir)/functions/function_calls.cpp'; fi`
+
+functions/njnr-functions.o: functions/functions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT functions/njnr-functions.o -MD -MP -MF functions/$(DEPDIR)/njnr-functions.Tpo -c -o functions/njnr-functions.o `test -f 'functions/functions.cpp' || echo '$(srcdir)/'`functions/functions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) functions/$(DEPDIR)/njnr-functions.Tpo functions/$(DEPDIR)/njnr-functions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='functions/functions.cpp' object='functions/njnr-functions.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o functions/njnr-functions.o `test -f 'functions/functions.cpp' || echo '$(srcdir)/'`functions/functions.cpp
+
+functions/njnr-functions.obj: functions/functions.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT functions/njnr-functions.obj -MD -MP -MF functions/$(DEPDIR)/njnr-functions.Tpo -c -o functions/njnr-functions.obj `if test -f 'functions/functions.cpp'; then $(CYGPATH_W) 'functions/functions.cpp'; else $(CYGPATH_W) '$(srcdir)/functions/functions.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) functions/$(DEPDIR)/njnr-functions.Tpo functions/$(DEPDIR)/njnr-functions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='functions/functions.cpp' object='functions/njnr-functions.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o functions/njnr-functions.obj `if test -f 'functions/functions.cpp'; then $(CYGPATH_W) 'functions/functions.cpp'; else $(CYGPATH_W) '$(srcdir)/functions/functions.cpp'; fi`
+
+statements/njnr-statements.o: statements/statements.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT statements/njnr-statements.o -MD -MP -MF statements/$(DEPDIR)/njnr-statements.Tpo -c -o statements/njnr-statements.o `test -f 'statements/statements.cpp' || echo '$(srcdir)/'`statements/statements.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statements/$(DEPDIR)/njnr-statements.Tpo statements/$(DEPDIR)/njnr-statements.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statements/statements.cpp' object='statements/njnr-statements.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o statements/njnr-statements.o `test -f 'statements/statements.cpp' || echo '$(srcdir)/'`statements/statements.cpp
+
+statements/njnr-statements.obj: statements/statements.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT statements/njnr-statements.obj -MD -MP -MF statements/$(DEPDIR)/njnr-statements.Tpo -c -o statements/njnr-statements.obj `if test -f 'statements/statements.cpp'; then $(CYGPATH_W) 'statements/statements.cpp'; else $(CYGPATH_W) '$(srcdir)/statements/statements.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) statements/$(DEPDIR)/njnr-statements.Tpo statements/$(DEPDIR)/njnr-statements.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='statements/statements.cpp' object='statements/njnr-statements.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o statements/njnr-statements.obj `if test -f 'statements/statements.cpp'; then $(CYGPATH_W) 'statements/statements.cpp'; else $(CYGPATH_W) '$(srcdir)/statements/statements.cpp'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -620,28 +959,28 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/command.Po
-	-rm -f ./$(DEPDIR)/compiler_core.Po
-	-rm -f ./$(DEPDIR)/cpptypes.Po
-	-rm -f ./$(DEPDIR)/debug.Po
-	-rm -f ./$(DEPDIR)/getopt.Po
-	-rm -f ./$(DEPDIR)/helper.Po
-	-rm -f ./$(DEPDIR)/lex.Po
-	-rm -f ./$(DEPDIR)/lex.yy.Po
-	-rm -f ./$(DEPDIR)/list.Po
-	-rm -f ./$(DEPDIR)/main.Po
-	-rm -f ./$(DEPDIR)/njnr.tab.Po
-	-rm -f ./$(DEPDIR)/operator.Po
-	-rm -f ./$(DEPDIR)/parser_functions.Po
-	-rm -f ./$(DEPDIR)/trans.Po
-	-rm -f common/$(DEPDIR)/symbol_table.Po
-	-rm -f common/$(DEPDIR)/symbol_table_entry.Po
-	-rm -f common/$(DEPDIR)/symbol_table_stack.Po
-	-rm -f common/$(DEPDIR)/symbol_table_stackX.Po
-	-rm -f expressions/$(DEPDIR)/expressions.Po
-	-rm -f functions/$(DEPDIR)/function_calls.Po
-	-rm -f functions/$(DEPDIR)/functions.Po
-	-rm -f statements/$(DEPDIR)/statements.Po
+		-rm -f ./$(DEPDIR)/njnr-command.Po
+	-rm -f ./$(DEPDIR)/njnr-compiler_core.Po
+	-rm -f ./$(DEPDIR)/njnr-cpptypes.Po
+	-rm -f ./$(DEPDIR)/njnr-debug.Po
+	-rm -f ./$(DEPDIR)/njnr-getopt.Po
+	-rm -f ./$(DEPDIR)/njnr-helper.Po
+	-rm -f ./$(DEPDIR)/njnr-lex.Po
+	-rm -f ./$(DEPDIR)/njnr-lex.yy.Po
+	-rm -f ./$(DEPDIR)/njnr-list.Po
+	-rm -f ./$(DEPDIR)/njnr-main.Po
+	-rm -f ./$(DEPDIR)/njnr-njnr.tab.Po
+	-rm -f ./$(DEPDIR)/njnr-operator.Po
+	-rm -f ./$(DEPDIR)/njnr-parser_functions.Po
+	-rm -f ./$(DEPDIR)/njnr-trans.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table_entry.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table_stack.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table_stackX.Po
+	-rm -f expressions/$(DEPDIR)/njnr-expressions.Po
+	-rm -f functions/$(DEPDIR)/njnr-function_calls.Po
+	-rm -f functions/$(DEPDIR)/njnr-functions.Po
+	-rm -f statements/$(DEPDIR)/njnr-statements.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -687,28 +1026,28 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/command.Po
-	-rm -f ./$(DEPDIR)/compiler_core.Po
-	-rm -f ./$(DEPDIR)/cpptypes.Po
-	-rm -f ./$(DEPDIR)/debug.Po
-	-rm -f ./$(DEPDIR)/getopt.Po
-	-rm -f ./$(DEPDIR)/helper.Po
-	-rm -f ./$(DEPDIR)/lex.Po
-	-rm -f ./$(DEPDIR)/lex.yy.Po
-	-rm -f ./$(DEPDIR)/list.Po
-	-rm -f ./$(DEPDIR)/main.Po
-	-rm -f ./$(DEPDIR)/njnr.tab.Po
-	-rm -f ./$(DEPDIR)/operator.Po
-	-rm -f ./$(DEPDIR)/parser_functions.Po
-	-rm -f ./$(DEPDIR)/trans.Po
-	-rm -f common/$(DEPDIR)/symbol_table.Po
-	-rm -f common/$(DEPDIR)/symbol_table_entry.Po
-	-rm -f common/$(DEPDIR)/symbol_table_stack.Po
-	-rm -f common/$(DEPDIR)/symbol_table_stackX.Po
-	-rm -f expressions/$(DEPDIR)/expressions.Po
-	-rm -f functions/$(DEPDIR)/function_calls.Po
-	-rm -f functions/$(DEPDIR)/functions.Po
-	-rm -f statements/$(DEPDIR)/statements.Po
+		-rm -f ./$(DEPDIR)/njnr-command.Po
+	-rm -f ./$(DEPDIR)/njnr-compiler_core.Po
+	-rm -f ./$(DEPDIR)/njnr-cpptypes.Po
+	-rm -f ./$(DEPDIR)/njnr-debug.Po
+	-rm -f ./$(DEPDIR)/njnr-getopt.Po
+	-rm -f ./$(DEPDIR)/njnr-helper.Po
+	-rm -f ./$(DEPDIR)/njnr-lex.Po
+	-rm -f ./$(DEPDIR)/njnr-lex.yy.Po
+	-rm -f ./$(DEPDIR)/njnr-list.Po
+	-rm -f ./$(DEPDIR)/njnr-main.Po
+	-rm -f ./$(DEPDIR)/njnr-njnr.tab.Po
+	-rm -f ./$(DEPDIR)/njnr-operator.Po
+	-rm -f ./$(DEPDIR)/njnr-parser_functions.Po
+	-rm -f ./$(DEPDIR)/njnr-trans.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table_entry.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table_stack.Po
+	-rm -f common/$(DEPDIR)/njnr-symbol_table_stackX.Po
+	-rm -f expressions/$(DEPDIR)/njnr-expressions.Po
+	-rm -f functions/$(DEPDIR)/njnr-function_calls.Po
+	-rm -f functions/$(DEPDIR)/njnr-functions.Po
+	-rm -f statements/$(DEPDIR)/njnr-statements.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
