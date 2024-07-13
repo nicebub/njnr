@@ -7,3 +7,6 @@ symtab2.hpp
 njnr.code-workspace
 test/*.c
 autom4te.cache/
+build/
+configure~
+config.h.in~
