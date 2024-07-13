@@ -138,8 +138,8 @@ namespace njnr
          virtual   const bool             getNumeric()    const noexcept = 0;
          virtual   const bool                getLVal()    const noexcept = 0;
 
-         virtual   const std::string    getTypeValue()    const noexcept = 0;
          virtual   const std::string        toString()    const noexcept = 0;
+         virtual   const std::string    getTypeValue()    const noexcept = 0;
          virtual   const njnr::type          getType()    const noexcept = 0;
       protected:
          const std::string typeValue;
@@ -153,17 +153,32 @@ namespace njnr
    class TSType : public TSAbstractType
    {
       public:
+         TSType() : TSAbstractType("GenericType__NA__()"),
+                                   isNumeric{false},
+                                   isLval{false} {};
+
+         TSType(std::string typeValue) : TSAbstractType("GenericType" + typeValue + "()"),
+                                                        isNumeric{false},
+                                                        isLval{false} {};
+
+
+         TSType(std::string typeValue,
+                const bool isNumeric,
+                const bool isLval = false) : TSAbstractType("GenericType" + typeValue + "()"),
+                                                            isNumeric{isNumeric},
+                                                            isLval{isLval} {};
+
          virtual ~TSType() {};
 
-         TSType() : TSAbstractType("GenericType__NA__()") {};
+         virtual const bool getNumeric()          const noexcept { return isNumeric; };
+         virtual const bool getLVal()             const noexcept { return isLval; };
 
-         TSType(std::string typeValue) : TSAbstractType("GenericType" + typeValue + "()") {};
-
-         virtual const std::string toString() const noexcept {return typeValue;};
-         virtual const njnr::type getType() const noexcept {return njnr::type::VOID;};
-         virtual const std::string getTypeValue() const noexcept {return typeValue;};
-         virtual const bool getNumeric() const noexcept {return false;};
-         virtual const bool getLVal() const noexcept { return false;};
+         virtual const std::string toString()     const noexcept { return typeValue; };
+         virtual const std::string getTypeValue() const noexcept { return typeValue; };
+         virtual const njnr::type getType()       const noexcept { return njnr::type::VOID; };
+      private:
+         const bool isNumeric;
+         const bool isLval;
    };
 };
 #endif // _MYTYPE_H
