@@ -18,8 +18,8 @@ CLEANFILES= lex.yy.cc njnr.tab.cpp njnr.tab.hpp njnr.output location.hh
 
 #define MAIN
 
-njnr.tab.cpp: njnr.y
+njnr.tab.cpp: $(srcdir)/njnr.y
 	${BISON} -vt -Wcounterexamples -Wother -o $@ $<
 
-lex.yy.cc: njnr.l njnr.tab.cpp
+lex.yy.cc: $(srcdir)/njnr.l njnr.tab.cpp
 	${FLEX} -+ -o $@ $<
