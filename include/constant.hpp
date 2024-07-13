@@ -5,7 +5,14 @@
 
 namespace njnr
 {
-   class TSConstantType;
+   class TSConstantType: public TSType
+   {
+      virtual ~TSConstantType();
+      TSConstantType();
+      TSConstantType(std::string s);
+      TSConstantType(njnr::type t);
+
+   };
 
      class Constant : public ReturnPacket
    {

@@ -8,16 +8,22 @@ namespace njnr
    class TSOperatorType : public TSType
    {
       public:
-         TSOperatorType() = delete;
-         TSOperatorType(const std::string& op);
-         TSOperatorType(const TSOperatorType& t) = delete;
+         TSOperatorType() : TSType("", njnr::type::OPERATOR, true, false), op{""} {};
+
+         TSOperatorType(const std::string& op) : TSType(op, njnr::type::OPERATOR, true, false), op{op} {};
+
+         TSOperatorType(const std::string& op,
+                        bool isNumeric=false,
+                        bool isLval = false) : TSType(op,
+                                                      njnr::type::OPERATOR,
+                                                      isNumeric,
+                                                      isLval), op{op} {};
+
          const TSOperatorType& operator=(const TSOperatorType& t) = delete;
          virtual ~TSOperatorType() {};
          virtual const std::string toString() noexcept;
-         virtual const bool getLVal() const noexcept;
-         virtual const bool getNumeric() const noexcept;
-         virtual const njnr::type getType() const noexcept;
          virtual const std::string getTypeValue() const noexcept;
+         virtual const njnr::type getType() const noexcept;
       private:
          const std::string& op;
    };
