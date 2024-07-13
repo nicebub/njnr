@@ -1,6 +1,7 @@
 #ifndef SYMBOL_TABLE_STACK_H
 #define SYMBOL_TABLE_STACK_H
 
+#include <config.h>
 #include <deque>
 #include <string>
 

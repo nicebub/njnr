@@ -1,6 +1,7 @@
 #ifndef CONSTANT_HPP
 #define CONSTANT_HPP
 
+#include <config.h>
 #include "cpptypes.hpp"
 
 namespace njnr

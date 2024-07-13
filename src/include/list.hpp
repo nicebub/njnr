@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 
+#include <config.h>
 #include "type.hpp"
 #include "cpptypes.hpp"
 #include "constant.hpp"

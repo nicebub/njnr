@@ -2,6 +2,7 @@
 %option c++
 /* directly include the code between '%{' and '%}' into the generated lexer */
 %{
+#include <config.h>
 #include <cstdint>
 
 #include "debug.hpp"

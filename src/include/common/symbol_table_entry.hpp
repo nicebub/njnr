@@ -1,6 +1,7 @@
 #ifndef S_TABLE_ENTRY_H
 #define S_TABLE_ENTRY_H
 
+#include <config.h>
 #include <string>
 
 #include "type.hpp"

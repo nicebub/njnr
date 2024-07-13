@@ -1,6 +1,7 @@
 #ifndef OPERATOR_HPP
 #define OPERATOR_HPP
 
+#include <config.h>
 #include "type.hpp"
 
 namespace njnr

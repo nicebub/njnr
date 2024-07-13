@@ -1,6 +1,7 @@
 #ifndef _CPPSTYPES_HPP
 #define _CPPSTYPES_HPP
 
+#include <config.h>
 #include <string>
 
 #include "type.hpp"

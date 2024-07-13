@@ -615,6 +615,7 @@ PACKAGE_STRING='njnr 0.01'
 PACKAGE_BUGREPORT='njnr@github.com'
 PACKAGE_URL=''
 
+ac_unique_file="src"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stddef.h>
@@ -3325,9 +3326,8 @@ fi
 
 
 # these two lines didn't work, without them does
-#AC_CONFIG_SRCDIR([config.h.in])
-ac_config_headers="$ac_config_headers config.h"
 
+ac_config_headers="$ac_config_headers config.h:config.h.in"
 
 # Checks for programs.
 
@@ -6451,7 +6451,7 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
-    "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
+    "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h:config.h.in" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;

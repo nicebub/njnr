@@ -1,6 +1,7 @@
 #ifndef _MYDATA_H
 #define _MYDATA_H
 
+#include <config.h>
 #include <string>
 
 #include "type.hpp"

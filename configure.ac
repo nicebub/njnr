@@ -6,9 +6,8 @@ AC_INIT([njnr], [0.01], [njnr@github.com])
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror foreign])
 
 # these two lines didn't work, without them does
-#AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADERS([config.h])
-
+AC_CONFIG_SRCDIR([src])
+AC_CONFIG_HEADERS([config.h:config.h.in])
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC

@@ -1,7 +1,7 @@
+#include <config.h>
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
-
 #include "debug.hpp"
 #include "compiler.hpp"
 #include "njnr.tab.hpp"

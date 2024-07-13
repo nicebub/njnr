@@ -1,6 +1,7 @@
 #ifndef SYMBOL_TABLE_STACKX_H
 #define SYMBOL_TABLE_STACKX_H
 
+#include <config.h>
 #include <string>
 
 #include "type.hpp"               // for njnr::type

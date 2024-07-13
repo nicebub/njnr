@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <string>
 
+#include <config.h>
 #include "list.hpp"
 
 namespace njnr
