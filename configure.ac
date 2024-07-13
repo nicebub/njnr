@@ -4,8 +4,10 @@
 AC_PREREQ([2.71])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror foreign])
-AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADERS([config.h])
+
+# these two lines didn't work, without them does
+#AC_CONFIG_SRCDIR([config.h.in])
+#AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CXX
