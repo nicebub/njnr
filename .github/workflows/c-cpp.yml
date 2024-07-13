@@ -14,8 +14,6 @@ jobs:
     steps:
     
     - uses: actions/checkout@v4
-    - name: find flexlexer.h
-      run:  find / -name FlexLexer.h
     - name: autgen.sh
       run:  ./autogen.sh
     - name: configure
