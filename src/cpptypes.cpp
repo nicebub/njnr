@@ -84,7 +84,7 @@ namespace njnr
       r += "\n" + m_pair.toString() + "\n";
       if(nullptr != funcent)
       {
-        r += static_cast<S_TableEntry*>(funcent)->toString() + "\n";
+        r += static_cast<S_TableEntryX*>(funcent)->toString() + "\n";
       }
       return r;
    };

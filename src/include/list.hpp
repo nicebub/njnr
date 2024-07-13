@@ -5,6 +5,8 @@
 
 #include "type.hpp"
 #include "cpptypes.hpp"
+#include "constant.hpp"
+
 namespace njnr
 {
 enum class eNodeType

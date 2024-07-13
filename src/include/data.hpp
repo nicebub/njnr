@@ -33,8 +33,8 @@ public:
         //Entry *funcentvalue;
     } value;
 
-    S_TableEntry*         entry;
-    S_TableEntry*       funcent;
+    S_TableEntryX*         entry;
+    S_TableEntryX*       funcent;
     Funcb*          funcbinding;
     std::string            name;
     type                  ttype;

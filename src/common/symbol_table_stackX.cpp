@@ -6,7 +6,8 @@
 #include "symbol_table_entry.hpp"  // for class S_TableEntry
 #include "symbol_table.hpp"        // for class Table
 #include "symbol_table_stackX.hpp" // for class SymbolTableX
-#include "compiler.hpp"            // or njnr::report()
+#include "compiler.hpp"            // for njnr::report()
+#include "operator.hpp"            // for TSOperatorType()
 using namespace njnr;
 
 void SymbolTableX::installIdentifier(std::string val)
@@ -34,12 +35,25 @@ void SymbolTableX::installCharConstant(std::string val)
    installHelper(val, njnr::type::CHAR);
 }
 
+void SymbolTableX::installType(std::string op)
+{
+   installHelper(op, njnr::type::OPERATOR);
+}
+
 void SymbolTableX::installHelper(std::string val, njnr::type t)
 {
-   S_TableEntry* s{new S_TableEntry{}};
-   s->setName(val);
-   s->setType(t);
-   stack.front().install<S_TableEntry*>(val, s);
+   if(njnr::type::OPERATOR == t)
+   {
+      TSOperatorType* o = new TSOperatorType(val);
+      stack.front().install<TSOperatorType*>(val, o);
+   }
+   else
+   {
+      S_TableEntryX* s{new S_TableEntryX{}};
+      s->setName(val);
+      s->setType(t);
+      stack.front().install<S_TableEntryX*>(val, s);
+   }
 }
 
 
@@ -57,9 +71,9 @@ void SymbolTableX::addtosymtab(const std::string key, void* value, njnr::type tt
 }
 */
 
-S_TableEntry* SymbolTableX::createFunc(std::string name, type returntype, List* paramlist)
+S_TableEntryX* SymbolTableX::createFunc(std::string name, type returntype, List* paramlist)
 {
-   S_TableEntry* temp{nullptr};
+   S_TableEntryX* temp{nullptr};
    bool elip{false};
 
    if( name.empty() )
@@ -98,12 +112,12 @@ S_TableEntry* SymbolTableX::createFunc(std::string name, type returntype, List* 
          }
       }
 
-      temp = new S_TableEntry{name,tBinding,njnr::type::VOID};
+      temp = new S_TableEntryX{name,tBinding,njnr::type::VOID};
    }
    return temp;
 }
 
-S_TableEntry* SymbolTableX::createVar(std::string name, type t_type, int offset)
+S_TableEntryX* SymbolTableX::createVar(std::string name, type t_type, int offset)
 {
    Varb* tBindingV{new Varb{}};
 
@@ -111,17 +125,17 @@ S_TableEntry* SymbolTableX::createVar(std::string name, type t_type, int offset)
    tBindingV->setoffset(offset);
    tBindingV->setvalue(name);
 
-   S_TableEntry* result{new S_TableEntry{name,tBindingV, njnr::type::VOID}};
+   S_TableEntryX* result{new S_TableEntryX{name,tBindingV, njnr::type::VOID}};
    return result;
 }
 
-S_TableEntry* SymbolTableX::createParam(std::string name, type t_type, int offset)
+S_TableEntryX* SymbolTableX::createParam(std::string name, type t_type, int offset)
 {
    Paramb* tBindingP{new Paramb{}};
 
    tBindingP->settype(t_type);
    tBindingP->setoffset(offset);
 
-   S_TableEntry* temp{new S_TableEntry{name,tBindingP, njnr::type::VOID}};
+   S_TableEntryX* temp{new S_TableEntryX{name,tBindingP, njnr::type::VOID}};
    return temp;
 }

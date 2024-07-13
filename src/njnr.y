@@ -6,9 +6,6 @@
 
 #include "type.hpp"
 #include "list.hpp"
-#include "symbol_table_entry.hpp"
-#include "symbol_table.hpp"
-#include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
 #include "data.hpp"
 #include "trans.hpp"
@@ -49,7 +46,7 @@ int yyerror(std::string err,Compiler& compiler);
 	namespace njnr
 	{
 		class Compiler;
-		class S_TableEntry;
+		class S_TableEntryX;
 	}
 	#include "cpptypes.hpp"
 	#include "list.hpp"
@@ -536,6 +533,7 @@ eqop: equequ {
 
 relop: lesst {
 	            $$ = njnr::reltype::LES;
+
 			 }
      | leq {
 		      $$ = njnr::reltype::LEQ;
@@ -544,6 +542,7 @@ relop: lesst {
 		      $$ = njnr::reltype::GEQ;
 		   }
      | greatt {
+//                 compiler.typeTable->($1);
 		         $$ = njnr::reltype::GRE;
 			  }
 ;
