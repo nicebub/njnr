@@ -35,6 +35,7 @@ void report(njnr::logType t, std::string s);
       public:
          SymbolTableX*     symbolTable{};  // symbol table
          SymbolTableX*   constantTable{};
+         SymbolTableX*       typeTable{};
          CodeGenerator code_generator{};  // code generator
          njnrLexer                lexer;  // lexical analyzer
          njnrParser*           parser{};  // syntactic parser

@@ -129,18 +129,10 @@ namespace njnr
    class TSAbstractType
    {
       public:
-         TSAbstractType() : typeValue{""}, tType{njnr::type::VOID}, isNumeric{false}, isLval{false} {};
+         TSAbstractType() : typeValue{"AbstractType__NA__()"} {};
 
-         TSAbstractType(std::string typeValue,
-                        njnr::type tType=njnr::type::VOID) : typeValue{typeValue},
-                                                             tType{tType}, isNumeric{false}, isLval{false} {};
+         TSAbstractType(std::string typeValue) : typeValue{"AbstractType" +typeValue+"()"} {};
 
-         TSAbstractType(std::string typeValue, njnr::type tType,
-                        bool isNumeric=false, bool isLval = false) : typeValue{typeValue}, 
-                                                                     tType{tType},
-                                                                     isNumeric{isNumeric},
-                                                                     isLval{isLval}
-                                                                     {};
          virtual                     ~TSAbstractType() {};
 
          virtual   const bool             getNumeric()    const noexcept = 0;
@@ -149,14 +141,8 @@ namespace njnr
          virtual   const std::string    getTypeValue()    const noexcept = 0;
          virtual   const std::string        toString()    const noexcept = 0;
          virtual   const njnr::type          getType()    const noexcept = 0;
-
-         virtual   void       setNumeric(const bool n)          noexcept = 0;
-         virtual   void          setLVal(const bool l)          noexcept = 0;
       protected:
          const std::string typeValue;
-         const njnr::type  tType;
-         bool              isNumeric;
-         bool              isLval;
    };
 
    /**
@@ -169,24 +155,15 @@ namespace njnr
       public:
          virtual ~TSType() {};
 
-         TSType() : TSAbstractType("", njnr::type::VOID, false, false) {};
+         TSType() : TSAbstractType("GenericType__NA__()") {};
 
-         TSType(std::string typeValue,
-                njnr::type tType=njnr::type::VOID) : TSAbstractType(typeValue, tType, false, false) {};
-
-         TSType(std::string typeValue, njnr::type tType,
-                bool isNumeric=false, bool isLval = false) : TSAbstractType(typeValue,
-                                                                            tType,
-                                                                            isNumeric,
-                                                                            isLval) {};
+         TSType(std::string typeValue) : TSAbstractType("GenericType" + typeValue + "()") {};
 
          virtual const std::string toString() const noexcept {return typeValue;};
-         virtual const njnr::type getType() const noexcept {return tType;};
+         virtual const njnr::type getType() const noexcept {return njnr::type::VOID;};
          virtual const std::string getTypeValue() const noexcept {return typeValue;};
          virtual const bool getNumeric() const noexcept {return false;};
          virtual const bool getLVal() const noexcept { return false;};
-         virtual void setNumeric(const bool isNumeric) noexcept { this->isNumeric = isNumeric;};
-         virtual void setLVal(const bool isLval)  noexcept { this->isLval = isLval;};
    };
 };
 #endif // _MYTYPE_H

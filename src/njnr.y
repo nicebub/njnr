@@ -533,6 +533,7 @@ eqop: equequ {
 
 relop: lesst {
 	            $$ = njnr::reltype::LES;
+
 			 }
      | leq {
 		      $$ = njnr::reltype::LEQ;
@@ -541,6 +542,7 @@ relop: lesst {
 		      $$ = njnr::reltype::GEQ;
 		   }
      | greatt {
+//                 compiler.typeTable->($1);
 		         $$ = njnr::reltype::GRE;
 			  }
 ;

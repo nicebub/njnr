@@ -26,6 +26,7 @@ namespace njnr
          void installIntConstant(std::string val);     // install a symbol in the symbol table
          void installFloatConstant(std::string val);   // install a symbol in the symbol table
          void installCharConstant(std::string val);    // install a symbol in the symbol table
+         void installType(std::string val);
          void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
 
          /* unsure about these functions below */
