@@ -19,7 +19,7 @@ njnr_SOURCES += include/common/symbol_table_stack_templates.h
 AUTOMAKE_OPTIONS = foreign
 
 njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
-AM_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
+AM_CPPFLAGS = -i/usr/include/ -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
 
 AM_YFLAG = -d
 
