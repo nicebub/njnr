@@ -10,7 +10,14 @@ namespace njnr
       public:
 
          TSOperatorType() : TSType("operator__NA__()") {};
+
          TSOperatorType(const std::string op) : TSType("operator"+op+"()") {};
+
+         TSOperatorType(const std::string op,
+                        const bool isNumeric,
+                        const bool isLval=false) : TSType("operator"+op+"()",
+                                                          isNumeric,
+                                                          isLval) {};
 
          virtual ~TSOperatorType() {};
 

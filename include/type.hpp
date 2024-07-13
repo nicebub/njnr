@@ -131,7 +131,7 @@ namespace njnr
       public:
          TSAbstractType() : typeValue{"AbstractType__NA__()"} {};
 
-         TSAbstractType(std::string typeValue) : typeValue{"AbstractType" +typeValue+"()"} {};
+         TSAbstractType(const std::string typeValue) : typeValue{"AbstractType" +typeValue+"()"} {};
 
          virtual                     ~TSAbstractType() {};
 
@@ -157,12 +157,12 @@ namespace njnr
                                    isNumeric{false},
                                    isLval{false} {};
 
-         TSType(std::string typeValue) : TSAbstractType("GenericType" + typeValue + "()"),
-                                                        isNumeric{false},
-                                                        isLval{false} {};
+         TSType(const std::string typeValue) : TSAbstractType("GenericType" + typeValue + "()"),
+                                                              isNumeric{false},
+                                                              isLval{false} {};
 
 
-         TSType(std::string typeValue,
+         TSType(const std::string typeValue,
                 const bool isNumeric,
                 const bool isLval = false) : TSAbstractType("GenericType" + typeValue + "()"),
                                                             isNumeric{isNumeric},
