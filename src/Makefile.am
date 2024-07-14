@@ -39,6 +39,6 @@ lex.yy.cc: $(srcdir)/njnr.l njnr.tab.cpp
 lint: $(njnr_SOURCES)
 	-$(CPPLINT) $(CPPLINTFLAGS) $^
 
-all-local: lint
+check-local: lint
 
 .PHONY: lint

@@ -5688,8 +5688,8 @@ fi
 
 
 #add lint-er option
-# Extract the first word of "cpplint.", so it can be a program name with args.
-set dummy cpplint.; ac_word=$2
+# Extract the first word of "cpplint", so it can be a program name with args.
+set dummy cpplint; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 printf %s "checking for $ac_word... " >&6; }
 if test ${ac_cv_path_CPPLINT+y}
