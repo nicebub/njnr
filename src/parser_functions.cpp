@@ -7,7 +7,6 @@
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
 
-using namespace njnr;
 namespace njnr
 {
 
@@ -22,7 +21,7 @@ namespace njnr
    {
        if( inPacket->getlval())
        {
-           const static std::string fetch{"fetch"};
+           static const std::string fetch{"fetch"};
            switch(inPacket->gettype())
            {
 
@@ -86,4 +85,4 @@ namespace njnr
            variableFetchWithNumericCheck(insimplePacket,conversionNeeded);
        }
    }
-}
+}  // namespace njnr

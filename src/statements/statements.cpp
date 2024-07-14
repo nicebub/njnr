@@ -7,7 +7,6 @@
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
 
-using namespace njnr;
 namespace njnr
 {
    const std::string Statement::toString() const
@@ -291,4 +290,4 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    }
 
 
-}
+}  // namespace njnr

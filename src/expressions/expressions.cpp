@@ -7,7 +7,7 @@
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
-using namespace njnr;
+
 namespace njnr
 {
    ReturnPacket* Compiler::block40_expr_equalexpr_equal_equalexpr(ReturnPacket** inequalexprPacketptr,ReturnPacket** inotherequalexprPacketptr)
@@ -86,12 +86,15 @@ namespace njnr
                switch(ineqop)
                {
                case eqtype::NEQ:
-                   if(relexprPacket->gettype() == njnr::type::INT){}
-                   else if(relexprPacket->gettype() == njnr::type::FLOAT){}
+                   if(relexprPacket->gettype() == njnr::type::INT)
+                   {}
+                   else if(relexprPacket->gettype() == njnr::type::FLOAT)
+                   {}
                    break;
                case eqtype::EQEQ:
                    if(relexprPacket->gettype() == njnr::type::INT){}
-                   else if(relexprPacket->gettype() == njnr::type::FLOAT){}
+                   else if(relexprPacket->gettype() == njnr::type::FLOAT)
+                   {}
                    break;
                default:
                    break;
@@ -158,19 +161,23 @@ namespace njnr
                {
                case reltype::LES:
                    if(simpleexprPacket->gettype() == type::INT){}
-                   else if(simpleexprPacket->gettype() == type::FLOAT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT)
+                   {}
                    break;
                case reltype::LEQ:
                    if(simpleexprPacket->gettype() == type::INT){}
-                   else if(simpleexprPacket->gettype() == type::FLOAT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT)
+                   {}
                    break;
                case reltype::GRE:
                    if(simpleexprPacket->gettype() == type::INT){}
-                   else if(simpleexprPacket->gettype() == type::FLOAT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT)
+                   {}
                    break;
                case reltype::GEQ:
                    if(simpleexprPacket->gettype() == type::INT){}
-                   else if(simpleexprPacket->gettype() == type::FLOAT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT)
+                   {}
                    break;
                default:
                    break;
@@ -231,11 +238,13 @@ namespace njnr
                {
                case addtype::PLS:
                    if(simpleexprPacket->gettype() == type::INT){}
-                   else if(simpleexprPacket->gettype() == type::FLOAT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT)
+                   {}
                    break;
                case addtype::MIN:
                    if(simpleexprPacket->gettype() == type::INT){}
-                   else if(simpleexprPacket->gettype() == type::FLOAT){}
+                   else if(simpleexprPacket->gettype() == type::FLOAT)
+                   {}
                    break;
                default:
                    break;
@@ -357,9 +366,9 @@ namespace njnr
             resultLookup = s;
             if(nullptr != resultLookup)
             {
-               outPacket->settype(((S_TableEntryX*)resultLookup->getBinding())->getType());
+               outPacket->settype((static_cast<S_TableEntryX*>(resultLookup->getBinding()))->getType());
                outPacket->setlval(true);
-               if(((S_TableEntryX*)resultLookup->getBinding())->getType() == type::INT || ((S_TableEntryX*)resultLookup->getBinding())->getType() == type::FLOAT)
+               if(outPacket->gettype() == type::INT || outPacket->gettype() == type::FLOAT)
                {
                   outPacket->setnumeric(true);
                }
@@ -390,7 +399,7 @@ namespace njnr
 
                      case btype::PARAM:
                        #ifdef DEBUG
-                        std::cerr << "type is: " <<  (int)outPacket->gettype() << std::endl ;
+                        std::cerr << "type is: " <<  static_cast<int>(outPacket->gettype()) << std::endl ;
                        #endif
                         break;
 
@@ -474,12 +483,12 @@ namespace njnr
                        switch(tempE->getGroup())
                        {
                        case btype::VAR:
-                           outPacket->settype(((Varb*)(tempE->getBinding()))->gettype());
+                           outPacket->settype((static_cast<Varb*>((tempE->getBinding())))->gettype());
    #ifdef DEBUG
    //  std::cerr << "type is: "  << (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if(((Varb*)(tempE->getBinding()))->gettype() == type::INT || ((Varb*)(tempE->getBinding()))->gettype() == type::FLOAT)
+                           if((reinterpret_cast<Varb*>(tempE->getBinding()))->gettype() == type::INT || (reinterpret_cast<Varb*>(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
                            if(symbolTable->inCurrentScope(inPacket.getvalue()))
                            {
@@ -498,12 +507,12 @@ namespace njnr
                            }
                            break;
                        case btype::PARAM:
-                           outPacket->settype( ((Paramb*)(tempE->getBinding()))->gettype());
+                           outPacket->settype( (reinterpret_cast<Paramb*>(tempE->getBinding()))->gettype());
    #ifdef DEBUG
    //  std::cerr <<  "type is: " <<  (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if(((Paramb*)(tempE->getBinding()))->gettype() == type::INT || ((Paramb*)(tempE->getBinding()))->gettype() == type::FLOAT)
+                           if((reinterpret_cast<Paramb*>(tempE->getBinding()))->gettype() == type::INT || (reinterpret_cast<Paramb*>(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
                            if(symbolTable->inCurrentScope(inPacket.getvalue()))
                            {
@@ -547,4 +556,4 @@ namespace njnr
    {
        return (*inIdentListptr)->appendList(&inIdent);
    }
-}
+}  // namespace njnr

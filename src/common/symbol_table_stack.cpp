@@ -6,7 +6,8 @@
 #include "symbol_table.hpp"
 #include "symbol_table_stack.hpp"
 
-using namespace njnr;
+using njnr::SymbolTable;
+using njnr::SymbolTableX;
 /**
  * @brief install element of type T in top symbol table
  * 

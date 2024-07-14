@@ -1,7 +1,8 @@
-#ifndef SYMBOL_TABLE_TEMPLATES_H
-#define SYMBOL_TABLE_TEMPLATES_H
+#ifndef SRC_INCLUDE_COMMON_SYMBOL_TABLE_TEMPLATES_H_
+#define SRC_INCLUDE_COMMON_SYMBOL_TABLE_TEMPLATES_H_
 // instantiated templates for use in code
 #include <config.h>
+#include <string>
 #include "symbol_table_entry.hpp"
 #include "operator.hpp"
 template bool Table::install(std::string key, S_TableEntryX* value);
@@ -13,4 +14,4 @@ template S_TableEntryX* Table::lookup(const std::string n);
 template TSOperatorType* Table::lookup(const std::string n);
 
 
-#endif // SYMBOL_TABLE_TEMPLATES_H
+#endif  // SRC_INCLUDE_COMMON_SYMBOL_TABLE_TEMPLATES_H_

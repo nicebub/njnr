@@ -1,13 +1,14 @@
-#ifndef _HELPER_HPP
-#define _HELPER_HPP
+#ifndef SRC_INCLUDE_HELPER_HPP_
+#define SRC_INCLUDE_HELPER_HPP_
 
 #include <config.h>
 #include "type.hpp"
-//#include "symtab.hpp"
+
+// #include "symtab.hpp"
 
 namespace njnr
 {
    void setflags(int flags);
    int  getflags();
-}
-#endif
+}  // namespace njnr 
+#endif  // SRC_INCLUDE_HELPER_HPP_

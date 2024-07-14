@@ -3,8 +3,7 @@
 
 #include "debug.hpp"
 
-using namespace njnr;
-
+using njnr::Debug;
 
 #ifdef DEBUG
 int Debug::yydebug = 1;
@@ -50,4 +49,4 @@ namespace njnr
 
   #endif
 
-}
+}  // namespace njnr

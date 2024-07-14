@@ -13,7 +13,7 @@
 #include "symbol_table_stackX.hpp"
 //#include "symtab.hpp"
 
-using namespace njnr;
+using njnr::CodeGenerator;
 
 CodeGenerator::CodeGenerator() : labelcounter{1},  canGenerate{true},outfile{&std::cout},lastInstructionWasReturnf{false} {}
 
@@ -41,9 +41,9 @@ int CodeGenerator::getlabel()
     return (labelcounter-1);
 }
 
-void CodeGenerator::nullout(std::string& name, int length)
+void CodeGenerator::nullout(std::string* name, int length)
 {
-    name.clear();
+    name->clear();
 }
 
 std::string CodeGenerator::genlabelw(std::string name, int labelnum)
@@ -160,7 +160,7 @@ void CodeGenerator::generateVariabledeclarations(Funcb* f)
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
-            ReturnPacket* r = (ReturnPacket*)symtab->lookup(name);
+            ReturnPacket* r = reinterpret_cast<ReturnPacket*>(symtab->lookup(name));
             if(r == nullptr)
             {
                std::cerr <<"INTERNAL ERROR\n";

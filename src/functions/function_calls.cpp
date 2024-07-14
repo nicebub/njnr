@@ -8,7 +8,7 @@
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
-using namespace njnr;
+
 namespace njnr
 {
    ReturnPacket* Compiler::block60_function_call_ident_lpar_rpar(njnr::Identifier inIdent)
@@ -18,7 +18,7 @@ namespace njnr
        Funcb* tempb;
        S_TableEntryX tempE;
        S_TableEntryX*tempE2;
-       if((tempb=(Funcb*) symbolTable->lookup(inIdent.getvalue())) == nullptr)
+       if((tempb=reinterpret_cast<Funcb*>( symbolTable->lookup(inIdent.getvalue()))) == nullptr)
        {
            error("function undeclared, please declare functions before using them","");
        }
@@ -82,7 +82,7 @@ namespace njnr
        {
            if((static_cast<S_TableEntryX*>((* nameAndparamptr)->funcent))->getGroup() == btype::FUNC)
            {
-               if( ((Funcb*)(static_cast<S_TableEntryX*>((* nameAndparamptr)->funcent)->getBinding()))->getreturntype() != type::VOID)
+               if( (reinterpret_cast<Funcb*>(static_cast<S_TableEntryX*>((* nameAndparamptr)->funcent)->getBinding()))->getreturntype() != type::VOID)
                {
                    funcCallWparam->setnumeric(true);
                }
@@ -101,13 +101,13 @@ namespace njnr
            }
            else
            {
-               if( ((Funcb*)(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->getlabel()==0)
+               if( (reinterpret_cast<Funcb*>(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->getlabel()==0)
                {
-                   ((Funcb*)(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->setlabel(code_generator.getlabel());
+                   (reinterpret_cast<Funcb*>(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->setlabel(code_generator.getlabel());
                }
                code_generator.gen_call( code_generator.genlabelw(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getName(),
-                                        ((Funcb*)(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->getlabel()),
-                                        ((Funcb*)(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->getnum_param());
+                                        (reinterpret_cast<Funcb*>(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->getlabel()),
+                                        (reinterpret_cast<Funcb*>(static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->getBinding()))->getnum_param());
            }
        }
        return funcCallWparam;
@@ -143,7 +143,7 @@ namespace njnr
        ReturnPacket* inEntry{*inEntryptr};
        outPacket->setlval(false);
        Funcb* tempB;
-       tempB = (Funcb*) symbolTable->lookup(inIdent.getvalue());
+       tempB = reinterpret_cast<Funcb*>(symbolTable->lookup(inIdent.getvalue()));
        if(tempB ==nullptr)
        {
            error("function undelcared, please declare functions before using them","");
@@ -300,7 +300,7 @@ namespace njnr
                                      innameAndparamPacket->funcent,
                                      njnr::type::IDENT);
 
-           tempB= (Funcb*) symbolTable->lookup( static_cast<S_TableEntryX*>(innameAndparamPacket->funcent)->getName());
+           tempB= reinterpret_cast<Funcb*>(symbolTable->lookup( static_cast<S_TableEntryX*>(innameAndparamPacket->funcent)->getName()));
            S_TableEntryX* s{new S_TableEntryX{}};
            *s = *static_cast<S_TableEntryX*>(symbolTable->lookupB(static_cast<S_TableEntryX*>(innameAndparamPacket->funcent)->getName()));
            tempE = s;
@@ -379,4 +379,4 @@ namespace njnr
        return outPacket;
    }
 
-}
+}  // namespace njnr

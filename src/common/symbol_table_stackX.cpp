@@ -9,36 +9,11 @@
 #include "symbol_table_stackX.hpp" // for class SymbolTableX
 #include "compiler.hpp"            // for njnr::report()
 #include "operator.hpp"            // for TSOperatorType()
-using namespace njnr;
+using njnr::SymbolTableX;
 
-void SymbolTableX::installIdentifier(std::string val)
+void SymbolTableX::install2(std::string val, njnr::type t)
 {
-   installHelper(val, njnr::type::IDENT);
-}
-
-void SymbolTableX::installStrConstant(std::string val)
-{
-   installHelper(val, njnr::type::STR);
-}
-
-void SymbolTableX::installIntConstant(std::string val)
-{
-   installHelper(val, njnr::type::INT);
-}
-
-void SymbolTableX::installFloatConstant(std::string val)
-{
-   installHelper(val, njnr::type::FLOAT);
-}
-
-void SymbolTableX::installCharConstant(std::string val)
-{
-   installHelper(val, njnr::type::CHAR);
-}
-
-void SymbolTableX::installType(std::string op)
-{
-   installHelper(op, njnr::type::OPERATOR);
+   installHelper(val, t);
 }
 
 void SymbolTableX::installHelper(std::string val, njnr::type t)

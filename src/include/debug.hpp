@@ -1,5 +1,5 @@
-#ifndef _DEBUG_H
-#define _DEBUG_H
+#ifndef SRC_INCLUDE_DEBUG_HPP_
+#define SRC_INCLUDE_DEBUG_HPP_
 
 #ifdef DEBUGON
 #ifndef DEBUG
@@ -9,12 +9,13 @@
 #endif
 
 #ifndef DEBUG
-#define debugprint(x,y)
+#define debugprint(x, y)
 
 #endif
 
 #include <config.h>
 #include <string>
+
 namespace njnr
 {
 class Debug
@@ -22,16 +23,16 @@ class Debug
 public:
     Debug();
     ~Debug();
-    static int get_yydebug() ;
+    static int get_yydebug();
     static void set_yydebug(const int value);
 private:
     static int yydebug;
 };
+
 #ifdef DEBUG
-void debugprint(std::string,std::string);
-void debugprint(std::string,int);
+void debugprint(std::string, std::string);
+void debugprint(std::string, int);
 #endif
-}
 
-
-#endif
+}  // namespace njnr
+#endif  // SRC_INCLUDE_DEBUG_HPP_
