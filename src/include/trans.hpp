@@ -1,49 +1,70 @@
-#ifndef _MYTRANS_H
-#define _MYTRANS_H
+#ifndef SRC_INCLUDE_TRANS_HPP_
+#define SRC_INCLUDE_TRANS_HPP_
+#include <config.h>
 #include <cstdio>
 #include <string>
 
-#include <config.h>
 #include "list.hpp"
 
 namespace njnr
 {
-   class SymbolTableX;
-   class CodeGenerator
-   {
-      public:
-         CodeGenerator();                                         // Default Constructor
-         CodeGenerator(std::ostream& outfile);                    // Constructor with given ostream reference
-         ~CodeGenerator();                                        // Deconstructor
-         void setstream(std::ostream* outfile);                   // Set ostream after already Constructed
-         bool canGenerateCode() const noexcept;                   // Returns whether we can generate code or not
-         void stop() noexcept;                                    // Sets Code Generator as disabled
-         void start() noexcept;                                   // Sets Code Generator as enabled
+class SymbolTableX;
+class CodeGenerator
+{
+   public:
+      // Default Constructor
+      CodeGenerator();
+      // Constructor with given ostream reference
+      explicit CodeGenerator(std::ostream& outfile);
+      // Deconstructor
+      ~CodeGenerator();
+      // Set ostream after already Constructed
+      void setstream(std::ostream* outfile);
+      // Returns whether we can generate code or not
+      bool canGenerateCode() const noexcept;
 
-         void initializelabel(void);                              // label initializer - helper function
-         int getlabel(void);                                      // return next available label number
-         void gen_label(std::string name);                        // generate label with label name : name
-         std::string genlabelw(std::string name, int labelnum);   // generate a label with $<labelname><labelnumber>
+      // Sets Code Generator as disabled
+      void stop() noexcept;
+      // Sets Code Generator as enabled
+      void start() noexcept;
 
-         void gen_call(std::string funcname, int numargs);        // generate a function call
+      // label initializer - helper function
+      void initializelabel(void);
 
-         void setSymbolTable(SymbolTableX* s);
-         std::string getOutputTypeForCINType(Funcb* f);
-         static std::string concat(std::string, std::string);      // concat 2 strings and return the answer, remember to free it when done
-         static void nullout(std::string& name, int length);       // Empties a string. Not being used currently
-         void generate(List* f);
-         void generateTranslationUnit(njnr::TranslationUnitListNode* tn);
-         void generateFunction(Funcb* f);
-         void generateStatement(njnr::StmtListNode* e);
-         void generateReturnStatement(Statement* s);
-         void generateVariabledeclarations(Funcb* f);
+      // return next available label number
+      int getlabel(void);
+      // generate label with label name : name
+      void gen_label(std::string name);
+      // generate a label with $<labelname><labelnumber>
+      std::string genlabelw(std::string name, int labelnum);
 
-      private:
-         int            labelcounter;                              // Which lable number are we on in generating labels
-         bool           canGenerate;                               // our variable used to determine enabled/disabled
-         std::ostream*  outfile;                                   // stream for writing
-         bool           lastInstructionWasReturnf;                 // was our last instruction we wrote a returnf instruction
-         SymbolTableX*   symtab;
-   };
+      // generate a function call
+      void gen_call(std::string funcname, int numargs);
+
+      void setSymbolTable(SymbolTableX* s);
+      std::string getOutputTypeForCINType(Funcb* f);
+      // concat 2 strings and return the answer, remember to
+      // free it when done
+      static std::string concat(std::string, std::string);
+      // Empties a string. Not being used currently
+      static void nullout(std::string& name, int length);
+      void generate(List* f);
+      void generateTranslationUnit(njnr::TranslationUnitListNode* tn);
+      void generateFunction(Funcb* f);
+      void generateStatement(njnr::StmtListNode* e);
+      void generateReturnStatement(Statement* s);
+      void generateVariabledeclarations(Funcb* f);
+
+   private:
+      // Which lable number are we on in generating labels
+      int            labelcounter;
+      // our variable used to determine enabled/disabled
+      bool           canGenerate;
+      // stream for writing
+      std::ostream*  outfile;
+      // was our last instruction we wrote a returnf instruction
+      bool           lastInstructionWasReturnf;
+      SymbolTableX*   symtab;
 };
-#endif // _MYTRANS_H
+}  // namespace njnr
+#endif  // SRC_INCLUDE_TRANS_HPP_

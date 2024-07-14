@@ -8,10 +8,11 @@
 #ifndef DEBUG
 #define DEBUG 0
 #endif
+
 #include "debug.hpp"
 #include "compiler.hpp"
 
-using namespace njnr;
+using njnr::Compiler;
 
 /* function to process command-line arguments */
 extern void njnr_getopt(int* argc,  char * const **argv);

@@ -229,13 +229,15 @@ namespace njnr
       return false;
    }
 
-    bool Compiler::checkSingleReturnStatement(Statement *realstmt, njnr::type& foundtype, bool first)
+    bool Compiler::checkSingleReturnStatement(Statement *realstmt,
+                                              njnr::type* foundtype,
+                                              bool first)
     {
         bool success{true};
 //        njnr::type found = {};
         njnr::type similar{};
 
-        if(nullptr != realstmt)
+        if(nullptr != realstmt && (nullptr != foundtype))
         {
             /* make sure we only look at return statements */
             if(realstmt->getstype() == njnr::statement_type::RETURN)
@@ -244,10 +246,10 @@ namespace njnr
                 switch(realstmt->getrettype())
                 {
                     case njnr::type::CHECK:
-                         checkSingleReturnStatement(realstmt, similar, first);
+                         checkSingleReturnStatement(realstmt, &similar, first);
                             if(true == first)
                             {
-                                foundtype = similar;
+                                *foundtype = similar;
                             }
                             else
                             {
@@ -258,7 +260,7 @@ namespace njnr
                         break;
                     default:
                         similar = Compiler::getReturnTypeFromStatement(realstmt);
-                        if(true == aresimilartypes(similar, foundtype))
+                        if(true == aresimilartypes(similar, *foundtype))
                         {
                             std::cout << "so far compatible...\n";
                         }
@@ -266,7 +268,7 @@ namespace njnr
                         {
                             if(true == first)
                             {
-                                foundtype = similar;
+                                *foundtype = similar;
                             }
                             else
                             {
@@ -288,12 +290,12 @@ namespace njnr
                           Identifier* Id{dynamic_cast<Identifier*>(realType)};
                           std::string s{Id->getvalue()};
                           /* TODO: check symbol table for this name and get is data type to put here */
-                          foundtype = njnr::type::INT;
+                          *foundtype = njnr::type::INT;
                           first = false;
                         }
                         else if(realType->gettype() != njnr::type::CHECK)
                         {
-                           foundtype = realType->gettype();
+                           *foundtype = realType->gettype();
                            first = false;
                         }
                         else
@@ -312,11 +314,11 @@ namespace njnr
         return success;
     }
 
-    bool Compiler::checkAllFunctionReturnStatements(njnr::List* statementList, njnr::type& foundtype)
+    bool Compiler::checkAllFunctionReturnStatements(njnr::List* statementList, njnr::type* foundtype)
     {
         bool first{true};
         bool success{false};
-        if(nullptr != statementList)
+        if(nullptr != statementList && (nullptr != foundtype))
         {
             std::cout << "Calculating Return types from return statements found in function...\n";
             // go through all return statements and compare to existing return type
@@ -327,7 +329,9 @@ namespace njnr
                 if(stmt->get_nodeType() == njnr::eNodeType::STMT)
                 {
 //                    Statement* realstmt{(dynamic_cast<StmtListNode*>(stmt))->getstmt()};
-                    if(true != checkSingleReturnStatement((dynamic_cast<StmtListNode*>(stmt))->getstmt(), foundtype, first))
+                    if(true != checkSingleReturnStatement((dynamic_cast<StmtListNode*>(stmt))->getstmt(),
+                                                          foundtype,
+                                                          first))
                     {
                         break;
                     }
@@ -366,7 +370,7 @@ namespace njnr
                functionBinding->setreturntype(functionBinding->getfuncheader()->returntype);
             }
             // IF we have a function body
-            if(true == checkAllFunctionReturnStatements(functionBinding->getfuncbody_list(), foundtype))
+            if(true == checkAllFunctionReturnStatements(functionBinding->getfuncbody_list(), &foundtype))
             {
                 std::cout << "Setting new return type to: " + getStringFromType(foundtype) + "\n";
                functionBinding->setreturntype(foundtype);
@@ -422,4 +426,4 @@ void Compiler::installParameterIntoSymbolTable(std::string Id, njnr::type t)
       symbolTable->install(te);
 }
 
-}
+}  // namespace njnr

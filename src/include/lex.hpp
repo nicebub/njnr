@@ -1,5 +1,5 @@
-#ifndef _LEX_HPP
-#define _LEX_HPP 1
+#ifndef SRC_INCLUDE_LEX_HPP_
+#define SRC_INCLUDE_LEX_HPP_ 1
 
 #include <config.h>
 #include <string>
@@ -30,6 +30,6 @@ private:
     Compiler& compiler;
     std::string string_buf{""};
 };
-}
+}  // namespace njnr
 
-#endif
+#endif  // SRC_INCLUDE_LEX_HPP_

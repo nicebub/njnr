@@ -9,7 +9,7 @@
 #include "symbol_table_stackX.hpp" // for class SymbolTableX
 #include "compiler.hpp"            // for njnr::report()
 #include "operator.hpp"            // for TSOperatorType()
-using namespace njnr;
+using njnr::SymbolTableX;
 
 void SymbolTableX::installIdentifier(std::string val)
 {

@@ -1,5 +1,5 @@
-#ifndef _MYDATA_H
-#define _MYDATA_H
+#ifndef SRC_INCLUDE_DATA_HPP_
+#define SRC_INCLUDE_DATA_HPP_
 
 #include <config.h>
 #include <string>
@@ -31,7 +31,7 @@ public:
         exprtype*             exprvalue;
         reltype              relopvalue;
         funcheadertype* funcheadervalue;
-        //Entry *funcentvalue;
+        // Entry *funcentvalue;
     } value;
 
     S_TableEntryX*         entry;
@@ -46,5 +46,5 @@ public:
     int               mainlabel;
     int                  params;
 };
-}
-#endif
+}  // namespace njnr
+#endif  // SRC_INCLUDE_DATA_HPP_

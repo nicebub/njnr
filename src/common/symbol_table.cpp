@@ -5,7 +5,7 @@
 #include "symbol_table.hpp"
 #include "compiler.hpp"     // currently for njnr::report()
 
-using namespace njnr;
+using njnr::Table;
 
 /**
  * @brief lookup key and return its value if found, otherwise nullptr

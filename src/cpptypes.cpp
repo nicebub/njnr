@@ -351,4 +351,4 @@ namespace njnr
    {
       return trans_type;
    }
-}
+}  // namespace njnr

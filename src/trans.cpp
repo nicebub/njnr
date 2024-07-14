@@ -13,7 +13,7 @@
 #include "symbol_table_stackX.hpp"
 //#include "symtab.hpp"
 
-using namespace njnr;
+using njnr::CodeGenerator;
 
 CodeGenerator::CodeGenerator() : labelcounter{1},  canGenerate{true},outfile{&std::cout},lastInstructionWasReturnf{false} {}
 

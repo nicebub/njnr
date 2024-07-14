@@ -8,7 +8,7 @@
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
-using namespace njnr;
+
 namespace njnr
 {
    Funcb* Compiler::create_full_function(funcheadertype* funcheader, List* funcbody)
@@ -186,4 +186,4 @@ namespace njnr
    }
 
 
-}
+}  // namespace njnr

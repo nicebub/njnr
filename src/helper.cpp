@@ -78,4 +78,5 @@ namespace njnr
       return true;
    }
    #undef error_and_return_false
-}
+}  // namespace njnr
+

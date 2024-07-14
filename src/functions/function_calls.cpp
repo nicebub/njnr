@@ -8,7 +8,7 @@
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
-using namespace njnr;
+
 namespace njnr
 {
    ReturnPacket* Compiler::block60_function_call_ident_lpar_rpar(njnr::Identifier inIdent)
@@ -379,4 +379,4 @@ namespace njnr
        return outPacket;
    }
 
-}
+}  // namespace njnr

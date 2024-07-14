@@ -5,7 +5,11 @@
 #include "list.hpp"
 #include "type.hpp"
 #include "compiler.hpp"
-using namespace njnr;
+using njnr::BasicListNode;
+using njnr::ListNode;
+using njnr::ReturnPacketListNode;
+using njnr::PListNode;
+using njnr::TranslationUnitListNode;
 
 namespace njnr
 {
@@ -454,4 +458,4 @@ namespace njnr
        return r;
     }
 
-}
+}  // namespace njnr
