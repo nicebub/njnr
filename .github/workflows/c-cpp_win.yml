@@ -1,0 +1,38 @@
+name: C/C++ CI win
+
+on:
+  push:
+    branches: [ "symbol_table_oop" ]
+  pull_request:
+    branches: [ "symbol_table_oop" ]
+
+jobs:
+  build:
+    runs-on: windows-latest  
+    defaults:
+      run:
+        shell: C:\cygwin\bin\bash.exe --login -o igncr {0}
+    steps:
+      - name: "Setup git"
+        shell: cmd
+        run: git config --global core.autocrlf input
+
+      - name: "Setup Cygwin"
+        uses: cygwin/cygwin-install-action@v2
+        with:
+          platform: x86_64
+          packages: autoconf automake make bison flex cmake gcc-g++ doxygen graphviz libssl-devel libuuid-devel
+
+      - uses: actions/checkout@v4
+      - name: cd D:\a\njnr\njnr && ./autogen.sh
+        run: cd D:\\a\\njnr\\njnr && ./autogen.sh
+      - name: cd D:\a\njnr\njnr && ./configure
+        run: cd D:\\a\\njnr\\njnr && ./configure
+      - name: cd D:\\a\\njnr\\njnr && make
+        run: cd D:\\a\\njnr\\njnr && make
+      - name: cd D:\\a\\njnr\\njnr && make check
+        run: cd D:\\a\\njnr\\njnr && make check
+      - name: cd D:\\a\\njnr\\njnr && make install
+        run: cd D:\\a\\njnr\\njnr && make install
+      - name: cd D:\\a\\njnr\\njnr && make distcheck
+        run: cd D:\\a\\njnr\\njnr && make distcheck
