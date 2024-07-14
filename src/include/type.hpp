@@ -63,6 +63,7 @@ namespace njnr
       IDENT,    // Identifer
       STMT,     // Statement
       CHECK,     // Hasn't been determined yet and needs to be checked later
+      CONSTANT,
       OPERATOR,
    };
 
