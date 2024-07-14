@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: install dependencies
-      run: apt-get install bison flex
+      run: sudo apt-get install bison flex
     - name: configure
       run: ./configure
     - name: make
