@@ -17,14 +17,12 @@ jobs:
       run: sudo apt-get install bison flex
     - name: configure
     - name: Setup linux environment
-      if: matrix.env.platform == 'linux'
       run: |
          sudo apt update
          # flex-old contains FlexLexer.h which is needed by util
          # For some reason, flex does not contain this header
          sudo apt install --yes git cmake libboost-all-dev expat zlib1g libboost-all-dev autotools-dev autopoint autoconf help2man libwxgtk3.0-gtk3-dev
     - name: Install flex
-      if: matrix.env.platform == 'linux'
       run: |
          # The new flex version in ubuntu does not have the needed FlexLexer.h
          # but the older version has problems to create files
