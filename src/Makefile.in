@@ -99,9 +99,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am__objects_1 = njnr-njnr.tab.$(OBJEXT) njnr-lex.yy.$(OBJEXT)
 am__dirstamp = $(am__leading_dot)dirstamp
-am_njnr_OBJECTS = njnr-njnr.tab.$(OBJEXT) njnr-lex.yy.$(OBJEXT) \
-	njnr-command.$(OBJEXT) njnr-compiler_core.$(OBJEXT) \
+am__objects_2 = njnr-command.$(OBJEXT) njnr-compiler_core.$(OBJEXT) \
 	njnr-cpptypes.$(OBJEXT) njnr-debug.$(OBJEXT) \
 	njnr-getopt.$(OBJEXT) njnr-helper.$(OBJEXT) njnr-lex.$(OBJEXT) \
 	njnr-list.$(OBJEXT) njnr-main.$(OBJEXT) \
@@ -114,6 +114,7 @@ am_njnr_OBJECTS = njnr-njnr.tab.$(OBJEXT) njnr-lex.yy.$(OBJEXT) \
 	functions/njnr-function_calls.$(OBJEXT) \
 	functions/njnr-functions.$(OBJEXT) \
 	statements/njnr-statements.$(OBJEXT)
+am_njnr_OBJECTS = $(am__objects_1) $(am__objects_2)
 njnr_OBJECTS = $(am_njnr_OBJECTS)
 njnr_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -303,30 +304,30 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-njnr_SOURCES = njnr.tab.cpp lex.yy.cc command.cpp compiler_core.cpp \
-	cpptypes.cpp debug.cpp getopt.cpp helper.cpp lex.cpp list.cpp \
-	main.cpp operator.cpp parser_functions.cpp trans.cpp \
-	common/symbol_table.cpp common/symbol_table_stack.cpp \
-	common/symbol_table_stackX.cpp common/symbol_table_entry.cpp \
-	expressions/expressions.cpp functions/function_calls.cpp \
-	functions/functions.cpp statements/statements.cpp \
-	include/debug.hpp include/type.hpp include/list.hpp \
-	include/cpptypes.hpp include/constant.hpp \
+LEXERSOURCES = njnr.tab.cpp lex.yy.cc location.hh njnr.tab.hpp
+njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp \
+	getopt.cpp helper.cpp lex.cpp list.cpp main.cpp operator.cpp \
+	parser_functions.cpp trans.cpp common/symbol_table.cpp \
+	common/symbol_table_stack.cpp common/symbol_table_stackX.cpp \
+	common/symbol_table_entry.cpp expressions/expressions.cpp \
+	functions/function_calls.cpp functions/functions.cpp \
+	statements/statements.cpp include/debug.hpp include/type.hpp \
+	include/list.hpp include/cpptypes.hpp include/constant.hpp \
 	include/common/symbol_table_stackX.hpp \
 	include/common/symbol_table_stack.hpp \
 	include/common/symbol_table.hpp include/compiler.hpp \
 	include/trans.hpp include/common/symbol_table_entry.hpp \
-	njnr.tab.hpp location.hh include/lex.hpp include/data.hpp \
-	include/helper.hpp include/operator.hpp \
-	include/common/symbol_table_templates.h \
+	include/lex.hpp include/data.hpp include/helper.hpp \
+	include/operator.hpp include/common/symbol_table_templates.h \
 	include/common/symbol_table_stack_templates.h
+njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
 AM_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
 AM_YFLAG = -d
 CLEANFILES = lex.yy.cc njnr.tab.cpp njnr.tab.hpp njnr.output location.hh
 EXTRA_DIST = njnr.l njnr.y ../autogen.sh
-CPPLINTFLAGS = --verbose=2
+CPPLINTFLAGS = --verbose=1 --filter=-whitespace,-build/include_subdir,-legal/copyright
 all: all-am
 
 .SUFFIXES:
@@ -1095,7 +1096,7 @@ njnr.tab.cpp: $(srcdir)/njnr.y
 lex.yy.cc: $(srcdir)/njnr.l njnr.tab.cpp
 	${FLEX} -+ -o $@ $<
 
-lint: $(njnr_SOURCES)
+lint: $(njnrSOURCES)
 	-$(CPPLINT) $(CPPLINTFLAGS) $^
 
 check-local: lint
