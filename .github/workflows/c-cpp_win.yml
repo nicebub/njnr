@@ -31,6 +31,6 @@ jobs:
       - name: cd D:\\a\\njnr\\njnr && make check
         run: cd D:\\a\\njnr\\njnr && make check
       - name: cd D:\\a\\njnr\\njnr && make install
-        run: cd D:\\a\\njnr\\njnr && sudo make install
+        run: cd D:\\a\\njnr\\njnr && make install
       - name: cd D:\\a\\njnr\\njnr && make distcheck
         run: cd D:\\a\\njnr\\njnr && make distcheck
