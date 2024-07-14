@@ -17,8 +17,6 @@ jobs:
         shell: cmd
         run: git config --global core.autocrlf input
 
-      - uses: actions/checkout@v4
-
       - name: "Setup Cygwin"
         uses: cygwin/cygwin-install-action@v2
         with:
@@ -26,13 +24,13 @@ jobs:
           packages: autoconf automake make bison flex cmake gcc-g++ doxygen graphviz libssl-devel libuuid-devel
 
       - uses: actions/checkout@v4
-      - name: cd D:\\a\\njnr\\njnr && ./configure
+      - name: cd D:\a\njnr\njnr && ./configure
         run: cd D:\\a\\njnr\\njnr && ./configure
-      - name: make
-        run: make
-      - name: make check
-        run: make check
-      - name: make install
-        run: sudo make install
-      - name: make distcheck
-        run: make distcheck
+      - name: cd D:\\a\\njnr\\njnr && make
+        run: cd D:\\a\\njnr\\njnr && make
+      - name: cd D:\\a\\njnr\\njnr && make check
+        run: cd D:\\a\\njnr\\njnr && make check
+      - name: cd D:\\a\\njnr\\njnr && make install
+        run: cd D:\\a\\njnr\\njnr && sudo make install
+      - name: cd D:\\a\\njnr\\njnr && make distcheck
+        run: cd D:\\a\\njnr\\njnr && make distcheck
