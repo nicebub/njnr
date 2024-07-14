@@ -24,6 +24,8 @@ jobs:
           packages: autoconf automake make bison flex cmake gcc-g++ doxygen graphviz libssl-devel libuuid-devel
 
       - uses: actions/checkout@v4
+      - name: cd D:\a\njnr\njnr && ./autogen.sh
+        run: cd D:\\a\\njnr\\njnr && ./autogen.sh
       - name: cd D:\a\njnr\njnr && ./configure
         run: cd D:\\a\\njnr\\njnr && ./configure
       - name: cd D:\\a\\njnr\\njnr && make
