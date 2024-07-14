@@ -1,3 +1,4 @@
+#include <config.h>
 #include <cstdio>
 #include <fstream>
 #include <ostream>

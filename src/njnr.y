@@ -1,4 +1,5 @@
 %{
+#include <config.h>
 #include <cstdio>
 #include <string>
 
@@ -48,6 +49,7 @@ int yyerror(std::string err,Compiler& compiler);
 		class Compiler;
 		class S_TableEntryX;
 	}
+    #include <config.h>
 	#include "cpptypes.hpp"
 	#include "list.hpp"
 	#include "type.hpp"

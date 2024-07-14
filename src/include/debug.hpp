@@ -13,6 +13,7 @@
 
 #endif
 
+#include <config.h>
 #include <string>
 namespace njnr
 {

@@ -1,3 +1,4 @@
+#include <config.h>
 #include "helper.hpp"
 #include "compiler.hpp"
 #include "symbol_table_stack.hpp"

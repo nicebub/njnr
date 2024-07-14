@@ -1,5 +1,6 @@
 #ifndef _COMPILER_HPP
 #define _COMPILER_HPP
+#include <config.h>
 #include <ostream>
 #include <string>
 /*

@@ -1,6 +1,7 @@
 #ifndef _MYTYPE_H
 #define _MYTYPE_H
 
+#include <config.h>
 #include <vector>
 #include <string>
 

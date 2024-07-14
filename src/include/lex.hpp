@@ -1,6 +1,7 @@
 #ifndef _LEX_HPP
 #define _LEX_HPP 1
 
+#include <config.h>
 #include <string>
 #include <istream>
 #include <iostream>

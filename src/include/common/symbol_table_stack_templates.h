@@ -1,5 +1,6 @@
 #ifndef SYMBOL_TABLE_STACK_TEMPLATES_H
 #define SYMBOL_TABLE_STACK_TEMPLATES_H
+#include <config.h>
 #include "symbol_table_entry.hpp"
 #include "operator.hpp"
 // instantiated templates for use in code
