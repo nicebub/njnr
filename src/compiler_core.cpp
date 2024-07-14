@@ -34,7 +34,7 @@ namespace njnr
        constantTable{nullptr},
        typeTable{nullptr},
        code_generator{},
-       lexer{nullptr,*this},
+       lexer{nullptr,this},
        parser{nullptr},
        currentFunc{nullptr},
        outfile{nullptr},

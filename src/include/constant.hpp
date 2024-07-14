@@ -38,7 +38,7 @@ class Identifier : public Constant
 {
    public:
       Identifier();
-      Identifier(const std::string invalue);
+      explicit Identifier(const std::string invalue);
       explicit Identifier(const Constant&);
       virtual ~Identifier();
       Identifier& operator=(const Identifier& in);

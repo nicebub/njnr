@@ -488,7 +488,7 @@ namespace njnr
    //  std::cerr << "type is: "  << (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if(((Varb*)(tempE->getBinding()))->gettype() == type::INT || ((Varb*)(tempE->getBinding()))->gettype() == type::FLOAT)
+                           if((reinterpret_cast<Varb*>(tempE->getBinding()))->gettype() == type::INT || (reinterpret_cast<Varb*>(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
                            if(symbolTable->inCurrentScope(inPacket.getvalue()))
                            {
@@ -507,12 +507,12 @@ namespace njnr
                            }
                            break;
                        case btype::PARAM:
-                           outPacket->settype( ((Paramb*)(tempE->getBinding()))->gettype());
+                           outPacket->settype( (reinterpret_cast<Paramb*>(tempE->getBinding()))->gettype());
    #ifdef DEBUG
    //  std::cerr <<  "type is: " <<  (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if(((Paramb*)(tempE->getBinding()))->gettype() == type::INT || ((Paramb*)(tempE->getBinding()))->gettype() == type::FLOAT)
+                           if((reinterpret_cast<Paramb*>(tempE->getBinding()))->gettype() == type::INT || (reinterpret_cast<Paramb*>(tempE->getBinding()))->gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
                            if(symbolTable->inCurrentScope(inPacket.getvalue()))
                            {

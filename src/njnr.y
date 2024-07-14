@@ -211,13 +211,13 @@ func: funcheader funcbody {
 ;
 
 funcheader: fnt Ident lpar paramdef rpar {
-	                                        $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, $<List*>4, njnr::type::VOID);
+	                                        $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $<List*>4, njnr::type::VOID);
 										 }
           | fnt Ident lpar rpar {
-			                       $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, nullptr, njnr::type::VOID);
+			                       $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, nullptr, njnr::type::VOID);
 								}
           | fnt Ident {
-			             $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, nullptr, njnr::type::VOID);
+			             $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, nullptr, njnr::type::VOID);
 					  }
           | fnt error rpar {
 			                  yyerrok;
@@ -226,7 +226,7 @@ funcheader: fnt Ident lpar paramdef rpar {
 						   }
           | fnt Ident lpar error rpar {
 			                             yyerrok;
-										 $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
+										 $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
 										 compiler.error("(unexpected token after lpar and before rpar in function)","");
 									  }
 ;
@@ -427,7 +427,7 @@ factor: constant {
 	                $$ = compiler.block54_factor_constant($1);
 				 }
       | Ident {
-		         $$ = compiler.block55_factor_ident($1);
+		         $$ = compiler.block55_factor_ident(Identifier{$1});
 				 compiler.installVariableIntoSymbolTable($1, njnr::type::INT);
 			  }
       | lpar expr rpar {
@@ -437,7 +437,7 @@ factor: constant {
 		                             $$ = compiler.block57_factor_addop_factor_uminus($1,&$2);
 								  }
       | adof Ident {
-		              $$ = compiler.block58_factor_adof_ident($2);
+		              $$ = compiler.block58_factor_adof_ident(Identifier{$2});
 				   }
       | function_call {
 		                 $$ = $1;
@@ -453,7 +453,7 @@ factor: constant {
 ;
 
 function_call: Ident lpar rpar {
-	                              $$ = compiler.block60_function_call_ident_lpar_rpar($1);
+	                              $$ = compiler.block60_function_call_ident_lpar_rpar(Identifier{$1});
 							   }
              | func_call_with_params {
 				                        $$ = $1;
@@ -466,10 +466,10 @@ func_call_with_params: name_and_params rpar {
 ;
 
 name_and_params: Ident lpar <ReturnPacket*>{
-	                                          $$ = compiler.block63_name_and_params_ident_lpar_source($1);
+	                                          $$ = compiler.block63_name_and_params_ident_lpar_source(Identifier{$1});
 										   }
                  expr {
-					     $$ = compiler.block64_name_and_params_ident_lpar_source_expr($1,&$3,&$4);
+					     $$ = compiler.block64_name_and_params_ident_lpar_source_expr(Identifier{$1},&$3,&$4);
 					  }
                | name_and_params comma {} expr {
 				                                  $$ = compiler.block65_name_and_params_name_and_params_comma_expr(&$1, &$4);

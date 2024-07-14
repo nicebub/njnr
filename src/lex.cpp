@@ -18,7 +18,7 @@ namespace njnr
    }
 
    njnrLexer::njnrLexer(std::istream* in,
-                        Compiler& compiler) : yyFlexLexer(in),
+                        Compiler* compiler) : yyFlexLexer(in),
                                               compiler{compiler}
    {
        loc = new njnrParser::location_type();

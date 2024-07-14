@@ -59,18 +59,18 @@ PRINTABLE_CHAR [!@#$%^&*\(\)\-_=+\[\]\{\}\\|;:'",<.>/?0-9A-Za-z]
 
 [^*\n]*
 
-[^*\n]*\n      ++compiler.Line_Number;
+[^*\n]*\n      ++compiler->Line_Number;
 
 \*+[^*/\n]*
 
-\*+[^*/\n]*\n  ++compiler.Line_Number;
+\*+[^*/\n]*\n  ++compiler->Line_Number;
 
 {ENDCOM} {
             BEGIN(INITIAL);
          }
 
 <<EOF>> {
-           compiler.error("eof terminated comment","");
+           compiler->error("eof terminated comment","");
            BEGIN(INITIAL);
         }
 }
@@ -85,8 +85,8 @@ PRINTABLE_CHAR [!@#$%^&*\(\)\-_=+\[\]\{\}\\|;:'",<.>/?0-9A-Za-z]
 
 \n {
       BEGIN(INITIAL);
-      ++compiler.Line_Number;
-      compiler.error("unterminated string constant","");
+      ++compiler->Line_Number;
+      compiler->error("unterminated string constant","");
    }
 
 \\n {
@@ -99,11 +99,11 @@ PRINTABLE_CHAR [!@#$%^&*\(\)\-_=+\[\]\{\}\\|;:'",<.>/?0-9A-Za-z]
 \\[^n\\\"]  {
                int c;
                BEGIN(INITIAL);
-               compiler.error("illegal character:%s in string",yytext);
+               compiler->error("illegal character:%s in string",yytext);
                while(((c = yyinput()) != '\"') && (c != EOF)) ;
                if(c == EOF)
                {
-                  compiler.error("eof terminated string","");
+                  compiler->error("eof terminated string","");
                }
             }
 
@@ -116,7 +116,7 @@ PRINTABLE_CHAR [!@#$%^&*\(\)\-_=+\[\]\{\}\\|;:'",<.>/?0-9A-Za-z]
    }
 
 <<EOF>> {
-           compiler.error("eof terminated string","");
+           compiler->error("eof terminated string","");
            BEGIN(INITIAL);
         }
 }
@@ -189,19 +189,19 @@ let {
                              }
 
 ((0|([1-9]{DIGIT}*)))(while|if|void|return|char|int|float|else|for|extern) {
-                           compiler.error("illegal token: %s", yytext);
+                           compiler->error("illegal token: %s", yytext);
                      }
 
 ((0|([1-9]{DIGIT}*))(\.{DIGIT}+))(while|if|void|return|char|int|float|else|for|extern) {
-                           compiler.error("illegal token: %s",yytext);
+                           compiler->error("illegal token: %s",yytext);
                            }
 
 (0|([1-9]{DIGIT}*))({LETTER}({LETTER}|{DIGIT})*) { /* bad form*/
-                  compiler.error("illegal token: %s", yytext);
+                  compiler->error("illegal token: %s", yytext);
                   }
 
 ((0|([1-9]{DIGIT}*))(\.{DIGIT}{DIGIT}*))({LETTER}({LETTER}|{DIGIT})*) {/*bad form*/
-                     compiler.error("illegal token: %s",yytext);
+                     compiler->error("illegal token: %s",yytext);
                      }
 
 (0|([1-9]{DIGIT}*))\.{DIGIT}{DIGIT}* {/*float*/
@@ -210,11 +210,11 @@ let {
                                      }
 
 0{DIGIT}+\.{DIGIT}+    { /* bad float*/
-                          compiler.error("illegal float: %s",yytext);
+                          compiler->error("illegal float: %s",yytext);
                        }
 
 0{DIGIT}+  { /* bad integer*/
-              compiler.error("illegal integer: %s", yytext);
+              compiler->error("illegal integer: %s", yytext);
            }
 
 (0|([1-9]{DIGIT}*))     { /*integer constant*/
@@ -240,7 +240,7 @@ let {
                         return(token::CharConstant);
                      }
 \n {
-      ++compiler.Line_Number;
+      ++compiler->Line_Number;
    }
 
 [ \t\r]+ { /*eat up tabs, whitespace */}
@@ -356,7 +356,7 @@ let {
    }
 
 .  {
-      compiler.error("illegal character: %s", yytext);
+      compiler->error("illegal character: %s", yytext);
       return token::illegalt;
    }
 

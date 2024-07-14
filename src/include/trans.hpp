@@ -47,7 +47,7 @@ class CodeGenerator
       // free it when done
       static std::string concat(std::string, std::string);
       // Empties a string. Not being used currently
-      static void nullout(std::string& name, int length);
+      static void nullout(std::string* name, int length);
       void generate(List* f);
       void generateTranslationUnit(njnr::TranslationUnitListNode* tn);
       void generateFunction(Funcb* f);
