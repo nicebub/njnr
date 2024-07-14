@@ -14,7 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: install dependencies
-      run: sudo apt-get install bison flex libfl-dev
+      run: |
+        sudo apt-get update
+        sudo apt-get install bison flex libfl-dev
     - name: configure
       run: ./configure
     - name: make
