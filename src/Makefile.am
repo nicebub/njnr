@@ -26,6 +26,7 @@ AM_YFLAG = -d
 CLEANFILES= lex.yy.cc njnr.tab.cpp njnr.tab.hpp njnr.output location.hh
 
 EXTRA_DIST= njnr.l njnr.y ../autogen.sh
+CPPLINTFLAGS = --verbose=2
 
 #define MAIN
 
@@ -34,3 +35,10 @@ njnr.tab.cpp: $(srcdir)/njnr.y
 
 lex.yy.cc: $(srcdir)/njnr.l njnr.tab.cpp
 	${FLEX} -+ -o $@ $<
+
+lint: $(njnr_SOURCES)
+	-$(CPPLINT) $(CPPLINTFLAGS) $^
+
+all-local: lint
+
+.PHONY: lint

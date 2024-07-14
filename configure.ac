@@ -31,6 +31,11 @@ AC_CHECK_HEADER_STDBOOL
 AC_C_INLINE
 AC_TYPE_SIZE_T
 
+#add lint-er option
+AC_PATH_PROG([CPPLINT], [cpplint.], [true])
+AS_IF([test "x$CPPLINT" = x],
+    [AC_MSG_WARN([We recommend cpplint for developing this package.])])
+
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE
 
