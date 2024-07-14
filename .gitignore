@@ -10,3 +10,16 @@ autom4te.cache/
 build/
 configure~
 config.h.in~
+*.o
+.deps/
+.dirstamp
+*.yy.c*
+*.tab.*
+*.log
+*.output
+location.hh
+src/njnr
+Makefile
+config.h
+config.status
+stamp-h1
