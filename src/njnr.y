@@ -491,19 +491,19 @@ identlist: Ident {
 ;
 
 constant: StrConstant {
-                          compiler.constantTable->installStrConstant($1);
+                          compiler.constantTable->install2($1, njnr::type::STR);
 						  $$ = new Constant{$1, njnr::type::STR};
 					  }
         | IntConstant {
-                          compiler.constantTable->installIntConstant($1);
+                          compiler.constantTable->install2($1, njnr::type::INT);
 						  $$ = new Constant{$1, njnr::type::INT};
 					  }
         | FloatConstant {
-                          compiler.constantTable->installFloatConstant($1);
+                          compiler.constantTable->install2($1, njnr::type::FLOAT);
 						  $$ = new Constant{$1, njnr::type::FLOAT};
 						}
 		| CharConstant {
-                          compiler.constantTable->installCharConstant($1);
+                          compiler.constantTable->install2($1, njnr::type::CHAR);
 						  $$ = new Constant{$1, njnr::type::CHAR};
 					   }
 					   

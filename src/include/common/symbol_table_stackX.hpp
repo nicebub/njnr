@@ -23,19 +23,10 @@ class SymbolTableX : public SymbolTable
       // Destructor
       virtual ~SymbolTableX() {}
 
-      /** TODO: rework */
-      void installIdentifier(std::string val);
-      // install a symbol in the symbol table
-      void installStrConstant(std::string val);
-      // install a symbol in the symbol table
-      void installIntConstant(std::string val);
-      // install a symbol in the symbol table
-      void installFloatConstant(std::string val);
-      // install a symbol in the symbol table
-      void installCharConstant(std::string val);
-      void installType(std::string val);
-      // generic helper function used by all install functions below
-      void installHelper(std::string val, njnr::type t);
+         /** TODO: rework */
+         void install2(std::string val, njnr::type t);
+         void installType(std::string val);
+         void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
 
       /* unsure about these functions below */
       // FIXME: take in a ReturnPacket* instead?
