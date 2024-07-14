@@ -3,8 +3,10 @@
 
 #include "type.hpp"
 #include "symbol_table_entry.hpp"
+
 using njnr::S_TableEntry;
 using njnr::S_TableEntryX;
+
 S_TableEntry::S_TableEntry() : key{""},
                                value{NULL},
                                eType{njnr::type::VOID} {}
@@ -12,29 +14,34 @@ S_TableEntry::S_TableEntry() : key{""},
 
 S_TableEntry::S_TableEntry(const std::string& key,
                            void* value = nullptr,
-                           njnr::type eType = njnr::type::VOID) noexcept : key{key},
-                                                                          value{value},
-                                                                          eType{eType} {}
+                           njnr::type eType = njnr::type::VOID) noexcept :
+                                                                key{key},
+                                                                value{value},
+                                                                eType{eType} {}
 
 S_TableEntryX::S_TableEntryX(const std::string& key,
                            void* value = nullptr,
-                           njnr::type eType = njnr::type::VOID) noexcept : S_TableEntry(key,
-                                                                          value,
-                                                                          eType) {}
+                           njnr::type eType = njnr::type::VOID) noexcept :
+                                                               S_TableEntry(key,
+                                                               value,
+                                                               eType) {}
+
 S_TableEntry::S_TableEntry(const S_TableEntry& in) noexcept : key{in.key},
                                                               value{in.value},
                                                               eType{in.eType}
 {
-  // TODO(nicebub): need to make deep copy - 'value' needs to be casted then copied
+   // TODO(nicebub): need to make deep copy - 'value' needs to be
+   //                 casted then copied
 }  // copy constructor
 
 S_TableEntry& S_TableEntry::operator=(const S_TableEntry& in)
 {
-   if(this != &in)
+   if (this != &in)
    {
       this->key        = in.getKey();
       this->eType = in.getType();
-      // TODO(nicebub): need to do this as a deep copy of value instead; cast then copy
+      // TODO(nicebub): need to do this as a deep copy of value
+      //                 instead; cast then copy
       this->value      = in.getValue();
    }
    return *this;

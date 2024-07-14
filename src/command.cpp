@@ -7,7 +7,8 @@
 #include "compiler.hpp"
 namespace njnr
 {
-   bool Compiler::filenameDoesEndsInDotN(const std::string& inFilename)  noexcept
+   bool Compiler::filenameDoesEndsInDotN(\
+                             const std::string& inFilename)  noexcept
    {
        std::string extra{""};
        auto f_sz{ inFilename.size() };
@@ -26,7 +27,8 @@ namespace njnr
             {
                 try
                 {
-                    std::ifstream* inputStream{new std::ifstream{argv[1], std::ifstream::in}};
+                    std::ifstream* inputStream{new std::ifstream{argv[1],
+                                               std::ifstream::in}};
                     if (inputStream->is_open())
                     {
                         lexer.switch_streams(inputStream);
@@ -35,7 +37,7 @@ namespace njnr
                 }
                 catch(std::bad_alloc& e)
                 {
-                    debugprint(e.what(),"");
+                    debugprint(e.what(), "");
                     std::cerr << argv[1] << ": cannot open input file\n";
                 }
             }
@@ -66,7 +68,8 @@ namespace njnr
            debugprint("trying to open file: ", tempstr);
            try
            {
-               std::ofstream* outputStream{new std::ofstream{tempstr, std::fstream::out}};
+               std::ofstream* outputStream{new std::ofstream{tempstr,
+                                           std::fstream::out}};
                if (outputStream->is_open())
                {
                    outfile = outputStream;
@@ -76,8 +79,9 @@ namespace njnr
            }
            catch(std::bad_alloc& e)
            {
-               std::cerr << "error: cannot open file " << tempstr << " for writing\n";
-               debugprint(e.what(),"");
+               std::cerr << "error: cannot open file " << tempstr <<
+                            " for writing\n";
+               debugprint(e.what(), "");
            }
        }
        else
@@ -91,12 +95,12 @@ namespace njnr
 
 #ifndef MAIN
 #define MAIN
-   
+
    int main(int argc,  char* const* argv)
    {
        Compiler compiler{};
-   
-       if (! compiler.openedInputFile(argc,argv) )
+
+       if (!compiler.openedInputFile(argc, argv))
        {
            compiler.filename = "main.n";
            return -1;
@@ -108,4 +112,4 @@ namespace njnr
        return 0;
    }
 #endif
-} // namespace njnr
+}  // namespace njnr

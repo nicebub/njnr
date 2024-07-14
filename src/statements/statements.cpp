@@ -21,9 +21,9 @@ namespace njnr
 //         ReturnPacket* stmt;
 //         type         rettype;
          r += "stmt type: ";
-         if(nullptr != expr)
+         if (nullptr != expr)
          {
-            switch(stype)
+            switch (stype)
             {
                case njnr::statement_type::DOUNTIL:
                   r += "DOUNTIL";
@@ -67,7 +67,7 @@ namespace njnr
             {
                r += "Set to Check: ...\n";
                r += printCheckReturn();
-               if(expr->gettype() == njnr::type::CHECK)
+               if (expr->gettype() == njnr::type::CHECK)
                {
                   r += "INTERNAL ERROR\n";
                }
@@ -103,7 +103,7 @@ namespace njnr
    {
       return expr;
    }
-   
+
    type Statement::getrettype()
    {
        return rettype;
@@ -117,11 +117,12 @@ namespace njnr
 std::string Statement::printCheckReturn(void) const
 {  std::string r{};
     r = "Checking return type ....\n";
-    switch(expr->gettype())
+    switch (expr->gettype())
     {
         case njnr::type::CHAR:
            r += "CHAR: ";
-           r += dynamic_cast<Constant*>(expr)->toString() + "\n";           
+           r += dynamic_cast<Constant*>(expr)->toString() +
+                "\n";
            break;
         case njnr::type::CHECK:
            r +="Check\n";
@@ -170,14 +171,17 @@ std::string Statement::printCheckReturn(void) const
 
 void Compiler::dealwithstmtlist(List* stmtlist)
 {
-    if(nullptr != stmtlist)
+    if (nullptr != stmtlist)
     {
        std::cout << "list size: " << stmtlist->size() << std::endl;
-       for(auto element: *stmtlist)
+       for (auto element : *stmtlist)
        {
          StmtListNode* s = dynamic_cast<StmtListNode*>(element);
-         if(nullptr != s)
-                std::cout << "statement type: " << static_cast<int>(s->getstmt()->getstype()) << std::endl;
+         if (nullptr != s)
+                std::cout << "statement type: " << static_cast<int>(s->
+                                                              getstmt()->
+                                                              getstype()) <<
+                                                              std::endl;
        }
     }
 }
@@ -190,11 +194,11 @@ void Compiler::dealwithstmtlist(List* stmtlist)
       Statement* statement{nullptr};
 
       statement = new Statement{};
-      if(nullptr != statement)
+      if (nullptr != statement)
       {
          statement->settype(type::STMT);
          statement->setstype(statement_type::RETURN);
-         if(nullptr != expr)
+         if (nullptr != expr)
          {
             statement->setrettype(njnr::type::INT);
             statement->setexpr(expr);
@@ -211,81 +215,99 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    ReturnPacket* Compiler::block32_stmt_while_source()
    {
        ReturnPacket* inPacket{new ReturnPacket{}};
-       inPacket->m_pair.one=  othercounter;
+       inPacket->m_pair.one =  othercounter;
        othercounter++;
        inPacket->m_pair.two =  othercounter;
        othercounter++;
 
-       code_generator.gen_label(code_generator.genlabelw("",inPacket->m_pair.one));
+       code_generator.gen_label(code_generator.genlabelw("",
+                                                inPacket->m_pair.one));
        return inPacket;
    }
-   void Compiler::block33_stmt_while_source_expr_semi_source_lpar_expr_rpar(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket)
+   void Compiler::block33_stmt_while_source_expr_semi_source_lpar_expr_rpar(\
+                    ReturnPacket* insourcePacket,
+                    ReturnPacket* inexprPacket)
    {
-       variableFetchWithNumericCheck(inexprPacket,true);
+       variableFetchWithNumericCheck(inexprPacket, true);
    }
 
    void Compiler::block34_5_stmt_helper(int one, int two)
    {
-       code_generator.gen_label(code_generator.genlabelw("",two));
+       code_generator.gen_label(code_generator.genlabelw("", two));
    }
-   void Compiler::while_and_if_reducer(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket, int number, std::string while_or_if)
+   void Compiler::while_and_if_reducer(ReturnPacket* insourcePacket,
+                                       ReturnPacket* inexprPacket,
+                                       int number,
+                                       std::string while_or_if)
    {
        ReturnPacket* inPacket{inexprPacket};
-       if(! inPacket->getnumeric())
+       if (!inPacket->getnumeric())
        {
-           error("non numeric expression in " + while_or_if + " statement","");
+           error("non numeric expression in " + while_or_if +
+                 " statement", "");
            return;
        }
-       else if(inPacket->gettype() != njnr::type::INT)
+       else if (inPacket->gettype() != njnr::type::INT)
        {
-           error("expression in " + while_or_if + " statement is not an integer","");
+           error("expression in " + while_or_if +
+                 " statement is not an integer",
+                 "");
            return;
        }
-       if(while_or_if == "while")
+       if (while_or_if == "while")
        {
-           block34_5_stmt_helper(insourcePacket->m_pair.one,insourcePacket->m_pair.two);
+           block34_5_stmt_helper(insourcePacket->m_pair.one,
+                                 insourcePacket->m_pair.two);
        }
        else
        {
-           code_generator.gen_label(code_generator.genlabelw("",number));
+           code_generator.gen_label(code_generator.genlabelw("", number));
        }
    }
-   void Compiler::block34_stmt_while_source_expr_semi_source_lpar_expr_rpar_source_stmt(ReturnPacket* insourcePacket, ReturnPacket* inexprPacket)
+   void Compiler::
+        block34_stmt_while_source_expr_semi_source_lpar_expr_rpar_source_stmt(\
+                                         ReturnPacket* insourcePacket,
+                                         ReturnPacket* inexprPacket)
    {
-       while_and_if_reducer(insourcePacket,inexprPacket,0,"while");
+       while_and_if_reducer(insourcePacket, inexprPacket, 0, "while");
    }
 
    void Compiler::block35_stmt_ifexprstmt_else(ReturnPacket* insourcePacket)
    {
-       block34_5_stmt_helper(insourcePacket->m_pair.two,insourcePacket->m_pair.one);
+       block34_5_stmt_helper(insourcePacket->m_pair.two,
+                             insourcePacket->m_pair.one);
    }
 
-   void Compiler::block36_7_stmt_helper(ReturnPacket* insourcePacket, int number)
+   void Compiler::block36_7_stmt_helper(ReturnPacket* insourcePacket,
+                                        int number)
    {
-       while_and_if_reducer(nullptr,insourcePacket,number,"if"); //FIXME: need to acutally put in a value perhaps for inexprPacketptr
+      // FIXME(nicebub): need to acutally put in a value perhaps for
+      //                 inexprPacketptr
+       while_and_if_reducer(nullptr, insourcePacket, number, "if");
    }
 
-   void Compiler::block36_stmt_ifexprstmt_else_source_stmt(ReturnPacket* inPacket)
+   void Compiler::block36_stmt_ifexprstmt_else_source_stmt(\
+                                           ReturnPacket* inPacket)
    {
-       block36_7_stmt_helper(inPacket,inPacket->m_pair.two);
+       block36_7_stmt_helper(inPacket, inPacket->m_pair.two);
    }
 
    void Compiler::block37_stmt_ifexprstmt(ReturnPacket* inPacket)
    {
-       block36_7_stmt_helper(inPacket,inPacket->m_pair.one);
+       block36_7_stmt_helper(inPacket, inPacket->m_pair.one);
    }
 
-   struct Pair Compiler::block38_ifexprstmt_if_lpar_expr_source(ReturnPacket* inexprPacket)
+   struct Pair Compiler::block38_ifexprstmt_if_lpar_expr_source(\
+                                            ReturnPacket* inexprPacket)
    {
-
        struct Pair rvalue;
 
-       rvalue.one= othercounter;
+       rvalue.one = othercounter;
        othercounter++;
-       rvalue.two= othercounter;
+       rvalue.two = othercounter;
        othercounter++;
 
-       variableFetchWithNumericCheck(inexprPacket,true);
+       variableFetchWithNumericCheck(inexprPacket, true);
        return rvalue;
    }
 

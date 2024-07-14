@@ -52,16 +52,16 @@ enum class btype
 /* data types */
 enum class type
 {
-   INT,      // Integer
-   FLOAT,    // Float
-   VOID,     // Void
-   CHAR,     // Character
-   STR,      // String
-   REFINT,   // Reference to an Integer
-   REFFLOAT, // Reference to a Float
-   REFSTR,   // Reference to a String
-   IDENT,    // Identifer
-   STMT,     // Statement
+   INT,       // Integer
+   FLOAT,     // Float
+   VOID,      // Void
+   CHAR,      // Character
+   STR,       // String
+   REFINT,    // Reference to an Integer
+   REFFLOAT,  // Reference to a Float
+   REFSTR,    // Reference to a String
+   IDENT,     // Identifer
+   STMT,      // Statement
    CHECK,     // Hasn't been determined yet and needs to be checked later
    CONSTANT,
    OPERATOR,
@@ -122,10 +122,10 @@ struct exprtype
 /* function prototype data structure */
 struct funcheadertype
 {
-   std::string   name;       // fn name
-   njnr::List*   paramlist;  // list of parameters the fn accept as input
-   njnr::type    returntype; // return type(if any) of fn
-   njnr::type    ttype;      // type of fn?(TBD)
+   std::string   name;        // fn name
+   njnr::List*   paramlist;   // list of parameters the fn accept as input
+   njnr::type    returntype;  // return type(if any) of fn
+   njnr::type    ttype;       // type of fn?(TBD)
 };
 
 /**

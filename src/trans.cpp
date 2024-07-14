@@ -11,13 +11,22 @@
 #include "cpptypes.hpp"
 #include "compiler.hpp"
 #include "symbol_table_stackX.hpp"
-//#include "symtab.hpp"
+// #include "symtab.hpp"
 
 using njnr::CodeGenerator;
 
-CodeGenerator::CodeGenerator() : labelcounter{1},  canGenerate{true},outfile{&std::cout},lastInstructionWasReturnf{false} {}
+CodeGenerator::CodeGenerator() : labelcounter{1},
+                                 canGenerate{true},
+                                 outfile{&std::cout},
+                                 lastInstructionWasReturnf{false}
+                                 {}
 
-CodeGenerator::CodeGenerator(std::ostream& out) : labelcounter{1},  canGenerate{true}, outfile{&out},lastInstructionWasReturnf{false} {}
+CodeGenerator::CodeGenerator(std::ostream& out) :
+                                               labelcounter{1},
+                                               canGenerate{true},
+                                               outfile{&out},
+                                               lastInstructionWasReturnf{false}
+                                               {}
 
 CodeGenerator::~CodeGenerator() {}
 
@@ -56,7 +65,7 @@ std::string CodeGenerator::genlabelw(std::string name, int labelnum)
 
 void CodeGenerator::gen_label(std::string name)
 {
-    if(canGenerate)
+    if (canGenerate)
     {
         *outfile << name << "\n";
         lastInstructionWasReturnf = false;
@@ -65,7 +74,7 @@ void CodeGenerator::gen_label(std::string name)
 
 void CodeGenerator::gen_call(std::string funcname, int numargs)
 {
-    if(canGenerate)
+    if (canGenerate)
     {
         *outfile << "\tcall\t" << funcname << ", " << numargs << "\n";
         lastInstructionWasReturnf = false;
@@ -93,9 +102,9 @@ std::string CodeGenerator::getOutputTypeForCINType(Funcb* f)
 {
     std::string r{"void"};
 
-    if(nullptr != f)
+    if (nullptr != f)
     {
-       switch(f->getreturntype())
+       switch (f->getreturntype())
        {
         case njnr::type::STR:
          r = "char*";
@@ -107,7 +116,8 @@ std::string CodeGenerator::getOutputTypeForCINType(Funcb* f)
            r = "float";
            break;
         case njnr::type::IDENT:
-           /* TODO: need to get type of identifier, possibly from symbol table ?*/
+           /* TODO(nicebub): need to get type of identifier, possibly
+                              from symbol table ? */
           r = "IDENT";
           break;
         case njnr::type::CHAR:
@@ -128,44 +138,45 @@ std::string CodeGenerator::getOutputTypeForCINType(Funcb* f)
 
 void CodeGenerator::generateVariabledeclarations(Funcb* f)
 {
-   if(f != nullptr && nullptr != symtab)
+   if (f != nullptr && nullptr != symtab)
    {
-      if(f->getfuncheader()->paramlist != nullptr)
+      if (f->getfuncheader()->paramlist != nullptr)
       {
-         for(auto p: *(f->getfuncheader())->paramlist)
+         for (auto p : *(f->getfuncheader())->paramlist)
          {
-            if(p == nullptr)
+            if (p == nullptr)
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
             ReturnPacketListNode* RP{dynamic_cast<ReturnPacketListNode*>(p)};
-            if(RP == nullptr)
+            if (RP == nullptr)
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
             else
-            if(RP->getexpr() == nullptr)
+            if (RP->getexpr() == nullptr)
             {
                std::cerr << "INTERNAL ERROR: rp->getexpr()\n";
             }
             else
             {
             Identifier* Id{dynamic_cast<Identifier*>(RP->getexpr())};
-            if(Id == nullptr)
+            if (Id == nullptr)
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
             std::string name{Id->getvalue()};
-            if(name.empty())
+            if (name.empty())
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
-            ReturnPacket* r = reinterpret_cast<ReturnPacket*>(symtab->lookup(name));
-            if(r == nullptr)
+            ReturnPacket* r = reinterpret_cast<ReturnPacket*>(symtab->
+                                                              lookup(name));
+            if (r == nullptr)
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
-            if(nullptr != r)
+            if (nullptr != r)
             {
                std::cerr << "FOUND parameter in symbol table\n";
             }
@@ -184,14 +195,14 @@ void CodeGenerator::generateVariabledeclarations(Funcb* f)
 }
 void CodeGenerator::generateReturnStatement(Statement* s)
 {
-   if(nullptr != s)
+   if (nullptr != s)
    {
-      if(s->getstype() == njnr::statement_type::RETURN)
+      if (s->getstype() == njnr::statement_type::RETURN)
       {
          njnr::type m{njnr::type::VOID};
 
          *outfile << "return";
-         if(s->getrettype() == njnr::type::CHECK)
+         if (s->getrettype() == njnr::type::CHECK)
          {
             m = s->getexpr()->gettype();
          }
@@ -199,20 +210,26 @@ void CodeGenerator::generateReturnStatement(Statement* s)
          {
             m = s->getrettype();
          }
-         switch(m)
+         switch (m)
          {
             case njnr::type::VOID:
                std::cout << "found void return type\n";
                break;
             case njnr::type::CHAR:
                std::cout << "found Char constant return type\n";
-               *outfile << " \'" + std::string{dynamic_cast<Constant*>(s->getexpr())->getValue()} + "\'";
+               *outfile << " \'" +
+                           std::string{dynamic_cast<Constant*>(s->
+                                                               getexpr())->
+                                                               getValue()} +
+                           "\'";
                break;
             case njnr::type::INT:
                std::cout << "found Integer constant return type\n";
-               if(dynamic_cast<Constant*>(s->getexpr()) != NULL)
+               if (dynamic_cast<Constant*>(s->getexpr()) != NULL)
                {
-                  *outfile << " " + dynamic_cast<Constant*>(s->getexpr())->getValue();
+                  *outfile << " " + dynamic_cast<Constant*>(s->
+                                                            getexpr())->
+                                                            getValue();
                }
                else
                {
@@ -221,26 +238,33 @@ void CodeGenerator::generateReturnStatement(Statement* s)
                break;
             case njnr::type::FLOAT:
                std::cout << "found Float constant return type\n";
-               *outfile << " " + dynamic_cast<Constant*>(s->getexpr())->getValue();
+               *outfile << " " + dynamic_cast<Constant*>(s->getexpr())->
+                                                            getValue();
                break;
             case njnr::type::STR:
                std::cout << "found Constant String return\n";
-               *outfile << " \"" + dynamic_cast<Constant*>(s->getexpr())->getValue() + "\"";
+               *outfile << " \"" + dynamic_cast<Constant*>(s->
+                                                           getexpr())->
+                                                           getValue() +
+                           "\"";
                break;
             case njnr::type::IDENT:
                std::cout << "found Identifier return\n";
-               *outfile << " " + dynamic_cast<Identifier*>(s->getexpr())->getValue();
+               *outfile << " " + dynamic_cast<Identifier*>(s->
+                                                           getexpr())->
+                                                           getValue();
                break;
             default:
-               std::cout << "error in return type? " + Compiler::getStringFromType(s->getrettype())+"\n";
+               std::cout << "error in return type? " +
+                            Compiler::getStringFromType(s->getrettype())+"\n";
                break;
-               
          }
          *outfile << ";\n";
       }
       else
       {
-         std::cerr << "trying to generate a return statement from a different type of statement\n";
+         std::cerr << "trying to generate a return statement " \
+                      "from a different type of statement\n";
       }
    }
    else
@@ -251,12 +275,12 @@ void CodeGenerator::generateReturnStatement(Statement* s)
 
 void CodeGenerator::generateStatement(njnr::StmtListNode* e)
 {
-   if(nullptr != e)
+   if (nullptr != e)
    {
       Statement* s{e->getstmt()};
-      if(nullptr != s)
+      if (nullptr != s)
       {
-         if(njnr::statement_type::RETURN == s->getstype())
+         if (njnr::statement_type::RETURN == s->getstype())
          {
             generateReturnStatement(s);
          }
@@ -278,29 +302,30 @@ void CodeGenerator::generateStatement(njnr::StmtListNode* e)
 
 void CodeGenerator::generateFunction(Funcb* f)
 {
-   if(nullptr != f)
+   if (nullptr != f)
    {
       *outfile << getOutputTypeForCINType(f);
       *outfile << " ";
       *outfile << f->getfuncheader()->name + "(";
       /* TODO: write out parameters */
-      if(nullptr != f->getfuncheader() && f->getfuncheader()->paramlist == nullptr)
+      if (nullptr != f->getfuncheader() &&
+          f->getfuncheader()->paramlist == nullptr)
       {
         *outfile << "void";
       }
       *outfile << ")\n{\n";
-      if(f->getfuncbody_list() != nullptr)
+      if (f->getfuncbody_list() != nullptr)
       {
 //        generateVariabledeclarations(f);
         List* l{f->getfuncbody_list()};
-         for(auto e: *l)
+         for (auto e : *l)
          {
-            if(njnr::eNodeType::EXPR == e->get_nodeType())
+            if (njnr::eNodeType::EXPR == e->get_nodeType())
             {
                std::cout << "TODO working on Expressions\n";
                /* TODO: generate expression */
             }
-            else if(njnr::eNodeType::STMT == e->get_nodeType())
+            else if (njnr::eNodeType::STMT == e->get_nodeType())
             {
                generateStatement(dynamic_cast<njnr::StmtListNode*>(e));
             }
@@ -324,13 +349,13 @@ void CodeGenerator::generateFunction(Funcb* f)
 }
 void CodeGenerator::generateTranslationUnit(njnr::TranslationUnitListNode* tn)
 {
-    if(nullptr != tn)
+    if (nullptr != tn)
     {
-       if(njnr::trans_unit_type::FUNCTION == tn->get_trans_unit_type())
+       if (njnr::trans_unit_type::FUNCTION == tn->get_trans_unit_type())
        {
           generateFunction(tn->getFunc());
        }
-       else if(njnr::trans_unit_type::VARDECL == tn->get_trans_unit_type())
+       else if (njnr::trans_unit_type::VARDECL == tn->get_trans_unit_type())
        {
           std::cout << "not implemented yet\n";
        }
@@ -346,13 +371,14 @@ void CodeGenerator::generateTranslationUnit(njnr::TranslationUnitListNode* tn)
 }
 void CodeGenerator::generate(List* f)
 {
-    if(nullptr != f)
+    if (nullptr != f)
     {
-       for(auto e : *f)
+       for (auto e : *f)
        {
-         if(njnr::eNodeType::TRANSLATION_UNIT == e->get_nodeType())
+         if (njnr::eNodeType::TRANSLATION_UNIT == e->get_nodeType())
          {
-            generateTranslationUnit(dynamic_cast<njnr::TranslationUnitListNode*>(e));
+            generateTranslationUnit(\
+                              dynamic_cast<njnr::TranslationUnitListNode*>(e));
          }
          else
          {

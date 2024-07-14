@@ -20,7 +20,7 @@ template<typename T>T Table::lookup(const std::string key)
    auto result{table.find(key)};
 
    /* if iterator doesn't point to end() then we found a <key:value> pair */
-   if(result != table.end())
+   if (result != table.end())
    {
       /* The iterators 'second' value, which is the 'value' in <key:value>
           pair */
@@ -50,8 +50,8 @@ template<typename T>T Table::lookupB(const std::string key)
    {
       /* didn't find it */
        report(logType::debug,
-              "caught out of range - <key:value> not in table: <" + key + ":value>"
-             );
+              "caught out of range - <key:value> not in table: <" + key +
+              ":value>");
    }
    return nullptr;
 }
@@ -75,8 +75,7 @@ template<typename T>bool Table::install(std::string key, T value)
 
       /* didn't throw exception which means its already in table */
       report(logType::error,
-             "error: symbol already declared in current scope"
-            );
+             "error: symbol already declared in current scope");
    }
    catch(std::out_of_range& e)
    {
@@ -84,8 +83,7 @@ template<typename T>bool Table::install(std::string key, T value)
       report(logType::debug,
              "installing key: " + key +
              " value: " +
-             " into table\n"
-            );
+             " into table\n");
 
       table[key] = value;
       answer = true;
@@ -97,7 +95,7 @@ template<typename T>bool Table::install(std::string key, T value)
    printTree(symtab);
    */
    return answer;
-} // install key:value in table
+}  // install key:value in table
 
 /**
  * @brief remove element from table return its value(for usage/deletion?)
@@ -110,7 +108,7 @@ template<typename T>T Table::remove(std::string key)
 {
    bool answer{answer};
    table.erase(key);
-   report(logType::debug,"found element, removing it");
+   report(logType::debug, "found element, removing it");
    /*
    report(logType::debug,
           "through install function of symbol table. Printing symbol table tree"
@@ -118,7 +116,7 @@ template<typename T>T Table::remove(std::string key)
    printTree(symtab);
    */
    return answer;
-} // install key:value in table
+}  // install key:value in table
 
 /**
  * @brief return whether the symbol table contains an element or not
@@ -152,7 +150,7 @@ bool  Table::isEmpty() const noexcept
  */
 bool  Table::count() const noexcept
 {
-   return table.size();   
+   return table.size();
 }
 
 // developer supplied templates for use

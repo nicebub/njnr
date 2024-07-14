@@ -9,45 +9,41 @@
 
 namespace njnr
 {
-
    void Compiler::block1_start_trans_unit()
    {
        code_generator.gen_label("main");
-       code_generator.gen_call(code_generator.genlabelw("main",mainlabel),0);
-
+       code_generator.gen_call(code_generator.genlabelw("main", mainlabel), 0);
    }
 
    void Compiler::variableFetch(ReturnPacket* inPacket, bool conversionNeeded)
    {
-       if( inPacket->getlval())
+       if (inPacket->getlval())
        {
            static const std::string fetch{"fetch"};
-           switch(inPacket->gettype())
+           switch (inPacket->gettype())
            {
-
            case type::INT:
                break;
 
            case type::FLOAT:
 
            default:
-               if(conversionNeeded)
-               {
-               }
+               if (conversionNeeded) {;}
                break;
            }
        }
    }
-   void Compiler::variableFetchWithNumericCheck(ReturnPacket* inPacket, bool conversionNeeded)
+   void Compiler::variableFetchWithNumericCheck(ReturnPacket* inPacket,
+                                                bool conversionNeeded)
    {
-       if(inPacket->getnumeric() )
+       if (inPacket->getnumeric())
        {
-           variableFetch(inPacket,conversionNeeded);
+           variableFetch(inPacket, conversionNeeded);
        }
    }
    void Compiler::normalStore(njnr::type intype)
    {
-       switch(intype)
+       switch (intype)
        {
        case(njnr::type::INT):
            break;
@@ -61,7 +57,7 @@ namespace njnr
    {
        static std::string instruction{""};
        static std::string letter{""};
-       switch(intype)
+       switch (intype)
        {
        case njnr::type::INT:
            instruction = "int";
@@ -74,15 +70,16 @@ namespace njnr
        default:
            break;
        }
-       warning("expressons are of different type, data may be lost","");
-
+       warning("expressons are of different type, data may be lost", "");
    }
 
-   void Compiler::variableFetchWithNumericCheckAndLvalCheck(ReturnPacket* insimplePacket, bool conversionNeeded)
+   void Compiler::variableFetchWithNumericCheckAndLvalCheck(\
+                                              ReturnPacket* insimplePacket,
+                                              bool conversionNeeded)
    {
-       if(insimplePacket->getlval())
+       if (insimplePacket->getlval())
        {
-           variableFetchWithNumericCheck(insimplePacket,conversionNeeded);
+           variableFetchWithNumericCheck(insimplePacket, conversionNeeded);
        }
    }
 }  // namespace njnr

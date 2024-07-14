@@ -15,9 +15,9 @@ namespace njnr
    {}
 
    ReturnPacket::ReturnPacket(bool lval,
-                              njnr::type ttype=njnr::type::INT,
-                              bool ifnum=false,
-                              int inoffset=0) :
+                              njnr::type ttype = njnr::type::INT,
+                              bool ifnum = false,
+                              int inoffset = 0) :
        params{0},
        offset{inoffset},
        lval{lval},
@@ -83,7 +83,7 @@ namespace njnr
       r += std::to_string(static_cast<int>(ttype));
 
       r += "\n" + m_pair.toString() + "\n";
-      if(nullptr != funcent)
+      if (nullptr != funcent)
       {
         r += static_cast<S_TableEntryX*>(funcent)->toString() + "\n";
       }
@@ -94,7 +94,8 @@ namespace njnr
    Constant::~Constant() {}
 
    Constant::Constant() : ReturnPacket{} {}
-   Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
+   Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) :
+                      ReturnPacket{lval, ttype, ifnum, offset} {}
    Constant::Constant(std::string val, njnr::type t): val{val}, typ{t} {}
 
    std::string Constant::getValue() const
@@ -119,21 +120,28 @@ namespace njnr
 
 
    const std::string Identifier::toString() const
-   {  
+   {
       std::string ret = ReturnPacket::toString();
       return "\nvalue: " + value + "\n" + ret;
    }
-   Identifier::Identifier() : Constant{false,njnr::type::IDENT, false, 0} {}
+   Identifier::Identifier() : Constant{false, njnr::type::IDENT, false, 0} {}
 
-   Identifier::Identifier(const std::string invalue) : Constant{false,njnr::type::IDENT, false, 0}, value{invalue} {}
+   Identifier::Identifier(const std::string invalue) :
+                          Constant{false, njnr::type::IDENT, false, 0},
+                          value{invalue}
+                          {}
 
-   Identifier::Identifier(const Constant& in) : Constant{in.getlval(),njnr::type::IDENT, false, in.getoffset()}, value{in.getValue()} {}
+   Identifier::Identifier(const Constant& in) :
+                          Constant{in.getlval(),
+                          njnr::type::IDENT, false, in.getoffset()},
+                          value{in.getValue()}
+                          {}
 
    Identifier::~Identifier() {}
 
    Identifier& Identifier::operator=(const Identifier& in)
    {
-       if(&in != this)
+       if (&in != this)
        {
            value = in.value;
            lval = in.lval;
@@ -161,7 +169,9 @@ namespace njnr
        localcount{0},
        actual_num{0}
    {}
-   Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param, std::vector<njnr::type> param_type, int label, int localcount, int actual_num) :
+   Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param,
+                std::vector<njnr::type> param_type, int label,
+                int localcount, int actual_num) :
        param_type{param_type},
        returntype{returntype},
        bodydef{bodydef},
@@ -188,7 +198,7 @@ namespace njnr
 
    Funcb& Funcb::operator=(const Funcb& in)
    {
-       if(&in != this) {
+       if (&in != this) {
            returntype = in.returntype;
            bodydef = in.bodydef;
            num_param = in.num_param;
@@ -233,7 +243,7 @@ namespace njnr
    {
        this->param_type = param_type;
    }
-   void Funcb::setreturntype( njnr::type returntype )
+   void Funcb::setreturntype(njnr::type returntype)
    {
        this->returntype = returntype;
    }
@@ -297,11 +307,11 @@ namespace njnr
 //      r += "actual_num" + actual_num + "\n";
 //      r += "num_param" + num_param + "\n";
 /* TODO : params list vector */
-      if(nullptr != funcheader)
+      if (nullptr != funcheader)
       {
 //         r += funcheader->toString() + "\n";
       }
-      if(nullptr != funcbody_list)
+      if (nullptr != funcbody_list)
       {
          r += funcbody_list->toString();
       }
@@ -324,14 +334,16 @@ namespace njnr
    Paramb::~Paramb() {}
 
    const std::string Translation_Unit::toString() const
-   {  
+   {
       std::string ret{ReturnPacket::toString()};
 //         ReturnPacket* translation{};
 //         trans_unit_type trans_type;
 
       return "translation unit: " + this->toString() + "\n" + ret;
    }
-   Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
+   Translation_Unit::Translation_Unit() : translation{nullptr},
+                                          trans_type{trans_unit_type::INVALID}
+                                          {}
 
    Translation_Unit::~Translation_Unit() {}
 

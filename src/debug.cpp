@@ -30,20 +30,22 @@ namespace njnr
   #ifdef DEBUG
    void debugprint(std::string s1, std::string s2)
    {
-       if(!s1.empty() && !s2.empty())
+       if (!s1.empty() && !s2.empty())
        {
-           std::cerr << "---Debug---\n" << s1 << "\"" << s2 << "\"\n" << "---Debug---\n";
+           std::cerr << "---Debug---\n" << s1 << "\"" << s2 << "\"\n" <<
+                        "---Debug---\n";
        }
-       else if(!s1.empty() && s2.empty())
+       else if (!s1.empty() && s2.empty())
        {
            std::cerr << "---Debug---\n" << s1 << "\n" << "---Debug---\n";
        }
    }
    void debugprint(std::string s1, int s2)
    {
-       if(!s1.empty())
+       if (!s1.empty())
        {
-           std::cerr << "---Debug---\n" << s1 << "\"" << s2 << "\"\n" << "---Debug---\n";
+           std::cerr << "---Debug---\n" << s1 << "\"" << s2 << "\"\n" <<
+                        "---Debug---\n";
        }
    }
 

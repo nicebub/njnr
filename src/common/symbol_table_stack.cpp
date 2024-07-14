@@ -45,10 +45,10 @@ void* SymbolTable::lookup(const std::string name)
 {
    void* res = nullptr;
    auto tbl = stack.begin();
-   for(; tbl != stack.end(); tbl++)
+   for (; tbl != stack.end(); tbl++)
    {
       res = tbl->lookup<void*>(name);
-      if(nullptr != res)
+      if (nullptr != res)
       {
          // found element in the symbol table stack, exit loop and return it
          break;
@@ -56,11 +56,10 @@ void* SymbolTable::lookup(const std::string name)
    }
 
    // output error if we went through whole stack without finding an element
-   if(tbl == stack.end())
+   if (tbl == stack.end())
    {
       report(logType::debug,
-             "member not found in symbol table stack"
-            );
+             "member not found in symbol table stack");
    }
 
    return res;
@@ -70,10 +69,10 @@ template<typename T>T SymbolTable::lookup(const std::string name)
 {
    T res = nullptr;
    auto tbl = stack.begin();
-   for(; tbl != stack.end(); tbl++)
+   for (; tbl != stack.end(); tbl++)
    {
       res = tbl->lookup<T>(name);
-      if(nullptr != res)
+      if (nullptr != res)
       {
          // found element in the symbol table stack, exit loop and return it
          break;
@@ -81,11 +80,10 @@ template<typename T>T SymbolTable::lookup(const std::string name)
    }
 
    // output error if we went through whole stack without finding an element
-   if(tbl == stack.end())
+   if (tbl == stack.end())
    {
       report(logType::debug,
-             "member not found in symbol table stack"
-            );
+             "member not found in symbol table stack");
    }
 
    return res;
@@ -160,6 +158,6 @@ int SymbolTable::getleveldif(const std::string name) const
  */
 void SymbolTable::printTree() const
 {
-   report(logType::debug,"tree");
+   report(logType::debug, "tree");
 }
 #include "symbol_table_stack_templates.h"

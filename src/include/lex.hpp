@@ -10,7 +10,7 @@
 #include <FlexLexer.h>
 #endif
 
-//#include "compiler.hpp"
+// #include "compiler.hpp"
 #include "njnr.tab.hpp"
 #include "location.hh"
 namespace njnr

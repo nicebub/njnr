@@ -6,71 +6,83 @@
 namespace njnr
 {
 
-   #define error_and_return_false(x) error((x),""); \
+   #define error_and_return_false(x) error((x), ""); \
       return false
 
-   void Compiler::install_parameters_into_symbol_table_curren_scope(funcheadertype** inFuncHeaderptr)
+   void Compiler::install_parameters_into_symbol_table_curren_scope(\
+                                              funcheadertype** inFuncHeaderptr)
    {
       funcheadertype* inFuncHeader{*inFuncHeaderptr};
-      for(auto element : *inFuncHeader->paramlist)
+      for (auto element : *inFuncHeader->paramlist)
       {
          PListNode* nelement{dynamic_cast<PListNode*>(element)};
-         auto tempEntry = symbolTable->createParam(nelement->getval(), nelement->gettype(),(offset_counter));
+         auto tempEntry = symbolTable->createParam(nelement->getval(),
+                                                   nelement->gettype(),
+                                                   (offset_counter));
          symbolTable->install(tempEntry);
-         if(nelement->gettype() != njnr::type::VOID)
+         if (nelement->gettype() != njnr::type::VOID)
          {
             offset_counter++;
          }
       }
    }
-   bool Compiler::is_function_decl_or_def_accurate(funcheadertype** inFuncHeaderptr, bool isdeclaration)
+   bool Compiler::is_function_decl_or_def_accurate(\
+                                     funcheadertype** inFuncHeaderptr,
+                                                   bool isdeclaration)
    {
       funcheadertype* inFuncHeader{*inFuncHeaderptr};
 
-      currentFunc = static_cast<Funcb*>(symbolTable->lookup(inFuncHeader->name));
-      S_TableEntryX foundPacket{*static_cast<S_TableEntryX*>(symbolTable->lookupB(inFuncHeader->name))};
+      currentFunc = static_cast<Funcb*>(symbolTable->
+                                        lookup(inFuncHeader->name));
+      S_TableEntryX foundPacket{*static_cast<S_TableEntryX*>(symbolTable->
+                                                         lookupB(inFuncHeader->
+                                                                 name))};
 /*
       if(!foundPacket)
       {
          error_and_return_false("Function name not in symbol symbolTable");
       }
 */
-      if(foundPacket.getGroup() != njnr::btype::FUNC)
+      if (foundPacket.getGroup() != njnr::btype::FUNC)
       {
          error_and_return_false("Not a function");
       }
-      if(currentFunc->getreturntype() != inFuncHeader->returntype)
+      if (currentFunc->getreturntype() != inFuncHeader->returntype)
       {
          error_and_return_false("Function declared with different return type");
       }
-      if(currentFunc->getnum_param() == -1)
+      if (currentFunc->getnum_param() == -1)
       {
          error_and_return_false("Function cannot have those parameters");
       }
-      if(inFuncHeader->paramlist != nullptr &&
-         (inFuncHeader->paramlist->size()) != currentFunc->getnum_param())
+      if (inFuncHeader->paramlist != nullptr &&
+          (inFuncHeader->paramlist->size()) != currentFunc->getnum_param())
       {
          error_and_return_false("Function has different number of parameters");
       }
       int list_index{0};
-      for(auto element : * inFuncHeader->paramlist)
+      for (auto element : * inFuncHeader->paramlist)
       {
          PListNode* nelement{dynamic_cast<PListNode*>(element)};
-         if(currentFunc->getparam_type()[list_index] != nelement->gettype())
+         if (currentFunc->getparam_type()[list_index] != nelement->gettype())
          {
-            std::cerr << "Error: Line: " << Line_Number << ": argument " << (list_index+1) << ": has different parameter type than in function declaration\n";
+            std::cerr << "Error: Line: " << Line_Number << ": argument " <<
+                         (list_index+1) << ": has different parameter type " \
+                                           "than in function declaration\n";
            #ifdef DEBUG
-           //  std::cerr << "\nThey are " <<  currentFunc->getparam_type()[list_index] << " and " << nelement->gettype() << std::endl ;
+           //  std::cerr << "\nThey are " <<
+           //               currentFunc->getparam_type()[list_index] <<
+           //               " and " << nelement->gettype() << std::endl ;
            #endif
             return false;
          }
          list_index++;
       }
-      if(list_index != inFuncHeader->paramlist->size())
+      if (list_index != inFuncHeader->paramlist->size())
       {
          error_and_return_false("Stopped");
       }
-      if(currentFunc->getbodydef() && ( ! isdeclaration) )
+      if (currentFunc->getbodydef() && (!isdeclaration))
       {
          error_and_return_false("Function definition is previously declared");
       }

@@ -4,10 +4,10 @@
 #include <config.h>
 #include <string>
 
-#include "type.hpp"               // for njnr::type
-#include "symbol_table_stack.hpp" // for class SymbolTable
-#include "symbol_table_entry.hpp" // for class S_TableEntry
-#include "compiler.hpp"           // for class Compiler
+#include "type.hpp"                // for njnr::type
+#include "symbol_table_stack.hpp"  // for class SymbolTable
+#include "symbol_table_entry.hpp"  // for class S_TableEntry
+#include "compiler.hpp"            // for class Compiler
 namespace njnr
 {
 /**
@@ -26,7 +26,8 @@ class SymbolTableX : public SymbolTable
          /** TODO: rework */
          void install2(std::string val, njnr::type t);
          void installType(std::string val);
-         void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
+         // generic helper function used by all install functions below
+         void installHelper(std::string val, njnr::type t);
 
       /* unsure about these functions below */
       // FIXME: take in a ReturnPacket* instead?

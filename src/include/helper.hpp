@@ -10,5 +10,5 @@ namespace njnr
 {
    void setflags(int flags);
    int  getflags();
-}  // namespace njnr 
+}  // namespace njnr
 #endif  // SRC_INCLUDE_HELPER_HPP_

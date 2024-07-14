@@ -54,7 +54,8 @@ class Funcb : public Identifier
    public:
       Funcb();
       explicit Funcb(njnr::type returntype);
-      Funcb(njnr::type returntype, bool bodydef, int num_param, std::vector<njnr::type> param_type,
+      Funcb(njnr::type returntype, bool bodydef, int num_param,
+            std::vector<njnr::type> param_type,
             int label, int localcount, int actual_num);
       Funcb(const Funcb& in);
       Funcb& operator=(const Funcb& in);
@@ -67,7 +68,7 @@ class Funcb : public Identifier
       int getlocalcount();
       int getactual_num();
       void setparam_type(std::vector<njnr::type> param_type);
-      void setreturntype( njnr::type returntype );
+      void setreturntype(njnr::type returntype);
       void setbodydef(bool bodydef);
       void setnum_param(int num_param);
       void setlabel(int label);

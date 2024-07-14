@@ -28,7 +28,8 @@ AM_YFLAG = -d
 CLEANFILES= lex.yy.cc njnr.tab.cpp njnr.tab.hpp njnr.output location.hh
 
 EXTRA_DIST= njnr.l njnr.y ../autogen.sh
-CPPLINTFLAGS = --verbose=1 --filter=-whitespace,-build/include_subdir,-legal/copyright
+CPPLINTFLAGS = --verbose=5 --filter=-whitespace/indent,-whitespace/braces,-whitespace/newline,-legal,-build/include_subdir,-readability/braces
+
 
 #define MAIN
 

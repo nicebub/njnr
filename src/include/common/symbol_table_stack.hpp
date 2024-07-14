@@ -17,23 +17,34 @@ class SymbolTable
       explicit SymbolTable(Compiler&);                       // Constructor
       virtual ~SymbolTable();                               // Destructor
       template <typename T>bool install(T element);
-      template <typename T>T lookup(const std::string name);         // look up a symbol in scope and return its value
-      template <typename T>T lookupB(const std::string name);        // look up a symbol in scope and return its table entry
-      void openscope();                             // open a new stack/lifetime scope
-      void closescope();                            // close the topmost stack/lifetime scope
-      bool inCurrentScope(const std::string name);  // true if symbol is in current scope
+      // look up a symbol in scope and return its value
+      template <typename T>T lookup(const std::string name);
+      // look up a symbol in scope and return its table entry
+      template <typename T>T lookupB(const std::string name);
+      // open a new stack/lifetime scope
+      void openscope();
+      // close the topmost stack/lifetime scope
+      void closescope();
+      // true if symbol is in current scope
+      bool inCurrentScope(const std::string name);
 
       /* deprecated and want to phase out */
-      void* lookup(const std::string name);         // look up a symbol in scope and return its value
-      void* lookupB(const std::string name);        // look up a symbol in scope and return its table entry
+      // look up a symbol in scope and return its value
+      void* lookup(const std::string name);
+      // look up a symbol in scope and return its table entry
+      void* lookupB(const std::string name);
 
       /** TODO: implement */
-      int getleveldif(const std::string name) const;            // level difference from root
-      void printTree() const;                                   // print symbol table tree
+      // level difference from root
+      int getleveldif(const std::string name) const;
+      // print symbol table tree
+      void printTree() const;
    protected:
-      std::deque<Table> stack;  //Stack of 'Symbol' Tables
+      // Stack of 'Symbol' Tables
+      std::deque<Table> stack;
    private:
-      Compiler& compiler;       // reference to compiler that instantiate this instance
+      // reference to compiler that instantiate this instance
+      Compiler& compiler;
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_COMMON_SYMBOL_TABLE_STACK_HPP_
