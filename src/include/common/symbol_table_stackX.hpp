@@ -22,11 +22,7 @@ namespace njnr
          virtual ~SymbolTableX() {};                               // Destructor
 
          /** TODO: rework */
-         void installIdentifier(std::string val);
-         void installStrConstant(std::string val);     // install a symbol in the symbol table
-         void installIntConstant(std::string val);     // install a symbol in the symbol table
-         void installFloatConstant(std::string val);   // install a symbol in the symbol table
-         void installCharConstant(std::string val);    // install a symbol in the symbol table
+         void install2(std::string val, njnr::type t);
          void installType(std::string val);
          void installHelper(std::string val, njnr::type t); // generic helper function used by all install functions below
 
