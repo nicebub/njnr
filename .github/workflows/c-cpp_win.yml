@@ -24,3 +24,13 @@ jobs:
         with:
           platform: x86_64
           packages: autoconf automake make bison flex cmake gcc-g++ doxygen graphviz libssl-devel libuuid-devel
+      - name: configure
+        run: ./configure
+      - name: make
+        run: make
+      - name: make check
+        run: make check
+      - name: make install
+        run: sudo make install
+      - name: make distcheck
+        run: make distcheck
