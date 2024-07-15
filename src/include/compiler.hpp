@@ -16,6 +16,7 @@
 // #include "symbol_table_stack.hpp"
 #include "njnr.tab.hpp"
 #include "lex.hpp"
+#include "operator.hpp"
 
 namespace njnr
 {
@@ -196,11 +197,11 @@ class Compiler
       void block42_equalexpr_relexpr_eqop_source(\
                                       ReturnPacket** relexprPacketptr);
 
-      ReturnPacket* block43_equalexpr_relexpr_helper(njnr::eqtype ineqop,
+      ReturnPacket* block43_equalexpr_relexpr_helper(njnr::reltype ineqop,
                                                      std::string need_letter_b);
 
       ReturnPacket* block43_equalexpr_relexpr_eqop_source_relexpr(\
-                           njnr::eqtype ineqop, ReturnPacket** relexprPacketptr,
+                           Operator* ineqop, ReturnPacket** relexprPacketptr,
                            ReturnPacket** otherrelexprPacketptr);
       void block44_equalexpr_relexpr();
 
@@ -213,30 +214,30 @@ class Compiler
 
       ReturnPacket* block46_relexpr_simpleexpr_relop_source_simpleexpr(\
                                       ReturnPacket** simpleexprPacketptr,
-                                      njnr::reltype inrelop,
+                                      Operator* inrelop,
                                       ReturnPacket** othersimpleexprPacketptr);
       void block47_relexpr_simpleexpr();
 
       void block48_simpleexpr_simpleexpr_addop_source(\
                                              ReturnPacket** insimplePacketptr);
 
-      ReturnPacket* block49_simpleexpr_addop_helper(njnr::addtype inaddop,
+      ReturnPacket* block49_simpleexpr_addop_helper(njnr::reltype inaddop,
                                                     std::string need_letter_b);
 
       ReturnPacket* block49_simpleexpr_simpleexpr_addop_source_term(\
                                       ReturnPacket** simpleexprPacketptr,
-                                      njnr::addtype inaddop,
+                                      Operator* inaddop,
                                       ReturnPacket** termPacketptr);
       void block50_simpleepr_term();
 
       void block51_term_term_mulop_source(ReturnPacket** inPacketptr);
 
-      ReturnPacket* block52_term_mulop_helper(njnr::multype inmulop,
+      ReturnPacket* block52_term_mulop_helper(njnr::reltype inmulop,
                                               std::string need_letter_b);
 
       ReturnPacket* block52_term_term_mulop_source_factor(\
                                                  ReturnPacket** intermptr,
-                                                 njnr::multype inmulop,
+                                                 Operator* inmulop,
                                                  ReturnPacket* infactorptr);
       void block53_term_factor();
 
@@ -244,7 +245,7 @@ class Compiler
       ReturnPacket* block55_factor_ident(njnr::Identifier inIdent);
       ReturnPacket* block56_factor_lpar_expr_rpar(ReturnPacket** inPacket);
 
-      ReturnPacket* block57_factor_addop_factor_uminus(njnr::addtype inop,
+      ReturnPacket* block57_factor_addop_factor_uminus(Operator* inop,
                                                        ReturnPacket** inPacket);
 
       ReturnPacket* block58_factor_adof_ident(njnr::Identifier inPacket);
@@ -281,7 +282,7 @@ class Compiler
       List* block69_identlist_ident(njnr::Identifier inIdent);
       List* block70_identlist_comma_ident(List** inIdentListptr,
                                           njnr::Identifier inIdent);
-
+      Operator* block82_relop_greatt(njnr::reltype n, std::string s);
       void  setfinished(List* inlist);
       void  printProgramTree(void);
       void  checkfunctionReturnValues(Funcb* f);

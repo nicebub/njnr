@@ -12,29 +12,20 @@ namespace njnr
 class List;
 
 /* additive operator types */
-enum class addtype
-{
-   PLS,   // Plus      +
-   MIN    // Minus     -
-};
 
 /* multiplicitive operator types */
-enum class multype
-{
-   DIV,   // Divide    *
-   MULT   // Multiply  /
-};
 
 /* euqality testing operator types */
-enum class eqtype
-{
-   NEQ,   // Not Equal   !=
-   EQEQ   // Equal Equal ==
-};
 
 /* relational operator types */
 enum class reltype
 {
+   PLS,   // Plus      +
+   MIN,    // Minus     -
+   DIV,   // Divide    *
+   MULT,   // Multiply  /
+   NEQ,   // Not Equal   !=
+   EQEQ,   // Equal Equal ==
    LES,   // Less than              <
    LEQ,   // Less than or equal     <=
    GRE,   // Greater than           >
@@ -127,7 +118,6 @@ struct funcheadertype
    njnr::type    returntype;  // return type(if any) of fn
    njnr::type    ttype;       // type of fn?(TBD)
 };
-
 /**
  * @brief Type System Type Abstract Class Interface
  * 
@@ -148,8 +138,17 @@ class TSAbstractType
       virtual   const std::string        toString()    const noexcept = 0;
       virtual   const std::string    getTypeValue()    const noexcept = 0;
       virtual   const njnr::type          getType()    const noexcept = 0;
+      virtual TSAbstractType& operator=(const TSAbstractType& t)
+      {
+         if (const_cast<TSAbstractType*>(&t) != this)
+         {
+            this->typeValue = t.typeValue;
+         }
+         return *this;
+      }
+
    protected:
-      const std::string typeValue;
+      std::string typeValue;
 };
 
 /**
@@ -200,9 +199,21 @@ class TSType : public TSAbstractType
       {
          return njnr::type::VOID;
       }
+
+      virtual TSType& operator=(const TSType& t)
+      {
+         if (const_cast<TSType*>(&t) != this)
+         {
+            this->typeValue = t.typeValue;
+            this->isNumeric = t.isNumeric;
+            this->isLval = t.isLval;
+         }
+         return *this;
+      }
+
    private:
-      const bool isNumeric;
-      const bool isLval;
+      bool isNumeric;
+      bool isLval;
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_TYPE_HPP_

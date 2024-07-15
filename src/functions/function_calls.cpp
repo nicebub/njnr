@@ -474,5 +474,12 @@ namespace njnr
        }
        return outPacket;
    }
-
+ Operator* Compiler::block82_relop_greatt(njnr::reltype p, std::string s)
+ {
+    Operator * n{nullptr};
+    n = new Operator(nullptr);
+    n->setType(TSOperatorType(s));
+    typeTable->install2(s, njnr::type::OPERATOR);
+    return n;
+ }
 }  // namespace njnr

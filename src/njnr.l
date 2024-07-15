@@ -6,11 +6,7 @@
 #include <cstdint>
 
 #include "debug.hpp"
-#include "type.hpp"
-#include "cpptypes.hpp"
 #include "lex.hpp"
-#include "list.hpp"
-#include "data.hpp"
 
 /* we redefine our declaration for the lexer as we changed it */
 #undef  YY_DECL

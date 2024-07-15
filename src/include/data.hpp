@@ -23,9 +23,9 @@ public:
         List*                  lstvalue;
         List*                 lstpvalue;
         type                     tvalue;
-        addtype              addopvalue;
-        multype             multopvalue;
-        eqtype                eqopvalue;
+        reltype              addopvalue;
+        reltype             multopvalue;
+        reltype                eqopvalue;
         List*                 lstevalue;
         Pair                  pairvalue;
         exprtype*             exprvalue;

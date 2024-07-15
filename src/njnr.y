@@ -4,16 +4,19 @@
 #include <string>
 
 #include "debug.hpp"
+#include "symbol_table_stackX.hpp"
 
+/*
 #include "type.hpp"
 #include "list.hpp"
-#include "symbol_table_stackX.hpp"
-#include "data.hpp"
+#include "data.hpp
 #include "trans.hpp"
 #include "lex.hpp"
 #include "cpptypes.hpp"
+*/
 
 using namespace njnr;
+
 #define YYDEBUG 1
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -53,6 +56,7 @@ int yyerror(std::string err,Compiler& compiler);
     #include "cpptypes.hpp"
     #include "list.hpp"
     #include "type.hpp"
+    #include "operator.hpp"
     using namespace njnr;
 
     # if !defined __EXCEPTIONS
@@ -154,19 +158,19 @@ int yyerror(std::string err,Compiler& compiler);
 
 
 %type <List*> identlist
-%type <reltype> relop
-%type <multype> mulop
-%type <addtype> addop
-%type <eqtype> eqop
+%type <Operator*> relop
+%type <Operator*> mulop
+%type <Operator*> addop
+%type <Operator*> eqop
 
 %type <int> whilet ift elset
 %type <int> intt
 %type <float> floatt
 %type <int> chart voidt adof elip lpar rpar lcbra rcbra semi comma equalt
 %type <reltype> lesst greatt leq geq
-%type <addtype> plus minus
-%type <eqtype> equequ neq
-%type <multype> divide star
+%type <reltype> plus minus
+%type <reltype> equequ neq
+%type <reltype> divide star
 %type <int> uminus
 %type <List*> translation_unit_part_list translation_unit funcbody_internal funcbody
 %type <Funcb*> func variabledecl
@@ -515,51 +519,73 @@ constant: StrConstant {
 
 ;
 
-addop: plus {
-               compiler.typeTable->install2("+", njnr::type::OPERATOR);
-               $$ = njnr::addtype::PLS;
-            }
+addop: plus  {
+               $$ = compiler.block82_relop_greatt($1, "+");
+                compiler.typeTable->install2("+", njnr::type::OPERATOR);
+                $$ = new Operator(nullptr);
+                $$->setType(TSOperatorType("+"));
+             }
      | minus {
+               $$ = compiler.block82_relop_greatt($1, "-");
                 compiler.typeTable->install2("-", njnr::type::OPERATOR);
-                $$ = njnr::addtype::MIN;
+                $$ = new Operator(nullptr);
+                $$->setType(TSOperatorType("-"));
              }
 ;
 
-mulop: star {
-               compiler.typeTable->install2("*", njnr::type::OPERATOR);
-               $$ = njnr::multype::MULT;
-            }
+mulop: star   {
+               $$ = compiler.block82_relop_greatt($1, "*");
+                 compiler.typeTable->install2("*", njnr::type::OPERATOR);
+                 $$ = new Operator(nullptr);
+                 $$->setType(TSOperatorType("*"));
+              }
      | divide {
+               $$ = compiler.block82_relop_greatt($1, "/");
                  compiler.typeTable->install2("/", njnr::type::OPERATOR);
-                 $$ = njnr::multype::DIV;
+                 $$ = new Operator(nullptr);
+                 $$->setType(TSOperatorType("/"));
               }
 ;
 
-eqop: equequ {
+eqop: 
+      equequ {
+               $$ = compiler.block82_relop_greatt($1, "==");
                 compiler.typeTable->install2("==", njnr::type::OPERATOR);
-                $$ = njnr::eqtype::EQEQ;
+                $$ = new Operator(nullptr);
+                $$->setType(TSOperatorType("=="));
              }
-    | neq {
-             compiler.typeTable->install2("!=", njnr::type::OPERATOR);
-             $$ = njnr::eqtype::NEQ;
-          }
+    | neq    {
+               $$ = compiler.block82_relop_greatt($1, "!=");
+                compiler.typeTable->install2("!=", njnr::type::OPERATOR);
+                $$ = new Operator(nullptr);
+                $$->setType(TSOperatorType("!="));
+             }
 ;
 
-relop: lesst {
-                compiler.typeTable->install2("<", njnr::type::OPERATOR);
-                $$ = njnr::reltype::LES;
-             }
-     | leq {
-              compiler.typeTable->install2("<=", njnr::type::OPERATOR);
-              $$ = njnr::reltype::LEQ;
-            }
-     | geq {
-              compiler.typeTable->install2(">=", njnr::type::OPERATOR);
-              $$ = njnr::reltype::GEQ;
-            }
+relop: 
+       lesst  {
+               $$ = compiler.block82_relop_greatt($1, "<");
+                 compiler.typeTable->install2("<", njnr::type::OPERATOR);
+                 $$ = new Operator(nullptr);
+                 $$->setType(TSOperatorType("<"));
+              }
+     | leq    {
+               $$ = compiler.block82_relop_greatt($1, "<=");
+                 compiler.typeTable->install2("<=", njnr::type::OPERATOR);
+                 $$ = new Operator(nullptr);
+                 $$->setType(TSOperatorType("<="));
+              }
+     | geq    {
+               $$ = compiler.block82_relop_greatt($1,  ">=");
+                 compiler.typeTable->install2(">=", njnr::type::OPERATOR);
+                 $$ = new Operator(nullptr);
+                 $$->setType(TSOperatorType(">="));
+              }
      | greatt {
+               $$ = compiler.block82_relop_greatt($1, ">");
                  compiler.typeTable->install2(">", njnr::type::OPERATOR);
-                 $$ = njnr::reltype::GRE;
+                 $$ = new Operator(nullptr);
+                 $$->setType(TSOperatorType(">"));
               }
 ;
 

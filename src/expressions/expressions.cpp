@@ -59,15 +59,15 @@ namespace njnr
        variableFetchWithNumericCheck(*relexprPacketptr, false);
    }
 
-   ReturnPacket* Compiler::block43_equalexpr_relexpr_helper(njnr::eqtype ineqop,
+   ReturnPacket* Compiler::block43_equalexpr_relexpr_helper(njnr::reltype ineqop,
                                                    std::string need_letter_b)
    {
        warning("expressons are of different type, data may be lost", "");
        switch (ineqop)
        {
-       case eqtype::NEQ:
+       case reltype::NEQ:
            break;
-       case eqtype::EQEQ:
+       case reltype::EQEQ:
            break;
        default:
            break;
@@ -76,7 +76,7 @@ namespace njnr
        return new ReturnPacket{false, njnr::type::INT, true, 0};
    }
    ReturnPacket* Compiler::block43_equalexpr_relexpr_eqop_source_relexpr(\
-                          njnr::eqtype ineqop, ReturnPacket** relexprPacketptr,
+                          Operator* ineqop, ReturnPacket** relexprPacketptr,
                           ReturnPacket** otherrelexprPacketptr)
    {
        ReturnPacket * outPacket{new ReturnPacket{}};
@@ -92,15 +92,16 @@ namespace njnr
            if ( relexprPacket->gettype() == otherrelexprPacket->gettype() )
            {
                outPacket->settype(njnr::type::INT);
-               switch (ineqop)
+               /* FIXME(nicebub): broken */
+               switch (reltype::NEQ)
                {
-               case eqtype::NEQ:
+               case reltype::NEQ:
                    if (relexprPacket->gettype() == njnr::type::INT)
                    {}
                    else if (relexprPacket->gettype() == njnr::type::FLOAT)
                    {}
                    break;
-               case eqtype::EQEQ:
+               case reltype::EQEQ:
                    if (relexprPacket->gettype() == njnr::type::INT){}
                    else if (relexprPacket->gettype() == njnr::type::FLOAT)
                    {}
@@ -112,12 +113,12 @@ namespace njnr
            else if (relexprPacket->gettype() == njnr::type::INT &&
                    otherrelexprPacket->gettype()== njnr::type::FLOAT)
            {
-               outPacket = block43_equalexpr_relexpr_helper(ineqop, "b");
+//               outPacket = block43_equalexpr_relexpr_helper(ineqop, "b");
            }
            else if (relexprPacket->gettype() == njnr::type::FLOAT &&
                    otherrelexprPacket->gettype() == njnr::type::INT)
            {
-               outPacket = block43_equalexpr_relexpr_helper(ineqop, "");
+//               outPacket = block43_equalexpr_relexpr_helper(ineqop, "");
            }
        }
        else
@@ -156,7 +157,7 @@ namespace njnr
    }
    ReturnPacket* Compiler::block46_relexpr_simpleexpr_relop_source_simpleexpr(\
                                ReturnPacket** simpleexprPacketptr,
-                               njnr::reltype inrelop,
+                               Operator* inrelop,
                                ReturnPacket** othersimpleexprPacketptr)
    {
        ReturnPacket * outPacket{new ReturnPacket{}};
@@ -174,7 +175,8 @@ namespace njnr
                othersimpleexprPacket->gettype() )
            {
                outPacket->settype(njnr::type::INT);
-               switch (inrelop)
+               /** FIXME(nicebub): broken */
+               switch (reltype::LES)
                {
                case reltype::LES:
                    if (simpleexprPacket->gettype() == type::INT){}
@@ -203,13 +205,13 @@ namespace njnr
            else if (simpleexprPacket->gettype() == njnr::type::INT &&
                    othersimpleexprPacket->gettype() == type::FLOAT)
            {
-               outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop,
-                                                                   "b");
+//               outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop,
+//                                                                   "b");
            }
            else if (simpleexprPacket->gettype() == type::FLOAT &&
                    othersimpleexprPacket->gettype() == type::INT)
            {
-               outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop, "");
+//               outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop, "");
            }
        }
        else
@@ -225,15 +227,15 @@ namespace njnr
        variableFetchWithNumericCheckAndLvalCheck(*insimplePacketptr, false);
    }
    ReturnPacket* Compiler::block49_simpleexpr_addop_helper(\
-                                                  njnr::addtype inaddop,
+                                                  njnr::reltype inaddop,
                                                   std::string need_letter_b)
    {
        warning("expressons are of different type, data may be lost", "");
        switch (inaddop)
        {
-       case addtype::PLS:
+       case reltype::PLS:
            break;
-       case addtype::MIN:
+       case reltype::MIN:
            break;
        default:
            break;
@@ -243,7 +245,7 @@ namespace njnr
 
    ReturnPacket* Compiler::block49_simpleexpr_simpleexpr_addop_source_term(\
                                   ReturnPacket** simpleexprPacketptr,
-                                  njnr::addtype inaddop,
+                                  Operator* inaddop,
                                   ReturnPacket** termPacketptr)
    {
        ReturnPacket * outPacket{new ReturnPacket{}};
@@ -258,14 +260,15 @@ namespace njnr
            if ( simpleexprPacket->gettype() == termPacket->gettype() )
            {
                outPacket->settype(simpleexprPacket->gettype());
-               switch (inaddop)
+               /* FIXME(nicebub): broken */
+               switch (reltype::PLS)
                {
-               case addtype::PLS:
+               case reltype::PLS:
                    if (simpleexprPacket->gettype() == type::INT){}
                    else if (simpleexprPacket->gettype() == type::FLOAT)
                    {}
                    break;
-               case addtype::MIN:
+               case reltype::MIN:
                    if (simpleexprPacket->gettype() == type::INT){}
                    else if (simpleexprPacket->gettype() == type::FLOAT)
                    {}
@@ -277,12 +280,12 @@ namespace njnr
            else if (simpleexprPacket->gettype() == njnr::type::INT
                    && termPacket->gettype() == type::FLOAT)
            {
-               outPacket = block49_simpleexpr_addop_helper(inaddop, "b");
+//               outPacket = block49_simpleexpr_addop_helper(inaddop, "b");
            }
            else if (simpleexprPacket->gettype() == njnr::type::FLOAT
                    && termPacket->gettype() == type::INT)
            {
-               outPacket = block49_simpleexpr_addop_helper(inaddop, "");
+//               outPacket = block49_simpleexpr_addop_helper(inaddop, "");
            }
        }
        else
@@ -298,15 +301,15 @@ namespace njnr
        variableFetchWithNumericCheckAndLvalCheck(*inPacketptr, false);
    }
 
-   ReturnPacket* Compiler::block52_term_mulop_helper(njnr::multype inmulop,
+   ReturnPacket* Compiler::block52_term_mulop_helper(njnr::reltype inmulop,
                                                      std::string need_letter_b)
    {
        warning("expressons are of different type, data may be lost", "");
        switch (inmulop)
        {
-       case multype::DIV:
+       case reltype::DIV:
            break;
-       case multype::MULT:
+       case reltype::MULT:
            break;
        default:
            break;
@@ -315,7 +318,7 @@ namespace njnr
    }
    ReturnPacket* Compiler::block52_term_term_mulop_source_factor(\
                                      ReturnPacket** intermPacketptr,
-                                     njnr::multype inmulop,
+                                     Operator* inmulop,
                                      ReturnPacket* infactorPacketptr)
    {
        ReturnPacket* outtermPacket{new ReturnPacket{}};
@@ -329,9 +332,10 @@ namespace njnr
            if (intermPacket->gettype() == infactorPacket->gettype() )
            {
                outtermPacket->settype(intermPacket->gettype());
-               switch (inmulop)
+               /* FIXME(nicebub): broken */
+               switch (reltype::DIV)
                {
-               case multype::DIV:
+               case reltype::DIV:
                    if (intermPacket->gettype()== type::INT)
                    {
                    }
@@ -339,7 +343,7 @@ namespace njnr
                    {
                    }
                    break;
-               case multype::MULT:
+               case reltype::MULT:
                    if (intermPacket->gettype()== type::INT)
                    {
                    }
@@ -354,12 +358,12 @@ namespace njnr
            else if (intermPacket->gettype() == type::INT
                    && infactorPacket->gettype()== type::FLOAT)
            {
-               outtermPacket = block52_term_mulop_helper(inmulop, "b");
+//               outtermPacket = block52_term_mulop_helper(inmulop, "b");
            }
            else if (intermPacket->gettype() == type::FLOAT &&
                     infactorPacket->gettype() == type::INT)
            {
-               outtermPacket =  block52_term_mulop_helper(inmulop, "");
+//               outtermPacket =  block52_term_mulop_helper(inmulop, "");
            }
        }
        else
@@ -466,16 +470,17 @@ namespace njnr
    }
 
    ReturnPacket* Compiler::block57_factor_addop_factor_uminus(\
-                                        njnr::addtype inop,
+                                        Operator* inop,
                                         ReturnPacket** inPacketptr)
    {
        ReturnPacket* outPacket{new ReturnPacket{}};
        ReturnPacket* inPacket{*inPacketptr};
        if (inPacket->getnumeric())
        {
-           switch (inop)
+           /* FIXME(nicebub): broken */
+           switch (njnr::reltype::MIN)
            {
-           case njnr::addtype::MIN:
+           case njnr::reltype::MIN:
                variableFetchWithNumericCheck(*inPacketptr, false);
                switch (inPacket->gettype())
                {
@@ -487,7 +492,7 @@ namespace njnr
                    break;
                }
                break;
-           case njnr::addtype::PLS:
+           case njnr::reltype::PLS:
                variableFetchWithNumericCheck(*inPacketptr, false);
                break;
            default:
