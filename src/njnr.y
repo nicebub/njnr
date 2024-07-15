@@ -163,15 +163,15 @@ int yyerror(std::string err,Compiler& compiler);
 %type <Operator*> addop
 %type <Operator*> eqop
 
-%type <int> whilet ift elset
-%type <int> intt
-%type <float> floatt
-%type <int> chart voidt adof elip lpar rpar lcbra rcbra semi comma equalt
-%type <reltype> lesst greatt leq geq
-%type <reltype> plus minus
-%type <reltype> equequ neq
-%type <reltype> divide star
-%type <int> uminus
+%type <std::string> whilet ift elset
+%type <std::string> intt
+%type <std::string> floatt
+%type <std::string> chart voidt adof elip lpar rpar lcbra rcbra semi comma equalt
+%type <std::string> lesst greatt leq geq
+%type <std::string> plus minus
+%type <std::string> equequ neq
+%type <std::string> divide star
+%type <std::string> uminus
 %type <List*> translation_unit_part_list translation_unit funcbody_internal funcbody
 %type <Funcb*> func variabledecl
 %nterm <List*> paramdeflist paramdef
@@ -497,95 +497,57 @@ identlist: Ident {
 ;
 
 constant: StrConstant {
-                          compiler.constantTable->install2($1, njnr::type::STR);
-                          compiler.typeTable->install2("string", njnr::type::STR);
-                          $$ = new Constant{$1, njnr::type::STR};
+                          compiler.createConstant(njnr::type::STR, "string", $1);
                       }
         | IntConstant {
-                          compiler.constantTable->install2($1, njnr::type::INT);
-                          compiler.typeTable->install2("int", njnr::type::INT);
-                          $$ = new Constant{$1, njnr::type::INT};
+                          compiler.createConstant(njnr::type::INT, "int", $1);
                        }
         | FloatConstant {
-                          compiler.constantTable->install2($1, njnr::type::FLOAT);
-                          compiler.typeTable->install2("float", njnr::type::FLOAT);
-                          $$ = new Constant{$1, njnr::type::FLOAT};
+                          compiler.createConstant(njnr::type::FLOAT, "float", $1);
                         }
         | CharConstant {
-                          compiler.constantTable->install2($1, njnr::type::CHAR);
-                          compiler.typeTable->install2("char", njnr::type::CHAR);
-                          $$ = new Constant{$1, njnr::type::CHAR};
+                          compiler.createConstant(njnr::type::CHAR, "char", $1);
                         }
 
 ;
 
 addop: plus  {
-               $$ = compiler.block82_relop_greatt($1, "+");
-                compiler.typeTable->install2("+", njnr::type::OPERATOR);
-                $$ = new Operator(nullptr);
-                $$->setType(TSOperatorType("+"));
+               $$ = compiler.createOperator(njnr::reltype::PLS, $1);
              }
      | minus {
-               $$ = compiler.block82_relop_greatt($1, "-");
-                compiler.typeTable->install2("-", njnr::type::OPERATOR);
-                $$ = new Operator(nullptr);
-                $$->setType(TSOperatorType("-"));
+               $$ = compiler.createOperator(njnr::reltype::MIN, $1);
              }
 ;
 
 mulop: star   {
-               $$ = compiler.block82_relop_greatt($1, "*");
-                 compiler.typeTable->install2("*", njnr::type::OPERATOR);
-                 $$ = new Operator(nullptr);
-                 $$->setType(TSOperatorType("*"));
+               $$ = compiler.createOperator(njnr::reltype::MULT, $1);
               }
      | divide {
-               $$ = compiler.block82_relop_greatt($1, "/");
-                 compiler.typeTable->install2("/", njnr::type::OPERATOR);
-                 $$ = new Operator(nullptr);
-                 $$->setType(TSOperatorType("/"));
+               $$ = compiler.createOperator(njnr::reltype::DIV, $1);
               }
 ;
 
 eqop: 
       equequ {
-               $$ = compiler.block82_relop_greatt($1, "==");
-                compiler.typeTable->install2("==", njnr::type::OPERATOR);
-                $$ = new Operator(nullptr);
-                $$->setType(TSOperatorType("=="));
+               $$ = compiler.createOperator(njnr::reltype::EQEQ, $1);
              }
     | neq    {
-               $$ = compiler.block82_relop_greatt($1, "!=");
-                compiler.typeTable->install2("!=", njnr::type::OPERATOR);
-                $$ = new Operator(nullptr);
-                $$->setType(TSOperatorType("!="));
+               $$ = compiler.createOperator(njnr::reltype::NEQ, $1);
              }
 ;
 
 relop: 
        lesst  {
-               $$ = compiler.block82_relop_greatt($1, "<");
-                 compiler.typeTable->install2("<", njnr::type::OPERATOR);
-                 $$ = new Operator(nullptr);
-                 $$->setType(TSOperatorType("<"));
+               $$ = compiler.createOperator(njnr::reltype::LES, $1);
               }
      | leq    {
-               $$ = compiler.block82_relop_greatt($1, "<=");
-                 compiler.typeTable->install2("<=", njnr::type::OPERATOR);
-                 $$ = new Operator(nullptr);
-                 $$->setType(TSOperatorType("<="));
+               $$ = compiler.createOperator(njnr::reltype::LEQ, $1);
               }
      | geq    {
-               $$ = compiler.block82_relop_greatt($1,  ">=");
-                 compiler.typeTable->install2(">=", njnr::type::OPERATOR);
-                 $$ = new Operator(nullptr);
-                 $$->setType(TSOperatorType(">="));
+               $$ = compiler.createOperator(njnr::reltype::GEQ, $1);
               }
      | greatt {
-               $$ = compiler.block82_relop_greatt($1, ">");
-                 compiler.typeTable->install2(">", njnr::type::OPERATOR);
-                 $$ = new Operator(nullptr);
-                 $$->setType(TSOperatorType(">"));
+               $$ = compiler.createOperator(njnr::reltype::GRE, $1);
               }
 ;
 

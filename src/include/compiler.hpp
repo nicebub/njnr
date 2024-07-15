@@ -282,7 +282,8 @@ class Compiler
       List* block69_identlist_ident(njnr::Identifier inIdent);
       List* block70_identlist_comma_ident(List** inIdentListptr,
                                           njnr::Identifier inIdent);
-      Operator* block82_relop_greatt(njnr::reltype n, std::string s);
+      Operator* createOperator(njnr::reltype n, std::string s);
+      Constant* createConstant(njnr::type n, std::string s, std::string t);
       void  setfinished(List* inlist);
       void  printProgramTree(void);
       void  checkfunctionReturnValues(Funcb* f);
