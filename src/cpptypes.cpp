@@ -184,20 +184,6 @@ namespace njnr
        funcheader{nullptr},
        funcbody_list{nullptr}
    {}
-   Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param,
-                std::vector<njnr::type> param_type, int label,
-                int localcount, int actual_num, funcheadertype* funcheader,
-                List* funcbody_list) :
-       param_type{param_type},
-       returntype{returntype},
-       bodydef{bodydef},
-       num_param{num_param},
-       label{label},
-       localcount{localcount},
-       actual_num{actual_num},
-       funcheader{funcheader},
-       funcbody_list{funcbody_list}
-   {}
    Funcb::Funcb(njnr::type returntype) : Funcb{}
    {
        this->returntype = returntype;
