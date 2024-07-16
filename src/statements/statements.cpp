@@ -206,6 +206,8 @@ void Compiler::dealwithstmtlist(List* stmtlist)
          else
          {
             statement->setrettype(njnr::type::VOID);
+            expr = new ReturnPacket{};
+            statement->setexpr(expr);
          }
       }
 
