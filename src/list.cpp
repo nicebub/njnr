@@ -1,10 +1,15 @@
+#include <config.h>
 #include <string>
 
 #include "debug.hpp"
 #include "list.hpp"
 #include "type.hpp"
 #include "compiler.hpp"
-using namespace njnr;
+using njnr::BasicListNode;
+using njnr::ListNode;
+using njnr::ReturnPacketListNode;
+using njnr::PListNode;
+using njnr::TranslationUnitListNode;
 
 namespace njnr
 {
@@ -24,7 +29,7 @@ namespace njnr
    const std::string BasicListNode::toString() const
    {
       std::string r{"nodeType: Invalid"};
-      switch(nodeType)
+      switch (nodeType)
       {
         case njnr::eNodeType::EXPR:
            r = "nodeType: njnr::eNodeType::EXPR";
@@ -59,7 +64,9 @@ namespace njnr
 
    ListNode::ListNode() : ListNode("") {}
 
-   ListNode::ListNode(std::string in) : BasicListNode{eNodeType::STANDARD}, val{in} {}
+   ListNode::ListNode(std::string in) : BasicListNode{eNodeType::STANDARD},
+                                        val{in}
+                                        {}
 
    std::string ListNode::getval() const
    {
@@ -72,22 +79,33 @@ namespace njnr
 
    ReturnPacketListNode::ReturnPacketListNode() : ReturnPacketListNode{NULL} {}
 
-   ReturnPacketListNode::ReturnPacketListNode(ReturnPacket* expr) : BasicListNode{eNodeType::EXPR}, expr{expr} {}
+   ReturnPacketListNode::ReturnPacketListNode(ReturnPacket* expr) :
+                                    BasicListNode{eNodeType::EXPR},
+                                    expr{expr}
+                                    {}
 
    ReturnPacketListNode::~ReturnPacketListNode()
    {
-       if(expr)
-       {
-           delete expr;
-       }
+      if (expr)
+      {
+         delete expr;
+      }
    }
-   ReturnPacketListNode::ReturnPacketListNode(const ReturnPacketListNode& in) : BasicListNode{in.get_nodeType()}
+
+   ReturnPacket* ReturnPacketListNode::getexpr(void)
+   {
+    return expr;
+   }
+
+   ReturnPacketListNode::ReturnPacketListNode(const ReturnPacketListNode& in) :
+                                              BasicListNode{in.get_nodeType()}
    {
        expr = in.expr;
    }
-   ReturnPacketListNode& ReturnPacketListNode::operator=(const ReturnPacketListNode& in)
+   ReturnPacketListNode& ReturnPacketListNode::operator=(\
+                                                 const ReturnPacketListNode& in)
    {
-       if(this != &in)
+       if (this != &in)
        {
            expr = in.expr;
        }
@@ -97,7 +115,7 @@ namespace njnr
    const std::string ReturnPacketListNode::toString() const
    {
       std::string r{BasicListNode::toString() + "\n Expr: "};
-      if(NULL != expr)
+      if (NULL != expr)
       {
          r += expr->toString();
       }
@@ -136,25 +154,30 @@ namespace njnr
    {
       set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
    }
-   TranslationUnitListNode::TranslationUnitListNode(Funcb* infunc) : unit{infunc},trans_type{njnr::trans_unit_type::FUNCTION}
+   TranslationUnitListNode::TranslationUnitListNode(Funcb* infunc) :
+                             unit{infunc},
+                             trans_type{njnr::trans_unit_type::FUNCTION}
    {
       set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
    }
-   TranslationUnitListNode::TranslationUnitListNode(Varb* invardecl): unit{invardecl}, trans_type{njnr::trans_unit_type::VARDECL}
+   TranslationUnitListNode::TranslationUnitListNode(Varb* invardecl):
+                             unit{invardecl},
+                             trans_type{njnr::trans_unit_type::VARDECL}
    {
       set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
-   } // need to change actual class used this was placeholder
+   }  // need to change actual class used this was placeholder
 
-   const njnr::trans_unit_type TranslationUnitListNode::get_trans_unit_type(void) const
+   const njnr::trans_unit_type TranslationUnitListNode::get_trans_unit_type(\
+                                                           void) const
    {
       return trans_type;
    }
    const Varb* TranslationUnitListNode::getVarDecl(void) const
    {
       Varb* r{nullptr};
-      if(trans_type == njnr::trans_unit_type::VARDECL)
+      if (trans_type == njnr::trans_unit_type::VARDECL)
       {
-         if(nullptr != unit)
+         if (nullptr != unit)
          {
             r = dynamic_cast<Varb*>(unit);
          }
@@ -164,9 +187,9 @@ namespace njnr
    Funcb* TranslationUnitListNode::getFunc(void) const
    {
       Funcb* r{nullptr};
-      if(trans_type == njnr::trans_unit_type::FUNCTION)
+      if (trans_type == njnr::trans_unit_type::FUNCTION)
       {
-         if(nullptr != unit)
+         if (nullptr != unit)
          {
             r = dynamic_cast<Funcb*>(unit);
          }
@@ -178,9 +201,10 @@ namespace njnr
    {
       std::string r{ListNode::toString() + "\n TranslationUnit: trans type: "};
 
-      switch(trans_type)
+      switch (trans_type)
       {
-        case njnr::trans_unit_type::VARDECL:  // Variable Declaration translation unit
+        // Variable Declaration translation unit
+        case njnr::trans_unit_type::VARDECL:
            r += "VARDECL";
            break;
 
@@ -195,11 +219,12 @@ namespace njnr
       }
 
       r += " unit: ";
-      if(NULL != unit)
+      if (NULL != unit)
       {
-         switch(trans_type)
+         switch (trans_type)
          {
-            case njnr::trans_unit_type::VARDECL:  // Variable Declaration translation unit
+            // Variable Declaration translation unit
+            case njnr::trans_unit_type::VARDECL:
                r += dynamic_cast<Varb*>(unit)->toString() + "\n";
                break;
 
@@ -207,7 +232,8 @@ namespace njnr
                r += dynamic_cast<Funcb*>(unit)->toString();
                break;
 
-           case njnr::trans_unit_type::INVALID:  // Invalid translation unit type
+           // Invalid translation unit type
+           case njnr::trans_unit_type::INVALID:
            default:
               r += "INVALID";
               break;
@@ -262,7 +288,7 @@ namespace njnr
    {
       std::string r{ListNode::toString() + "\n StmtListNode: stmt: "};
 
-      if(NULL != stmt)
+      if (NULL != stmt)
       {
          r += stmt->toString();
       }
@@ -275,7 +301,7 @@ namespace njnr
    List::List(const List& cp) : list{cp.list} {}
    List::~List()
    {
-       for(auto* element : list)
+       for (auto* element : list)
        {
            delete element;
        }
@@ -316,7 +342,7 @@ namespace njnr
    }
    List* List::mklist(std::string inVal, type inType)
    {
-       return (new List{})->appendList(inVal,inType);
+       return (new List{})->appendList(inVal, inType);
    }
    List* List::mklist(ReturnPacket* inExpr)
    {
@@ -328,6 +354,27 @@ namespace njnr
        return (new List{})->appendList(instmt);
    }
 
+   List* List::mklist(Identifier* i)
+   {
+      return (new List{})->appendList(i);
+   }
+   List* List::mklist(Constant* c)
+   {
+      return (new List{})->appendList(c);
+   }
+   List* List::appendList(Identifier* inVal)
+   {
+       ReturnPacketListNode* nnode{new ReturnPacketListNode{inVal}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
+   List* List::appendList(Constant* inVal)
+   {
+       ReturnPacketListNode* nnode{new ReturnPacketListNode{inVal}};
+       list.push_back(dynamic_cast<BasicListNode*>(nnode));
+       return this;
+   }
+
    List* List::appendList(std::string inVal)
    {
        ListNode* nnode{new ListNode{inVal}};
@@ -337,7 +384,7 @@ namespace njnr
 
    List* List::appendList(std::string inVal, type inType)
    {
-       PListNode* nnode{new PListNode{inVal,inType}};
+       PListNode* nnode{new PListNode{inVal, inType}};
        list.push_back(dynamic_cast<BasicListNode*>(nnode));
        return this;
    }
@@ -376,7 +423,7 @@ namespace njnr
    List* List::mklist(Varb* expr)
    {
        return (new List{})->appendList(expr);
-   } // place holder type -- needs changing
+   }  // place holder type -- needs changing
 
    List* List::appendList(Funcb* expr)
    {
@@ -390,15 +437,15 @@ namespace njnr
        ListNode* nnode{new TranslationUnitListNode{expr}};
        list.push_back(dynamic_cast<BasicListNode*>(nnode));
        return this;
-   } // placeholder type -- needs changing
+   }  // placeholder type -- needs changing
 
     const std::string List::toString() const
     {
        std::string r{"List: "};
 
-       for(auto e: list)
+       for (auto e : list)
        {
-        switch(e->get_nodeType())
+        switch (e->get_nodeType())
         {
           case njnr::eNodeType::EXPR:
              r += dynamic_cast<ReturnPacketListNode*>(e)->toString();
@@ -426,4 +473,4 @@ namespace njnr
        return r;
     }
 
-}
+}  // namespace njnr

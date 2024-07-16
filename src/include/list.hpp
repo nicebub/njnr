@@ -1,10 +1,13 @@
-#ifndef _MYLISTH
-#define _MYLISTH
+#ifndef SRC_INCLUDE_LIST_HPP_
+#define SRC_INCLUDE_LIST_HPP_
+#include <config.h>
 #include <vector>
 #include <string>
 
 #include "type.hpp"
 #include "cpptypes.hpp"
+#include "constant.hpp"
+
 namespace njnr
 {
 enum class eNodeType
@@ -15,13 +18,17 @@ enum class eNodeType
     STMT,
     TRANSLATION_UNIT,  // functions or variable declarations
     TYPE,
-
+    IDENTIFER,
+    CHARCONSTANT,
+    INTCONSTANT,
+    FLOATCONSTANT,
+    STRCONSTANT,
 };
 
 class BasicListNode
 {
 public:
-    BasicListNode(eNodeType t);
+    explicit BasicListNode(eNodeType t);
     virtual ~BasicListNode();
     eNodeType get_nodeType() const;
     void set_nodeType(eNodeType);
@@ -35,7 +42,7 @@ class ListNode : public BasicListNode
 {
 public:
     ListNode();
-    ListNode(std::string in);
+    explicit ListNode(std::string in);
     virtual ~ListNode() = default;
     std::string getval() const;
     void setval(std::string in);
@@ -48,11 +55,12 @@ class ReturnPacketListNode : public BasicListNode
 {
 public:
     ReturnPacketListNode();
-    ReturnPacketListNode(ReturnPacket* expr);
+    explicit ReturnPacketListNode(ReturnPacket* expr);
     virtual ~ReturnPacketListNode();
     ReturnPacketListNode(const ReturnPacketListNode& in);
     virtual ReturnPacketListNode& operator=(const ReturnPacketListNode& in);
     const std::string toString() const;
+    ReturnPacket* getexpr(void);
 private:
     ReturnPacket* expr;
 };
@@ -74,8 +82,9 @@ class TranslationUnitListNode : public ListNode
 {
    public:
       TranslationUnitListNode();
-      TranslationUnitListNode(Funcb* infunc);
-      TranslationUnitListNode(Varb* invardecl); // need to change actual class used this was placeholder
+      explicit TranslationUnitListNode(Funcb* infunc);
+      // need to change actual class used this was placeholder
+      explicit TranslationUnitListNode(Varb* invardecl);
       virtual ~TranslationUnitListNode() = default;
       const std::string toString() const;
       const njnr::trans_unit_type get_trans_unit_type(void) const;
@@ -90,7 +99,7 @@ class StmtListNode : public ListNode
 {
    public:
       StmtListNode();
-      StmtListNode(Statement* instmt);
+      explicit StmtListNode(Statement* instmt);
       virtual ~StmtListNode() = default;
       Statement* getstmt(void);
       void setstmt(Statement* instmt);
@@ -99,11 +108,27 @@ class StmtListNode : public ListNode
       Statement*         stmt;
 };
 
+
+
+class IdentListNode : public ReturnPacketListNode
+{
+   public:
+      IdentListNode();
+      explicit IdentListNode(Identifier* inident);
+      virtual ~IdentListNode() = default;
+      Identifier* getident(void);
+      void setident(Identifier* instmt);
+      const std::string toString() const;
+   private:
+      Identifier*         ident;
+};
+
 class TypeListNode : public ListNode
 {
    public:
       TypeListNode();
-      TypeListNode(njnr::type intype); // need to change actual class used this was placeholder
+      // need to change actual class used this was placeholder
+      explicit TypeListNode(njnr::type intype);
       virtual ~TypeListNode() = default;
       njnr::type gettype() const;
       void settype(njnr::type type);
@@ -122,11 +147,16 @@ public:
     List& operator=(const List& in);
     void push_back(BasicListNode* node);
     std::vector<BasicListNode*> getlist();
+    static List* mklist(Identifier*);
+    static List* mklist(Constant*);
     static List* mklist(std::string inVal);
     static List* mklist(std::string inVal, type inType);
     static List* mklist(ReturnPacket* expr);
     static List* mklist(Funcb* expr);
-    static List* mklist(Varb* expr);  // place holder type -- needs changing
+
+    // place holder type -- needs changing
+    static List* mklist(Varb* expr);
+
     static List* mklist(njnr::type type);
     static List* mklist(Statement* instmt);
     std::vector<BasicListNode*>::iterator begin();
@@ -135,13 +165,18 @@ public:
     List* appendList(std::string inVal, njnr::type inType);
     List* appendList(ReturnPacket* expr);
     List* appendList(Funcb* expr);
-    List* appendList(Varb* expr); // placeholder type -- needs changing
+
+    // placeholder type -- needs changing
+    List* appendList(Varb* expr);
+
     List* appendList(njnr::type type);
     List* appendList(Statement* type);
+    List* appendList(Identifier*);
+    List* appendList(Constant*);
     int size() const;
     const std::string toString() const;
 private:
     std::vector<BasicListNode*> list;
 };
-}
-#endif
+}  // namespace njnr
+#endif  // SRC_INCLUDE_LIST_HPP_

@@ -25,7 +25,7 @@ fn good(bye, again)
     return;
 }
 
-fn coinToss(r,  b)
+fn coinToss(r,  b, third)
 {
     return 't';
     return '!';

@@ -1,0 +1,33 @@
+fn realLarge(many, different, types, of, params)
+{
+  let x;
+  x = 7;
+
+  if (x != 6)
+  {
+    printf("saw that coming %s", another_string, argument2);
+  }
+  else if( x == 9)
+  {
+   scanf(notme, 'a');
+  }
+  else
+  {
+    a;
+    /* empty */
+  }
+
+  while(true)
+  {
+    break;
+   continue;
+  }
+
+//  for(i =7;i<4;i++)
+//  {
+//    var blah;
+//  }
+
+  return "ok";
+}
+

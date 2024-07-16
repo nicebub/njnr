@@ -1,7 +1,9 @@
+#include <config.h>
 #include "cpptypes.hpp"
 #include "type.hpp"
 #include "list.hpp"
-#include "symtab.hpp"
+#include "symbol_table_entry.hpp"
+#include "compiler.hpp"
 namespace njnr
 {
    ReturnPacket::ReturnPacket() :
@@ -13,9 +15,9 @@ namespace njnr
    {}
 
    ReturnPacket::ReturnPacket(bool lval,
-                              njnr::type ttype=njnr::type::INT,
-                              bool ifnum=false,
-                              int inoffset=0) :
+                              njnr::type ttype = njnr::type::INT,
+                              bool ifnum = false,
+                              int inoffset = 0) :
        params{0},
        offset{inoffset},
        lval{lval},
@@ -66,7 +68,7 @@ namespace njnr
          njnr::type ttype;
 
          struct Pair m_pair;
-         TableEntry* funcent;
+         S_TableEntry* funcent;
          int params;
      */
       std::string r{"lval: "};
@@ -81,9 +83,9 @@ namespace njnr
       r += std::to_string(static_cast<int>(ttype));
 
       r += "\n" + m_pair.toString() + "\n";
-      if(nullptr != funcent)
+      if (nullptr != funcent)
       {
-        r += funcent->toString() + "\n";
+        r += static_cast<S_TableEntryX*>(funcent)->toString() + "\n";
       }
       return r;
    };
@@ -92,166 +94,54 @@ namespace njnr
    Constant::~Constant() {}
 
    Constant::Constant() : ReturnPacket{} {}
-   Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) : ReturnPacket{lval,ttype,ifnum,offset} {}
+   Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) :
+                      ReturnPacket{lval, ttype, ifnum, offset} {}
+   Constant::Constant(std::string val, njnr::type t): val{val}, typ{t} {}
 
-   const std::string CharConstant::toString() const
+   std::string Constant::getValue() const
    {
-      std::string ret = ReturnPacket::toString();
-      ret += "\nvalue: ";
-      ret += std::string{1,value} ;
-      ret += "\n";
-      return ret;
+      return val;
    }
 
-   CharConstant::CharConstant() : Constant{false,njnr::type::CHAR, true, 0}, value{0} {}
-
-   CharConstant::CharConstant(const char invalue) : Constant{false,njnr::type::CHAR, true, 0}, value{invalue} {}
-
-   CharConstant::CharConstant(const CharConstant& in) : Constant{false,njnr::type::CHAR, true, 0}, value{in.value} {}
-
-   CharConstant::~CharConstant() {}
-
-   CharConstant& CharConstant::operator=(const CharConstant& in)
+   void Constant::setValue(const std::string in)
    {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = false;
-           ttype = njnr::type::CHAR;
-       }
-       return *this;
+      val = in;
    }
-   char CharConstant::getvalue() const
+
+   njnr::type Constant::getType() const
    {
-       return value;
+      return typ;
    }
 
-   void CharConstant::setvalue(const char in)
+   void Constant::setType(const njnr::type t)
    {
-       value = in;
+      typ = t;
    }
 
-   const std::string IntConstant::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-      return "\nvalue: " + std::to_string(value) + "\n" + ret;
-   }
-   IntConstant::IntConstant() : Constant{false,njnr::type::INT, true, 0}, value{0} {}
-
-   IntConstant::IntConstant(const int invalue) : Constant{false,njnr::type::INT, true, 0}, value{invalue} {}
-
-   IntConstant::IntConstant(const IntConstant& in) : Constant{false,njnr::type::INT, true, 0}, value{in.value} {}
-
-   IntConstant::~IntConstant() {}
-
-   IntConstant& IntConstant::operator=(const IntConstant& in)
-   {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = true;
-           ttype = njnr::type::INT;
-       }
-       return *this;
-   }
-   int IntConstant::getvalue() const
-   {
-       return value;
-   }
-
-   void IntConstant::setvalue(const int in)
-   {
-       value = in;
-   }
-
-   const std::string StrConstant::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-      return "\nvalue: " + value + "\n" + ret;
-   }
-   StrConstant::StrConstant() : Constant{false,njnr::type::STR, false, 0} {}
-
-   StrConstant::StrConstant(const std::string invalue) : Constant{false,njnr::type::STR, false, 0}, value{invalue} {}
-
-   StrConstant::StrConstant(const StrConstant& in) : Constant{false,njnr::type::STR, false, in.offset}, value{in.value} {}
-
-   StrConstant::~StrConstant() {}
-
-   StrConstant& StrConstant::operator=(const StrConstant& in)
-   {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = false;
-           ttype = njnr::type::STR;
-           offset = in.offset;
-       }
-       return *this;
-   }
-   std::string StrConstant::getvalue() const
-   {
-       return value;
-   }
-
-   void StrConstant::setvalue(const std::string in)
-   {
-       value = in;
-   }
-
-   const std::string FloatConstant::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-      return "\nvalue: " + std::to_string(value) + "\n" + ret;
-   }
-   FloatConstant::FloatConstant() : Constant{false,njnr::type::FLOAT, true, 0}, value{0.0f} {}
-
-   FloatConstant::FloatConstant(const float invalue ) : Constant{false,njnr::type::FLOAT, true, 0}, value{invalue } {}
-
-
-   FloatConstant::FloatConstant(const FloatConstant& in ) : Constant{false,njnr::type::FLOAT, true, in.offset}, value{in.value } {}
-
-   FloatConstant::~FloatConstant() {}
-
-   FloatConstant& FloatConstant::operator=(const FloatConstant& in)
-   {
-       if(&in != this)
-       {
-           value = in.value;
-           lval = false;
-           numeric = true;
-           ttype = njnr::type::FLOAT;
-           offset = in.offset;
-       }
-       return *this;
-   }
-   float FloatConstant::getvalue() const
-   {
-       return value;
-   }
-   void FloatConstant::setvalue(const float in)
-   {
-       value = in;
-   }
 
    const std::string Identifier::toString() const
-   {  
+   {
       std::string ret = ReturnPacket::toString();
       return "\nvalue: " + value + "\n" + ret;
    }
-   Identifier::Identifier() : Constant{false,njnr::type::IDENT, false, 0} {}
+   Identifier::Identifier() : Constant{false, njnr::type::IDENT, false, 0} {}
 
-   Identifier::Identifier(const std::string invalue) : Constant{false,njnr::type::IDENT, false, 0}, value{invalue} {}
+   Identifier::Identifier(const std::string invalue) :
+                          Constant{false, njnr::type::IDENT, false, 0},
+                          value{invalue}
+                          {}
 
-   Identifier::Identifier(const StrConstant& in) : Constant{in.getlval(),njnr::type::IDENT, false, in.getoffset()}, value{in.getvalue()} {}
+   Identifier::Identifier(const Constant& in) :
+                          Constant{in.getlval(),
+                          njnr::type::IDENT, false, in.getoffset()},
+                          value{in.getValue()}
+                          {}
 
    Identifier::~Identifier() {}
 
    Identifier& Identifier::operator=(const Identifier& in)
    {
-       if(&in != this)
+       if (&in != this)
        {
            value = in.value;
            lval = in.lval;
@@ -271,22 +161,28 @@ namespace njnr
        value = in;
    }
 
-   Funcb::Funcb() :	param_type{},
+   Funcb::Funcb() : param_type{},
        returntype{njnr::type::VOID},
        bodydef{false},
        num_param{0},
        label{0},
        localcount{0},
-       actual_num{0}
+       actual_num{0},
+       funcheader{nullptr},
+       funcbody_list{nullptr}
    {}
-   Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param, std::vector<njnr::type> param_type, int label, int localcount, int actual_num) :
+   Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param,
+                std::vector<njnr::type> param_type, int label,
+                int localcount, int actual_num) :
        param_type{param_type},
        returntype{returntype},
        bodydef{bodydef},
        num_param{num_param},
        label{label},
        localcount{localcount},
-       actual_num{actual_num}
+       actual_num{actual_num},
+       funcheader{nullptr},
+       funcbody_list{nullptr}
    {}
    Funcb::Funcb(njnr::type returntype) : Funcb{}
    {
@@ -299,14 +195,16 @@ namespace njnr
        num_param{in.num_param},
        label{in.label},
        localcount{in.localcount},
-       actual_num{in.actual_num}
+       actual_num{in.actual_num},
+       funcheader{in.funcheader},
+       funcbody_list{in.funcbody_list}
    {
        setvalue(in.getvalue());
    }
 
    Funcb& Funcb::operator=(const Funcb& in)
    {
-       if(&in != this) {
+       if (&in != this) {
            returntype = in.returntype;
            bodydef = in.bodydef;
            num_param = in.num_param;
@@ -314,6 +212,8 @@ namespace njnr
            localcount = in.localcount;
            actual_num = in.actual_num;
            param_type = in.param_type;
+           funcheader = in.funcheader;
+           funcbody_list = in.funcbody_list;
            setvalue(in.getvalue());
        }
        return *this;
@@ -351,7 +251,7 @@ namespace njnr
    {
        this->param_type = param_type;
    }
-   void Funcb::setreturntype( njnr::type returntype )
+   void Funcb::setreturntype(njnr::type returntype)
    {
        this->returntype = returntype;
    }
@@ -396,12 +296,12 @@ namespace njnr
    {
     /**
          std::vector<njnr::type> param_type;
-         type 	returntype;
-         bool 	bodydef;
-         int 	num_param;
-         int 	label;
-         int 	localcount;
-         int 	actual_num;
+         type   returntype;
+         bool   bodydef;
+         int    num_param;
+         int    label;
+         int    localcount;
+         int    actual_num;
          funcheadertype* funcheader;
          List* funcbody_list;
      */
@@ -415,11 +315,11 @@ namespace njnr
 //      r += "actual_num" + actual_num + "\n";
 //      r += "num_param" + num_param + "\n";
 /* TODO : params list vector */
-      if(nullptr != funcheader)
+      if (nullptr != funcheader)
       {
 //         r += funcheader->toString() + "\n";
       }
-      if(nullptr != funcbody_list)
+      if (nullptr != funcbody_list)
       {
          r += funcbody_list->toString();
       }
@@ -442,14 +342,16 @@ namespace njnr
    Paramb::~Paramb() {}
 
    const std::string Translation_Unit::toString() const
-   {  
-      std::string ret = ReturnPacket::toString();
-         ReturnPacket* translation;
+   {
+      std::string ret{ReturnPacket::toString()};
+//         ReturnPacket* translation{};
 //         trans_unit_type trans_type;
 
-      return "translation unit: " + translation->toString() + "\n" + ret;
+      return "translation unit: " + this->toString() + "\n" + ret;
    }
-   Translation_Unit::Translation_Unit() : translation{nullptr}, trans_type{trans_unit_type::INVALID} {}
+   Translation_Unit::Translation_Unit() : translation{nullptr},
+                                          trans_type{trans_unit_type::INVALID}
+                                          {}
 
    Translation_Unit::~Translation_Unit() {}
 
@@ -469,4 +371,4 @@ namespace njnr
    {
       return trans_type;
    }
-}
+}  // namespace njnr

@@ -1,6 +1,7 @@
-#ifndef _LEX_HPP
-#define _LEX_HPP 1
+#ifndef SRC_INCLUDE_LEX_HPP_
+#define SRC_INCLUDE_LEX_HPP_ 1
 
+#include <config.h>
 #include <string>
 #include <istream>
 #include <iostream>
@@ -9,7 +10,7 @@
 #include <FlexLexer.h>
 #endif
 
-//#include "compiler.hpp"
+// #include "compiler.hpp"
 #include "njnr.tab.hpp"
 #include "location.hh"
 namespace njnr
@@ -18,7 +19,7 @@ class Compiler;
 class njnrLexer : public yyFlexLexer
 {
 public:
-    njnrLexer(std::istream* in, Compiler& compiler);
+    njnrLexer(std::istream* in, Compiler* compiler);
     virtual int yylex(njnrParser::semantic_type* const lval,
                       njnrParser::location_type* location);
 
@@ -26,9 +27,9 @@ public:
 private:
     njnrParser::semantic_type* yylval = nullptr;
     njnrParser::location_type* loc = nullptr;
-    Compiler& compiler;
+    Compiler* compiler;
     std::string string_buf{""};
 };
-}
+}  // namespace njnr
 
-#endif
+#endif  // SRC_INCLUDE_LEX_HPP_

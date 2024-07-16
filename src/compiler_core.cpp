@@ -1,14 +1,40 @@
+#include <config.h>
 #include <cstdio>
 #include <fstream>
 #include <ostream>
 #include "debug.hpp"
 #include "compiler.hpp"
-
+#include "symbol_table_stackX.hpp"
 namespace njnr
 {
-   Compiler::Compiler(): mysymtab{nullptr},
+   /**
+    * @brief generic logging function
+    *
+    * @param t log type
+    * @param s string to log
+    */
+   void report(njnr::logType t, std::string s)
+   {
+      switch (t)
+      {
+         case njnr::logType::debug:
+         {
+            std::cout << s << std::endl;
+            break;
+         }
+         case njnr::logType::error:
+         {
+            std::cout  << s << std::endl;
+            break;
+         }
+      }
+   }
+
+   Compiler::Compiler(): symbolTable{nullptr},
+       constantTable{nullptr},
+       typeTable{nullptr},
        code_generator{},
-       lexer{nullptr,*this},
+       lexer{nullptr, this},
        parser{nullptr},
        currentFunc{nullptr},
        outfile{nullptr},
@@ -23,8 +49,10 @@ namespace njnr
    {
        try
        {
-           mysymtab = new SymbolTable{ *this};
+           symbolTable = new SymbolTableX{ *this};
            install_functions_into_symbolTable();
+           constantTable = new SymbolTableX{*this};
+           typeTable  = new SymbolTableX{*this};
            parser = new njnrParser{*this};
            parser->set_debug_stream(std::cerr);
    #ifdef DEBUG
@@ -33,7 +61,7 @@ namespace njnr
        }
        catch(std::bad_alloc& e)
        {
-           debugprint(e.what(),"");
+           debugprint(e.what(), "");
            exit(-1);
        }
        mainlabel = code_generator.getlabel();
@@ -41,29 +69,43 @@ namespace njnr
 
    void Compiler::install_functions_into_symbolTable()
    {
-       List* params{List::mklist("",njnr::type::VOID)};
-       TableEntry* entry{mysymtab->createFunc("main", njnr::type::INT,params )};
-       mysymtab->install(entry);
+       List* params{List::mklist("", njnr::type::VOID)};
+       S_TableEntryX* entry{symbolTable->createFunc("main",
+                                                    njnr::type::INT,
+                                                    params)};
+       symbolTable->install<S_TableEntryX*>(entry);
    }
 
-   Compiler::Compiler(int argc,  char* const* argv) : 	Compiler{}
+   Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
    {
-       openedInputFile(argc,argv);
+       openedInputFile(argc, argv);
    }
 
    Compiler::~Compiler()
    {
-
        closeOrRemoveOutputFile(false);
-       if(mysymtab != nullptr)
+       if (symbolTable != nullptr)
        {
-           debugprint("deleteting symbol table\n","");
-           delete mysymtab;
-           mysymtab = nullptr;
+           debugprint("deleteting symbol table\n", "");
+           delete symbolTable;
+           symbolTable = nullptr;
        }
-       if(parser != nullptr)
+       if (constantTable != nullptr)
        {
-           debugprint("deleteing parser\n","");
+           debugprint("deleteting constant symbol table\n", "");
+           delete constantTable;
+           constantTable = nullptr;
+       }
+       if (typeTable != nullptr)
+       {
+           debugprint("deleteting type symbol table\n", "");
+           delete typeTable;
+           typeTable = nullptr;
+       }
+
+       if (parser != nullptr)
+       {
+           debugprint("deleteing parser\n", "");
            delete parser;
            parser = nullptr;
        }
@@ -73,26 +115,27 @@ namespace njnr
 
    int Compiler::warning(const std::string s1, const std::string s2) noexcept
    {
-       std::cerr << "Warning:::"<< filename << ":"<< Line_Number << "-> " << s1 << " "
+       std::cerr << "Warning:::"<< filename << ":"<< Line_Number <<
+                    "-> " << s1 << " "
                  << s2 << "\n";
        return 0;
    }
 
    void Compiler::closeOrRemoveOutputFile(bool needtoremove)
    {
-       if(outfile != nullptr)
+       if (outfile != nullptr)
        {
            outfile->flush();
-           if(outfile != &std::cout)
+           if (outfile != &std::cout)
            {
                auto file{dynamic_cast<std::ofstream*>(outfile)};
-               if(file->is_open())
+               if (file->is_open())
                {
-                   debugprint("Closing file\n","");
+                   debugprint("Closing file\n", "");
                    file->close();
-                   if(needtoremove)
+                   if (needtoremove)
                    {
-                       debugprint("Removing file\n","");
+                       debugprint("Removing file\n", "");
                        remove(this->filename.c_str());
                    }
                }
@@ -104,13 +147,13 @@ namespace njnr
 
    void  Compiler::setfinished(List* inlist)
    {
-      finished = inlist;    
+      finished = inlist;
    }
 
     void  Compiler::printProgramTree(void)
     {
         std::cout << "-- Program Printout --" << std::endl;
-        if(nullptr != finished)
+        if (nullptr != finished)
         {
            std::cout << finished->toString() << std::endl;
         }
@@ -118,9 +161,10 @@ namespace njnr
 
    int Compiler::error(const std::string s1, const std::string s2) noexcept
    {
-       std::cerr << "Error:::"<< filename << ":"<< Line_Number << "-> " << s1 << " "
+       std::cerr << "Error:::"<< filename << ":"<< Line_Number <<
+                    "-> " << s1 << " "
                  << s2 << "\n";
-       founderror=true;
+       founderror = true;
        code_generator.stop();
        closeOrRemoveOutputFile(true);
        return 0;
@@ -129,7 +173,7 @@ namespace njnr
    std::string Compiler::getStringFromType(njnr::type t)
    {
       std::string r{"INVALID"};
-      switch(t)
+      switch (t)
       {
         case njnr::type::CHAR:
            r = "CHAR";
@@ -172,117 +216,212 @@ namespace njnr
 
    constexpr bool typeisintegral(njnr::type t)
    {
-    return (t == njnr::type::CHAR || t == njnr::type::FLOAT || t == njnr::type::INT);// ||
-//            t == njnr::type::REFFLOAT || t == njnr::type::REFINT || t == njnr::type::REFSTR);
+    return (t == njnr::type::CHAR || t == njnr::type::FLOAT ||
+            t == njnr::type::INT);  // ||
+//            t == njnr::type::REFFLOAT || t == njnr::type::REFINT ||
+//            t == njnr::type::REFSTR);
    }
    bool  Compiler::aresimilartypes(njnr::type t1, njnr::type t2)
    {
-      if(t1 == t2)
+      if (t1 == t2)
       {
         return true;
       }
-      if(typeisintegral(t1) && typeisintegral(t2))
+      if (typeisintegral(t1) && typeisintegral(t2))
       {
          return true;
       }
       return false;
    }
 
-   void Compiler::checkfunctionReturnValues(Funcb* f)
-   {
-    if(nullptr != f)
+    bool Compiler::checkSingleReturnStatement(Statement *realstmt,
+                                              njnr::type* foundtype,
+                                              bool first)
     {
-        std::cout << "current func return type: " + getStringFromType(f->getreturntype()) + "\n";
-        if(nullptr != f->getfuncheader())
+        bool success{true};
+//        njnr::type found = {};
+        njnr::type similar{};
+
+        if (nullptr != realstmt && (nullptr != foundtype))
         {
-            std::cout << "given return type by programmer: " + getStringFromType(f->getfuncheader()->returntype) + "\n"; 
-        }
-        if(nullptr != f->getfuncbody_list())
-        {
-            njnr::type foundtype{njnr::type::VOID};
-            bool first{true};
-            bool success{true};
-            std::cout << "Calculating Return types from return statements found in function...\n";
-            for(auto e: *f->getfuncbody_list())
+            /* make sure we only look at return statements */
+            if (realstmt->getstype() == njnr::statement_type::RETURN)
             {
-                if(e->get_nodeType() == njnr::eNodeType::STMT)
+                std::cout << "found return type of " +
+                             getStringFromType(realstmt->getrettype()) + "\n";
+                switch (realstmt->getrettype())
                 {
-                    StmtListNode *s{dynamic_cast<StmtListNode*>(e)};
-                    Statement* st{s->getstmt()};
-                    if(nullptr != st)
-                    {
-                        if(st->getstype() == njnr::statement_type::RETURN)
-                        {
-                            std::cout << "found return type of " + getStringFromType(st->getrettype()) + "\n";
-                            if(st->getrettype() == njnr::type::CHECK && (first == true))
+                    case njnr::type::CHECK:
+                         checkSingleReturnStatement(realstmt, &similar, first);
+                            if (true == first)
                             {
-                               ReturnPacket* rt{st->getstmt()};
-                               if(nullptr != rt)
-                               {
-                                  std::cout << "return type checked..... " + Compiler::getStringFromType(rt->gettype()) + "\n";
-
-                                  if(rt->gettype() != njnr::type::CHECK)
-                                  {
-                                     foundtype = rt->gettype();
-                                     first = false;
-                                  }
-                                  else
-                                  {
-                                     std::cout << "needs further checking later on down road, perhaps at runtime\n";
-                                  }
-
-                               }
-                            }
-                            else if(first)
-                            {
-                                foundtype = Compiler::getReturnTypeFromStatement(st);
-                                first = false;
+                                *foundtype = similar;
                             }
                             else
                             {
-                                if(aresimilartypes(Compiler::getReturnTypeFromStatement(st), foundtype))
-                                {
-                                   std::cout << "so far compatible...\n";
-                                }
-                                else
-                                {
-                                    std::cerr << "types are not compatible with each other: \n";
-                                    success = false;
-                                }
+                                std::cerr << "types are not compatible with " \
+                                             "each other: \n";
+                                success = false;
                             }
+                            break;
+                        break;
+                    default:
+                        similar = Compiler::getReturnTypeFromStatement(\
+                                                             realstmt);
+                        if (true == aresimilartypes(similar, *foundtype))
+                        {
+                            std::cout << "so far compatible...\n";
                         }
                         else
                         {
-                            std::cout << "skipping non-RETURN statement statement\n";
+                            if (true == first)
+                            {
+                                *foundtype = similar;
+                            }
+                            else
+                            {
+                                std::cerr << "types are not compatible  " \
+                                             "with each other: \n";
+                                success = false;
+                            }
+                            break;
                         }
+                }
+                if (realstmt->getrettype() == njnr::type::CHECK &&
+                    (first == true))
+                {
+                    ReturnPacket* realType{realstmt->getexpr()};
+                    if (nullptr != realType)
+                    {
+                        std::cout << "return type checked..... " +
+                                     Compiler::getStringFromType(realType->
+                                                                 gettype()) +
+                                     "\n";
+
+                        if (njnr::type::IDENT == realType->gettype())
+                        {
+                          Identifier* Id{dynamic_cast<Identifier*>(realType)};
+                          std::string s{Id->getvalue()};
+                          /* TODO(nicebub): check symbol table for this name and get
+                                    is data type to put here */
+                          *foundtype = njnr::type::INT;
+                          first = false;
+                        }
+                        else if (realType->gettype() != njnr::type::CHECK)
+                        {
+                           *foundtype = realType->gettype();
+                           first = false;
+                        }
+                        else
+                        {
+                           std::cout << "needs further checking later on " \
+                                        "down road, perhaps at runtime\n";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                std::cout << "skipping non-RETURN statement statement\n";
+            }
+        }
+
+        return success;
+    }
+
+    bool Compiler::checkAllFunctionReturnStatements(njnr::List* statementList,
+                                                    njnr::type* foundtype)
+    {
+        bool first{true};
+        bool success{false};
+        if (nullptr != statementList && (nullptr != foundtype))
+        {
+            std::cout << "Calculating Return types from " \
+                         "return statements found in function...\n";
+            // go through all return statements and compare to existing
+            //  return type
+            //  either we set it initially here or we start to compare
+            //   and find out
+            //  if they all match or not.
+            for (auto stmt : *statementList)
+            {
+                if (stmt->get_nodeType() == njnr::eNodeType::STMT)
+                {
+//                    Statement* realstmt{(dynamic_cast<StmtListNode*>
+//                                                          (stmt))->
+//                                                          getstmt()};
+                    if (true != checkSingleReturnStatement(\
+                                      (dynamic_cast<StmtListNode*>(stmt))->
+                                                                  getstmt(),
+                                       foundtype,
+                                       first))
+                    {
+                        break;
                     }
                 }
                 else
                 {
                     std::cout << "skipping non-STMT node\n";
                 }
+                if (true == first)
+                {
+                    first = false;
+                }
             }
-            if(success == true)
-            {
-                std::cout << "Setting new return type to: " + getStringFromType(foundtype) + "\n";
-               f->setreturntype(foundtype);
-            }
+            success = true;
         }
         else
         {
             std::cerr << "Function body is empty\n";
         }
+
+        return success;
     }
-    else
+
+    void Compiler::checkfunctionReturnValues(Funcb* functionBinding)
     {
-        std::cerr << "NULL argument\n";
-    }
+        njnr::type foundtype{njnr::type::VOID};
+
+        // IF passed in good pointer
+        if (nullptr != functionBinding)
+        {
+            std::cout << "current func return type: " +
+                         getStringFromType(functionBinding->getreturntype()) +
+                         "\n";
+            // IF we have a function header
+            if (nullptr != functionBinding->getfuncheader())
+            {
+                std::cout << "given return type by programmer: " +
+                             getStringFromType(functionBinding->
+                                               getfuncheader()->
+                                               returntype) +
+                             "\n";
+               functionBinding->setreturntype(functionBinding->
+                                              getfuncheader()->
+                                              returntype);
+            }
+            // IF we have a function body
+            if (true == checkAllFunctionReturnStatements(functionBinding->
+                                                         getfuncbody_list(),
+                                                         &foundtype))
+            {
+                std::cout << "Setting new return type to: " +
+                             getStringFromType(foundtype) +
+                             "\n";
+               functionBinding->setreturntype(foundtype);
+            }
+        }
+        else
+        {
+            std::cerr << "NULL argument\n";
+        }
 /*    if(nullptr != finished)
     {
        for(auto e : *finished)
        {
            TranslationUnitListNode* t{nullptr};
-           if( (t = dynamic_cast<TranslationUnitListNode*>(e))->get_trans_unit_type() == njnr::trans_unit_type::FUNCTION)
+           if( (t = dynamic_cast<TranslationUnitListNode*>(e))->get_trans_unit_type() ==
+                njnr::trans_unit_type::FUNCTION)
            {
               Funcb* f{nullptr};
               if(nullptr != (f = t->getFunc()))
@@ -295,4 +434,34 @@ namespace njnr
     }
     */
    }
+
+void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id,
+                                              njnr::type t)
+{
+   if (Id != nullptr)
+   {
+      S_TableEntryX* te = symbolTable->createVar(Id->getvalue(), t, 0);
+      symbolTable->install(te);
+   }
 }
+void Compiler::installVariableIntoSymbolTable(std::string Id, njnr::type t)
+{
+      S_TableEntryX* te = symbolTable->createVar(Id, t, 0);
+      symbolTable->install(te);
+}
+void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id,
+                                               njnr::type t)
+{
+   if (Id != nullptr)
+   {
+      S_TableEntryX* te = symbolTable->createParam(Id->getvalue(), t, 0);
+      symbolTable->install(te);
+   }
+}
+void Compiler::installParameterIntoSymbolTable(std::string Id, njnr::type t)
+{
+      S_TableEntryX* te = symbolTable->createParam(Id, t, 0);
+      symbolTable->install(te);
+}
+
+}  // namespace njnr
