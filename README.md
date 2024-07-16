@@ -2,6 +2,17 @@
 A Compiler for a new Programming Language **njnr** that will compile down to **c**
 
 ![Discord](https://img.shields.io/discord/1262591855824998440)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nicebub/njnr/c-cpp.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nicebub/njnr/c-cpp_win.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nicebub/njnr/github-code-scanning%2Fcodeql)
+![GitHub branch check runs](https://img.shields.io/github/check-runs/nicebub/njnr/main)
+![GitHub tag status](https://img.shields.io/github/checks-status/nicebub/njnr/0.0.1btm)
+![GitHub tag check runs](https://img.shields.io/github/check-runs/nicebub/njnr/0.0.1btm)
+
+
+
+
+
 
 #### To build:
 
