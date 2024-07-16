@@ -9,4 +9,5 @@ template bool SymbolTable::install(S_TableEntryX* element);
 template bool SymbolTable::install(TSOperatorType* element);
 template S_TableEntryX* SymbolTable::lookup(const std::string name);
 template TSOperatorType* SymbolTable::lookup(const std::string name);
+template S_TableEntryX*  SymbolTable::remove(std::string key);
 #endif  // SRC_INCLUDE_COMMON_SYMBOL_TABLE_STACK_TEMPLATES_H_

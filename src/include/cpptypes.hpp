@@ -28,13 +28,13 @@ class ReturnPacket : public BaseData
    public:
       ReturnPacket();
       ReturnPacket(bool lval, njnr::type ttype, bool ifnum, int offset);
+      virtual ~ReturnPacket() {};
       const bool getlval() const;
       void setlval(const bool in);
       const njnr::type gettype() const;
       void settype(const njnr::type in);
       const bool getnumeric() const;
       void setnumeric(const bool in);
-      virtual ~ReturnPacket();
       int getoffset() const;
       void setoffset(const int in);
       const std::string toString() const;

@@ -25,8 +25,6 @@ namespace njnr
        ttype{ttype}
    {}
 
-   ReturnPacket::~ReturnPacket() {}
-
    const bool ReturnPacket::getlval() const
    {
        return lval;
@@ -91,8 +89,6 @@ namespace njnr
    };
 
 
-   Constant::~Constant() {}
-
    Constant::Constant() : ReturnPacket{} {}
    Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) :
                       ReturnPacket{lval, ttype, ifnum, offset} {}
@@ -136,8 +132,6 @@ namespace njnr
                           njnr::type::IDENT, false, in.getoffset()},
                           value{in.getValue()}
                           {}
-
-   Identifier::~Identifier() {}
 
    Identifier& Identifier::operator=(const Identifier& in)
    {
@@ -218,7 +212,7 @@ namespace njnr
        }
        return *this;
    }
-   Funcb::~Funcb() {}
+   Funcb::~Funcb() { delete funcbody_list; }
    std::vector<njnr::type>& Funcb::getparam_type()
    {
        return param_type;

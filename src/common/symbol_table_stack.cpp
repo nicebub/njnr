@@ -160,4 +160,42 @@ void SymbolTable::printTree() const
 {
    report(logType::debug, "tree");
 }
+
+/**
+ * @brief remove element from top table return its value(for usage/deletion?)
+ *
+ * @tparam T parameter type of 'value'
+ * @param key key to loopup element
+ * @return T -'value' of type T
+ */
+template<typename T>T SymbolTable::remove(std::string key)
+{
+   T x{nullptr};
+   try
+   {
+      x = reinterpret_cast<S_TableEntryX*>(stack.front().remove<void*>(key));
+      if (nullptr != x)
+      {
+         report(logType::debug, "found element topmost table, removing it");
+      }
+      else
+      {
+         report(logType::debug, "didn't find element, can't remove it");
+      }
+   }
+   catch(std::out_of_range& e)
+   {
+      report(logType::debug, "element, already removed");
+   }
+   report(logType::debug, "leaving try-catch");
+   /*
+   report(logType::debug,
+          "through install function of symbol table. Printing symbol table tree"
+         );
+   printTree(symtab);
+   */
+   return x;
+}  // install key:value in table
+
+
 #include "symbol_table_stack_templates.h"

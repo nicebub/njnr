@@ -22,7 +22,7 @@ class Constant : public ReturnPacket
       Constant();
       Constant(bool lval, njnr::type ttype, bool ifnum, int offset);
       Constant(std::string val, njnr::type t);
-      virtual ~Constant();
+      virtual ~Constant() {};
       std::string getValue() const;
       void setValue(const std::string in);
       njnr::type getType() const;
@@ -40,7 +40,7 @@ class Identifier : public Constant
       Identifier();
       explicit Identifier(const std::string invalue);
       explicit Identifier(const Constant&);
-      virtual ~Identifier();
+      virtual ~Identifier() {};
       Identifier& operator=(const Identifier& in);
       std::string getvalue() const;
       void setvalue(const std::string in);
@@ -53,10 +53,18 @@ class Funcb : public Identifier
 {
    public:
       Funcb();
+
       explicit Funcb(njnr::type returntype);
+
       Funcb(njnr::type returntype, bool bodydef, int num_param,
             std::vector<njnr::type> param_type,
             int label, int localcount, int actual_num);
+
+      Funcb(njnr::type returntype, bool bodydef, int num_param,
+            std::vector<njnr::type> param_type, int label,
+            int localcount, int actual_num, funcheadertype* funcheader,
+            List* funcbody_list);
+
       Funcb(const Funcb& in);
       Funcb& operator=(const Funcb& in);
       virtual ~Funcb();

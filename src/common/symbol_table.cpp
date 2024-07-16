@@ -106,16 +106,30 @@ template<typename T>bool Table::install(std::string key, T value)
  */
 template<typename T>T Table::remove(std::string key)
 {
-   bool answer{answer};
-   table.erase(key);
-   report(logType::debug, "found element, removing it");
+   T x{};
+   try
+   {
+      x = table.at(key);
+
+      report(logType::debug, "found element in table, removing it");
+
+      table.erase(key);
+   }
+   catch(std::out_of_range& e)
+   {
+      report(logType::debug, "element, already removed");
+   }
+   catch(std::exception& e)
+   {
+      report(logType::debug, "what?");
+   }
    /*
    report(logType::debug,
           "through install function of symbol table. Printing symbol table tree"
          );
    printTree(symtab);
    */
-   return answer;
+   return x;
 }  // install key:value in table
 
 /**

@@ -15,6 +15,7 @@ template void* Table::lookupB(const std::string key);
 template bool  Table::install(std::string key, void* value);
 template S_TableEntryX* Table::lookup(const std::string n);
 template TSOperatorType* Table::lookup(const std::string n);
+template void*  Table::remove(std::string key);
 
 
 #endif  // SRC_INCLUDE_COMMON_SYMBOL_TABLE_TEMPLATES_H_

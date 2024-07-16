@@ -21,6 +21,9 @@ class SymbolTable
       template <typename T>T lookup(const std::string name);
       // look up a symbol in scope and return its table entry
       template <typename T>T lookupB(const std::string name);
+
+      template<typename T>T remove(std::string key);
+
       // open a new stack/lifetime scope
       void openscope();
       // close the topmost stack/lifetime scope

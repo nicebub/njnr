@@ -74,6 +74,8 @@ namespace njnr
                                                     njnr::type::INT,
                                                     params)};
        symbolTable->install<S_TableEntryX*>(entry);
+       delete params;
+       params = nullptr;
    }
 
    Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
@@ -83,33 +85,81 @@ namespace njnr
 
    Compiler::~Compiler()
    {
-       closeOrRemoveOutputFile(false);
-       if (symbolTable != nullptr)
-       {
-           debugprint("deleteting symbol table\n", "");
-           delete symbolTable;
-           symbolTable = nullptr;
-       }
-       if (constantTable != nullptr)
-       {
-           debugprint("deleteting constant symbol table\n", "");
-           delete constantTable;
-           constantTable = nullptr;
-       }
-       if (typeTable != nullptr)
-       {
-           debugprint("deleteting type symbol table\n", "");
-           delete typeTable;
-           typeTable = nullptr;
-       }
+      std::cout << "deleting" << std::endl;
+      closeOrRemoveOutputFile(false);
+      if (symbolTable != nullptr)
+      {
+         Funcb* x{nullptr};
+      try
+      {
+         S_TableEntryX* e{nullptr}; 
+         e = symbolTable->remove<S_TableEntryX*>(std::string{"main"});
+         debugprint("ade it before null check", "");
+         if (nullptr != e)
+         {
+            x = reinterpret_cast<Funcb*>(e->getValue());
+            if (nullptr != x)
+            {
+               debugprint("deleting a function binding for function main()",
+                          "");
+               List* p{nullptr};
+               p = x->getfuncbody_list();
+               if (nullptr != p)
+               {
+                  debugprint("deleting paprameter list of function", "");
+                  delete p;
+                  p = nullptr;
+               }
+               else
+               {
+                  debugprint(" cannot delete empty param list", "");
+               }
+               delete x;
+               x = nullptr;
+            }
+            else
+            {
+               debugprint("did not find Funcb for main", "");
+            }
+         }
+         else
+         {
+            debugprint("removed entry was null", "");
+         }
+         debugprint("deleteting symbol table\n", "");
+         delete symbolTable;
+         symbolTable = nullptr;
+      }
+      catch(std::exception e){
+         std::cerr << e.what() << std::endl;
+      }
+      }
+      if (constantTable != nullptr)
+      {
+          debugprint("deleteting constant symbol table\n", "");
+          delete constantTable;
+          constantTable = nullptr;
+      }
+      if (typeTable != nullptr)
+      {
+          debugprint("deleteting type symbol table\n", "");
+          delete typeTable;
+          typeTable = nullptr;
+      }
 
-       if (parser != nullptr)
-       {
-           debugprint("deleteing parser\n", "");
-           delete parser;
-           parser = nullptr;
-       }
-       currentFunc = nullptr;
+      if (parser != nullptr)
+      {
+          debugprint("deleteing parser\n", "");
+          delete parser;
+          parser = nullptr;
+      }
+      if(nullptr != finished)
+      {
+        debugprint("deleteing finished list of translation units\n", "");
+        delete finished;
+        finished = nullptr;
+      }
+      currentFunc = nullptr;
    }
 
 

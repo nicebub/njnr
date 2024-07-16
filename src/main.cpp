@@ -22,34 +22,34 @@ int main(int argc,  char * const *argv)
    int ret{EXIT_FAILURE};
 
    /* Compiler object to store compiler state while....compiling */
-   Compiler compiler{};
+   Compiler* compiler{new Compiler{}};
 
    /* process command-line arguments */
    njnr_getopt(&argc, &argv);
 
    /* must supply an input and output file or the
        defaults must open successfully */
-   if ((true ==  compiler.openedInputFile(argc, argv)) &&
-       (true ==  compiler.openedOutputFile(argc, argv)))
+   if ((true ==  compiler->openedInputFile(argc, argv)) &&
+       (true ==  compiler->openedOutputFile(argc, argv)))
    {
       /* setup the output file stream */
-      compiler.code_generator.setstream(compiler.outfile);
+      compiler->code_generator.setstream(compiler->outfile);
 
       /* start the parser */
-      compiler.parser->parse();
+      compiler->parser->parse();
       if (DEBUG)
       {
-         compiler.printProgramTree();
+         compiler->printProgramTree();
       }
      #if DEBUG
-      compiler.symbolTable->printTree();
+      compiler->symbolTable->printTree();
      #endif
 
-      if (true == compiler.code_generator.canGenerateCode())
+      if (true == compiler->code_generator.canGenerateCode())
       {
          std::cout << "-- Generating Code --\n";
-         compiler.code_generator.setSymbolTable(compiler.symbolTable);
-         compiler.code_generator.generate(compiler.getfinished());
+         compiler->code_generator.setSymbolTable(compiler->symbolTable);
+         compiler->code_generator.generate(compiler->getfinished());
       }
       else
       {
@@ -58,6 +58,8 @@ int main(int argc,  char * const *argv)
       /* always succeed if we got this far */
       ret = EXIT_SUCCESS;
    }
-
+   std::cout << "deleting compiler" << std::endl;
+    delete compiler;
+    compiler = nullptr;
    return ret;
 }

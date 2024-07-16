@@ -28,8 +28,9 @@ enum class eNodeType
 class BasicListNode
 {
 public:
-    explicit BasicListNode(eNodeType t);
-    virtual ~BasicListNode();
+    BasicListNode() {};
+    BasicListNode(eNodeType t);
+    virtual ~BasicListNode() = 0;
     eNodeType get_nodeType() const;
     void set_nodeType(eNodeType);
     const std::string toString() const;
@@ -115,7 +116,7 @@ class IdentListNode : public ReturnPacketListNode
    public:
       IdentListNode();
       explicit IdentListNode(Identifier* inident);
-      virtual ~IdentListNode() = default;
+      virtual ~IdentListNode() { delete ident; }
       Identifier* getident(void);
       void setident(Identifier* instmt);
       const std::string toString() const;
@@ -142,7 +143,7 @@ class List
 {
 public:
     List();
-    ~List();
+    virtual ~List();
     List(const List& cp);
     List& operator=(const List& in);
     void push_back(BasicListNode* node);
