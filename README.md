@@ -1,6 +1,8 @@
 # njnr
 A Compiler for a new Programming Language **njnr** that will compile down to **c**
 
+![Discord](https://img.shields.io/discord/1262591855824998440)
+
 #### To build:
 
 **Update Automake files**
