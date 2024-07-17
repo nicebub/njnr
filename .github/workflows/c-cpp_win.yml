@@ -2,9 +2,9 @@ name: C/C++ CI win
 
 on:
   push:
-    branches: [ "symbol_table_oop" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "symbol_table_oop" ]
+    branches: [ "main" ]
 
 jobs:
   build:
