@@ -21,7 +21,11 @@ class TSOperatorType : public TSType
                                                        isNumeric,
                                                        isLval) {}
 
-      virtual ~TSOperatorType() {}
+      virtual ~TSOperatorType()
+      {
+         report(njnr::logType::debug,
+                "running TSOperatorType() Destructor");
+      }
 
       virtual const njnr::type getType() const noexcept
       {

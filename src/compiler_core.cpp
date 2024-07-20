@@ -38,6 +38,7 @@ namespace njnr
        parser{nullptr},
        currentFunc{nullptr},
        outfile{nullptr},
+       infile{nullptr},
        Line_Number{1},
        globalcount{0},
        offset_counter{5},
@@ -45,7 +46,8 @@ namespace njnr
        param_offset{0},
        mainlocal{0},
        returnTypes{},
-       founderror{false}
+       founderror{false},
+       finished{nullptr}
    {
        try
        {
@@ -85,14 +87,15 @@ namespace njnr
 
    Compiler::~Compiler()
    {
-      std::cout << "deleting" << std::endl;
+      report(njnr::logType::debug, "Compiler destructor: deleting members");
       closeOrRemoveOutputFile(false);
+      closeOrRemoveInputFile(false);
       if (symbolTable != nullptr)
       {
          Funcb* x{nullptr};
       try
       {
-         S_TableEntryX* e{nullptr}; 
+         S_TableEntryX* e{nullptr};
          e = symbolTable->remove<S_TableEntryX*>(std::string{"main"});
          debugprint("ade it before null check", "");
          if (nullptr != e)
@@ -153,11 +156,11 @@ namespace njnr
           delete parser;
           parser = nullptr;
       }
-      if(nullptr != finished)
+      if (nullptr != finished)
       {
-        debugprint("deleteing finished list of translation units\n", "");
-        delete finished;
-        finished = nullptr;
+         debugprint("deleteing finished list of translation units\n", "");
+         delete finished;
+         finished = nullptr;
       }
       currentFunc = nullptr;
    }
@@ -192,6 +195,29 @@ namespace njnr
               delete outfile;
            }
            outfile = nullptr;
+       }
+   }
+
+   void Compiler::closeOrRemoveInputFile(bool needtoremove)
+   {
+       if (infile != nullptr)
+       {
+           if (infile != &std::cin)
+           {
+               auto file{dynamic_cast<std::ifstream*>(infile)};
+               if (file->is_open())
+               {
+                   debugprint("Closing file\n", "");
+                   file->close();
+                   if (needtoremove)
+                   {
+                       debugprint("Removing file\n", "");
+                       remove(this->filename.c_str());
+                   }
+               }
+              delete infile;
+           }
+           infile = nullptr;
        }
    }
 

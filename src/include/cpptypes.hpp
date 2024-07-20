@@ -13,7 +13,11 @@ namespace njnr
 class BaseData
 {
    public:
-      virtual ~BaseData() {}
+      virtual ~BaseData()
+      {
+         report(njnr::logType::debug,
+                "running BaseData() Destructor");
+      }
       virtual const std::string toString() const = 0;
       virtual const bool getlval() const = 0;
       virtual void setlval(const bool in) = 0;
@@ -28,7 +32,11 @@ class ReturnPacket : public BaseData
    public:
       ReturnPacket();
       ReturnPacket(bool lval, njnr::type ttype, bool ifnum, int offset);
-      virtual ~ReturnPacket() {};
+      virtual ~ReturnPacket()
+      {
+         report(njnr::logType::debug,
+               "running ReturnPacket() Destructor");
+      }
       const bool getlval() const;
       void setlval(const bool in);
       const njnr::type gettype() const;

@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "debug.hpp"
-
+#include "type.hpp"
 using njnr::Debug;
 
 #ifdef DEBUG
@@ -16,7 +16,11 @@ namespace njnr
 
    Debug::Debug() {}
 
-   Debug::~Debug() {}
+   Debug::~Debug()
+   {
+      report(njnr::logType::debug,
+             "running Debug() Destructor");
+   }
 
    int Debug::get_yydebug()
    {

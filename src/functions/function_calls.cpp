@@ -474,6 +474,36 @@ namespace njnr
        }
        return outPacket;
    }
+
+   /**
+    * @brief
+    *
+    * @param t
+    * @return std::string
+    */
+   std::string Compiler::mapNjnrTypeToString(njnr::type t)
+   {
+      std::string s{""};
+      switch (t)
+      {
+         case njnr::type::STR:
+            s = "string";
+            break;
+         case njnr::type::INT:
+            s = "int";
+            break;
+         case njnr::type::FLOAT:
+            s = "float";
+            break;
+         case njnr::type::CHAR:
+            s = "char";
+            break;
+        default:
+            break;
+      }
+      return s;
+   }
+
    /**
     * @brief
     *
@@ -481,21 +511,33 @@ namespace njnr
     * @param s
     * @return Operator*
     */
-   Operator* Compiler::createOperator(njnr::reltype p, std::string s)
+   Operator* Compiler::createOperator(njnr::reltype p,
+                                      std::string s)
    {
-      Operator * n{nullptr};
-      n = new Operator(nullptr);
+      Operator* n{new Operator(nullptr)};
+
       n->setType(TSOperatorType(s));
+
       typeTable->install2(s, njnr::type::OPERATOR);
       return n;
    }
-   Constant* Compiler::createConstant(njnr::type p, std::string s,
+
+   /**
+    * @brief
+    *
+    * @param p
+    * @param t
+    * @return Constant*
+    */
+   Constant* Compiler::createConstant(njnr::type p,
                                       std::string t)
    {
-      Constant * n{nullptr};
-      constantTable->install2(t, p);
+      std::string s{mapNjnrTypeToString(p)};
+
       typeTable->install2(s, p);
-      n = new Constant{t, p};
+
+      Constant *n{new Constant{t, p}};
+      constantTable->install2(t, p);
 
 //      n->setType(TSOperatorType(s));
 //      typeTable->install2(s, njnr::type::OPERATOR);

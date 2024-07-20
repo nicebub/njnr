@@ -14,6 +14,7 @@ namespace njnr
    //              loc{new njnrParser::location_type()}, compiler() {}
    njnrLexer::~njnrLexer()
    {
+       report(njnr::logType::debug, "running njnrLexer() Destructor");
        delete loc;
        loc = nullptr;
    }

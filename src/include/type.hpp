@@ -32,6 +32,11 @@ enum class reltype
    GEQ    // Greather than or equal >=
 };
 
+enum class logType
+{
+   debug, error
+};
+
 /* group types */
 enum class btype
 {
@@ -110,9 +115,14 @@ struct exprtype
    njnr::type type;  // what type of expression are we
 };
 
+void report(njnr::logType t, std::string s);
+
 /* function prototype data structure */
-struct funcheadertype
+class funcheadertype
 {
+   public:
+   funcheadertype() : name{}, paramlist{nullptr}, returntype{}, ttype{} {}
+   virtual ~funcheadertype();
    std::string   name;        // fn name
    njnr::List*   paramlist;   // list of parameters the fn accept as input
    njnr::type    returntype;  // return type(if any) of fn
@@ -130,7 +140,11 @@ class TSAbstractType
       explicit TSAbstractType(const std::string typeValue) :
                                  typeValue{"AbstractType" + typeValue+"()"} {}
 
-      virtual                     ~TSAbstractType() {}
+      virtual                     ~TSAbstractType()
+      {
+         report(njnr::logType::debug,
+                "running TSAbstractType() destructor");
+      }
 
       virtual   const bool             getNumeric()    const noexcept = 0;
       virtual   const bool                getLVal()    const noexcept = 0;
@@ -176,7 +190,11 @@ class TSType : public TSAbstractType
              isNumeric{isNumeric},
              isLval{isLval} {};
 
-      virtual ~TSType() {}
+      virtual ~TSType()
+      {
+         report(njnr::logType::debug,
+                "running TSType() Destructor");
+      }
 
       virtual const bool getNumeric()          const noexcept
       {

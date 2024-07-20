@@ -330,6 +330,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = src
 dist_doc_DATA = README.md
+CLEANFILES = ./bin/njnr
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -708,7 +709,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(DATA) config.h
+all-am: Makefile $(DATA) config.h all-local
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(docdir)"; do \
@@ -736,6 +737,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -815,7 +817,7 @@ uninstall-am: uninstall-dist_docDATA
 
 .MAKE: $(am__recursive_targets) all install-am install-strip
 
-.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
+.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am all-local \
 	am--refresh check check-am clean clean-cscope clean-generic \
 	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
 	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
@@ -833,6 +835,13 @@ uninstall-am: uninstall-dist_docDATA
 
 .PRECIOUS: Makefile
 
+.PHONY: mvbin
+
+all-local: mvbin
+
+mvbin: src/njnr
+	mkdir -p ./bin/
+	cp -aRp src/njnr ./bin/
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

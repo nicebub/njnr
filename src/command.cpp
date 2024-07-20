@@ -27,10 +27,11 @@ namespace njnr
             {
                 try
                 {
-                    std::ifstream* inputStream{new std::ifstream{argv[1],
-                                               std::ifstream::in}};
+                    std::ifstream* inputStream{};
+                    inputStream = new std::ifstream{argv[1]};
                     if (inputStream->is_open())
                     {
+                        infile = inputStream;
                         lexer.switch_streams(inputStream);
                         return true;
                     }

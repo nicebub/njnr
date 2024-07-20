@@ -10,7 +10,11 @@ namespace njnr
 {
 class TSConstantType: public TSType
 {
-   virtual ~TSConstantType();
+   virtual ~TSConstantType()
+   {
+      report(njnr::logType::debug,
+             "running TSConstantType() Destructor");
+   }
    TSConstantType();
    explicit TSConstantType(std::string s);
    explicit TSConstantType(njnr::type t);
@@ -22,7 +26,11 @@ class Constant : public ReturnPacket
       Constant();
       Constant(bool lval, njnr::type ttype, bool ifnum, int offset);
       Constant(std::string val, njnr::type t);
-      virtual ~Constant() {};
+      virtual ~Constant()
+      {
+         report(njnr::logType::debug,
+                "running Constant() Destructor");
+      }
       std::string getValue() const;
       void setValue(const std::string in);
       njnr::type getType() const;
@@ -40,7 +48,11 @@ class Identifier : public Constant
       Identifier();
       explicit Identifier(const std::string invalue);
       explicit Identifier(const Constant&);
-      virtual ~Identifier() {};
+      virtual ~Identifier()
+      {
+         report(njnr::logType::debug,
+                "running Identifier() Destructor");
+      }
       Identifier& operator=(const Identifier& in);
       std::string getvalue() const;
       void setvalue(const std::string in);

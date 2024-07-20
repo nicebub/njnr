@@ -8,8 +8,18 @@
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
 
-namespace njnr
-{
+using njnr::ReturnPacket;
+using njnr::Compiler;
+using njnr::Operator;
+using njnr::reltype;
+using njnr::Constant;
+using njnr::S_TableEntryX;
+using njnr::Identifier;
+using njnr::btype;
+using njnr::Varb;
+using njnr::Paramb;
+using njnr::List;
+
    ReturnPacket* Compiler::block40_expr_equalexpr_equal_equalexpr(\
                          ReturnPacket** inequalexprPacketptr,
                          ReturnPacket** inotherequalexprPacketptr)
@@ -59,7 +69,8 @@ namespace njnr
        variableFetchWithNumericCheck(*relexprPacketptr, false);
    }
 
-   ReturnPacket* Compiler::block43_equalexpr_relexpr_helper(njnr::reltype ineqop,
+   ReturnPacket* Compiler::block43_equalexpr_relexpr_helper(\
+                                                   njnr::reltype ineqop,
                                                    std::string need_letter_b)
    {
        warning("expressons are of different type, data may be lost", "");
@@ -180,22 +191,22 @@ namespace njnr
                {
                case reltype::LES:
                    if (simpleexprPacket->gettype() == type::INT){}
-                   else if (simpleexprPacket->gettype() == type::FLOAT)
+                   else if (simpleexprPacket->gettype() == njnr::type::FLOAT)
                    {}
                    break;
                case reltype::LEQ:
                    if (simpleexprPacket->gettype() == type::INT){}
-                   else if (simpleexprPacket->gettype() == type::FLOAT)
+                   else if (simpleexprPacket->gettype() == njnr::type::FLOAT)
                    {}
                    break;
                case reltype::GRE:
                    if (simpleexprPacket->gettype() == type::INT){}
-                   else if (simpleexprPacket->gettype() == type::FLOAT)
+                   else if (simpleexprPacket->gettype() == njnr::type::FLOAT)
                    {}
                    break;
                case reltype::GEQ:
                    if (simpleexprPacket->gettype() == type::INT){}
-                   else if (simpleexprPacket->gettype() == type::FLOAT)
+                   else if (simpleexprPacket->gettype() == njnr::type::FLOAT)
                    {}
                    break;
                default:
@@ -203,15 +214,16 @@ namespace njnr
                }
            }
            else if (simpleexprPacket->gettype() == njnr::type::INT &&
-                   othersimpleexprPacket->gettype() == type::FLOAT)
+                   othersimpleexprPacket->gettype() == njnr::type::FLOAT)
            {
 //               outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop,
 //                                                                   "b");
            }
            else if (simpleexprPacket->gettype() == type::FLOAT &&
-                   othersimpleexprPacket->gettype() == type::INT)
+                   othersimpleexprPacket->gettype() == njnr::type::INT)
            {
-//               outPacket = block46_relexpr_simpleexpr_relop_helper(inrelop, "");
+//               outPacket = block46_relexpr_simpleexpr_relop_helper(\
+//                             inrelop, "");
            }
        }
        else
@@ -264,13 +276,13 @@ namespace njnr
                switch (reltype::PLS)
                {
                case reltype::PLS:
-                   if (simpleexprPacket->gettype() == type::INT){}
-                   else if (simpleexprPacket->gettype() == type::FLOAT)
+                   if (simpleexprPacket->gettype() == njnr::type::INT){}
+                   else if (simpleexprPacket->gettype() == njnr::type::FLOAT)
                    {}
                    break;
                case reltype::MIN:
-                   if (simpleexprPacket->gettype() == type::INT){}
-                   else if (simpleexprPacket->gettype() == type::FLOAT)
+                   if (simpleexprPacket->gettype() == njnr::type::INT){}
+                   else if (simpleexprPacket->gettype() == njnr::type::FLOAT)
                    {}
                    break;
                default:
@@ -278,12 +290,12 @@ namespace njnr
                }
            }
            else if (simpleexprPacket->gettype() == njnr::type::INT
-                   && termPacket->gettype() == type::FLOAT)
+                   && termPacket->gettype() == njnr::type::FLOAT)
            {
 //               outPacket = block49_simpleexpr_addop_helper(inaddop, "b");
            }
            else if (simpleexprPacket->gettype() == njnr::type::FLOAT
-                   && termPacket->gettype() == type::INT)
+                   && termPacket->gettype() == njnr::type::INT)
            {
 //               outPacket = block49_simpleexpr_addop_helper(inaddop, "");
            }
@@ -336,18 +348,18 @@ namespace njnr
                switch (reltype::DIV)
                {
                case reltype::DIV:
-                   if (intermPacket->gettype()== type::INT)
+                   if (intermPacket->gettype()== njnr::type::INT)
                    {
                    }
-                   else if (intermPacket->gettype()== type::FLOAT)
+                   else if (intermPacket->gettype()== njnr::type::FLOAT)
                    {
                    }
                    break;
                case reltype::MULT:
-                   if (intermPacket->gettype()== type::INT)
+                   if (intermPacket->gettype()== njnr::type::INT)
                    {
                    }
-                   else if (intermPacket->gettype()== type::FLOAT)
+                   else if (intermPacket->gettype()== njnr::type::FLOAT)
                    {
                    }
                    break;
@@ -355,13 +367,13 @@ namespace njnr
                    break;
                }
            }
-           else if (intermPacket->gettype() == type::INT
-                   && infactorPacket->gettype()== type::FLOAT)
+           else if (intermPacket->gettype() == njnr::type::INT
+                   && infactorPacket->gettype()== njnr::type::FLOAT)
            {
 //               outtermPacket = block52_term_mulop_helper(inmulop, "b");
            }
-           else if (intermPacket->gettype() == type::FLOAT &&
-                    infactorPacket->gettype() == type::INT)
+           else if (intermPacket->gettype() == njnr::type::FLOAT &&
+                    infactorPacket->gettype() == njnr::type::INT)
            {
 //               outtermPacket =  block52_term_mulop_helper(inmulop, "");
            }
@@ -404,8 +416,8 @@ namespace njnr
                outPacket->settype((static_cast<S_TableEntryX*>(resultLookup->
                                                    getBinding()))->getType());
                outPacket->setlval(true);
-               if (outPacket->gettype() == type::INT |
-                  outPacket->gettype() == type::FLOAT)
+               if (outPacket->gettype() == njnr::type::INT |
+                  outPacket->gettype() == njnr::type::FLOAT)
                {
                   outPacket->setnumeric(true);
                }
@@ -623,4 +635,3 @@ namespace njnr
    {
        return (*inIdentListptr)->appendList(&inIdent);
    }
-}  // namespace njnr

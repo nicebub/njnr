@@ -21,13 +21,6 @@
 namespace njnr
 {
 
-enum class logType
-{
-   debug, error
-};
-
-void report(njnr::logType t, std::string s);
-
 /* defined elsewhere but needed below */
 class SymbolTableX;
 
@@ -43,6 +36,7 @@ class Compiler
       njnrParser*           parser{};  // syntactic parser
       Funcb*             currentFunc;  // stores current function reading
       std::ostream*          outfile;  // current output stream reference
+      std::ifstream*          infile;  // current input file
       std::string           filename;  // name to file needing to output to
       // currently counted line number in a read file
       int                Line_Number;
@@ -283,7 +277,7 @@ class Compiler
       List* block70_identlist_comma_ident(List** inIdentListptr,
                                           njnr::Identifier inIdent);
       Operator* createOperator(njnr::reltype n, std::string s);
-      Constant* createConstant(njnr::type n, std::string s, std::string t);
+      Constant* createConstant(njnr::type n, std::string t);
       void  setfinished(List* inlist);
       void  printProgramTree(void);
       void  checkfunctionReturnValues(Funcb* f);
@@ -302,6 +296,8 @@ class Compiler
    protected:
       static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
       void closeOrRemoveOutputFile(bool needtoremove);
+      void closeOrRemoveInputFile(bool needtoremove);
+      static std::string mapNjnrTypeToString(njnr::type t);
 
    private:
       bool   founderror;

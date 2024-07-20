@@ -20,14 +20,14 @@ njnrSOURCES += include/common/symbol_table_stack_templates.h
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 
-njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 -DDEBUGON
-AM_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 -DDEBUGON
+njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 #-DDEBUGON
+AM_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 #-DDEBUGON
 
 AM_YFLAG = -d
 
 CLEANFILES= lex.yy.cc njnr.tab.cpp njnr.tab.hpp njnr.output location.hh
 
-EXTRA_DIST= njnr.l njnr.y ../autogen.sh
+EXTRA_DIST= njnr.l njnr.y $(srcdir)/../autogen.sh $(srcdir)/../test
 CPPLINTFLAGS = --verbose=5 --filter=-whitespace/indent,-whitespace/braces,-whitespace/newline,-legal,-build/include_subdir,-readability/braces
 
 

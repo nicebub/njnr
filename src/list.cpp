@@ -24,7 +24,11 @@ namespace njnr
        nodeType = in;
    }
 
-   BasicListNode::~BasicListNode() {}
+   BasicListNode::~BasicListNode()
+   {
+      report(njnr::logType::debug,
+             "running BasicListNode() Destructor");
+   }
 
    const std::string BasicListNode::toString() const
    {
@@ -86,10 +90,9 @@ namespace njnr
 
    ReturnPacketListNode::~ReturnPacketListNode()
    {
-      if (expr)
-      {
-         delete expr;
-      }
+      report(njnr::logType::debug,
+             "running ReturnPacketListNode() Destructor");
+      delete expr;
    }
 
    ReturnPacket* ReturnPacketListNode::getexpr(void)
@@ -301,8 +304,10 @@ namespace njnr
    List::List(const List& cp) : list{cp.list} {}
    List::~List()
    {
+       report(njnr::logType::debug, "running List() Destructor");
        for (auto* element : list)
        {
+           debugprint("deleting element in List", "");
            delete element;
        }
    }

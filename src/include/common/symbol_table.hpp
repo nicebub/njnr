@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include "type.hpp"
+
 namespace njnr
 {
    /**
@@ -17,7 +19,7 @@ class Table
       // Default Constructor
       Table() = default;
       // Destructor
-      ~Table() = default;
+      ~Table() { report(njnr::logType::debug, "running Table() Destructor"); };
       // get data for symbol
       template<typename T>T lookup(const std::string key);
       // get data for symbol ?

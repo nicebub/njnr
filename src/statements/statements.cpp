@@ -82,7 +82,11 @@ namespace njnr
 
    Statement::Statement() : ReturnPacket{} {}
 
-   Statement::~Statement() {}
+   Statement::~Statement()
+   {
+      report(njnr::logType::debug,
+             "running Statement() Destructor");
+   }
 
    statement_type Statement::getstype()
    {
@@ -201,14 +205,14 @@ void Compiler::dealwithstmtlist(List* stmtlist)
          if (nullptr != expr)
          {
             statement->setrettype(njnr::type::INT);
-            statement->setexpr(expr);
          }
          else
          {
             statement->setrettype(njnr::type::VOID);
             expr = new ReturnPacket{};
-            statement->setexpr(expr);
          }
+
+         statement->setexpr(expr);
       }
 
       return statement;

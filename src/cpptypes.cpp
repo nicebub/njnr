@@ -212,7 +212,14 @@ namespace njnr
        }
        return *this;
    }
-   Funcb::~Funcb() { delete funcbody_list; }
+   Funcb::~Funcb()
+   {
+      report(njnr::logType::debug, "running Funcb() destructor");
+      if (funcbody_list) delete funcbody_list;
+      funcbody_list = nullptr;
+      if (funcheader) delete funcheader;
+      funcheader = nullptr;
+    }
    std::vector<njnr::type>& Funcb::getparam_type()
    {
        return param_type;
@@ -321,7 +328,7 @@ namespace njnr
    }
 
    Varb::Varb() : Identifier{} {}
-   Varb::~Varb() {}
+   Varb::~Varb() { report(njnr::logType::debug, "running Varb() Destructor"); }
 
    const std::string Varb::toString() const
    {
@@ -333,7 +340,11 @@ namespace njnr
       return ReturnPacket::toString();
    }
    Paramb::Paramb() : ReturnPacket{} {}
-   Paramb::~Paramb() {}
+   Paramb::~Paramb()
+   {
+      report(njnr::logType::debug,
+             "running Paramb() Destructor");
+   }
 
    const std::string Translation_Unit::toString() const
    {
@@ -347,7 +358,11 @@ namespace njnr
                                           trans_type{trans_unit_type::INVALID}
                                           {}
 
-   Translation_Unit::~Translation_Unit() {}
+   Translation_Unit::~Translation_Unit()
+   {
+      report(njnr::logType::debug,
+             "running Translation_Unit() Destructor");
+   }
 
    ReturnPacket* Translation_Unit::get_translation()
    {
@@ -364,5 +379,12 @@ namespace njnr
    trans_unit_type Translation_Unit::get_trans_unit_type()
    {
       return trans_type;
+   }
+   funcheadertype::~funcheadertype()
+   {
+      report(njnr::logType::debug,
+             "running funcheadertype() Destructor");
+      if (paramlist)
+         delete (paramlist);
    }
 }  // namespace njnr

@@ -33,7 +33,11 @@ SymbolTable::SymbolTable(Compiler& c) : stack{Table{}}, compiler{c} {}
  * @brief Destroy the Symbol Table:: Symbol Table object
  * 
  */
-SymbolTable::~SymbolTable() {}
+SymbolTable::~SymbolTable()
+{
+   report(njnr::logType::debug,
+          "running SymbolTable() Destructor");
+}
 
 /**
  * @brief lookup a <key:value> pair in topmost symbol table in stack

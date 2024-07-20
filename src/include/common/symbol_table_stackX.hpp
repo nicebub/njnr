@@ -21,7 +21,11 @@ class SymbolTableX : public SymbolTable
       // Constructor
       explicit SymbolTableX(Compiler& c) : SymbolTable{c} {}
       // Destructor
-      virtual ~SymbolTableX() {}
+      virtual ~SymbolTableX()
+      {
+         report(njnr::logType::debug,
+                "running SymbolTableX() Destructor");
+      }
 
          /** TODO: rework */
          void install2(std::string val, njnr::type t);

@@ -15,7 +15,11 @@ class S_TableEntry
       /* Default Constructor */
       S_TableEntry();
 
-      virtual ~S_TableEntry() {}
+      virtual ~S_TableEntry()
+      {
+         report(njnr::logType::debug,
+                "running S_TableEntry() Destructor");
+      }
 
       /* Constructor with arguments */
       S_TableEntry(const std::string& key, void* value,
@@ -52,8 +56,16 @@ class S_TableEntryX : public S_TableEntry
       /* Default Constructor */
       S_TableEntryX() = default;
 
-      virtual ~S_TableEntryX() {}
-
+      virtual ~S_TableEntryX()
+      {
+         report(njnr::logType::debug,
+                "running S_TableEntryX() Destructor");
+         if (binding)
+         {
+            delete binding;
+            binding = nullptr;
+         }
+      }
       /* Constructor with arguments */
       S_TableEntryX(const std::string& key, void* value,
                     njnr::type eType) noexcept;

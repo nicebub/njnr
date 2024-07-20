@@ -28,7 +28,11 @@ CodeGenerator::CodeGenerator(std::ostream& out) :
                                                lastInstructionWasReturnf{false}
                                                {}
 
-CodeGenerator::~CodeGenerator() {}
+CodeGenerator::~CodeGenerator()
+{
+   report(njnr::logType::debug,
+          "running CodeGenerator() Destructor");
+}
 
 void CodeGenerator::setSymbolTable(SymbolTableX* s)
 {

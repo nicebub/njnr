@@ -29,7 +29,7 @@ class BasicListNode
 {
 public:
     BasicListNode() {};
-    BasicListNode(eNodeType t);
+    explicit BasicListNode(eNodeType t);
     virtual ~BasicListNode() = 0;
     eNodeType get_nodeType() const;
     void set_nodeType(eNodeType);
@@ -42,14 +42,18 @@ private:
 class ListNode : public BasicListNode
 {
 public:
-    ListNode();
-    explicit ListNode(std::string in);
-    virtual ~ListNode() = default;
-    std::string getval() const;
-    void setval(std::string in);
-    const std::string toString() const;
+   ListNode();
+   explicit ListNode(std::string in);
+   virtual ~ListNode()
+   {
+      report(njnr::logType::debug,
+             "running ListNode() Destructor");
+   }
+   std::string getval() const;
+   void setval(std::string in);
+   const std::string toString() const;
 private:
-    std::string val;
+   std::string val;
 };
 
 class ReturnPacketListNode : public BasicListNode
@@ -69,9 +73,13 @@ private:
 class PListNode : public ListNode
 {
 public:
-    PListNode();
-    PListNode(std::string, njnr::type);
-    virtual ~PListNode() = default;
+   PListNode();
+   PListNode(std::string, njnr::type);
+   virtual ~PListNode()
+   {
+      report(njnr::logType::debug,
+             "running PListNode() Destructor");
+   }
     njnr::type gettype() const;
     void settype(njnr::type type);
     const std::string toString() const;
@@ -86,7 +94,12 @@ class TranslationUnitListNode : public ListNode
       explicit TranslationUnitListNode(Funcb* infunc);
       // need to change actual class used this was placeholder
       explicit TranslationUnitListNode(Varb* invardecl);
-      virtual ~TranslationUnitListNode() = default;
+      virtual ~TranslationUnitListNode()
+      {
+         report(njnr::logType::debug,
+                "running TranslationUnitListNode() Destructor");
+         delete unit;
+      }
       const std::string toString() const;
       const njnr::trans_unit_type get_trans_unit_type(void) const;
       const Varb* getVarDecl(void) const;
@@ -101,7 +114,11 @@ class StmtListNode : public ListNode
    public:
       StmtListNode();
       explicit StmtListNode(Statement* instmt);
-      virtual ~StmtListNode() = default;
+      virtual ~StmtListNode()
+      {
+         report(njnr::logType::debug, "running StmtListNode() Destructor");
+         delete stmt;
+      }
       Statement* getstmt(void);
       void setstmt(Statement* instmt);
       const std::string toString() const;
@@ -116,7 +133,11 @@ class IdentListNode : public ReturnPacketListNode
    public:
       IdentListNode();
       explicit IdentListNode(Identifier* inident);
-      virtual ~IdentListNode() { delete ident; }
+      virtual ~IdentListNode()
+      {
+         report(njnr::logType::debug, "running IdentListNode() Destructor");
+         delete ident;
+      }
       Identifier* getident(void);
       void setident(Identifier* instmt);
       const std::string toString() const;
@@ -130,7 +151,11 @@ class TypeListNode : public ListNode
       TypeListNode();
       // need to change actual class used this was placeholder
       explicit TypeListNode(njnr::type intype);
-      virtual ~TypeListNode() = default;
+      virtual ~TypeListNode()
+      {
+         report(njnr::logType::debug,
+                "running TypeListNode() Destructor");
+      }
       njnr::type gettype() const;
       void settype(njnr::type type);
       const std::string toString() const;

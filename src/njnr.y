@@ -191,6 +191,7 @@ int yyerror(std::string err,Compiler& compiler);
 
 %%
 starter: translation_unit {
+                             // Implied rule $$ = $1;
                           }
 ;
 
@@ -235,7 +236,10 @@ funcheader: fnt Ident lpar paramdef rpar {
                                       }
 ;
 
-paramdef: paramdeflist {$$ = $1;}
+paramdef: paramdeflist {
+                          // Implied rule $$ = $1;
+                          $$ = $1;
+                       }
         | paramdeflist comma elip {
                                      $$ = $1->appendList("...", type::VOID);
                                   }
@@ -374,6 +378,7 @@ equalexpr: relexpr eqop {
                       $$ = compiler.block43_equalexpr_relexpr_eqop_source_relexpr($2,&$1,&$4);
                    }
          | relexpr {
+                      // Implied rule $$ = $1;
                       $$ = $1;
                    }
          | relexpr eqop error {
@@ -389,6 +394,7 @@ relexpr: simpleexpr relop {
                        $$ = compiler.block46_relexpr_simpleexpr_relop_source_simpleexpr(&$1,$2,&$4);
                     }
        | simpleexpr {
+                       // Implied rule $$ = $1;
                        $$ = $1;
                     }
        | simpleexpr relop error {
@@ -404,6 +410,7 @@ simpleexpr: simpleexpr addop {
                     $$ = compiler.block49_simpleexpr_simpleexpr_addop_source_term(&$1,$2,&$4);
                  }
           | TERM {
+                    // Implied rule $$ = $1;
                     $$ = $1;
                  }
           | simpleexpr addop error {
@@ -419,6 +426,7 @@ TERM: TERM mulop {
                  $$ = compiler.block52_term_term_mulop_source_factor(&$1,$2,$4);
               }
      | factor {
+                 // Implied rule $$ = $1;
                  $$ = $1;
               }
      | TERM mulop error {
@@ -435,6 +443,7 @@ factor: constant {
                  compiler.installVariableIntoSymbolTable($1, njnr::type::INT);
               }
       | lpar expr rpar {
+                          // Implied rule $$ = $1;
                           $$ = $2;
                        }
       | addop factor %prec uminus {
@@ -444,6 +453,7 @@ factor: constant {
                       $$ = compiler.block58_factor_adof_ident(Identifier{$2});
                    }
       | function_call {
+                         // Implied rule $$ = $1;
                          $$ = $1;
                       }
       | addop error {
@@ -460,6 +470,7 @@ function_call: Ident lpar rpar {
                                   $$ = compiler.block60_function_call_ident_lpar_rpar(Identifier{$1});
                                }
              | func_call_with_params {
+                                        // Implied rule $$ = $1;
                                         $$ = $1;
                                      }
 ;
@@ -492,21 +503,22 @@ identlist: Ident {
          | identlist comma error {
                                     yyerrok;
                                     compiler.error("(unexpected token after comma)","");
+                                    // Explicit because of error: rule $$ = $1;
                                     $$ = $1;
                                  }
 ;
 
 constant: StrConstant {
-                          compiler.createConstant(njnr::type::STR, "string", $1);
+                          compiler.createConstant(njnr::type::STR, $1);
                       }
         | IntConstant {
-                          compiler.createConstant(njnr::type::INT, "int", $1);
+                          compiler.createConstant(njnr::type::INT, $1);
                        }
         | FloatConstant {
-                          compiler.createConstant(njnr::type::FLOAT, "float", $1);
+                          compiler.createConstant(njnr::type::FLOAT, $1);
                         }
         | CharConstant {
-                          compiler.createConstant(njnr::type::CHAR, "char", $1);
+                          compiler.createConstant(njnr::type::CHAR, $1);
                         }
 
 ;

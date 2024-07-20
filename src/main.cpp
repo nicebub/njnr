@@ -23,7 +23,7 @@ int main(int argc,  char * const *argv)
 
    /* Compiler object to store compiler state while....compiling */
    Compiler* compiler{new Compiler{}};
-
+   Compiler  cc{};
    /* process command-line arguments */
    njnr_getopt(&argc, &argv);
 
