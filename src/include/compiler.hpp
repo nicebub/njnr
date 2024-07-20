@@ -119,13 +119,13 @@ class Compiler
       funcheadertype* block14_funcheader_int_ident_lpar_error_rpar(\
                                                 njnr::Identifier inIdent);
 
-      std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(List** inParamdeflistptr);
+      std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(std::shared_ptr<List>* inParamdeflistptr);
       std::shared_ptr<List>block16_paramdef_void();
 
-      void block17_paramdef_paramdeflist_error_rpar(List** inParamdeflistptr);
+      void block17_paramdef_paramdeflist_error_rpar(std::shared_ptr<List>* inParamdeflistptr);
 
       void block18_paramdef_paramdeflist_comma_error_rpar(\
-                                                List** inParamdeflistptr);
+                                                std::shared_ptr<List>** inParamdeflistptr);
 
       std::shared_ptr<List>paramdeflist_type_ident_helper(njnr::Identifier inIdent,
                                                           njnr::type intype);
@@ -134,22 +134,22 @@ class Compiler
       std::shared_ptr<List>block21_paramdeflist_char_star_ident(njnr::Identifier inIdent);
 
       std::shared_ptr<List>paramdeflist_paramdeflist_comma_type_ident_helper(\
-      List** inParamdeflistptr, njnr::Identifier inIdent, njnr::type intype);
+      std::shared_ptr<List>* inParamdeflistptr, njnr::Identifier inIdent, njnr::type intype);
 
       std::shared_ptr<List>block22_paramdeflist_paramdeflist_comma_int_ident(\
-      List** inParamdeflist, njnr::Identifier inIdent);
+      std::shared_ptr<List>* inParamdeflist, njnr::Identifier inIdent);
 
       std::shared_ptr<List>block23_paramdeflist_paramdeflist_comma_float_ident(\
-      List** inParamdeflist, njnr::Identifier inIdent);
+      std::shared_ptr<List>* inParamdeflist, njnr::Identifier inIdent);
 
       std::shared_ptr<List>block24_paramdeflist_paramdeflist_comma_char_star_ident(\
-      List** inParamdeflist, njnr::Identifier inIdent);
+      std::shared_ptr<List>* inParamdeflist, njnr::Identifier inIdent);
 
       void block25_funcbody_lcbra_decls_source();
       void block26_funcbody_lcbra_decls_source_stmtlist_rcbra();
 
-      void block27_variabledecl_int_identlist_semi(List** inIdentlist);
-      void block28_variabledecl_float_identlist_semi(List** inIdentlist);
+      void block27_variabledecl_int_identlist_semi(std::shared_ptr<List>* inIdentlist);
+      void block28_variabledecl_float_identlist_semi(std::shared_ptr<List>* inIdentlist);
 
       void block29_stmt_expr_semi();
 
@@ -290,7 +290,7 @@ class Compiler
                                           float floatconstant);
 
       std::shared_ptr<List>block69_identlist_ident(njnr::Identifier inIdent);
-      std::shared_ptr<List>block70_identlist_comma_ident(List** inIdentListptr,
+      std::shared_ptr<List>block70_identlist_comma_ident(std::shared_ptr<List>* inIdentListptr,
                                           njnr::Identifier inIdent);
       Operator* createOperator(njnr::reltype n, std::string s);
       Constant* createConstant(njnr::type n, std::string t);

@@ -14,7 +14,7 @@ using njnr::Table;
  * @param key - key for search
  * @return T -  value or nullptr
  */
-template<typename T>T Table::lookup(const std::string key)
+template<typename T>std::shared_ptr<T> Table::lookup(const std::string key)
 {
    /* iterator type */
    auto result{table.find(key)};
@@ -24,7 +24,7 @@ template<typename T>T Table::lookup(const std::string key)
    {
       /* The iterators 'second' value, which is the 'value' in <key:value>
           pair */
-      return static_cast<T>(result->second);
+      return static_pointer_cast<T>(result->second);
    }
 
    /* didn't find it */
@@ -38,7 +38,7 @@ template<typename T>T Table::lookup(const std::string key)
  * @param key - key for search
  * @return T -  value or nullptr
  */
-template<typename T>T Table::lookupB(const std::string key)
+template<typename T>std::shared_ptr<T> Table::lookupB(const std::string key)
 {
    try
    {
@@ -104,9 +104,9 @@ template<typename T>bool Table::install(std::string key, T value)
  * @param key key to loopup element
  * @return T -'value' of type T
  */
-template<typename T>T Table::remove(std::string key)
+template<typename T>std::shared_ptr<T> Table::remove(std::string key)
 {
-   T x{};
+   std::shared_ptr<T> x{};
    try
    {
       x = table.at(key);

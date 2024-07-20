@@ -173,7 +173,7 @@ std::string Statement::printCheckReturn(void) const
    return r;
 }
 
-void Compiler::dealwithstmtlist(List* stmtlist)
+void Compiler::dealwithstmtlist(std::shared_ptr<List> stmtlist)
 {
     if (nullptr != stmtlist)
     {

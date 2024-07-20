@@ -15,7 +15,7 @@ namespace njnr
        code_generator.gen_call(code_generator.genlabelw("main", mainlabel), 0);
    }
 
-   void Compiler::variableFetch(ReturnPacket* inPacket, bool conversionNeeded)
+   void Compiler::variableFetch(std::shared_ptr<ReturnPacket> inPacket, bool conversionNeeded)
    {
        if (inPacket->getlval())
        {
@@ -33,7 +33,7 @@ namespace njnr
            }
        }
    }
-   void Compiler::variableFetchWithNumericCheck(ReturnPacket* inPacket,
+   void Compiler::variableFetchWithNumericCheck(std::shared_ptr<ReturnPacket> inPacket,
                                                 bool conversionNeeded)
    {
        if (inPacket->getnumeric())
@@ -74,7 +74,7 @@ namespace njnr
    }
 
    void Compiler::variableFetchWithNumericCheckAndLvalCheck(\
-                                              ReturnPacket* insimplePacket,
+                                              std::shared_ptr<ReturnPacket> insimplePacket,
                                               bool conversionNeeded)
    {
        if (insimplePacket->getlval())

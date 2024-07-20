@@ -75,7 +75,7 @@ class Funcb : public Identifier
       Funcb(njnr::type returntype, bool bodydef, int num_param,
             std::vector<njnr::type> param_type, int label,
             int localcount, int actual_num, funcheadertype* funcheader,
-            List* funcbody_list);
+            std::shared_ptr<List> funcbody_list);
 
       Funcb(const Funcb& in);
       Funcb& operator=(const Funcb& in);

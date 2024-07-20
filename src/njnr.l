@@ -121,12 +121,12 @@ fn {
       yylval->emplace<std::string>() = "fn";
       return token::fnt;
    }
-void {/*keyword void*/
+void {/* keyword void */
       yylval->emplace<std::string>() = "void";
         return token::voidt;
      }
 
-if {/* keyword if*/
+if {/* keyword if */
       yylval->emplace<std::string>() = "if";
       return token::ift;
    }

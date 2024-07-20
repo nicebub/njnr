@@ -13,12 +13,12 @@
 namespace njnr
 {
    std::shared_ptr<Funcb> Compiler::create_full_function(funcheadertype* funcheader,
-                                         List* funcbody)
+                                         std::shared_ptr<List> funcbody)
    {
     /**
      *    funcheadertype
      *      std::string   name;       // fn name
-      njnr::List*   paramlist;  // list of parameters the fn accept as input
+      std::shared_ptr<njnr::List>   paramlist;  // list of parameters the fn accept as input
       njnr::type    returntype; // return type(if any) of fn
       njnr::type    ttype;      // type of fn?(TBD)
 
@@ -66,7 +66,7 @@ namespace njnr
 
    void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
    {
-       njnr::S_TableEntryX found = *static_cast<S_TableEntryX*>(symbolTable->
+       njnr::S_TableEntryX found = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                                          lookupB(inFuncHeader->
                                                                  name));
            auto tempEntry =  symbolTable->createFunc(inFuncHeader->name,
@@ -89,7 +89,7 @@ namespace njnr
    funcheadertype*  Compiler::
                     funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
                                                    njnr::Identifier inIdent,
-                                                   List* inParamdeflist,
+                                                   std::shared_ptr<List> inParamdeflist,
                                                    njnr::type inreturntype)
    {
       funcheadertype* retFuncHeader{nullptr};
@@ -163,7 +163,7 @@ namespace njnr
 
       return nullptr;
    }
-   Funcb* Compiler::add_statement_to_fn_body_and_return(List* func,
+   Funcb* Compiler::add_statement_to_fn_body_and_return(std::shared_ptr<List> func,
                                                         Statement* stmt)
    {
        if (stmt->getstype() == statement_type::RETURN)
@@ -176,7 +176,7 @@ namespace njnr
 
       return nullptr;
    }
-   List* Compiler::getfinished(void)
+   std::shared_ptr<List> Compiler::getfinished(void)
    {
     return finished;
    }

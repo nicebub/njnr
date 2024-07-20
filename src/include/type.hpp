@@ -3,7 +3,7 @@
 
 #include <config.h>
 #include <string>
-
+#include <memory>
 
 namespace njnr
 {
@@ -123,7 +123,7 @@ class funcheadertype
    funcheadertype() : name{}, paramlist{nullptr}, returntype{}, ttype{} {}
    virtual ~funcheadertype();
    std::string   name;        // fn name
-   njnr::List*   paramlist;   // list of parameters the fn accept as input
+   std::shared_ptr<njnr::List>   paramlist;   // list of parameters the fn accept as input
    njnr::type    returntype;  // return type(if any) of fn
    njnr::type    ttype;       // type of fn?(TBD)
 };

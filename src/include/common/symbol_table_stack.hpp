@@ -18,11 +18,11 @@ class SymbolTable
       virtual ~SymbolTable();                               // Destructor
       template <typename T>bool install(T element);
       // look up a symbol in scope and return its value
-      template <typename T>T lookup(const std::string name);
+      template <typename T>std::shared_ptr<T> lookup(const std::string name);
       // look up a symbol in scope and return its table entry
-      template <typename T>T lookupB(const std::string name);
+      template <typename T>std::shared_ptr<T> lookupB(const std::string name);
 
-      template<typename T>T remove(std::string key);
+      template<typename T>std::shared_ptr<T> remove(std::string key);
 
       // open a new stack/lifetime scope
       void openscope();
@@ -33,9 +33,9 @@ class SymbolTable
 
       /* deprecated and want to phase out */
       // look up a symbol in scope and return its value
-      void* lookup(const std::string name);
+      std::shared_ptr<void> lookup(const std::string name);
       // look up a symbol in scope and return its table entry
-      void* lookupB(const std::string name);
+      std::shared_ptr<void> lookupB(const std::string name);
 
       /** TODO: implement */
       // level difference from root

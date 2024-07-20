@@ -16,26 +16,26 @@ struct data
 public:
     union p1
     {
-        std::string              svalue;
-        char                     cvalue;
-        int                      ivalue;
-        float                    fvalue;
-        List*                  lstvalue;
-        List*                 lstpvalue;
-        type                     tvalue;
-        reltype              addopvalue;
-        reltype             multopvalue;
-        reltype                eqopvalue;
-        List*                 lstevalue;
-        Pair                  pairvalue;
-        exprtype*             exprvalue;
-        reltype              relopvalue;
+        std::string                 svalue;
+        char                        cvalue;
+        int                         ivalue;
+        float                       fvalue;
+        std::shared_ptr<List>     lstvalue;
+        std::shared_ptr<List>    lstpvalue;
+        std::shared_ptr<List>    lstevalue;
+        type                        tvalue;
+        reltype                 addopvalue;
+        reltype                multopvalue;
+        reltype                  eqopvalue;
+        Pair                     pairvalue;
+        exprtype*                exprvalue;
+        reltype                 relopvalue;
         funcheadertype* funcheadervalue;
         // Entry *funcentvalue;
     } value;
 
-    S_TableEntryX*         entry;
-    S_TableEntryX*       funcent;
+    std::shared_ptr<S_TableEntryX>         entry;
+    std::shared_ptr<S_TableEntryX>       funcent;
     Funcb*          funcbinding;
     std::string            name;
     type                  ttype;

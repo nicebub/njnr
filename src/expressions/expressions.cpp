@@ -394,7 +394,7 @@ using njnr::List;
    ReturnPacket* Compiler::block55_factor_ident(njnr::Identifier inIdent)
    {
       ReturnPacket*  outPacket{nullptr};
-      S_TableEntryX *resultLookup{nullptr};
+      std::shared_ptr<S_TableEntryX> resultLookup{nullptr};
       bool gen_code = false;
 //      int  gen_type = 0;
 
@@ -407,13 +407,13 @@ using njnr::List;
             //  fprintf(stderr,"the name of the identifier here is:  %s\n",
             //     (char*)$<value.svalue>1);
            #endif
-            S_TableEntryX* s{new S_TableEntryX{}};
-            *s = *static_cast<S_TableEntryX*>(symbolTable->
+            std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
+            *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                               lookupB(inIdent.getvalue()));
             resultLookup = s;
             if (nullptr != resultLookup)
             {
-               outPacket->settype((static_cast<S_TableEntryX*>(resultLookup->
+               outPacket->settype((static_pointer_cast<S_TableEntryX>(resultLookup->
                                                    getBinding()))->getType());
                outPacket->setlval(true);
                if (outPacket->gettype() == njnr::type::INT |
@@ -527,7 +527,7 @@ using njnr::List;
    ReturnPacket* Compiler::block58_factor_adof_ident(njnr::Identifier inPacket)
    {
        ReturnPacket* outPacket{new ReturnPacket{}};
-       S_TableEntryX*tempE;  // , *tempE2;
+       std::shared_ptr<S_TableEntryX> tempE;  // , *tempE2;
        if (inPacket.getvalue() != "main")
        {
            if (symbolTable->lookup(inPacket.getvalue()) == nullptr)
@@ -535,8 +535,8 @@ using njnr::List;
                      "please declare variables before using them", "");
            else
            {
-            S_TableEntryX* s{new S_TableEntryX{}};
-            *s = *static_cast<S_TableEntryX*>(symbolTable->
+            std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
+            *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                                lookupB(inPacket.getvalue()));
                tempE = s;
                if (tempE != nullptr)
@@ -625,12 +625,12 @@ using njnr::List;
    }
 
 
-   List* Compiler::block69_identlist_ident(njnr::Identifier inIdent)
+   std::shared_ptr<List> Compiler::block69_identlist_ident(njnr::Identifier inIdent)
    {
        return List::mklist(&inIdent);
    }
 
-   List* Compiler::block70_identlist_comma_ident(List** inIdentListptr,
+   std::shared_ptr<List> Compiler::block70_identlist_comma_ident(std::shared_ptr<List>* inIdentListptr,
                                                  njnr::Identifier inIdent)
    {
        return (*inIdentListptr)->appendList(&inIdent);

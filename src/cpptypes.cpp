@@ -83,7 +83,7 @@ namespace njnr
       r += "\n" + m_pair.toString() + "\n";
       if (nullptr != funcent)
       {
-        r += static_cast<S_TableEntryX*>(funcent)->toString() + "\n";
+        r += static_pointer_cast<S_TableEntryX>(funcent)->toString() + "\n";
       }
       return r;
    };
@@ -304,7 +304,7 @@ namespace njnr
          int    localcount;
          int    actual_num;
          funcheadertype* funcheader;
-         List* funcbody_list;
+         std::shared_ptr<List> funcbody_list;
      */
 
       std::string r{};
@@ -349,7 +349,7 @@ namespace njnr
    const std::string Translation_Unit::toString() const
    {
       std::string ret{ReturnPacket::toString()};
-//         ReturnPacket* translation{};
+//         std::shared_ptr<ReturnPacket> translation{nullptr};
 //         trans_unit_type trans_type;
 
       return "translation unit: " + this->toString() + "\n" + ret;
@@ -364,11 +364,11 @@ namespace njnr
              "running Translation_Unit() Destructor");
    }
 
-   ReturnPacket* Translation_Unit::get_translation()
+   std::shared_ptr<ReturnPacket> Translation_Unit::get_translation()
    {
       return translation;
    }
-   void Translation_Unit::set_translation(ReturnPacket* translation)
+   void Translation_Unit::set_translation(std::shared_ptr<ReturnPacket> translation)
    {
       this->translation = translation;
    }
@@ -384,7 +384,8 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running funcheadertype() Destructor");
-      if (paramlist)
-         delete (paramlist);
+      if (paramlist){
+         paramlist = nullptr;
+      }
    }
 }  // namespace njnr

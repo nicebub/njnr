@@ -73,10 +73,10 @@ namespace njnr
    void Compiler::install_functions_into_symbolTable()
    {
        std::shared_ptr<List> params{List::mklist("", njnr::type::VOID)};
-       S_TableEntryX* entry{symbolTable->createFunc("main",
+       std::shared_ptr<S_TableEntryX> entry{symbolTable->createFunc("main",
                                                     njnr::type::INT,
                                                     params)};
-       symbolTable->install<S_TableEntryX*>(entry);
+       symbolTable->install<std::shared_ptr<S_TableEntryX>>(entry);
        params = nullptr;
    }
 
@@ -92,23 +92,23 @@ namespace njnr
       closeOrRemoveInputFile(false);
       if (symbolTable != nullptr)
       {
-         Funcb* x{nullptr};
+//         Funcb* x{nullptr};
          std::shared_ptr<Funcb> xx{nullptr};
       try
       {
-         S_TableEntryX* e{nullptr};
-         e = symbolTable->remove<S_TableEntryX*>(std::string{"main"});
+         std::shared_ptr<S_TableEntryX> e{nullptr};
+         e = symbolTable->remove<S_TableEntryX>(std::string{"main"});
          debugprint("ade it before null check", "");
          if (nullptr != e)
          {
-            x = reinterpret_cast<Funcb*>(e->getValue());
-            xx = x;
-            if (nullptr != x)
+            xx = std::shared_ptr<Funcb>{reinterpret_pointer_cast<Funcb>(e->getValue())};
+//            xx = *dynamic_cast<std::shared_ptr<Funcb>>(x);
+            if (nullptr != xx)
             {
                debugprint("deleting a function binding for function main()",
                           "");
                std::shared_ptr<List> p{nullptr};
-               p = x->getfuncbody_list();
+               p = xx->getfuncbody_list();
                if (nullptr != p)
                {
                   debugprint("deleting paprameter list of function", "");
@@ -118,8 +118,7 @@ namespace njnr
                {
                   debugprint(" cannot delete empty param list", "");
                }
-               delete x;
-               x = nullptr;
+               xx = nullptr;
             }
             else
             {
@@ -380,7 +379,8 @@ namespace njnr
 
                         if (njnr::type::IDENT == realType->gettype())
                         {
-                          std::shared_ptr<Identifier> Id{dynamic_pointer_cast<std::shared_ptr<Identifier>>(realType)};
+                          Identifier* Idp{dynamic_cast<Identifier*>(&*realType)};
+                          std::shared_ptr<Identifier> Id{Idp}; 
                           std::string s{Id->getvalue()};
                           /* TODO(nicebub): check symbol table for this name and get
                                     is data type to put here */
@@ -521,13 +521,13 @@ void Compiler::installVariableIntoSymbolTable(std::shared_ptr<Identifier> Id,
 {
    if (Id != nullptr)
    {
-      S_TableEntryX* te = symbolTable->createVar(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id->getvalue(), t, 0);
       symbolTable->install(te);
    }
 }
 void Compiler::installVariableIntoSymbolTable(std::string Id, njnr::type t)
 {
-      S_TableEntryX* te = symbolTable->createVar(Id, t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id, t, 0);
       symbolTable->install(te);
 }
 void Compiler::installParameterIntoSymbolTable(std::shared_ptr<Identifier> Id,
@@ -535,13 +535,13 @@ void Compiler::installParameterIntoSymbolTable(std::shared_ptr<Identifier> Id,
 {
    if (Id != nullptr)
    {
-      S_TableEntryX* te = symbolTable->createParam(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id->getvalue(), t, 0);
       symbolTable->install(te);
    }
 }
 void Compiler::installParameterIntoSymbolTable(std::string Id, njnr::type t)
 {
-      S_TableEntryX* te = symbolTable->createParam(Id, t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id, t, 0);
       symbolTable->install(te);
 }
 

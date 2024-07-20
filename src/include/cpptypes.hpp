@@ -3,7 +3,7 @@
 
 #include <config.h>
 #include <string>
-
+#include <memory>
 #include "type.hpp"
 
 namespace njnr
@@ -48,7 +48,7 @@ class ReturnPacket : public BaseData
       const std::string toString() const;
 
       struct Pair m_pair;
-      void* funcent;
+      std::shared_ptr<void> funcent;
       int params;
    protected:
       int offset;
@@ -84,13 +84,13 @@ class Translation_Unit : public ReturnPacket
 //      Translation_Unit(Funcb* func);
 //      Translation_Unit(Varb* varb); // placeholder type -- needs to change
       virtual ~Translation_Unit();
-      ReturnPacket* get_translation();
-      void set_translation(ReturnPacket* translation);
+      std::shared_ptr<ReturnPacket> get_translation();
+      void set_translation(std::shared_ptr<ReturnPacket> translation);
       void set_trans_unit_type(trans_unit_type intype);
       trans_unit_type get_trans_unit_type();
       const std::string toString() const;
    private:
-      ReturnPacket* translation;
+      std::shared_ptr<ReturnPacket> translation;
       trans_unit_type trans_type;
 };
 

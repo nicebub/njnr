@@ -303,7 +303,9 @@ namespace njnr
 
 
    List::List() : list{} {}
+
    List::List(const List& cp) : list{cp.list} {}
+
    List::~List()
    {
        report(njnr::logType::debug, "running List() Destructor");
@@ -318,6 +320,7 @@ namespace njnr
    {
        return list.begin();
    }
+
    std::vector<std::shared_ptr<BasicListNode>>::iterator List::end()
    {
        return list.end();
@@ -347,10 +350,12 @@ namespace njnr
    {
        return (new List{})->appendList(inVal);
    }
+
    std::shared_ptr<List> List::mklist(std::string inVal, type inType)
    {
        return (new List{})->appendList(inVal, inType);
    }
+
    std::shared_ptr<List> List::mklist(std::shared_ptr<ReturnPacket> inExpr)
    {
        return (new List{})->appendList(inExpr);
@@ -365,56 +370,59 @@ namespace njnr
    {
       return (new List{})->appendList(i);
    }
+
    std::shared_ptr<List> List::mklist(std::shared_ptr<Constant> c)
    {
-      return (new List{})->appendList(c);
+      return std::shared_ptr<List>{(new List{})->appendList(c)};
    }
+
    std::shared_ptr<List> List::appendList(std::shared_ptr<Identifier> inVal)
    {
        std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inVal}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }
+
    std::shared_ptr<List> List::appendList(std::shared_ptr<Constant> inVal)
    {
        std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inVal}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }
 
    std::shared_ptr<List> List::appendList(std::string inVal)
    {
        std::shared_ptr<ListNode> nnode{new ListNode{inVal}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }
 
    std::shared_ptr<List> List::appendList(std::string inVal, type inType)
    {
        std::shared_ptr<PListNode> nnode{new PListNode{inVal, inType}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }
 
    std::shared_ptr<List> List::appendList(std::shared_ptr<ReturnPacket> inexpr)
    {
        std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inexpr}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }
 
    std::shared_ptr<List> List::appendList(njnr::type intype)
    {
        std::shared_ptr<TypeListNode> nnode{new TypeListNode{intype}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }
 
    std::shared_ptr<List> List::appendList(std::shared_ptr<Statement> instmt)
    {
        std::shared_ptr<StmtListNode> nnode{new StmtListNode{instmt}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }
 
    std::vector<std::shared_ptr<BasicListNode>> List::getlist()
@@ -435,15 +443,15 @@ namespace njnr
    std::shared_ptr<List> List::appendList(std::shared_ptr<Funcb> expr)
    {
        std::shared_ptr<ListNode> nnode{new TranslationUnitListNode{expr}};
-       list.push_back(dynamic_poiner_cast<BasicListNode>(nnode));
-       return this;
+       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
+       return std::shared_ptr<List>(this);
    }
 
    std::shared_ptr<List> List::appendList(std::shared_ptr<Varb> expr)
    {
        std::shared_ptr<ListNode> nnode{new TranslationUnitListNode{expr}};
        list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return this;
+       return std::shared_ptr<List>(this);
    }  // placeholder type -- needs changing
 
     const std::string List::toString() const
