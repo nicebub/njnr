@@ -10,9 +10,9 @@ namespace njnr
       return false
 
    void Compiler::install_parameters_into_symbol_table_curren_scope(\
-                                              shared_ptr<shared_ptr<funcheadertype>> inFuncHeaderptr)
+                                              std::shared_ptr<funcheadertype> inFuncHeaderptr)
    {
-      shared_ptr<funcheadertype> inFuncHeader{*inFuncHeaderptr};
+      std::shared_ptr<funcheadertype> inFuncHeader{inFuncHeaderptr};
       for (auto element : *inFuncHeader->paramlist)
       {
          std::shared_ptr<PListNode> nelement{dynamic_pointer_cast<PListNode>(element)};
@@ -27,10 +27,10 @@ namespace njnr
       }
    }
    bool Compiler::is_function_decl_or_def_accurate(\
-                                     shared_ptr<shared_ptr<funcheadertype>> inFuncHeaderptr,
+                                     std::shared_ptr<funcheadertype> inFuncHeaderptr,
                                                    bool isdeclaration)
    {
-      shared_ptr<funcheadertype> inFuncHeader{*inFuncHeaderptr};
+      std::shared_ptr<funcheadertype> inFuncHeader{inFuncHeaderptr};
 
       currentFunc = static_pointer_cast<Funcb>(symbolTable->lookup(inFuncHeader->name));
 

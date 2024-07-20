@@ -217,7 +217,6 @@ namespace njnr
       report(njnr::logType::debug, "running Funcb() destructor");
       if (funcbody_list) funcbody_list = nullptr;
       funcbody_list = nullptr;
-      if (funcheader) delete funcheader;
       funcheader = nullptr;
     }
    std::vector<njnr::type>& Funcb::getparam_type()
@@ -285,11 +284,11 @@ namespace njnr
    {
     return funcbody_list;
    }
-   void Funcb::setfuncheader(shared_ptr<funcheadertype> funcheader)
+   void Funcb::setfuncheader(std::shared_ptr<funcheadertype> funcheader)
    {
       this->funcheader = funcheader;
    }
-   shared_ptr<funcheadertype> Funcb::getfuncheader(void)
+   std::shared_ptr<funcheadertype> Funcb::getfuncheader(void)
    {
     return funcheader;
    }
@@ -303,7 +302,7 @@ namespace njnr
          int    label;
          int    localcount;
          int    actual_num;
-         shared_ptr<funcheadertype> funcheader;
+         std::shared_ptr<funcheadertype> funcheader;
          std::shared_ptr<List> funcbody_list;
      */
 
