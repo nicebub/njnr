@@ -193,9 +193,9 @@ void Compiler::dealwithstmtlist(List* stmtlist)
    {
    }
 
-   Statement* Compiler::stmt_return_expr_semi(ReturnPacket* expr)
+   std::shared_ptr<Statement> Compiler::stmt_return_expr_semi(std::shared_ptr<ReturnPacket> expr)
    {
-      Statement* statement{nullptr};
+      std::shared_ptr<Statement> statement{nullptr};
 
       statement = new Statement{};
       if (nullptr != statement)
@@ -218,9 +218,9 @@ void Compiler::dealwithstmtlist(List* stmtlist)
       return statement;
    }
 
-   ReturnPacket* Compiler::block32_stmt_while_source()
+   std::shared_ptr<ReturnPacket> Compiler::block32_stmt_while_source()
    {
-       ReturnPacket* inPacket{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> inPacket{new ReturnPacket{}};
        inPacket->m_pair.one =  othercounter;
        othercounter++;
        inPacket->m_pair.two =  othercounter;
@@ -231,8 +231,8 @@ void Compiler::dealwithstmtlist(List* stmtlist)
        return inPacket;
    }
    void Compiler::block33_stmt_while_source_expr_semi_source_lpar_expr_rpar(\
-                    ReturnPacket* insourcePacket,
-                    ReturnPacket* inexprPacket)
+                    std::shared_ptr<ReturnPacket> insourcePacket,
+                    std::shared_ptr<ReturnPacket> inexprPacket)
    {
        variableFetchWithNumericCheck(inexprPacket, true);
    }

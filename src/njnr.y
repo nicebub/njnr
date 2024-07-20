@@ -180,16 +180,16 @@ int yyerror(std::string err,Compiler& compiler);
 %type <std::shared_ptr<Funcb>> func variabledecl
 %nterm <std::shared_ptr<List>> paramdeflist paramdef
 %nterm <funcheadertype*> funcheader
-%nterm <ReturnPacket*> expr
-%nterm <Statement*> stmt
+%nterm <std::shared_ptr<ReturnPacket>> expr
+%nterm <std::shared_ptr<Statement>> stmt
 //%nterm <ReturnPacket*> stmtlist
-%nterm <ReturnPacket*> ifexprstmt
+%nterm <std::shared_ptr<ReturnPacket>> ifexprstmt
 %nterm <Constant*> constant
-%nterm <ReturnPacket*> factor function_call func_call_with_params name_and_params
-%nterm <ReturnPacket*> TERM
-%nterm <ReturnPacket*> simpleexpr
-%nterm <ReturnPacket*> relexpr
-%nterm <ReturnPacket*> equalexpr
+%nterm <std::shared_ptr<ReturnPacket>> factor function_call func_call_with_params name_and_params
+%nterm <std::shared_ptr<ReturnPacket>> TERM
+%nterm <std::shared_ptr<ReturnPacket>> simpleexpr
+%nterm <std::shared_ptr<ReturnPacket>> relexpr
+%nterm <std::shared_ptr<ReturnPacket>> equalexpr
 
 %start starter
 
@@ -315,7 +315,7 @@ stmt:     expr semi {
                                $$ = compiler.stmt_return_expr_semi($2);
                             }
 
-        | whilet <ReturnPacket*>{
+        | whilet <std::shared_ptr<ReturnPacket>>{
                                    $$ = compiler.block32_stmt_while_source();
                                 }
           lpar expr rpar {
@@ -485,7 +485,7 @@ func_call_with_params: name_and_params rpar {
                                             }
 ;
 
-name_and_params: Ident lpar <ReturnPacket*>{
+name_and_params: Ident lpar <std::shared_ptr<ReturnPacket>>{
                                               $$ = compiler.block63_name_and_params_ident_lpar_source(Identifier{$1});
                                            }
                  exprlist {

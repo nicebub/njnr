@@ -92,9 +92,9 @@ class TranslationUnitListNode : public ListNode
 {
    public:
       TranslationUnitListNode();
-      explicit TranslationUnitListNode(Funcb* infunc);
+      explicit TranslationUnitListNode(std::shared_ptr<Funcb> infunc);
       // need to change actual class used this was placeholder
-      explicit TranslationUnitListNode(Varb* invardecl);
+      explicit TranslationUnitListNode(std::shared_ptr<Varb> invardecl);
       virtual ~TranslationUnitListNode()
       {
          report(njnr::logType::debug,
@@ -103,8 +103,8 @@ class TranslationUnitListNode : public ListNode
       }
       const std::string toString() const;
       const njnr::trans_unit_type get_trans_unit_type(void) const;
-      const Varb* getVarDecl(void) const;
-      Funcb* getFunc(void) const;
+      const std::shared_ptr<Varb> getVarDecl(void) const;
+      std::shared_ptr<Funcb> getFunc(void) const;
    private:
       std::shared_ptr<ReturnPacket>         unit;
       trans_unit_type                 trans_type;
@@ -114,7 +114,7 @@ class StmtListNode : public ListNode
 {
    public:
       StmtListNode();
-      explicit StmtListNode(Statement* instmt);
+      explicit StmtListNode(std::shared_ptr<Statement> instmt);
       virtual ~StmtListNode()
       {
          report(njnr::logType::debug,
@@ -134,17 +134,17 @@ class IdentListNode : public ReturnPacketListNode
 {
    public:
       IdentListNode();
-      explicit IdentListNode(Identifier* inident);
+      explicit IdentListNode(std::shared_ptr<Identifier> inident);
       virtual ~IdentListNode()
       {
          report(njnr::logType::debug, "running IdentListNode() Destructor");
-         delete ident;
+         ident = nullptr;
       }
-      Identifier* getident(void);
-      void setident(Identifier* instmt);
+      std::shared_ptr<Identifier> getident(void);
+      void setident(std::shared_ptr<Identifier> instmt);
       const std::string toString() const;
    private:
-      Identifier*         ident;
+      std::shared_ptr<Identifier>         ident;
 };
 
 class TypeListNode : public ListNode
@@ -173,10 +173,10 @@ public:
     virtual ~List();
     List(const List& cp);
     List& operator=(const List& in);
-    void push_back(BasicListNode* node);
-    std::vector<BasicListNode*> getlist();
-    static std::shared_ptr<List> mklist(Identifier*);
-    static std::shared_ptr<List> mklist(Constant*);
+    void push_back(std::shared_ptr<BasicListNode> node);
+    std::vector<std::shared_ptr<BasicListNode>> getlist();
+    static std::shared_ptr<List> mklist(std::shared_ptr<Identifier>);
+    static std::shared_ptr<List> mklist(std::shared_ptr<Constant>);
     static std::shared_ptr<List> mklist(std::string inVal);
     static std::shared_ptr<List> mklist(std::string inVal, type inType);
     static std::shared_ptr<List> mklist(std::shared_ptr<ReturnPacket> expr);
@@ -184,28 +184,28 @@ public:
     static std::shared_ptr<List> mklist(std::shared_ptr<Funcb> expr);
 
     // place holder type -- needs changing
-    static std::shared_ptr<List> mklist(Varb* expr);
+    static std::shared_ptr<List> mklist(std::shared_ptr<Varb> expr);
 
     static std::shared_ptr<List> mklist(njnr::type type);
-    static std::shared_ptr<List> mklist(Statement* instmt);
-    std::vector<BasicListNode*>::iterator begin();
-    std::vector<BasicListNode*>::iterator end();
+    static std::shared_ptr<List> mklist(std::shared_ptr<Statement> instmt);
+    std::vector<std::shared_ptr<BasicListNode>>::iterator begin();
+    std::vector<std::shared_ptr<BasicListNode>>::iterator end();
     std::shared_ptr<List> appendList(std::string inVal);
     std::shared_ptr<List> appendList(std::string inVal, njnr::type inType);
     std::shared_ptr<List> appendList(std::shared_ptr<ReturnPacket> expr);
     std::shared_ptr<List> appendList(std::shared_ptr<Funcb> expr);
 
     // placeholder type -- needs changing
-    std::shared_ptr<List> appendList(Varb* expr);
+    std::shared_ptr<List> appendList(std::shared_ptr<Varb> expr);
 
     std::shared_ptr<List> appendList(njnr::type type);
-    std::shared_ptr<List> appendList(Statement* type);
+    std::shared_ptr<List> appendList(std::shared_ptr<Statement> type);
     std::shared_ptr<List> appendList(std::shared_ptr<Identifier>);
-    std::shared_ptr<List> appendList(Constant*);
+    std::shared_ptr<List> appendList(std::shared_ptr<Constant>);
     int size() const;
     const std::string toString() const;
 private:
-    std::vector<BasicListNode*> list;
+    std::vector<std::shared_ptr<BasicListNode>> list;
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_LIST_HPP_

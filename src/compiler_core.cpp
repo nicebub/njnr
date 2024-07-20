@@ -93,6 +93,7 @@ namespace njnr
       if (symbolTable != nullptr)
       {
          Funcb* x{nullptr};
+         std::shared_ptr<Funcb> xx{nullptr};
       try
       {
          S_TableEntryX* e{nullptr};
@@ -101,6 +102,7 @@ namespace njnr
          if (nullptr != e)
          {
             x = reinterpret_cast<Funcb*>(e->getValue());
+            xx = x;
             if (nullptr != x)
             {
                debugprint("deleting a function binding for function main()",
@@ -368,7 +370,7 @@ namespace njnr
                 if (realstmt->getrettype() == njnr::type::CHECK &&
                     (first == true))
                 {
-                    ReturnPacket* realType{realstmt->getexpr()};
+                    std::shared_ptr<ReturnPacket> realType{realstmt->getexpr()};
                     if (nullptr != realType)
                     {
                         std::cout << "return type checked..... " +
@@ -378,7 +380,7 @@ namespace njnr
 
                         if (njnr::type::IDENT == realType->gettype())
                         {
-                          Identifier* Id{dynamic_cast<Identifier*>(realType)};
+                          std::shared_ptr<Identifier> Id{dynamic_pointer_cast<std::shared_ptr<Identifier>>(realType)};
                           std::string s{Id->getvalue()};
                           /* TODO(nicebub): check symbol table for this name and get
                                     is data type to put here */
@@ -430,7 +432,7 @@ namespace njnr
 //                                                          (stmt))->
 //                                                          getstmt()};
                     if (true != checkSingleReturnStatement(\
-                                      (dynamic_cast<StmtListNode*>(stmt))->
+                                      (dynamic_pointer_cast<StmtListNode>(stmt))->
                                                                   getstmt(),
                                        foundtype,
                                        first))
@@ -457,7 +459,7 @@ namespace njnr
         return success;
     }
 
-    void Compiler::checkfunctionReturnValues(Funcb* functionBinding)
+    void Compiler::checkfunctionReturnValues(std::shared_ptr<Funcb> functionBinding)
     {
         njnr::type foundtype{njnr::type::VOID};
 
@@ -514,7 +516,7 @@ namespace njnr
     */
    }
 
-void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id,
+void Compiler::installVariableIntoSymbolTable(std::shared_ptr<Identifier> Id,
                                               njnr::type t)
 {
    if (Id != nullptr)
@@ -528,7 +530,7 @@ void Compiler::installVariableIntoSymbolTable(std::string Id, njnr::type t)
       S_TableEntryX* te = symbolTable->createVar(Id, t, 0);
       symbolTable->install(te);
 }
-void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id,
+void Compiler::installParameterIntoSymbolTable(std::shared_ptr<Identifier> Id,
                                                njnr::type t)
 {
    if (Id != nullptr)
