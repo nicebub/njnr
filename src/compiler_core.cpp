@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <fstream>
 #include <ostream>
+#include <memory>
 #include "debug.hpp"
 #include "compiler.hpp"
 #include "symbol_table_stackX.hpp"
@@ -69,7 +70,7 @@ namespace njnr
 
    void Compiler::install_functions_into_symbolTable()
    {
-       List* params{List::mklist("", njnr::type::VOID)};
+       std::shared_ptr<List> params{List::mklist("", njnr::type::VOID)};
        S_TableEntryX* entry{symbolTable->createFunc("main",
                                                     njnr::type::INT,
                                                     params)};
@@ -145,7 +146,7 @@ namespace njnr
        }
    }
 
-   void  Compiler::setfinished(List* inlist)
+   void  Compiler::setfinished(std::shared_ptr<List> &inlist)
    {
       finished = inlist;
    }
@@ -234,15 +235,17 @@ namespace njnr
       return false;
    }
 
-    bool Compiler::checkSingleReturnStatement(Statement *realstmt,
-                                              njnr::type* foundtype,
+    bool Compiler::checkSingleReturnStatement(std::shared_ptr<Statement> realstmt,
+                                              njnr::type foundtype,
                                               bool first)
     {
         bool success{true};
 //        njnr::type found = {};
-        njnr::type similar{};
+        // njnr::type similar{};
+        njnr::type similar;
 
-        if (nullptr != realstmt && (nullptr != foundtype))
+        if (nullptr != realstmt)
+        // if (nullptr != realstmt && (nullptr != foundtype))todo: ask scott if this change is correct
         {
             /* make sure we only look at return statements */
             if (realstmt->getstype() == njnr::statement_type::RETURN)
@@ -252,10 +255,11 @@ namespace njnr
                 switch (realstmt->getrettype())
                 {
                     case njnr::type::CHECK:
-                         checkSingleReturnStatement(realstmt, &similar, first);
+                        //  checkSingleReturnStatement(realstmt, &similar, first);
+                         checkSingleReturnStatement(realstmt, similar, first);
                             if (true == first)
                             {
-                                *foundtype = similar;
+                                foundtype = similar;
                             }
                             else
                             {
@@ -268,7 +272,8 @@ namespace njnr
                     default:
                         similar = Compiler::getReturnTypeFromStatement(\
                                                              realstmt);
-                        if (true == aresimilartypes(similar, *foundtype))
+                        // if (true == aresimilartypes(similar, *foundtype))
+                        if (true == aresimilartypes(similar, foundtype))
                         {
                             std::cout << "so far compatible...\n";
                         }
@@ -276,7 +281,7 @@ namespace njnr
                         {
                             if (true == first)
                             {
-                                *foundtype = similar;
+                                foundtype = similar;
                             }
                             else
                             {
@@ -304,12 +309,12 @@ namespace njnr
                           std::string s{Id->getvalue()};
                           /* TODO(nicebub): check symbol table for this name and get
                                     is data type to put here */
-                          *foundtype = njnr::type::INT;
+                          foundtype = njnr::type::INT;
                           first = false;
                         }
                         else if (realType->gettype() != njnr::type::CHECK)
                         {
-                           *foundtype = realType->gettype();
+                           foundtype = realType->gettype();
                            first = false;
                         }
                         else
@@ -329,12 +334,13 @@ namespace njnr
         return success;
     }
 
-    bool Compiler::checkAllFunctionReturnStatements(njnr::List* statementList,
-                                                    njnr::type* foundtype)
+    bool Compiler::checkAllFunctionReturnStatements(std::shared_ptr<njnr::List> statementList,
+                                                    njnr::type foundtype)
     {
         bool first{true};
         bool success{false};
-        if (nullptr != statementList && (nullptr != foundtype))
+        // if (nullptr != statementList && (nullptr != foundtype))
+        if (nullptr != statementList)//todo: ask scott if this change is correct
         {
             std::cout << "Calculating Return types from " \
                          "return statements found in function...\n";
@@ -403,7 +409,7 @@ namespace njnr
             // IF we have a function body
             if (true == checkAllFunctionReturnStatements(functionBinding->
                                                          getfuncbody_list(),
-                                                         &foundtype))
+                                                         foundtype))
             {
                 std::cout << "Setting new return type to: " +
                              getStringFromType(foundtype) +

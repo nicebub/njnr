@@ -3,6 +3,7 @@
 #include <config.h>
 #include <ostream>
 #include <string>
+#include <memory>
 /*
 #if !defined(yyFlexLexerOnce)
 #include <FlexLexer.h>
@@ -83,7 +84,7 @@ class Compiler
       void install_parameters_into_symbol_table_curren_scope(funcheadertype** \
                                                              inFuncHeaderptr);
 
-      Funcb* create_full_function(funcheadertype* funcheader, List* funcbody);
+      std::shared_ptr<Funcb> create_full_function(funcheadertype* funcheader, std::shared_ptr<List> funcbody);
       void block2_func_funcheader_source(funcheadertype** funcheaderptr);
       void block3_func_funcheader_source_funcbody();
       void block4_func_funcheader_semi(funcheadertype* inFuncHeaderptr);
@@ -91,17 +92,17 @@ class Compiler
       void block5_funcheader_error_semi(funcheadertype** inFuncHeaderptr);
 
       funcheadertype* funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
-      njnr::Identifier inIdent, List* inParamdeflist, njnr::type inreturntype);
+      njnr::Identifier inIdent, std::shared_ptr<List> inParamdeflist, njnr::type inreturntype);
 
 
       funcheadertype* block6_funcheader_void_ident_lpar_paramdef_rpar(\
-                            njnr::Identifier ident, List* paramdeflist);
+                            njnr::Identifier ident, std::shared_ptr<List> paramdeflist);
 
       funcheadertype* block7_funcheader_int_ident_lpar_paramdef_rpar(\
-                        njnr::Identifier inIdent, List* inParamdeflist);
+                        njnr::Identifier inIdent, std::shared_ptr<List> inParamdeflist);
 
       funcheadertype* block8_funcheader_float_ident_lpar_paramdef_rpar(\
-                        njnr::Identifier inIdent, List* inParamdeflist);
+                        njnr::Identifier inIdent, std::shared_ptr<List> inParamdeflist);
 
       funcheadertype* block9_funcheader_void_error_rpar();
       funcheadertype* block10_funcheader_int_error_rpar();
@@ -116,30 +117,30 @@ class Compiler
       funcheadertype* block14_funcheader_int_ident_lpar_error_rpar(\
                                                 njnr::Identifier inIdent);
 
-      List* block15_paramdef_paramdeflist_comma_elip(List** inParamdeflistptr);
-      List* block16_paramdef_void();
+      std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(List** inParamdeflistptr);
+      std::shared_ptr<List>block16_paramdef_void();
 
       void block17_paramdef_paramdeflist_error_rpar(List** inParamdeflistptr);
 
       void block18_paramdef_paramdeflist_comma_error_rpar(\
                                                 List** inParamdeflistptr);
 
-      List* paramdeflist_type_ident_helper(njnr::Identifier inIdent,
+      std::shared_ptr<List>paramdeflist_type_ident_helper(njnr::Identifier inIdent,
                                            njnr::type intype);
-      List* block19_paramdeflist_int_ident(njnr::Identifier inIdent);
-      List* block20_paramdeflist_float_ident(njnr::Identifier inIdent);
-      List* block21_paramdeflist_char_star_ident(njnr::Identifier inIdent);
+      std::shared_ptr<List>block19_paramdeflist_int_ident(njnr::Identifier inIdent);
+      std::shared_ptr<List>block20_paramdeflist_float_ident(njnr::Identifier inIdent);
+      std::shared_ptr<List>block21_paramdeflist_char_star_ident(njnr::Identifier inIdent);
 
-      List* paramdeflist_paramdeflist_comma_type_ident_helper(\
+      std::shared_ptr<List>paramdeflist_paramdeflist_comma_type_ident_helper(\
       List** inParamdeflistptr, njnr::Identifier inIdent, njnr::type intype);
 
-      List* block22_paramdeflist_paramdeflist_comma_int_ident(\
+      std::shared_ptr<List>block22_paramdeflist_paramdeflist_comma_int_ident(\
       List** inParamdeflist, njnr::Identifier inIdent);
 
-      List* block23_paramdeflist_paramdeflist_comma_float_ident(\
+      std::shared_ptr<List>block23_paramdeflist_paramdeflist_comma_float_ident(\
       List** inParamdeflist, njnr::Identifier inIdent);
 
-      List* block24_paramdeflist_paramdeflist_comma_char_star_ident(\
+      std::shared_ptr<List>block24_paramdeflist_paramdeflist_comma_char_star_ident(\
       List** inParamdeflist, njnr::Identifier inIdent);
 
       void block25_funcbody_lcbra_decls_source();
@@ -150,10 +151,10 @@ class Compiler
 
       void block29_stmt_expr_semi();
 
-      void dealwithstmtlist(List* stmtlist);
+      void dealwithstmtlist(std::shared_ptr<List> stmtlist);
 
       Funcb* create_and_return_a_fn_body_statement_element(Statement* stmt);
-      Funcb* add_statement_to_fn_body_and_return(List* func, Statement* stmt);
+      Funcb* add_statement_to_fn_body_and_return(std::shared_ptr<List>func, Statement* stmt);
       Statement* stmt_return_expr_semi(ReturnPacket* inPacket);
 
       void variableFetch(ReturnPacket* inPacket, bool conversionNeeded);
@@ -278,24 +279,25 @@ class Compiler
       void block68_constant_floatconstant(njnr::ReturnPacket* mcon,
                                           float floatconstant);
 
-      List* block69_identlist_ident(njnr::Identifier inIdent);
-      List* block70_identlist_comma_ident(List** inIdentListptr,
+      std::shared_ptr<List>block69_identlist_ident(njnr::Identifier inIdent);
+      std::shared_ptr<List>block70_identlist_comma_ident(List** inIdentListptr,
                                           njnr::Identifier inIdent);
 
-      void  setfinished(List* inlist);
+      // void  setfinished(std::shared_ptr<List>inlist);
+      void  setfinished(std::shared_ptr<List> &inlist);
       void  printProgramTree(void);
       void  checkfunctionReturnValues(Funcb* f);
       bool  aresimilartypes(njnr::type t1, njnr::type t2);
       static std::string getStringFromType(njnr::type t);
-      njnr::type getReturnTypeFromStatement(Statement* s);
-      List* getfinished(void);
+      njnr::type getReturnTypeFromStatement(std::shared_ptr<Statement> s);
+      std::shared_ptr<List>getfinished(void);
       void installVariableIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
       void installVariableIntoSymbolTable(std::string Id, njnr::type t);
       void installParameterIntoSymbolTable(njnr::Identifier* Id, njnr::type t);
       void installParameterIntoSymbolTable(std::string Id, njnr::type t);
-      bool checkAllFunctionReturnStatements(njnr::List* x, njnr::type*);
-      bool checkSingleReturnStatement(Statement *realstmt,
-                                      njnr::type* foundtype,
+      bool checkAllFunctionReturnStatements(std::shared_ptr<njnr::List>x, njnr::type);
+      bool checkSingleReturnStatement(std::shared_ptr<Statement> realstmt,
+                                      njnr::type foundtype,
                                       bool first);
    protected:
       static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
@@ -303,7 +305,7 @@ class Compiler
 
    private:
       bool   founderror;
-      List*  finished;
+      std::shared_ptr<List> finished;
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_COMPILER_HPP_

@@ -74,8 +74,8 @@ class Funcb : public Identifier
       void setlabel(int label);
       void setlocalcount(int localcount);
       void setactual_num(int actual_num);
-      void setfuncbody_list(List* funcbody);
-      List* getfuncbody_list(void);
+      void setfuncbody_list(std::shared_ptr<List> funcbody);
+      std::shared_ptr<List> getfuncbody_list(void);
       void setfuncheader(funcheadertype* funcheader);
       funcheadertype* getfuncheader(void);
       const std::string toString() const;
@@ -88,7 +88,7 @@ class Funcb : public Identifier
       int   localcount;
       int   actual_num;
       funcheadertype* funcheader;
-      List* funcbody_list;
+      std::shared_ptr<List> funcbody_list;
 };
 
 class Varb : public Identifier

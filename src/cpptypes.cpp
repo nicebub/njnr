@@ -276,11 +276,11 @@ namespace njnr
        this->actual_num = actual_num;
    }
 
-   void Funcb::setfuncbody_list(List* funcbody)
+   void Funcb::setfuncbody_list(std::shared_ptr<List> funcbody)
    {
       funcbody_list = funcbody;
    }
-   List* Funcb::getfuncbody_list(void)
+   std::shared_ptr<List> Funcb::getfuncbody_list(void)
    {
     return funcbody_list;
    }

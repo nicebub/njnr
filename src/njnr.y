@@ -2,6 +2,7 @@
 #include <config.h>
 #include <cstdio>
 #include <string>
+#include <memory>
 
 #include "debug.hpp"
 
@@ -73,8 +74,7 @@ int yyerror(std::string err,Compiler& compiler);
 	{
 		std::cout << "at " << loc << " : " << message << std::endl;
 	}
-} 
-
+}
 
 %token <std::string> Ident "Identifier"
 %token <std::string> IntConstant "IntConstant"
@@ -153,7 +153,7 @@ int yyerror(std::string err,Compiler& compiler);
 %right uminus
 
 
-%type <List*> identlist
+%type <std::shared_ptr<List>> identlist
 %type <reltype> relop
 %type <multype> mulop
 %type <addtype> addop
@@ -168,9 +168,12 @@ int yyerror(std::string err,Compiler& compiler);
 %type <eqtype> equequ neq
 %type <multype> divide star
 %type <int> uminus
-%type <List*> translation_unit_part_list translation_unit funcbody_internal funcbody
-%type <Funcb*> func variabledecl
-%nterm <List*> paramdeflist paramdef
+//%type <List*> translation_unit funcbody_internal funcbody
+%type <std::shared_ptr<List>> translation_unit_part_list translation_unit funcbody_internal funcbody
+//%type <std::shared_ptr<Funcb>> translation_unit_part_list translation_unit funcbody_internal funcbody
+//%type <Funcb*> func variabledecl
+%type <std::shared_ptr<Funcb>> func variabledecl
+%nterm <std::shared_ptr<List>> paramdeflist paramdef
 %nterm <funcheadertype*> funcheader
 %nterm <ReturnPacket*> expr
 %nterm <Statement*> stmt
@@ -211,7 +214,8 @@ func: funcheader funcbody {
 ;
 
 funcheader: fnt Ident lpar paramdef rpar {
-	                                        $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $<List*>4, njnr::type::VOID);
+	                                        // $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $<List*>4, njnr::type::VOID);
+	                                        $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $4, njnr::type::VOID);
 										 }
           | fnt Ident lpar rpar {
 			                       $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, nullptr, njnr::type::VOID);
@@ -238,13 +242,13 @@ paramdef: paramdeflist {$$ = $1;}
         | paramdeflist error rpar { 
 			                         yyerrok;
 									 compiler.error("(unexpected token before rpar in parameter definition)","");
-									 delete $1;
+									 //delete $1;
 									 $1 = nullptr;
 								  }
         | paramdeflist comma error rpar {
 			                               yyerrok;
 		                                   compiler.error("(unexpected token before rpar in parameter definition)","");
-										   delete $1;
+										   //delete $1;
 										   $1 = nullptr;
 										}
 ;
