@@ -194,7 +194,7 @@ let {
             BEGIN(comment);
          }
 
-{LETTER}({LETTER}|{DIGIT})*  { /* identifier*/
+{LETTER}({LETTER}|{DIGIT})*  { /* identifier */
                                 yylval->emplace<std::string>() = yytext;
                                 return(token::Ident);
                              }
@@ -228,7 +228,7 @@ let {
               compiler->error("illegal integer: %s", yytext);
            }
 
-(0|([1-9]{DIGIT}*))     { /*integer constant*/
+(0|([1-9]{DIGIT}*))     { /*integer constant */
                            yylval->emplace<std::string>() = yytext;
                            return(token::IntConstant);
                         }

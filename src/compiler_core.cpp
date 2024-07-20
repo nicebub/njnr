@@ -379,7 +379,7 @@ namespace njnr
 
                         if (njnr::type::IDENT == realType->gettype())
                         {
-                          Identifier* Idp{dynamic_cast<Identifier*>(&*realType)};
+                          std::shared_ptr<Identifier> Idp{std::dynamic_pointer_cast<Identifier>(realType)};
                           std::shared_ptr<Identifier> Id{Idp}; 
                           std::string s{Id->getvalue()};
                           /* TODO(nicebub): check symbol table for this name and get
@@ -428,7 +428,7 @@ namespace njnr
             {
                 if (stmt->get_nodeType() == njnr::eNodeType::STMT)
                 {
-//                    Statement* realstmt{(dynamic_cast<StmtListNode*>
+//                    std::shared_ptr<Statement> realstmt{(dynamic_cast<StmtListNode*>
 //                                                          (stmt))->
 //                                                          getstmt()};
                     if (true != checkSingleReturnStatement(\
