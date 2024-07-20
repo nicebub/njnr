@@ -30,7 +30,7 @@ public:
         Pair                     pairvalue;
         exprtype*                exprvalue;
         reltype                 relopvalue;
-        funcheadertype* funcheadervalue;
+        shared_ptr<funcheadertype> funcheadervalue;
         // Entry *funcentvalue;
     } value;
 

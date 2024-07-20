@@ -285,11 +285,11 @@ namespace njnr
    {
     return funcbody_list;
    }
-   void Funcb::setfuncheader(funcheadertype* funcheader)
+   void Funcb::setfuncheader(shared_ptr<funcheadertype> funcheader)
    {
       this->funcheader = funcheader;
    }
-   funcheadertype* Funcb::getfuncheader(void)
+   shared_ptr<funcheadertype> Funcb::getfuncheader(void)
    {
     return funcheader;
    }
@@ -303,7 +303,7 @@ namespace njnr
          int    label;
          int    localcount;
          int    actual_num;
-         funcheadertype* funcheader;
+         shared_ptr<funcheadertype> funcheader;
          std::shared_ptr<List> funcbody_list;
      */
 

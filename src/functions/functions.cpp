@@ -12,7 +12,7 @@
 
 namespace njnr
 {
-   std::shared_ptr<Funcb> Compiler::create_full_function(funcheadertype* funcheader,
+   std::shared_ptr<Funcb> Compiler::create_full_function(shared_ptr<funcheadertype> funcheader,
                                          std::shared_ptr<List> funcbody)
    {
     /**
@@ -41,7 +41,7 @@ namespace njnr
    }
 
    void Compiler::block2_func_funcheader_source(\
-                                 funcheadertype** inFuncHeaderptr)
+                                 shared_ptr<shared_ptr<funcheadertype>> inFuncHeaderptr)
    {
        auto templabel{mainlabel};
        if (is_function_decl_or_def_accurate(inFuncHeaderptr, false))
@@ -64,7 +64,7 @@ namespace njnr
        symbolTable->closescope();
    }
 
-   void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
+   void Compiler::block4_func_funcheader_semi(shared_ptr<funcheadertype> inFuncHeader)
    {
        njnr::S_TableEntryX found = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                                          lookupB(inFuncHeader->
@@ -76,9 +76,9 @@ namespace njnr
        is_function_decl_or_def_accurate(&inFuncHeader, true);
    }
 
-   void Compiler::block5_funcheader_error_semi(funcheadertype** inFuncHeaderptr)
+   void Compiler::block5_funcheader_error_semi(shared_ptr<shared_ptr<funcheadertype>> inFuncHeaderptr)
    {
-       funcheadertype* inFuncHeader{*inFuncHeaderptr};
+       shared_ptr<funcheadertype> inFuncHeader{*inFuncHeaderptr};
        if (inFuncHeader != nullptr)
        {
            delete inFuncHeader;
@@ -86,13 +86,13 @@ namespace njnr
        }
    }
 
-   funcheadertype*  Compiler::
+   shared_ptr<funcheadertype>  Compiler::
                     funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
                                                    njnr::Identifier inIdent,
                                                    std::shared_ptr<List> inParamdeflist,
                                                    njnr::type inreturntype)
    {
-      funcheadertype* retFuncHeader{nullptr};
+      shared_ptr<funcheadertype> retFuncHeader{nullptr};
 
       retFuncHeader             = new funcheadertype;
       if (nullptr != retFuncHeader)

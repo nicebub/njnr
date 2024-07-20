@@ -179,7 +179,7 @@ int yyerror(std::string err,Compiler& compiler);
 //%type <Funcb*> func variabledecl
 %type <std::shared_ptr<Funcb>> func variabledecl
 %nterm <std::shared_ptr<List>> paramdeflist paramdef
-%nterm <funcheadertype*> funcheader
+%nterm <shared_ptr<funcheadertype>> funcheader
 %nterm <std::shared_ptr<ReturnPacket>> expr
 %nterm <std::shared_ptr<Statement>> stmt
 //%nterm <ReturnPacket*> stmtlist

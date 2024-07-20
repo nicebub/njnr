@@ -74,49 +74,49 @@ class Compiler
       int warning(std::string, std::string) noexcept;
 
       void block1_start_trans_unit();
-      bool is_function_decl_or_def_accurate(funcheadertype** inFunc,
+      bool is_function_decl_or_def_accurate(shared_ptr<shared_ptr<funcheadertype>> inFunc,
                                             bool isdeclaration);
 
-      void install_parameters_into_symbol_table_curren_scope(funcheadertype** \
+      void install_parameters_into_symbol_table_curren_scope(shared_ptr<shared_ptr<funcheadertype>> \
                                                              inFuncHeaderptr);
 
-      std::shared_ptr<Funcb> create_full_function(funcheadertype* funcheader,
+      std::shared_ptr<Funcb> create_full_function(shared_ptr<funcheadertype> funcheader,
                                                   std::shared_ptr<List> funcbody);
-      void block2_func_funcheader_source(funcheadertype** funcheaderptr);
+      void block2_func_funcheader_source(shared_ptr<shared_ptr<funcheadertype>> funcheaderptr);
       void block3_func_funcheader_source_funcbody();
-      void block4_func_funcheader_semi(funcheadertype* inFuncHeaderptr);
+      void block4_func_funcheader_semi(shared_ptr<funcheadertype> inFuncHeaderptr);
 
-      void block5_funcheader_error_semi(funcheadertype** inFuncHeaderptr);
+      void block5_funcheader_error_semi(shared_ptr<shared_ptr<funcheadertype>> inFuncHeaderptr);
 
-      funcheadertype* funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
+      shared_ptr<funcheadertype> funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
                                         njnr::Identifier inIdent,
                                         std::shared_ptr<List> inParamdeflist,
                                         njnr::type inreturntype);
 
 
-      funcheadertype* block6_funcheader_void_ident_lpar_paramdef_rpar(\
+      shared_ptr<funcheadertype> block6_funcheader_void_ident_lpar_paramdef_rpar(\
                             njnr::Identifier ident,
                             std::shared_ptr<List> paramdeflist);
 
-      funcheadertype* block7_funcheader_int_ident_lpar_paramdef_rpar(\
+      shared_ptr<funcheadertype> block7_funcheader_int_ident_lpar_paramdef_rpar(\
                         njnr::Identifier inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
-      funcheadertype* block8_funcheader_float_ident_lpar_paramdef_rpar(\
+      shared_ptr<funcheadertype> block8_funcheader_float_ident_lpar_paramdef_rpar(\
                         njnr::Identifier inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
-      funcheadertype* block9_funcheader_void_error_rpar();
-      funcheadertype* block10_funcheader_int_error_rpar();
-      funcheadertype* block11_funcheader_float_error_rpar();
+      shared_ptr<funcheadertype> block9_funcheader_void_error_rpar();
+      shared_ptr<funcheadertype> block10_funcheader_int_error_rpar();
+      shared_ptr<funcheadertype> block11_funcheader_float_error_rpar();
 
-      funcheadertype* block12_funcheader_void_ident_lpar_error_rpar(\
+      shared_ptr<funcheadertype> block12_funcheader_void_ident_lpar_error_rpar(\
                                                 njnr::Identifier inIdent);
 
-      funcheadertype* block13_funcheader_float_ident_lpar_error_rpar(\
+      shared_ptr<funcheadertype> block13_funcheader_float_ident_lpar_error_rpar(\
                                                 njnr::Identifier inIdent);
 
-      funcheadertype* block14_funcheader_int_ident_lpar_error_rpar(\
+      shared_ptr<funcheadertype> block14_funcheader_int_ident_lpar_error_rpar(\
                                                 njnr::Identifier inIdent);
 
       std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(std::shared_ptr<List>* inParamdeflistptr);

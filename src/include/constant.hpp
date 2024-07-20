@@ -74,7 +74,7 @@ class Funcb : public Identifier
 
       Funcb(njnr::type returntype, bool bodydef, int num_param,
             std::vector<njnr::type> param_type, int label,
-            int localcount, int actual_num, funcheadertype* funcheader,
+            int localcount, int actual_num, shared_ptr<funcheadertype> funcheader,
             std::shared_ptr<List> funcbody_list);
 
       Funcb(const Funcb& in);
@@ -96,8 +96,8 @@ class Funcb : public Identifier
       void setactual_num(int actual_num);
       void setfuncbody_list(std::shared_ptr<List> funcbody);
       std::shared_ptr<List> getfuncbody_list(void);
-      void setfuncheader(funcheadertype* funcheader);
-      funcheadertype* getfuncheader(void);
+      void setfuncheader(shared_ptr<funcheadertype> funcheader);
+      shared_ptr<funcheadertype> getfuncheader(void);
       const std::string toString() const;
    private:
       std::vector<njnr::type> param_type;
@@ -107,7 +107,7 @@ class Funcb : public Identifier
       int   label;
       int   localcount;
       int   actual_num;
-      funcheadertype* funcheader;
+      shared_ptr<funcheadertype> funcheader;
       std::shared_ptr<List> funcbody_list;
 };
 
