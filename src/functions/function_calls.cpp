@@ -11,10 +11,10 @@
 
 namespace njnr
 {
-   ReturnPacket* Compiler::block60_function_call_ident_lpar_rpar(\
+   std::shared_ptr<ReturnPacket> Compiler::block60_function_call_ident_lpar_rpar(\
                                                       njnr::Identifier inIdent)
    {
-       ReturnPacket* outPacket{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
        outPacket->setlval(false);
        Funcb* tempb;
        S_TableEntryX tempE;
@@ -82,10 +82,10 @@ namespace njnr
        return outPacket;
    }
 
-   ReturnPacket* Compiler::block62_func_call_with_params_name_and_params_rpar(\
-                                                ReturnPacket** nameAndparamptr)
+   std::shared_ptr<ReturnPacket> Compiler::block62_func_call_with_params_name_and_params_rpar(\
+                                                std::shared_ptr<ReturnPacket>* nameAndparamptr)
    {
-       ReturnPacket* funcCallWparam{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> funcCallWparam{new ReturnPacket{}};
        funcCallWparam->setnumeric((* nameAndparamptr)->getnumeric());
        funcCallWparam->setlval(false);
        funcCallWparam->settype((* nameAndparamptr)->gettype());
@@ -154,10 +154,10 @@ namespace njnr
        return funcCallWparam;
    }
 
-   ReturnPacket* Compiler::block63_name_and_params_ident_lpar_source(\
+   std::shared_ptr<ReturnPacket> Compiler::block63_name_and_params_ident_lpar_source(\
                                                       njnr::Identifier inPacket)
    {
-       ReturnPacket* inEntry{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> inEntry{new ReturnPacket{}};
        std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
        inEntry->funcent = nullptr;
        *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
@@ -181,16 +181,16 @@ namespace njnr
        return inEntry;
    }
 
-   ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(\
+   std::shared_ptr<ReturnPacket> Compiler::block64_name_and_params_ident_lpar_source_expr(\
                                                    njnr::Identifier inIdent,
-                                                   ReturnPacket** inEntryptr,
-                                                   ReturnPacket** inPacketptr)
+                                                   std::shared_ptr<ReturnPacket>* inEntryptr,
+                                                   std::shared_ptr<ReturnPacket>* inPacketptr)
    {
        std::shared_ptr<S_TableEntryX> tempE;
        std::shared_ptr<S_TableEntryX> tempE2;
-       ReturnPacket* outPacket{new ReturnPacket{}};
-       ReturnPacket* inPacket{*inPacketptr};
-       ReturnPacket* inEntry{*inEntryptr};
+       std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> inPacket{*inPacketptr};
+       std::shared_ptr<ReturnPacket> inEntry{*inEntryptr};
        outPacket->setlval(false);
        Funcb* tempB;
        tempB = reinterpret_cast<Funcb*>(symbolTable->
@@ -348,13 +348,13 @@ namespace njnr
        return outPacket;
    }
 
-   ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(\
-                                     ReturnPacket** innameAndparamPacketptr,
-                                     ReturnPacket** inexprPacketptr)
+   std::shared_ptr<ReturnPacket> Compiler::block65_name_and_params_name_and_params_comma_expr(\
+                                     std::shared_ptr<ReturnPacket>* innameAndparamPacketptr,
+                                     std::shared_ptr<ReturnPacket>* inexprPacketptr)
    {
-       ReturnPacket* outPacket{new ReturnPacket{}};
-       ReturnPacket* innameAndparamPacket{*innameAndparamPacketptr};
-       ReturnPacket* inexprPacket{*inexprPacketptr};
+       std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> innameAndparamPacket{*innameAndparamPacketptr};
+       std::shared_ptr<ReturnPacket> inexprPacket{*inexprPacketptr};
 
        std::shared_ptr<S_TableEntryX> tempE;
        std::shared_ptr<S_TableEntryX> tempE2;
@@ -529,16 +529,16 @@ namespace njnr
     *
     * @param p
     * @param t
-    * @return Constant*
+    * @return std::shared_ptr<Constant>
     */
-   Constant* Compiler::createConstant(njnr::type p,
+   std::shared_ptr<Constant> Compiler::createConstant(njnr::type p,
                                       std::string t)
    {
       std::string s{mapNjnrTypeToString(p)};
 
       typeTable->install2(s, p);
 
-      Constant *n{new Constant{t, p}};
+      std::shared_ptr<Constant> n{new Constant{t, p}};
       constantTable->install2(t, p);
 
 //      n->setType(TSOperatorType(s));

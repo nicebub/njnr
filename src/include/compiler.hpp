@@ -251,9 +251,9 @@ class Compiler
                                                  std::shared_ptr<ReturnPacket> infactorptr);
       void block53_term_factor();
 
-      std::shared_ptr<ReturnPacket> block54_factor_constant(Constant* inConstant);
+      std::shared_ptr<ReturnPacket> block54_factor_constant(std::shared_ptr<Constant> inConstant);
       std::shared_ptr<ReturnPacket> block55_factor_ident(njnr::Identifier inIdent);
-      std::shared_ptr<ReturnPacket> block56_factor_lpar_expr_rpar(ReturnPacket** inPacket);
+      std::shared_ptr<ReturnPacket> block56_factor_lpar_expr_rpar(std::shared_ptr<ReturnPacket>* inPacket);
 
       std::shared_ptr<ReturnPacket> block57_factor_addop_factor_uminus(Operator* inop,
                                                        std::shared_ptr<ReturnPacket>* inPacket);
@@ -293,7 +293,7 @@ class Compiler
       std::shared_ptr<List>block70_identlist_comma_ident(std::shared_ptr<List>* inIdentListptr,
                                           njnr::Identifier inIdent);
       Operator* createOperator(njnr::reltype n, std::string s);
-      Constant* createConstant(njnr::type n, std::string t);
+      std::shared_ptr<Constant> createConstant(njnr::type n, std::string t);
       // void  setfinished(std::shared_ptr<List>inlist);
       void  setfinished(std::shared_ptr<List> &inlist);
       void  printProgramTree(void);

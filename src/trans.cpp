@@ -222,16 +222,16 @@ void CodeGenerator::generateReturnStatement(std::shared_ptr<Statement> s)
             case njnr::type::CHAR:
                std::cout << "found Char constant return type\n";
                *outfile << " \'" +
-                           std::string{dynamic_cast<Constant*>(s->
+                           std::string{dynamic_pointer_cast<Constant>(s->
                                                                getexpr())->
                                                                getValue()} +
                            "\'";
                break;
             case njnr::type::INT:
                std::cout << "found Integer constant return type\n";
-               if (dynamic_cast<Constant*>(s->getexpr()) != NULL)
+               if (dynamic_pointer_cast<Constant>(s->getexpr()) != NULL)
                {
-                  *outfile << " " + dynamic_cast<Constant*>(s->
+                  *outfile << " " + dynamic_pointer_cast<Constant>(s->
                                                             getexpr())->
                                                             getValue();
                }
@@ -242,19 +242,19 @@ void CodeGenerator::generateReturnStatement(std::shared_ptr<Statement> s)
                break;
             case njnr::type::FLOAT:
                std::cout << "found Float constant return type\n";
-               *outfile << " " + dynamic_cast<Constant*>(s->getexpr())->
+               *outfile << " " + dynamic_pointer_cast<Constant>(s->getexpr())->
                                                             getValue();
                break;
             case njnr::type::STR:
                std::cout << "found Constant String return\n";
-               *outfile << " \"" + dynamic_cast<Constant*>(s->
+               *outfile << " \"" + dynamic_pointer_cast<Constant>(s->
                                                            getexpr())->
                                                            getValue() +
                            "\"";
                break;
             case njnr::type::IDENT:
                std::cout << "found Identifier return\n";
-               *outfile << " " + dynamic_cast<Identifier*>(s->
+               *outfile << " " + dynamic_pointer_cast<Identifier>(s->
                                                            getexpr())->
                                                            getValue();
                break;

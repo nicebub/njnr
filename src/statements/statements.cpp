@@ -13,12 +13,12 @@ namespace njnr
    {
     /**
          statement_type stype;
-         ReturnPacket* stmt;
+         std::shared_ptr<ReturnPacket> stmt;
          type         rettype;
      */
       std::string r = ReturnPacket::toString();
    //      statement_type stype;
-//         ReturnPacket* stmt;
+//         std::shared_ptr<ReturnPacket> stmt;
 //         type         rettype;
          r += "stmt type: ";
          if (nullptr != expr)
@@ -98,12 +98,12 @@ namespace njnr
       stype = t;
    }
 
-   void Statement::setexpr(ReturnPacket* expr)
+   void Statement::setexpr(std::shared_ptr<ReturnPacket> expr)
    {
       this->expr = expr;
    }
 
-   ReturnPacket* Statement::getexpr()
+   std::shared_ptr<ReturnPacket> Statement::getexpr()
    {
       return expr;
    }
@@ -125,7 +125,7 @@ std::string Statement::printCheckReturn(void) const
     {
         case njnr::type::CHAR:
            r += "CHAR: ";
-           r += dynamic_cast<Constant*>(expr)->toString() +
+           r += dynamic_pointer_cast<Constant>(expr)->toString() +
                 "\n";
            break;
         case njnr::type::CHECK:
@@ -133,7 +133,7 @@ std::string Statement::printCheckReturn(void) const
            break;
         case njnr::type::FLOAT:
            r += "FLOAT: ";
-           r += dynamic_cast<Constant*>(expr)->toString() + "\n";
+           r += dynamic_pointer_cast<Constant>(expr)->toString() + "\n";
            break;
         case njnr::type::IDENT:
            r += "IDENT: ";
@@ -141,7 +141,7 @@ std::string Statement::printCheckReturn(void) const
            break;
         case njnr::type::INT:
            r += "INT: ";
-           r += dynamic_cast<Constant*>(expr)->toString() + "\n";
+           r += dynamic_pointer_cast<Constant>(expr)->toString() + "\n";
            break;
         case njnr::type::REFFLOAT:
            r += "REFFLOAT: ";
@@ -161,7 +161,7 @@ std::string Statement::printCheckReturn(void) const
            break;
         case njnr::type::STR:
            r += "STR: ";
-           r += dynamic_cast<Constant*>(expr)->toString() + "\n";
+           r += dynamic_pointer_cast<Constant>(expr)->toString() + "\n";
            break;
         case njnr::type::VOID:
            r += "VOID: ";
@@ -241,12 +241,12 @@ void Compiler::dealwithstmtlist(std::shared_ptr<List> stmtlist)
    {
        code_generator.gen_label(code_generator.genlabelw("", two));
    }
-   void Compiler::while_and_if_reducer(ReturnPacket* insourcePacket,
-                                       ReturnPacket* inexprPacket,
+   void Compiler::while_and_if_reducer(std::shared_ptr<ReturnPacket> insourcePacket,
+                                       std::shared_ptr<ReturnPacket> inexprPacket,
                                        int number,
                                        std::string while_or_if)
    {
-       ReturnPacket* inPacket{inexprPacket};
+       std::shared_ptr<ReturnPacket> inPacket{inexprPacket};
        if (!inPacket->getnumeric())
        {
            error("non numeric expression in " + while_or_if +
@@ -272,19 +272,19 @@ void Compiler::dealwithstmtlist(std::shared_ptr<List> stmtlist)
    }
    void Compiler::
         block34_stmt_while_source_expr_semi_source_lpar_expr_rpar_source_stmt(\
-                                         ReturnPacket* insourcePacket,
-                                         ReturnPacket* inexprPacket)
+                                         std::shared_ptr<ReturnPacket> insourcePacket,
+                                         std::shared_ptr<ReturnPacket> inexprPacket)
    {
        while_and_if_reducer(insourcePacket, inexprPacket, 0, "while");
    }
 
-   void Compiler::block35_stmt_ifexprstmt_else(ReturnPacket* insourcePacket)
+   void Compiler::block35_stmt_ifexprstmt_else(std::shared_ptr<ReturnPacket> insourcePacket)
    {
        block34_5_stmt_helper(insourcePacket->m_pair.two,
                              insourcePacket->m_pair.one);
    }
 
-   void Compiler::block36_7_stmt_helper(ReturnPacket* insourcePacket,
+   void Compiler::block36_7_stmt_helper(std::shared_ptr<ReturnPacket> insourcePacket,
                                         int number)
    {
       // FIXME(nicebub): need to acutally put in a value perhaps for
@@ -293,18 +293,18 @@ void Compiler::dealwithstmtlist(std::shared_ptr<List> stmtlist)
    }
 
    void Compiler::block36_stmt_ifexprstmt_else_source_stmt(\
-                                           ReturnPacket* inPacket)
+                                           std::shared_ptr<ReturnPacket> inPacket)
    {
        block36_7_stmt_helper(inPacket, inPacket->m_pair.two);
    }
 
-   void Compiler::block37_stmt_ifexprstmt(ReturnPacket* inPacket)
+   void Compiler::block37_stmt_ifexprstmt(std::shared_ptr<ReturnPacket> inPacket)
    {
        block36_7_stmt_helper(inPacket, inPacket->m_pair.one);
    }
 
    struct Pair Compiler::block38_ifexprstmt_if_lpar_expr_source(\
-                                            ReturnPacket* inexprPacket)
+                                            std::shared_ptr<ReturnPacket> inexprPacket)
    {
        struct Pair rvalue;
 

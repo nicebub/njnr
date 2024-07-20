@@ -184,7 +184,7 @@ int yyerror(std::string err,Compiler& compiler);
 %nterm <std::shared_ptr<Statement>> stmt
 //%nterm <ReturnPacket*> stmtlist
 %nterm <std::shared_ptr<ReturnPacket>> ifexprstmt
-%nterm <Constant*> constant
+%nterm <std::shared_ptr<Constant>> constant
 %nterm <std::shared_ptr<ReturnPacket>> factor function_call func_call_with_params name_and_params
 %nterm <std::shared_ptr<ReturnPacket>> TERM
 %nterm <std::shared_ptr<ReturnPacket>> simpleexpr

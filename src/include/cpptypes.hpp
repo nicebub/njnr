@@ -63,8 +63,8 @@ class Statement : public ReturnPacket
    public:
       Statement();
       statement_type getstype();
-      ReturnPacket* getexpr();
-      void setexpr(ReturnPacket* expr);
+      std::shared_ptr<ReturnPacket> getexpr();
+      void setexpr(std::shared_ptr<ReturnPacket> expr);
       void setstype(statement_type t);
       virtual ~Statement();
       type getrettype();
@@ -73,7 +73,7 @@ class Statement : public ReturnPacket
       std::string printCheckReturn(void) const;
    private:
       statement_type stype;
-      ReturnPacket*  expr;
+      std::shared_ptr<ReturnPacket>  expr;
       njnr::type     rettype;
 };
 
