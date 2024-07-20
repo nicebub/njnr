@@ -36,7 +36,7 @@ public:
 
     std::shared_ptr<S_TableEntryX>         entry;
     std::shared_ptr<S_TableEntryX>       funcent;
-    Funcb*          funcbinding;
+    std::shared_ptr<Funcb>           funcbinding;
     std::string            name;
     type                  ttype;
     bool                   lval;

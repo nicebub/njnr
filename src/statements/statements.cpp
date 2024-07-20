@@ -137,7 +137,7 @@ std::string Statement::printCheckReturn(void) const
            break;
         case njnr::type::IDENT:
            r += "IDENT: ";
-           r += dynamic_cast<Identifier*>(expr)->toString() + "\n";
+           r += dynamic_pointer_cast<Identifier>(expr)->toString() + "\n";
            break;
         case njnr::type::INT:
            r += "INT: ";
@@ -157,7 +157,7 @@ std::string Statement::printCheckReturn(void) const
            break;
         case njnr::type::STMT:
            r += "STMT: ";
-           r += dynamic_cast<Statement*>(expr)->toString() + "\n";
+           r += dynamic_pointer_cast<Statement>(expr)->toString() + "\n";
            break;
         case njnr::type::STR:
            r += "STR: ";
@@ -180,7 +180,7 @@ void Compiler::dealwithstmtlist(std::shared_ptr<List> stmtlist)
        std::cout << "list size: " << stmtlist->size() << std::endl;
        for (auto element : *stmtlist)
        {
-         StmtListNode* s = dynamic_cast<StmtListNode*>(element);
+         std::shared_ptr<StmtListNode> s = dynamic_pointer_cast<StmtListNode>(element);
          if (nullptr != s)
                 std::cout << "statement type: " << static_cast<int>(s->
                                                               getstmt()->
@@ -197,7 +197,7 @@ void Compiler::dealwithstmtlist(std::shared_ptr<List> stmtlist)
    {
       std::shared_ptr<Statement> statement{nullptr};
 
-      statement = new Statement{};
+      statement = std::shared_ptr<Statement>(new Statement{});
       if (nullptr != statement)
       {
          statement->settype(type::STMT);
@@ -209,7 +209,7 @@ void Compiler::dealwithstmtlist(std::shared_ptr<List> stmtlist)
          else
          {
             statement->setrettype(njnr::type::VOID);
-            expr = new ReturnPacket{};
+            expr = std::shared_ptr<ReturnPacket>(new ReturnPacket{});
          }
 
          statement->setexpr(expr);

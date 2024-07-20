@@ -194,7 +194,7 @@ let {
             BEGIN(comment);
          }
 
-{LETTER}({LETTER}|{DIGIT})*  { /* identifier*/
+{LETTER}({LETTER}|{DIGIT})*  { /* identifier */
                                 yylval->emplace<std::string>() = yytext;
                                 return(token::Ident);
                              }

@@ -51,7 +51,7 @@ std::shared_ptr<void> SymbolTable::lookup(const std::string name)
    auto tbl = stack.begin();
    for (; tbl != stack.end(); tbl++)
    {
-      res = tbl->lookup<std::shared_ptr<void>>(name);
+      res = tbl->lookup<void>(name);
       if (nullptr != res)
       {
          // found element in the symbol table stack, exit loop and return it
@@ -103,7 +103,7 @@ template<typename T>std::shared_ptr<T> SymbolTable::lookup(const std::string nam
  */
 std::shared_ptr<void> SymbolTable::lookupB(const std::string name)
 {
-   return stack.front().lookupB<std::shared_ptr<void>>(name);
+   return stack.front().lookupB<void>(name);
 }
 
 
@@ -180,7 +180,7 @@ template<typename T>std::shared_ptr<T> SymbolTable::remove(std::string key)
    std::shared_ptr<T> x{nullptr};
    try
    {
-      x = reinterpret_pointer_cast<S_TableEntryX>(stack.front().remove<std::shared_ptr<void>>(key));
+      x = reinterpret_pointer_cast<S_TableEntryX>(stack.front().remove<void>(key));
       if (nullptr != x)
       {
          report(logType::debug, "found element topmost table, removing it");

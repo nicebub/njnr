@@ -24,7 +24,7 @@ namespace njnr
 
      * 
      */
-    //   Funcb* out{nullptr};
+    //   std::shared_ptr<Funcb> out{nullptr};
     //   out = new Funcb{};
       std::shared_ptr<Funcb> out(new Funcb());
       if (nullptr != out)
@@ -147,8 +147,8 @@ namespace njnr
 //          temp = currentFunc->getlocalcount();
       }
   }
-   Funcb* Compiler::create_and_return_a_fn_body_statement_element(\
-                                                       Statement* stmt)
+   std::shared_ptr<Funcb> Compiler::create_and_return_a_fn_body_statement_element(\
+                                                       std::shared_ptr<Statement> stmt)
    {
        if (NULL != stmt)
        {
@@ -163,8 +163,8 @@ namespace njnr
 
       return nullptr;
    }
-   Funcb* Compiler::add_statement_to_fn_body_and_return(std::shared_ptr<List> func,
-                                                        Statement* stmt)
+   std::shared_ptr<Funcb> Compiler::add_statement_to_fn_body_and_return(std::shared_ptr<List> func,
+                                                        std::shared_ptr<Statement> stmt)
    {
        if (stmt->getstype() == statement_type::RETURN)
        {
