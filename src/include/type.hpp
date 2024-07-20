@@ -2,7 +2,6 @@
 #define SRC_INCLUDE_TYPE_HPP_
 
 #include <config.h>
-#include <vector>
 #include <string>
 
 

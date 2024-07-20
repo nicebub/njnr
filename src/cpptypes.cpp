@@ -215,7 +215,7 @@ namespace njnr
    Funcb::~Funcb()
    {
       report(njnr::logType::debug, "running Funcb() destructor");
-      if (funcbody_list) delete funcbody_list;
+      if (funcbody_list) funcbody_list = nullptr;
       funcbody_list = nullptr;
       if (funcheader) delete funcheader;
       funcheader = nullptr;

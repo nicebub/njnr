@@ -220,7 +220,7 @@ func: funcheader funcbody {
 ;
 
 funcheader: fnt Ident lpar paramdef rpar {
-	                                        // $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $<List*>4, njnr::type::VOID);
+                                            // $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $<List*>4, njnr::type::VOID);
                                             $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $4, njnr::type::VOID);
                                          }
           | fnt Ident lpar rpar {

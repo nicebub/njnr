@@ -77,7 +77,6 @@ namespace njnr
                                                     njnr::type::INT,
                                                     params)};
        symbolTable->install<S_TableEntryX*>(entry);
-       delete params;
        params = nullptr;
    }
 
@@ -106,12 +105,11 @@ namespace njnr
             {
                debugprint("deleting a function binding for function main()",
                           "");
-               List* p{nullptr};
+               std::shared_ptr<List> p{nullptr};
                p = x->getfuncbody_list();
                if (nullptr != p)
                {
                   debugprint("deleting paprameter list of function", "");
-                  delete p;
                   p = nullptr;
                }
                else
@@ -160,7 +158,6 @@ namespace njnr
       if (nullptr != finished)
       {
          debugprint("deleteing finished list of translation units\n", "");
-         delete finished;
          finished = nullptr;
       }
       currentFunc = nullptr;
@@ -196,29 +193,6 @@ namespace njnr
               delete outfile;
            }
            outfile = nullptr;
-       }
-   }
-
-   void Compiler::closeOrRemoveInputFile(bool needtoremove)
-   {
-       if (infile != nullptr)
-       {
-           if (infile != &std::cin)
-           {
-               auto file{dynamic_cast<std::ifstream*>(infile)};
-               if (file->is_open())
-               {
-                   debugprint("Closing file\n", "");
-                   file->close();
-                   if (needtoremove)
-                   {
-                       debugprint("Removing file\n", "");
-                       remove(this->filename.c_str());
-                   }
-               }
-              delete infile;
-           }
-           infile = nullptr;
        }
    }
 
