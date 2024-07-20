@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <memory>
 
 #include "debug.hpp"
 #include "compiler.hpp"
@@ -11,7 +12,7 @@
 
 namespace njnr
 {
-   Funcb* Compiler::create_full_function(funcheadertype* funcheader,
+   std::shared_ptr<Funcb> Compiler::create_full_function(funcheadertype* funcheader,
                                          List* funcbody)
    {
     /**
@@ -23,8 +24,9 @@ namespace njnr
 
      * 
      */
-      Funcb* out{nullptr};
-      out = new Funcb{};
+    //   Funcb* out{nullptr};
+    //   out = new Funcb{};
+      std::shared_ptr<Funcb> out(new Funcb());
       if (nullptr != out)
       {
          out->setfuncbody_list(funcbody);
@@ -179,7 +181,7 @@ namespace njnr
     return finished;
    }
 
-   njnr::type Compiler::getReturnTypeFromStatement(Statement* stmt)
+   njnr::type Compiler::getReturnTypeFromStatement(std::shared_ptr<Statement> stmt)
    {
       njnr::type retType{njnr::type::VOID};
 

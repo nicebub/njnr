@@ -3,6 +3,7 @@
 #include <config.h>
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "type.hpp"
 #include "cpptypes.hpp"
@@ -60,14 +61,14 @@ class ReturnPacketListNode : public BasicListNode
 {
 public:
     ReturnPacketListNode();
-    explicit ReturnPacketListNode(ReturnPacket* expr);
+    explicit ReturnPacketListNode(std::shared_ptr<ReturnPacket> expr);
     virtual ~ReturnPacketListNode();
     ReturnPacketListNode(const ReturnPacketListNode& in);
     virtual ReturnPacketListNode& operator=(const ReturnPacketListNode& in);
     const std::string toString() const;
-    ReturnPacket* getexpr(void);
+    std::shared_ptr<ReturnPacket> getexpr(void);
 private:
-    ReturnPacket* expr;
+    std::shared_ptr<ReturnPacket> expr;
 };
 
 class PListNode : public ListNode
@@ -105,7 +106,7 @@ class TranslationUnitListNode : public ListNode
       const Varb* getVarDecl(void) const;
       Funcb* getFunc(void) const;
    private:
-      ReturnPacket*         unit;
+      std::shared_ptr<ReturnPacket>         unit;
       trans_unit_type trans_type;
 };
 
@@ -119,11 +120,11 @@ class StmtListNode : public ListNode
          report(njnr::logType::debug, "running StmtListNode() Destructor");
          delete stmt;
       }
-      Statement* getstmt(void);
-      void setstmt(Statement* instmt);
+      std::shared_ptr<Statement> getstmt(void);
+      void setstmt(std::shared_ptr<Statement> instmt);
       const std::string toString() const;
    private:
-      Statement*         stmt;
+      std::shared_ptr<Statement>         stmt;
 };
 
 
@@ -173,32 +174,33 @@ public:
     List& operator=(const List& in);
     void push_back(BasicListNode* node);
     std::vector<BasicListNode*> getlist();
-    static List* mklist(Identifier*);
-    static List* mklist(Constant*);
-    static List* mklist(std::string inVal);
-    static List* mklist(std::string inVal, type inType);
-    static List* mklist(ReturnPacket* expr);
-    static List* mklist(Funcb* expr);
+    static std::shared_ptr<List> mklist(Identifier*);
+    static std::shared_ptr<List> mklist(Constant*);
+    static std::shared_ptr<List> mklist(std::string inVal);
+    static std::shared_ptr<List> mklist(std::string inVal, type inType);
+    static std::shared_ptr<List> mklist(std::shared_ptr<ReturnPacket> expr);
+    // static List* mklist(Funcb* expr);
+    static std::shared_ptr<List> mklist(std::shared_ptr<Funcb> expr);
 
     // place holder type -- needs changing
-    static List* mklist(Varb* expr);
+    static std::shared_ptr<List> mklist(Varb* expr);
 
-    static List* mklist(njnr::type type);
-    static List* mklist(Statement* instmt);
+    static std::shared_ptr<List> mklist(njnr::type type);
+    static std::shared_ptr<List> mklist(Statement* instmt);
     std::vector<BasicListNode*>::iterator begin();
     std::vector<BasicListNode*>::iterator end();
-    List* appendList(std::string inVal);
-    List* appendList(std::string inVal, njnr::type inType);
-    List* appendList(ReturnPacket* expr);
-    List* appendList(Funcb* expr);
+    std::shared_ptr<List> appendList(std::string inVal);
+    std::shared_ptr<List> appendList(std::string inVal, njnr::type inType);
+    std::shared_ptr<List> appendList(std::shared_ptr<ReturnPacket> expr);
+    std::shared_ptr<List> appendList(std::shared_ptr<Funcb> expr);
 
     // placeholder type -- needs changing
-    List* appendList(Varb* expr);
+    std::shared_ptr<List> appendList(Varb* expr);
 
-    List* appendList(njnr::type type);
-    List* appendList(Statement* type);
-    List* appendList(Identifier*);
-    List* appendList(Constant*);
+    std::shared_ptr<List> appendList(njnr::type type);
+    std::shared_ptr<List> appendList(Statement* type);
+    std::shared_ptr<List> appendList(std::shared_ptr<Identifier>);
+    std::shared_ptr<List> appendList(Constant*);
     int size() const;
     const std::string toString() const;
 private:
