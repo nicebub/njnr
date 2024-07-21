@@ -233,13 +233,9 @@ namespace njnr
          {
             // Variable Declaration translation unit
             case njnr::trans_unit_type::VARDECL:
-               r += std::dynamic_pointer_cast<Varb>(unit)->toString() + "\n";
-               break;
-
             case njnr::trans_unit_type::FUNCTION:  // Function translation unit
-               r += dynamic_pointer_cast<Funcb>(unit)->toString();
+               r += unit->toString() + "\n";
                break;
-
            // Invalid translation unit type
            case njnr::trans_unit_type::INVALID:
            default:
@@ -289,7 +285,10 @@ namespace njnr
       {
       set_nodeType(njnr::eNodeType::STMT);
       }
-      std::shared_ptr<Statement> StmtListNode::getstmt(void){ return stmt; }
+      std::shared_ptr<Statement> StmtListNode::getstmt(void)
+      {
+         return stmt;
+      }
       void StmtListNode::setstmt(std::shared_ptr<Statement> instmt) { stmt = instmt; }
 
    const std::string StmtListNode::toString() const
@@ -314,7 +313,7 @@ namespace njnr
        report(njnr::logType::debug, "running List() Destructor");
        report(njnr::logType::debug, this->toString());
 
-       for (auto element : list)
+       for (auto& element : list)
        {
            debugprint("deleting element in List", "");
 //           element = nullptr;
@@ -338,6 +337,10 @@ namespace njnr
 
    List& List::operator=(const List& in)
    {
+       if(&in != this)
+       {
+        this->list = in.list;
+       }
        return *this;
    }
 
@@ -462,23 +465,28 @@ namespace njnr
     const std::string List::toString() const
     {
        std::string r{"List: "};
-
-       for (auto& e : list)
+       if(0 < list.size())
        {
-        switch (e->get_nodeType())
-        {
-          case njnr::eNodeType::EXPR:
-          case njnr::eNodeType::P:
-          case njnr::eNodeType::STANDARD:
-          case njnr::eNodeType::STMT:
-          case njnr::eNodeType::TRANSLATION_UNIT:
-          case njnr::eNodeType::TYPE:
-             r += e->toString();
-             break;
-          default:
-             // set as default "Invalid"
-             break;
-        }
+          for (auto& e : list)
+          {
+             if(e)
+             {
+                switch (e->get_nodeType())
+                {
+                  case njnr::eNodeType::EXPR:
+                  case njnr::eNodeType::P:
+                  case njnr::eNodeType::STANDARD:
+                  case njnr::eNodeType::STMT:
+                  case njnr::eNodeType::TRANSLATION_UNIT:
+                  case njnr::eNodeType::TYPE:
+                     r += e->toString();
+                     break;
+                  default:
+                     // set as default "Invalid"
+                     break;
+                }
+             }
+          }
        }
        return r;
     }

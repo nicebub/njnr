@@ -321,17 +321,24 @@ namespace njnr
      */
 
       std::string r{};
-      r += "Current Set Return Type: ";
+      r += "Currently Set Return Type: ";
       r += Compiler::getStringFromType(returntype);
       r += "bodydef:? " + (true == bodydef) ? "true\n" : "false\n";
-//      r += "label: " + label + "\n";
-//      r += "localcount: " + localcount + "\n";
-//      r += "actual_num" + actual_num + "\n";
-//      r += "num_param" + num_param + "\n";
+      r += "label: " + std::to_string(label) + "\n";
+      r += "localcount: " + std::to_string(localcount) + "\n";
+      r += "actual_num" + std::to_string(actual_num) + "\n";
+      r += "num_param" + std::to_string(num_param) + "\n";
+      if(0 <= param_type.size())
+      {
+        for(auto t : param_type)
+        {
+            r += "param type: " + njnr::typeToStringMap.at(t) + "\n"; 
+        }
+      }
 /* TODO : params list vector */
       if (nullptr != funcheader)
       {
-//         r += funcheader->toString() + "\n";
+         r += funcheader->toString() + "\n";
       }
       if (nullptr != funcbody_list)
       {
@@ -398,6 +405,19 @@ namespace njnr
    trans_unit_type Translation_Unit::get_trans_unit_type()
    {
       return trans_type;
+   }
+
+   const std::string funcheadertype::toString() const
+   {
+    std::string r = "";
+      r += "name: " + name + "\n";
+      r += "return type: " + typeToStringMap.at(returntype) + "\n";
+      r += "ttype: " +  typeToStringMap.at(ttype) + "\n";
+      if(paramlist)
+      {
+         r += "paramlist: " + paramlist->toString();
+      }
+      return r;
    }
    funcheadertype::~funcheadertype()
    {

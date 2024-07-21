@@ -382,7 +382,7 @@ void CodeGenerator::generate(std::shared_ptr<List> f)
 {
     if (nullptr != f)
     {
-       for (auto e : *f)
+       for (auto& e : *f)
        {
          if (njnr::eNodeType::TRANSLATION_UNIT == e->get_nodeType())
          {
