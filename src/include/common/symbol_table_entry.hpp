@@ -63,7 +63,7 @@ class S_TableEntryX : public S_TableEntry
                 "running S_TableEntryX() Destructor");
          if (binding)
          {
-            binding = nullptr;
+//            binding = nullptr;
          }
       }
       /* Constructor with arguments */

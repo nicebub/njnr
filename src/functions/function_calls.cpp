@@ -75,7 +75,7 @@ namespace njnr
                {
                    error("Function call with an unknown function name", "");
                }
-           tempE2 = nullptr;
+//           tempE2 = nullptr;
            return outPacket;
        }
        return outPacket;
@@ -158,7 +158,7 @@ namespace njnr
    {
        std::shared_ptr<ReturnPacket> inEntry{new ReturnPacket{}};
        std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
-       inEntry->funcent = nullptr;
+//       inEntry->funcent = nullptr;
        *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                          lookupB(inPacket.getvalue()));
        inEntry->funcent = s;
@@ -199,7 +199,7 @@ namespace njnr
            error("function undelcared, please declare " \
                  "functions before using them", "");
            error("1", "");
-           outPacket->funcent = nullptr;
+//           outPacket->funcent = nullptr;
        }
        else
        {
@@ -219,7 +219,7 @@ namespace njnr
                    error("function undeclared, please declare " \
                          "functions before using them", "");
                    error("2", "");
-                   outPacket->funcent = nullptr;
+//                   outPacket->funcent = nullptr;
                }
                else
                {
@@ -341,7 +341,7 @@ namespace njnr
            {
                error("Function is undeclared", "");
            }
-           tempE2 = nullptr;
+//           tempE2 = nullptr;
        }
        return outPacket;
    }
@@ -469,7 +469,7 @@ namespace njnr
            {
                error("Function is undeclared", "");
            }
-           tempE2 = nullptr;
+//           tempE2 = nullptr;
        }
        return outPacket;
    }

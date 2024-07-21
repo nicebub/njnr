@@ -215,9 +215,10 @@ namespace njnr
    Funcb::~Funcb()
    {
       report(njnr::logType::debug, "running Funcb() destructor");
-      if (funcbody_list) funcbody_list = nullptr;
-      funcbody_list = nullptr;
-      funcheader = nullptr;
+      if (funcbody_list){
+//         funcbody_list = nullptr;
+      }
+//      funcheader = nullptr;
     }
    std::vector<njnr::type>& Funcb::getparam_type()
    {
@@ -384,7 +385,7 @@ namespace njnr
       report(njnr::logType::debug,
              "running funcheadertype() Destructor");
       if (paramlist){
-         paramlist = nullptr;
+//         paramlist = nullptr;
       }
    }
 }  // namespace njnr

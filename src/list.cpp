@@ -94,7 +94,7 @@ namespace njnr
       report(njnr::logType::debug,
              "running ReturnPacketListNode() Destructor");
      //  delete expr;
-        expr = nullptr;
+//        expr = nullptr;
    }
 
    std::shared_ptr<ReturnPacket> ReturnPacketListNode::getexpr(void)
@@ -312,7 +312,7 @@ namespace njnr
        for (auto element : list)
        {
            debugprint("deleting element in List", "");
-           element = nullptr;
+//           element = nullptr;
        }
    }
 

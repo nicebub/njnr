@@ -77,7 +77,7 @@ namespace njnr
                                                     njnr::type::INT,
                                                     params)};
        symbolTable->install<std::shared_ptr<S_TableEntryX>>(entry);
-       params = nullptr;
+//       params = nullptr;
    }
 
    Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
@@ -112,13 +112,13 @@ namespace njnr
                if (nullptr != p)
                {
                   debugprint("deleting paprameter list of function", "");
-                  p = nullptr;
+//                  p = nullptr;
                }
                else
                {
                   debugprint(" cannot delete empty param list", "");
                }
-               xx = nullptr;
+//               xx = nullptr;
             }
             else
             {
@@ -159,9 +159,9 @@ namespace njnr
       if (nullptr != finished)
       {
          debugprint("deleteing finished list of translation units\n", "");
-         finished = nullptr;
+//         finished = nullptr;
       }
-      currentFunc = nullptr;
+//      currentFunc = nullptr;
    }
 
 

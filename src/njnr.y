@@ -252,13 +252,13 @@ paramdef: paramdeflist {
                                      yyerrok;
                                      compiler.error("(unexpected token before rpar in parameter definition)","");
                                      //delete $1;
-                                     $1 = nullptr;
+//                                     $1 = nullptr;
                                   }
         | paramdeflist comma error rpar {
                                            yyerrok;
                                            compiler.error("(unexpected token before rpar in parameter definition)","");
                                            //delete $1;
-                                           $1 = nullptr;
+//                                           $1 = nullptr;
                                         }
 ;
 

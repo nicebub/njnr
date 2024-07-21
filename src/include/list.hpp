@@ -99,7 +99,7 @@ class TranslationUnitListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running TranslationUnitListNode() Destructor");
-         unit = nullptr;
+//         unit = nullptr;
       }
       const std::string toString() const;
       const njnr::trans_unit_type get_trans_unit_type(void) const;
@@ -119,7 +119,7 @@ class StmtListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running StmtListNode() Destructor");
-         stmt = nullptr;
+//         stmt = nullptr;
       }
       std::shared_ptr<Statement> getstmt(void);
       void setstmt(std::shared_ptr<Statement> instmt);
@@ -138,7 +138,7 @@ class IdentListNode : public ReturnPacketListNode
       virtual ~IdentListNode()
       {
          report(njnr::logType::debug, "running IdentListNode() Destructor");
-         ident = nullptr;
+//         ident = nullptr;
       }
       std::shared_ptr<Identifier> getident(void);
       void setident(std::shared_ptr<Identifier> instmt);

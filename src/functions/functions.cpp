@@ -78,11 +78,13 @@ namespace njnr
 
    void Compiler::block5_funcheader_error_semi(std::shared_ptr<funcheadertype> inFuncHeaderptr)
    {
+    /*
        std::shared_ptr<funcheadertype> inFuncHeader{inFuncHeaderptr};
        if (inFuncHeader != nullptr)
        {
            inFuncHeader = nullptr;
        }
+       */
    }
 
    std::shared_ptr<funcheadertype>  Compiler::
