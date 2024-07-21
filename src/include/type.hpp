@@ -143,6 +143,7 @@ class TSAbstractType
       {
          report(njnr::logType::debug,
                 "running TSAbstractType() destructor");
+         report(njnr::logType::debug, "typeValue" + typeValue);
       }
 
       virtual   const bool             getNumeric()    const noexcept = 0;
@@ -193,6 +194,9 @@ class TSType : public TSAbstractType
       {
          report(njnr::logType::debug,
                 "running TSType() Destructor");
+         report(njnr::logType::debug, this->toString());
+         report(njnr::logType::debug, "isnumeric" + isNumeric);
+         report(njnr::logType::debug, "isLval" + isLval);
       }
 
       virtual const bool getNumeric()          const noexcept

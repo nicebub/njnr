@@ -86,6 +86,7 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running Statement() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
 
    statement_type Statement::getstype()

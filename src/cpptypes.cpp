@@ -215,6 +215,19 @@ namespace njnr
    Funcb::~Funcb()
    {
       report(njnr::logType::debug, "running Funcb() destructor");
+      report(njnr::logType::debug, "Funcb:" + this->toString());
+/*
+      report(njnr::logType::debug,
+             "bodydef"+ bodydef);
+      report(njnr::logType::debug,
+             "num_param"+ num_param);
+      report(njnr::logType::debug,
+             "label"+ label);
+      report(njnr::logType::debug,
+             "localcount"+ localcount);
+      report(njnr::logType::debug,
+             "actual_num"+ actual_num);
+*/
       if (funcbody_list){
 //         funcbody_list = nullptr;
       }
@@ -287,7 +300,7 @@ namespace njnr
    }
    void Funcb::setfuncheader(std::shared_ptr<funcheadertype> funcheader)
    {
-      this->funcheader = funcheader;
+      this->funcheader = std::shared_ptr<funcheadertype>(new njnr::funcheadertype(*funcheader));
    }
    std::shared_ptr<funcheadertype> Funcb::getfuncheader(void)
    {
@@ -328,7 +341,10 @@ namespace njnr
    }
 
    Varb::Varb() : Identifier{} {}
-   Varb::~Varb() { report(njnr::logType::debug, "running Varb() Destructor"); }
+   Varb::~Varb() {
+                  report(njnr::logType::debug, "running Varb() Destructor");
+                  report(njnr::logType::debug, this->toString());
+                 }
 
    const std::string Varb::toString() const
    {
@@ -344,6 +360,8 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running Paramb() Destructor");
+      report(njnr::logType::debug, this->toString());
+
    }
 
    const std::string Translation_Unit::toString() const
@@ -362,6 +380,7 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running Translation_Unit() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
 
    std::shared_ptr<ReturnPacket> Translation_Unit::get_translation()

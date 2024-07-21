@@ -32,6 +32,11 @@ CodeGenerator::~CodeGenerator()
 {
    report(njnr::logType::debug,
           "running CodeGenerator() Destructor");
+
+   report(njnr::logType::debug, "labelcounter" + labelcounter);
+   report(njnr::logType::debug, "canGenerate" + canGenerate);
+   report(njnr::logType::debug, "lastInstructionWasReturnf" + lastInstructionWasReturnf);
+
 }
 
 void CodeGenerator::setSymbolTable(SymbolTableX* s)

@@ -29,6 +29,7 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running BasicListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
 
    const std::string BasicListNode::toString() const
@@ -93,6 +94,8 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running ReturnPacketListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
+
      //  delete expr;
 //        expr = nullptr;
    }
@@ -309,6 +312,8 @@ namespace njnr
    List::~List()
    {
        report(njnr::logType::debug, "running List() Destructor");
+       report(njnr::logType::debug, this->toString());
+
        for (auto element : list)
        {
            debugprint("deleting element in List", "");
@@ -458,27 +463,17 @@ namespace njnr
     {
        std::string r{"List: "};
 
-       for (auto e : list)
+       for (auto& e : list)
        {
         switch (e->get_nodeType())
         {
           case njnr::eNodeType::EXPR:
-             r += dynamic_pointer_cast<ReturnPacketListNode>(e)->toString();
-             break;
-         case njnr::eNodeType::P:
-             r += dynamic_pointer_cast<PListNode>(e)->toString();
-             break;
+          case njnr::eNodeType::P:
           case njnr::eNodeType::STANDARD:
-             r += dynamic_pointer_cast<ListNode>(e)->toString();
-             break;
           case njnr::eNodeType::STMT:
-             r += dynamic_pointer_cast<StmtListNode>(e)->toString();
-             break;
           case njnr::eNodeType::TRANSLATION_UNIT:
-             r += dynamic_pointer_cast<TranslationUnitListNode>(e)->toString();
-             break;
           case njnr::eNodeType::TYPE:
-             r += dynamic_pointer_cast<TypeListNode>(e)->toString();
+             r += e->toString();
              break;
           default:
              // set as default "Invalid"

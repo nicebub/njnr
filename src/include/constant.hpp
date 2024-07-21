@@ -30,6 +30,8 @@ class Constant : public ReturnPacket
       {
          report(njnr::logType::debug,
                 "running Constant() Destructor");
+         report(njnr::logType::debug, "val" + val);
+         report(njnr::logType::debug, "typ" + static_cast<int>(typ));
       }
       std::string getValue() const;
       void setValue(const std::string in);
@@ -52,6 +54,7 @@ class Identifier : public Constant
       {
          report(njnr::logType::debug,
                 "running Identifier() Destructor");
+         report(njnr::logType::debug, "value" + value);
       }
       Identifier& operator=(const Identifier& in);
       std::string getvalue() const;

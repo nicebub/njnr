@@ -88,6 +88,16 @@ namespace njnr
    Compiler::~Compiler()
    {
       report(njnr::logType::debug, "Compiler destructor: deleting members");
+      report(njnr::logType::debug, "filename: " + filename);
+      report(njnr::logType::debug, "LineNunmber: " + Line_Number);
+      report(njnr::logType::debug, "globalcount: " + globalcount);
+      report(njnr::logType::debug, "offset_counter: " + offset_counter);
+      report(njnr::logType::debug, "labelcounter: " + labelcounter);
+      report(njnr::logType::debug, "othercounter: " + othercounter);
+      report(njnr::logType::debug, "param_offset: " + param_offset);
+      report(njnr::logType::debug, "mainlocal: " + mainlocal);
+      report(njnr::logType::debug, "mainlabel: " + mainlabel);
+      report(njnr::logType::debug, "retunTypes: " + returnTypes.toString());
       closeOrRemoveOutputFile(false);
       closeOrRemoveInputFile(false);
       if (symbolTable != nullptr)

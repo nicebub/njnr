@@ -49,6 +49,7 @@ public:
    {
       report(njnr::logType::debug,
              "running ListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
    std::string getval() const;
    void setval(std::string in);
@@ -80,6 +81,7 @@ public:
    {
       report(njnr::logType::debug,
              "running PListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
     njnr::type gettype() const;
     void settype(njnr::type type);
@@ -99,6 +101,8 @@ class TranslationUnitListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running TranslationUnitListNode() Destructor");
+         report(njnr::logType::debug, this->toString());
+
 //         unit = nullptr;
       }
       const std::string toString() const;
@@ -119,6 +123,8 @@ class StmtListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running StmtListNode() Destructor");
+         report(njnr::logType::debug, this->toString());
+
 //         stmt = nullptr;
       }
       std::shared_ptr<Statement> getstmt(void);
@@ -138,6 +144,8 @@ class IdentListNode : public ReturnPacketListNode
       virtual ~IdentListNode()
       {
          report(njnr::logType::debug, "running IdentListNode() Destructor");
+         report(njnr::logType::debug, this->toString());
+
 //         ident = nullptr;
       }
       std::shared_ptr<Identifier> getident(void);
@@ -157,6 +165,7 @@ class TypeListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running TypeListNode() Destructor");
+         report(njnr::logType::debug, this->toString());
       }
       njnr::type gettype() const;
       void settype(njnr::type type);

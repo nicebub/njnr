@@ -36,6 +36,11 @@ class ReturnPacket : public BaseData
       {
          report(njnr::logType::debug,
                "running ReturnPacket() Destructor");
+         report(njnr::logType::debug, "params" + params);
+         report(njnr::logType::debug, "offset" + offset);
+         report(njnr::logType::debug, "lval" + lval);
+         report(njnr::logType::debug, "numeric" + numeric);
+         report(njnr::logType::debug, "ttype" + std::to_string(static_cast<int>(ttype)));
       }
       const bool getlval() const;
       void setlval(const bool in);
