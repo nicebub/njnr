@@ -53,10 +53,10 @@ namespace njnr
        try
        {
            symbolTable = new SymbolTableX{ *this};
-           install_functions_into_symbolTable();
            constantTable = new SymbolTableX{*this};
            typeTable  = new SymbolTableX{*this};
            parser = new njnrParser{*this};
+           install_functions_into_symbolTable();
            parser->set_debug_stream(std::cerr);
    #ifdef DEBUG
            parser->set_debug_level(1);
@@ -72,7 +72,8 @@ namespace njnr
 
    void Compiler::install_functions_into_symbolTable()
    {
-       std::shared_ptr<List> params{List::mklist("", njnr::type::VOID)};
+       std::shared_ptr<List> params{nullptr};
+       params = List::mklist("", njnr::type::VOID);
        std::shared_ptr<S_TableEntryX> entry{symbolTable->createFunc("main",
                                                     njnr::type::INT,
                                                     params)};

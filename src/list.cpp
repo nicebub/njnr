@@ -68,7 +68,7 @@ namespace njnr
        return BasicListNode::toString() + "\nval: " + val;
     }
 
-   ListNode::ListNode() : ListNode("") {}
+   ListNode::ListNode() : BasicListNode{}, val{""} {}
 
    ListNode::ListNode(std::string in) : BasicListNode{eNodeType::STANDARD},
                                         val{in}
@@ -83,7 +83,9 @@ namespace njnr
        val = in;
    }
 
-   ReturnPacketListNode::ReturnPacketListNode() : ReturnPacketListNode{nullptr} {}
+   ReturnPacketListNode::ReturnPacketListNode() : BasicListNode{},
+                                                  expr{nullptr}
+                                                  {}
 
    ReturnPacketListNode::ReturnPacketListNode(std::shared_ptr<ReturnPacket> expr) :
                                     BasicListNode{eNodeType::EXPR},
@@ -130,12 +132,12 @@ namespace njnr
       return r;
    }
 
-   PListNode::PListNode() : ListNode{}, type{}
+   PListNode::PListNode() : ListNode{""}, type{njnr::type::VOID}
    {
        set_nodeType(eNodeType::P);
        setval("");
    }
-   PListNode::PListNode(std::string inVal, njnr::type inType) : type{inType}
+   PListNode::PListNode(std::string inVal, njnr::type inType) : ListNode{inVal}, type{inType}
    {
        set_nodeType(eNodeType::P);
        setval(inVal);
@@ -143,7 +145,7 @@ namespace njnr
 
    njnr::type PListNode::gettype() const
    {
-       return type;
+       return this->type;
    }
    void PListNode::settype(njnr::type type)
    {
@@ -304,7 +306,7 @@ namespace njnr
    }
 
 
-   List::List() : list{} {}
+   List::List() : list(3,nullptr) {}
 
    List::List(const List& cp) : list{cp.list} {}
 

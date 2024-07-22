@@ -29,7 +29,7 @@ enum class eNodeType
 class BasicListNode
 {
 public:
-    BasicListNode() {};
+    BasicListNode(): nodeType{njnr::eNodeType::STANDARD} {};
     explicit BasicListNode(eNodeType t);
     virtual ~BasicListNode() = 0;
     eNodeType get_nodeType() const;

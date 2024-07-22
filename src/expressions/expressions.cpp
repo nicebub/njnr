@@ -391,8 +391,9 @@ using njnr::List;
       return static_pointer_cast<ReturnPacket>(inConstant);
    }
 
-   std::shared_ptr<ReturnPacket> Compiler::block55_factor_ident(njnr::Identifier inIdent)
+   std::shared_ptr<ReturnPacket> Compiler::block55_factor_ident(std::string inIdent_original)
    {
+      njnr::Identifier inIdent{inIdent_original};
       std::shared_ptr<ReturnPacket>  outPacket{nullptr};
       std::shared_ptr<S_TableEntryX> resultLookup{nullptr};
       bool gen_code = false;
@@ -524,8 +525,9 @@ using njnr::List;
        return outPacket;
    }
 
-   std::shared_ptr<ReturnPacket> Compiler::block58_factor_adof_ident(njnr::Identifier inPacket)
+   std::shared_ptr<ReturnPacket> Compiler::block58_factor_adof_ident(std::string inPacket_original)
    {
+       njnr::Identifier inPacket{inPacket_original};    
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
        std::shared_ptr<S_TableEntryX> tempE;  // , *tempE2;
        if (inPacket.getvalue() != "main")
@@ -625,13 +627,15 @@ using njnr::List;
    }
 
 
-   std::shared_ptr<List> Compiler::block69_identlist_ident(njnr::Identifier inIdent)
+   std::shared_ptr<List> Compiler::block69_identlist_ident(std::string inIdent_original)
    {
+       njnr::Identifier inIdent{inIdent_original};
        return List::mklist(std::shared_ptr<Identifier>(new Identifier{inIdent}));
    }
 
    std::shared_ptr<List> Compiler::block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
-                                                 njnr::Identifier inIdent)
+                                                 std::string inIdent_original)
    {
+       njnr::Identifier inIdent{inIdent_original};
        return std::shared_ptr<List>((inIdentListptr)->appendList(std::shared_ptr<Identifier>(new Identifier{inIdent})));
    }

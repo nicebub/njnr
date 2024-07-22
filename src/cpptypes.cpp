@@ -6,23 +6,26 @@
 #include "compiler.hpp"
 namespace njnr
 {
-   ReturnPacket::ReturnPacket() :
-       params{0},
-       offset{0},
-       lval{false},
-       numeric{false},
-       ttype{njnr::type::INT}
+   ReturnPacket::ReturnPacket() : m_pair{},
+                                  funcent{nullptr},
+                                  params{0},
+                                  offset{0},
+                                  lval{false},
+                                  numeric{false},
+                                  ttype{njnr::type::INT}
    {}
 
    ReturnPacket::ReturnPacket(bool lval,
                               njnr::type ttype = njnr::type::INT,
                               bool ifnum = false,
                               int inoffset = 0) :
-       params{0},
-       offset{inoffset},
-       lval{lval},
-       numeric{ifnum},
-       ttype{ttype}
+                                                 m_pair{},
+                                                 funcent{nullptr},
+                                                 params{0},
+                                                 offset{inoffset},
+                                                 lval{lval},
+                                                 numeric{ifnum},
+                                                 ttype{ttype}
    {}
 
    const bool ReturnPacket::getlval() const
@@ -89,9 +92,15 @@ namespace njnr
    };
 
 
-   Constant::Constant() : ReturnPacket{} {}
+   Constant::Constant() : ReturnPacket{},
+                          val{""},
+                          typ{njnr::type::VOID}
+                          {}
    Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) :
-                      ReturnPacket{lval, ttype, ifnum, offset} {}
+                      ReturnPacket{lval, ttype, ifnum, offset},
+                      val{""},
+                      typ{njnr::type::VOID}
+                      {}
    Constant::Constant(std::string val, njnr::type t): val{val}, typ{t} {}
 
    std::string Constant::getValue() const
@@ -120,7 +129,8 @@ namespace njnr
       std::string ret = ReturnPacket::toString();
       return "\nvalue: " + value + "\n" + ret;
    }
-   Identifier::Identifier() : Constant{false, njnr::type::IDENT, false, 0} {}
+   Identifier::Identifier() : Constant{false, njnr::type::IDENT, false, 0},
+                              value{""} {}
 
    Identifier::Identifier(const std::string invalue) :
                           Constant{false, njnr::type::IDENT, false, 0},

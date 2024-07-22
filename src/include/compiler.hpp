@@ -89,21 +89,21 @@ class Compiler
       void block5_funcheader_error_semi(std::shared_ptr<funcheadertype> inFuncHeaderptr);
 
       std::shared_ptr<funcheadertype> funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
-                                        njnr::Identifier inIdent,
+                                        std::string inIdent,
                                         std::shared_ptr<List> inParamdeflist,
                                         njnr::type inreturntype);
 
 
       std::shared_ptr<funcheadertype> block6_funcheader_void_ident_lpar_paramdef_rpar(\
-                            njnr::Identifier ident,
+                            std::string ident,
                             std::shared_ptr<List> paramdeflist);
 
       std::shared_ptr<funcheadertype> block7_funcheader_int_ident_lpar_paramdef_rpar(\
-                        njnr::Identifier inIdent,
+                        std::string inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
       std::shared_ptr<funcheadertype> block8_funcheader_float_ident_lpar_paramdef_rpar(\
-                        njnr::Identifier inIdent,
+                        std::string inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
       std::shared_ptr<funcheadertype> block9_funcheader_void_error_rpar();
@@ -111,13 +111,13 @@ class Compiler
       std::shared_ptr<funcheadertype> block11_funcheader_float_error_rpar();
 
       std::shared_ptr<funcheadertype> block12_funcheader_void_ident_lpar_error_rpar(\
-                                                njnr::Identifier inIdent);
+                                                std::string inIdent);
 
       std::shared_ptr<funcheadertype> block13_funcheader_float_ident_lpar_error_rpar(\
-                                                njnr::Identifier inIdent);
+                                                std::string inIdent);
 
       std::shared_ptr<funcheadertype> block14_funcheader_int_ident_lpar_error_rpar(\
-                                                njnr::Identifier inIdent);
+                                                std::string inIdent);
 
       std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(std::shared_ptr<List> inParamdeflistptr);
       std::shared_ptr<List>block16_paramdef_void();
@@ -129,9 +129,9 @@ class Compiler
 
       std::shared_ptr<List>paramdeflist_type_ident_helper(njnr::Identifier inIdent,
                                                           njnr::type intype);
-      std::shared_ptr<List>block19_paramdeflist_int_ident(njnr::Identifier inIdent);
-      std::shared_ptr<List>block20_paramdeflist_float_ident(njnr::Identifier inIdent);
-      std::shared_ptr<List>block21_paramdeflist_char_star_ident(njnr::Identifier inIdent);
+      std::shared_ptr<List>block19_paramdeflist_int_ident(std::string inIdent);
+      std::shared_ptr<List>block20_paramdeflist_float_ident(std::string inIdent);
+      std::shared_ptr<List>block21_paramdeflist_char_star_ident(std::string inIdent);
 
       std::shared_ptr<List>paramdeflist_paramdeflist_comma_type_ident_helper(\
       std::shared_ptr<List> inParamdeflistptr, njnr::Identifier inIdent, njnr::type intype);
@@ -252,27 +252,27 @@ class Compiler
       void block53_term_factor();
 
       std::shared_ptr<ReturnPacket> block54_factor_constant(std::shared_ptr<Constant> inConstant);
-      std::shared_ptr<ReturnPacket> block55_factor_ident(njnr::Identifier inIdent);
+      std::shared_ptr<ReturnPacket> block55_factor_ident(std::string inIdent);
       std::shared_ptr<ReturnPacket> block56_factor_lpar_expr_rpar(std::shared_ptr<ReturnPacket> inPacket);
 
       std::shared_ptr<ReturnPacket> block57_factor_addop_factor_uminus(Operator* inop,
                                                        std::shared_ptr<ReturnPacket> inPacket);
 
-      std::shared_ptr<ReturnPacket> block58_factor_adof_ident(njnr::Identifier inPacket);
+      std::shared_ptr<ReturnPacket> block58_factor_adof_ident(std::string inPacket);
       std::shared_ptr<ReturnPacket> block59_factor_function_call(std::shared_ptr<ReturnPacket> inPacket);
 
       std::shared_ptr<ReturnPacket> block60_function_call_ident_lpar_rpar(\
-                                                      njnr::Identifier inIdent);
+                                                      std::string inIdent);
       void block61_function_call_func_call_with_params();
 
       std::shared_ptr<ReturnPacket> block62_func_call_with_params_name_and_params_rpar(\
                                                 std::shared_ptr<ReturnPacket> nameAndparamptr);
 
       std::shared_ptr<ReturnPacket> block63_name_and_params_ident_lpar_source(\
-                                                     njnr::Identifier inPacket);
+                                                     std::string inPacket);
 
       std::shared_ptr<ReturnPacket> block64_name_and_params_ident_lpar_source_expr(\
-                                                    njnr::Identifier inIdent,
+                                                    std::string inIdent,
                                                     std::shared_ptr<ReturnPacket> inEntryptr,
                                                     std::shared_ptr<ReturnPacket> inPacketptr);
 
@@ -289,9 +289,9 @@ class Compiler
       void block68_constant_floatconstant(std::shared_ptr<ReturnPacket> mcon,
                                           float floatconstant);
 
-      std::shared_ptr<List>block69_identlist_ident(njnr::Identifier inIdent);
+      std::shared_ptr<List>block69_identlist_ident(std::string inIdent);
       std::shared_ptr<List>block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
-                                          njnr::Identifier inIdent);
+                                          std::string inIdent);
       Operator* createOperator(njnr::reltype n, std::string s);
       std::shared_ptr<Constant> createConstant(njnr::type n, std::string t);
       // void  setfinished(std::shared_ptr<List>inlist);

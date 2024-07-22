@@ -70,8 +70,8 @@ namespace njnr
                                                          lookupB(inFuncHeader->
                                                                  name));
            auto tempEntry =  symbolTable->createFunc(inFuncHeader->name,
-                                                   inFuncHeader->returntype,
-                                                   inFuncHeader->paramlist);
+                                                     inFuncHeader->returntype,
+                                                     inFuncHeader->paramlist);
            symbolTable->install(tempEntry);
        is_function_decl_or_def_accurate(inFuncHeader, true);
    }
@@ -89,10 +89,11 @@ namespace njnr
 
    std::shared_ptr<funcheadertype>  Compiler::
                     funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
-                                                   njnr::Identifier inIdent,
-                                                   std::shared_ptr<List> inParamdeflist,
-                                                   njnr::type inreturntype)
+                                                   std::string inIdent_original,
+                                                   std::shared_ptr<List> inParamdeflist = nullptr,
+                                                   njnr::type inreturntype = njnr::type::VOID)
    {
+      njnr::Identifier inIdent{inIdent_original};
       std::shared_ptr<funcheadertype> retFuncHeader{nullptr};
 
       retFuncHeader             = std::shared_ptr<funcheadertype>(new funcheadertype{});

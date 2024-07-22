@@ -80,7 +80,11 @@ namespace njnr
       return r;
    }
 
-   Statement::Statement() : ReturnPacket{} {}
+   Statement::Statement() : ReturnPacket{},
+                            stype{njnr::statement_type::INVALID},
+                            expr{nullptr},
+                            rettype{njnr::type::VOID}
+ {}
 
    Statement::~Statement()
    {

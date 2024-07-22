@@ -36,7 +36,8 @@ class SymbolTableX : public SymbolTable
       /* unsure about these functions below */
       // FIXME: take in a ReturnPacket* instead?
       std::shared_ptr<S_TableEntryX> createFunc(std::string name,
-                                njnr::type returntype, std::shared_ptr<List> paramlist);
+                                                njnr::type returntype,
+                                                std::shared_ptr<List> paramlist);
       // FIXME: take in a ReturnPacket* instead?
       std::shared_ptr<S_TableEntryX> createVar(std::string name, njnr::type t_type, int offset);
       // FIXME: take in a ReturnPacket* instead?

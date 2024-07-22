@@ -12,8 +12,9 @@
 namespace njnr
 {
    std::shared_ptr<ReturnPacket> Compiler::block60_function_call_ident_lpar_rpar(\
-                                                      njnr::Identifier inIdent)
+                                                      std::string inIdent_original)
    {
+       njnr::Identifier inIdent{inIdent_original};
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
        outPacket->setlval(false);
        std::shared_ptr<Funcb> tempb;
@@ -154,8 +155,9 @@ namespace njnr
    }
 
    std::shared_ptr<ReturnPacket> Compiler::block63_name_and_params_ident_lpar_source(\
-                                                      njnr::Identifier inPacket)
+                                                      std::string inPacket_original)
    {
+       njnr::Identifier inPacket{inPacket_original};
        std::shared_ptr<ReturnPacket> inEntry{new ReturnPacket{}};
        std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
 //       inEntry->funcent = nullptr;
@@ -181,10 +183,11 @@ namespace njnr
    }
 
    std::shared_ptr<ReturnPacket> Compiler::block64_name_and_params_ident_lpar_source_expr(\
-                                                   njnr::Identifier inIdent,
+                                                   std::string inIdent_original,
                                                    std::shared_ptr<ReturnPacket> inEntryptr,
                                                    std::shared_ptr<ReturnPacket> inPacketptr)
    {
+       njnr::Identifier inIdent{inIdent_original};
        std::shared_ptr<S_TableEntryX> tempE;
        std::shared_ptr<S_TableEntryX> tempE2;
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};

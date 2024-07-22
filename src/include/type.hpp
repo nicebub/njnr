@@ -140,7 +140,12 @@ void report(njnr::logType t, std::string s);
 class funcheadertype
 {
    public:
-   funcheadertype() : name{}, paramlist{nullptr}, returntype{}, ttype{} {}
+   funcheadertype() : name{""},
+                      paramlist{nullptr},
+                      returntype{njnr::type::VOID},
+                      ttype{njnr::type::VOID}
+                      {}
+
    virtual ~funcheadertype();
    const std::string toString() const;
    std::string   name;        // fn name
