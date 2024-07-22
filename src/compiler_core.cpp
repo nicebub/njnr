@@ -437,27 +437,30 @@ namespace njnr
             //  if they all match or not.
             for (auto stmt : *statementList)
             {
-                if (stmt->get_nodeType() == njnr::eNodeType::STMT)
+                if(nullptr != stmt)
                 {
-//                    std::shared_ptr<Statement> realstmt{(dynamic_cast<StmtListNode*>
-//                                                          (stmt))->
-//                                                          getstmt()};
-                    if (true != checkSingleReturnStatement(\
-                                      (dynamic_pointer_cast<StmtListNode>(stmt))->
-                                                                  getstmt(),
-                                       foundtype,
-                                       first))
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    std::cout << "skipping non-STMT node\n";
-                }
-                if (true == first)
-                {
-                    first = false;
+                   if (stmt->get_nodeType() == njnr::eNodeType::STMT)
+                   {
+   //                    std::shared_ptr<Statement> realstmt{(dynamic_cast<StmtListNode*>
+   //                                                          (stmt))->
+   //                                                          getstmt()};
+                       if (true != checkSingleReturnStatement(\
+                                         (dynamic_pointer_cast<StmtListNode>(stmt))->
+                                                                     getstmt(),
+                                          foundtype,
+                                          first))
+                       {
+                           break;
+                       }
+                   }
+                   else
+                   {
+                       std::cout << "skipping non-STMT node\n";
+                   }
+                   if (true == first)
+                   {
+                       first = false;
+                   }
                 }
             }
             success = true;
