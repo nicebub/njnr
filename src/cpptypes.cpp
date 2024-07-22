@@ -228,10 +228,9 @@ namespace njnr
       report(njnr::logType::debug,
              "actual_num"+ actual_num);
 */
-      if (funcbody_list){
-//         funcbody_list = nullptr;
-      }
-//      funcheader = nullptr;
+      param_type.clear();
+      funcbody_list = nullptr;
+      funcheader = nullptr;
     }
    std::vector<njnr::type>& Funcb::getparam_type()
    {
@@ -300,7 +299,7 @@ namespace njnr
    }
    void Funcb::setfuncheader(std::shared_ptr<funcheadertype> funcheader)
    {
-      this->funcheader = std::shared_ptr<funcheadertype>(new njnr::funcheadertype(*funcheader));
+      this->funcheader = funcheader;
    }
    std::shared_ptr<funcheadertype> Funcb::getfuncheader(void)
    {
@@ -423,8 +422,6 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running funcheadertype() Destructor");
-      if (paramlist){
-//         paramlist = nullptr;
-      }
+      paramlist = nullptr;
    }
 }  // namespace njnr

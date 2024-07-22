@@ -83,7 +83,7 @@ namespace njnr
        val = in;
    }
 
-   ReturnPacketListNode::ReturnPacketListNode() : ReturnPacketListNode{NULL} {}
+   ReturnPacketListNode::ReturnPacketListNode() : ReturnPacketListNode{nullptr} {}
 
    ReturnPacketListNode::ReturnPacketListNode(std::shared_ptr<ReturnPacket> expr) :
                                     BasicListNode{eNodeType::EXPR},
@@ -97,7 +97,7 @@ namespace njnr
       report(njnr::logType::debug, this->toString());
 
      //  delete expr;
-//        expr = nullptr;
+        expr = nullptr;
    }
 
    std::shared_ptr<ReturnPacket> ReturnPacketListNode::getexpr(void)
@@ -310,14 +310,10 @@ namespace njnr
 
    List::~List()
    {
-       report(njnr::logType::debug, "running List() Destructor");
+       report(njnr::logType::debug, "running List() Destructor on List(): " + std::to_string((long)this));
        report(njnr::logType::debug, this->toString());
 
-       for (auto& element : list)
-       {
-           debugprint("deleting element in List", "");
-//           element = nullptr;
-       }
+       list.clear();
    }
 
    std::vector<std::shared_ptr<BasicListNode>>::iterator List::begin()
@@ -337,11 +333,16 @@ namespace njnr
 
    List& List::operator=(const List& in)
    {
-       if(&in != this)
-       {
-        this->list = in.list;
-       }
-       return *this;
+      List* xx= const_cast<List*>(&in);
+      if(&in != this)
+      {
+         this->list.clear();
+         for(std::vector<std::shared_ptr<BasicListNode>>::iterator x = xx->begin();x != xx->end();x++)
+         {
+            this->list.push_back(*x);
+         }
+      }
+      return *this;
    }
 
    void List::push_back(std::shared_ptr<BasicListNode> in)
@@ -381,7 +382,7 @@ namespace njnr
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Constant> c)
    {
-      return std::shared_ptr<List>{(new List{})->appendList(c)};
+      return {(new List{})->appendList(c)};
    }
 
    std::shared_ptr<List> List::appendList(std::shared_ptr<Identifier> inVal)

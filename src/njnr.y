@@ -26,7 +26,7 @@ using namespace njnr;
 
 #include "compiler.hpp"
 
-int yyerror(std::string err,Compiler& compiler);
+int yyerror(std::string& err,Compiler& compiler);
 %}
 
 %verbose
@@ -365,7 +365,7 @@ ifexprstmt: ift lpar expr <struct Pair>{
 ;
 
 expr: equalexpr equalt equalexpr {
-                                    $$ = compiler.block40_expr_equalexpr_equal_equalexpr(&$1, &$3);
+                                    $$ = compiler.block40_expr_equalexpr_equal_equalexpr($1, $3);
                                  }
     | equalexpr {
                    $$ = $1;
@@ -377,10 +377,10 @@ expr: equalexpr equalt equalexpr {
 ;
 
 equalexpr: relexpr eqop {
-                           compiler.block42_equalexpr_relexpr_eqop_source(&$1);
+                           compiler.block42_equalexpr_relexpr_eqop_source($1);
                         }
            relexpr {
-                      $$ = compiler.block43_equalexpr_relexpr_eqop_source_relexpr($2,&$1,&$4);
+                      $$ = compiler.block43_equalexpr_relexpr_eqop_source_relexpr($2,$1,$4);
                    }
          | relexpr {
                       // Implied rule $$ = $1;
@@ -393,10 +393,10 @@ equalexpr: relexpr eqop {
 ;
 
 relexpr: simpleexpr relop {
-                             compiler.block45_relexpr_simpleexpr_relop_source(&$1);
+                             compiler.block45_relexpr_simpleexpr_relop_source($1);
                           }
          simpleexpr {
-                       $$ = compiler.block46_relexpr_simpleexpr_relop_source_simpleexpr(&$1,$2,&$4);
+                       $$ = compiler.block46_relexpr_simpleexpr_relop_source_simpleexpr($1,$2,$4);
                     }
        | simpleexpr {
                        // Implied rule $$ = $1;
@@ -409,10 +409,10 @@ relexpr: simpleexpr relop {
 ;
 
 simpleexpr: simpleexpr addop {
-                                compiler.block48_simpleexpr_simpleexpr_addop_source(&$1);
+                                compiler.block48_simpleexpr_simpleexpr_addop_source($1);
                              }
             TERM {
-                    $$ = compiler.block49_simpleexpr_simpleexpr_addop_source_term(&$1,$2,&$4);
+                    $$ = compiler.block49_simpleexpr_simpleexpr_addop_source_term($1,$2,$4);
                  }
           | TERM {
                     // Implied rule $$ = $1;
@@ -425,10 +425,10 @@ simpleexpr: simpleexpr addop {
 ;
 
 TERM: TERM mulop {
-                    compiler.block51_term_term_mulop_source(&$1);
+                    compiler.block51_term_term_mulop_source($1);
                  }
        factor {
-                 $$ = compiler.block52_term_term_mulop_source_factor(&$1,$2,$4);
+                 $$ = compiler.block52_term_term_mulop_source_factor($1,$2,$4);
               }
      | factor {
                  // Implied rule $$ = $1;
@@ -452,7 +452,7 @@ factor: constant {
                           $$ = $2;
                        }
       | addop factor %prec uminus {
-                                     $$ = compiler.block57_factor_addop_factor_uminus($1,&$2);
+                                     $$ = compiler.block57_factor_addop_factor_uminus($1,$2);
                                   }
       | adof Ident {
                       $$ = compiler.block58_factor_adof_ident(Identifier{$2});
@@ -481,7 +481,7 @@ function_call: Ident lpar rpar {
 ;
 
 func_call_with_params: name_and_params rpar {
-                                               $$ = compiler.block62_func_call_with_params_name_and_params_rpar(&$1);
+                                               $$ = compiler.block62_func_call_with_params_name_and_params_rpar($1);
                                             }
 ;
 
@@ -570,7 +570,7 @@ relop:
 
 %%
 #include <iostream>
-int yyerror(std::string s, Compiler& compiler)
+int yyerror(std::string& s, Compiler& compiler)
 {
    compiler.error(s,"");
    std::cerr << "Error:::"<< compiler.filename << ":"<< compiler.Line_Number << "-> " << s << "\n";

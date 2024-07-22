@@ -13,7 +13,7 @@ namespace njnr
                                               std::shared_ptr<funcheadertype> inFuncHeaderptr)
    {
       std::shared_ptr<funcheadertype> inFuncHeader{
-                                                   new njnr::funcheadertype{*inFuncHeaderptr}
+                                                   inFuncHeaderptr
                                                   };
       for (auto element : *inFuncHeader->paramlist)
       {
@@ -33,7 +33,7 @@ namespace njnr
                                                    bool isdeclaration)
    {
       std::shared_ptr<funcheadertype> inFuncHeader{
-                                                   new njnr::funcheadertype{*inFuncHeaderptr}
+                                                   inFuncHeaderptr
                                                   };
 
       currentFunc = static_pointer_cast<Funcb>(symbolTable->lookup(inFuncHeader->name));

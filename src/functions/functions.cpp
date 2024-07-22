@@ -95,7 +95,7 @@ namespace njnr
    {
       std::shared_ptr<funcheadertype> retFuncHeader{nullptr};
 
-      retFuncHeader             = std::shared_ptr<funcheadertype>(new funcheadertype);
+      retFuncHeader             = std::shared_ptr<funcheadertype>(new funcheadertype{});
       if (nullptr != retFuncHeader)
       {
          retFuncHeader->returntype = inreturntype;
@@ -111,7 +111,13 @@ namespace njnr
                          "\n";
 //            std::cout << "found parameters: " + inParamdeflist->toString();
          }
-         retFuncHeader->paramlist  = inParamdeflist;
+
+         retFuncHeader->paramlist = nullptr;
+
+         if(inParamdeflist)
+         {
+            retFuncHeader->paramlist  = inParamdeflist;
+         }
          /* FIXME: NEED TO REINCORPORATE THIS BACK IN. Somehow lists provide a type? where and why?
          if(inParamdeflist->gettype() == type::VOID)
          {
