@@ -137,7 +137,7 @@ namespace njnr
                           value{invalue}
                           {}
 
-   Identifier::Identifier(const Constant& in) :
+   Identifier::Identifier(const Constant in) :
                           Constant{in.getlval(),
                           njnr::type::IDENT, false, in.getoffset()},
                           value{in.getValue()}
@@ -242,7 +242,7 @@ namespace njnr
       funcbody_list = nullptr;
       funcheader = nullptr;
     }
-   std::vector<njnr::type>& Funcb::getparam_type()
+   std::vector<njnr::type> Funcb::getparam_type()
    {
        return param_type;
    }

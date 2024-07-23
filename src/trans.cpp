@@ -329,18 +329,21 @@ void CodeGenerator::generateFunction(std::shared_ptr<Funcb> f)
         std::shared_ptr<List> l{f->getfuncbody_list()};
          for (auto e : *l)
          {
-            if (njnr::eNodeType::EXPR == e->get_nodeType())
+            if(nullptr != e)
             {
-               std::cout << "TODO working on Expressions\n";
-               /* TODO: generate expression */
-            }
-            else if (njnr::eNodeType::STMT == e->get_nodeType())
-            {
-               generateStatement(dynamic_pointer_cast<njnr::StmtListNode>(e));
-            }
-            else
-            {
-               std::cerr << "Invalid Node type at this point in time\n";
+               if (njnr::eNodeType::EXPR == e->get_nodeType())
+               {
+                  std::cout << "TODO working on Expressions\n";
+                  /* TODO: generate expression */
+               }
+               else if (njnr::eNodeType::STMT == e->get_nodeType())
+               {
+                  generateStatement(dynamic_pointer_cast<njnr::StmtListNode>(e));
+               }
+               else
+               {
+                  std::cerr << "Invalid Node type at this point in time\n";
+               }
             }
          }
       }
@@ -382,16 +385,19 @@ void CodeGenerator::generate(std::shared_ptr<List> f)
 {
     if (nullptr != f)
     {
-       for (auto& e : *f)
+       for (auto e : *f)
        {
-         if (njnr::eNodeType::TRANSLATION_UNIT == e->get_nodeType())
+         if(nullptr != e)
          {
-            generateTranslationUnit(\
-                              dynamic_pointer_cast<njnr::TranslationUnitListNode>(e));
-         }
-         else
-         {
-            std::cerr << "Node type should not be at this level\n";
+            if (njnr::eNodeType::TRANSLATION_UNIT == e->get_nodeType())
+            {
+               generateTranslationUnit(\
+                                 dynamic_pointer_cast<njnr::TranslationUnitListNode>(e));
+            }
+            else
+            {
+               std::cerr << "Node type should not be at this level\n";
+            }
          }
        }
     }

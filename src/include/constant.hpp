@@ -49,7 +49,7 @@ class Identifier : public Constant
    public:
       Identifier();
       explicit Identifier(const std::string invalue);
-      explicit Identifier(const Constant&);
+      explicit Identifier(const Constant);
       virtual ~Identifier()
       {
          report(njnr::logType::debug,
@@ -84,7 +84,7 @@ class Funcb : public Identifier
       Funcb(const Funcb& in);
       Funcb& operator=(const Funcb& in);
       virtual ~Funcb();
-      std::vector<njnr::type>& getparam_type();
+      std::vector<njnr::type> getparam_type();
       njnr::type getreturntype();
       bool getbodydef();
       int getnum_param();

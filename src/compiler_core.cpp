@@ -40,12 +40,15 @@ namespace njnr
        currentFunc{nullptr},
        outfile{nullptr},
        infile{nullptr},
+       filename{""},
        Line_Number{1},
        globalcount{0},
        offset_counter{5},
+       labelcounter{0},
        othercounter{1},
        param_offset{0},
        mainlocal{0},
+       mainlabel{0},
        returnTypes{},
        founderror{false},
        finished{nullptr}
@@ -231,7 +234,7 @@ namespace njnr
        }
    }
 
-   void  Compiler::setfinished(std::shared_ptr<List> &inlist)
+   void  Compiler::setfinished(std::shared_ptr<List> inlist)
    {
       finished = inlist;
    }
@@ -340,7 +343,7 @@ namespace njnr
                 switch (realstmt->getrettype())
                 {
                     case njnr::type::CHECK:
-                        //  checkSingleReturnStatement(realstmt, &similar, first);
+                        //  checkSingleReturnStatement(realstmt, similar, first);
                          checkSingleReturnStatement(realstmt, similar, first);
                             if (true == first)
                             {

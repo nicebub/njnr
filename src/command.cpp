@@ -8,7 +8,7 @@
 namespace njnr
 {
    bool Compiler::filenameDoesEndsInDotN(\
-                             const std::string& inFilename)  noexcept
+                             const std::string inFilename)  noexcept
    {
        std::string extra{""};
        auto f_sz{ inFilename.size() };

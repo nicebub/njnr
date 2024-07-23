@@ -26,7 +26,7 @@ using namespace njnr;
 
 #include "compiler.hpp"
 
-int yyerror(std::string& err,Compiler& compiler);
+int yyerror(std::string err,Compiler& compiler);
 %}
 
 %verbose
@@ -74,7 +74,7 @@ int yyerror(std::string& err,Compiler& compiler);
     #undef yylex
     #define yylex compiler.lexer.yylex
 
-    void njnr::njnrParser::error(njnr::location const & loc, const std::string & message)
+    void njnr::njnrParser::error(njnr::location const & loc, const std::string&  message)
     {
        std::cout << "at " << loc << " : " << message << std::endl;
     }
@@ -570,7 +570,7 @@ relop:
 
 %%
 #include <iostream>
-int yyerror(std::string& s, Compiler& compiler)
+int yyerror(std::string s, Compiler& compiler)
 {
    compiler.error(s,"");
    std::cerr << "Error:::"<< compiler.filename << ":"<< compiler.Line_Number << "-> " << s << "\n";

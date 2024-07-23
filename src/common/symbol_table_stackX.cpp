@@ -72,7 +72,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
       }
       if (tBinding->getnum_param() > 0)
       {
-         for (auto &element : *paramlist)
+         for (auto element : *paramlist)
          {
             if(element != nullptr)
             {

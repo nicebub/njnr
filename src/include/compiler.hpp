@@ -295,7 +295,7 @@ class Compiler
       Operator* createOperator(njnr::reltype n, std::string s);
       std::shared_ptr<Constant> createConstant(njnr::type n, std::string t);
       // void  setfinished(std::shared_ptr<List>inlist);
-      void  setfinished(std::shared_ptr<List> &inlist);
+      void  setfinished(std::shared_ptr<List> inlist);
       void  printProgramTree(void);
       void  checkfunctionReturnValues(std::shared_ptr<Funcb> f);
       bool  aresimilartypes(njnr::type t1, njnr::type t2);
@@ -311,7 +311,7 @@ class Compiler
                                       njnr::type foundtype,
                                       bool first);
    protected:
-      static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
+      static bool filenameDoesEndsInDotN(const std::string in)  noexcept;
       void closeOrRemoveOutputFile(bool needtoremove);
       void closeOrRemoveInputFile(bool needtoremove);
       static std::string mapNjnrTypeToString(njnr::type t);

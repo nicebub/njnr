@@ -22,7 +22,7 @@ class S_TableEntry
       }
 
       /* Constructor with arguments */
-      S_TableEntry(const std::string& key,
+      S_TableEntry(const std::string key,
                    std::shared_ptr<void> value,
                    njnr::type eType) noexcept;
 
@@ -67,7 +67,7 @@ class S_TableEntryX : public S_TableEntry
          }
       }
       /* Constructor with arguments */
-      S_TableEntryX(const std::string& key,
+      S_TableEntryX(const std::string key,
                     std::shared_ptr<void> value,
                     njnr::type eType) noexcept;
 

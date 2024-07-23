@@ -181,7 +181,7 @@ public:
     List();
     virtual ~List();
     List(const List& cp);
-    List& operator=(const List& in);
+/*    List& operator=(const List& in);*/
     void push_back(std::shared_ptr<BasicListNode> node);
     std::vector<std::shared_ptr<BasicListNode>> getlist();
     static std::shared_ptr<List> mklist(std::shared_ptr<Identifier>);
@@ -215,6 +215,7 @@ public:
     const std::string toString() const;
 private:
     std::vector<std::shared_ptr<BasicListNode>> list;
+    const std::shared_ptr<List> spthis{this};
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_LIST_HPP_
