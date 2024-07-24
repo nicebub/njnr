@@ -214,7 +214,6 @@ public:
     const std::string toString() const;
 private:
     std::vector<std::shared_ptr<BasicListNode>> list;
-    const std::shared_ptr<List> spthis{this};
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_LIST_HPP_
