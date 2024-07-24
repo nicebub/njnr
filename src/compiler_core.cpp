@@ -55,10 +55,10 @@ namespace njnr
    {
        try
        {
-           symbolTable = new SymbolTableX{ *this};
-           constantTable = new SymbolTableX{*this};
-           typeTable  = new SymbolTableX{*this};
-           parser = new njnrParser{*this};
+           symbolTable = new SymbolTableX{ this};
+           constantTable = new SymbolTableX{this};
+           typeTable  = new SymbolTableX{this};
+           parser = new njnrParser{this};
            install_functions_into_symbolTable();
            parser->set_debug_stream(std::cerr);
    #ifdef DEBUG
@@ -102,8 +102,11 @@ namespace njnr
       report(njnr::logType::debug, "mainlocal: " + mainlocal);
       report(njnr::logType::debug, "mainlabel: " + mainlabel);
       report(njnr::logType::debug, "retunTypes: " + returnTypes.toString());
+
       closeOrRemoveOutputFile(false);
+
       closeOrRemoveInputFile(false);
+
       if (symbolTable != nullptr)
       {
 //         Funcb* x{nullptr};

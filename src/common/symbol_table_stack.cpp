@@ -27,7 +27,7 @@ template <typename T>bool SymbolTable::install(T element)
  * 
  * @param c reference to compiler that instantiates this symbol table
  */
-SymbolTable::SymbolTable(Compiler& c) : stack{Table{}}, compiler{c} {}
+SymbolTable::SymbolTable(Compiler* c) : stack{Table{}}, compiler{c} {}
 
 /**
  * @brief Destroy the Symbol Table:: Symbol Table object

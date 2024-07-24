@@ -19,7 +19,7 @@ class SymbolTableX : public SymbolTable
    public:
       SymbolTableX() = delete;
       // Constructor
-      explicit SymbolTableX(Compiler& c) : SymbolTable{c} {}
+      explicit SymbolTableX(Compiler* c) : SymbolTable{c} {}
       // Destructor
       virtual ~SymbolTableX()
       {

@@ -14,7 +14,7 @@ class SymbolTable
 {
    public:
       SymbolTable() = delete;
-      explicit SymbolTable(Compiler&);                       // Constructor
+      explicit SymbolTable(Compiler*);                       // Constructor
       virtual ~SymbolTable();                               // Destructor
       template <typename T>bool install(T element);
       // look up a symbol in scope and return its value
@@ -47,7 +47,7 @@ class SymbolTable
       std::deque<Table> stack;
    private:
       // reference to compiler that instantiate this instance
-      Compiler& compiler;
+      Compiler* compiler;
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_COMMON_SYMBOL_TABLE_STACK_HPP_

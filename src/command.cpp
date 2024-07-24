@@ -94,7 +94,8 @@ namespace njnr
        return false;
    }
 
-#ifndef MAIN
+#ifdef FALSEAA
+//#ifndef MAIN
 #define MAIN
 
    int main(int argc,  char* const* argv)
