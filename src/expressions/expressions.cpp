@@ -633,9 +633,11 @@ using njnr::List;
        return List::mklist(std::shared_ptr<Identifier>(new Identifier{inIdent}));
    }
 
-   std::shared_ptr<List> Compiler::block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
+   bool Compiler::block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
                                                  std::string inIdent_original)
    {
        njnr::Identifier inIdent{inIdent_original};
-       return std::shared_ptr<List>((inIdentListptr)->appendList(std::shared_ptr<Identifier>(new Identifier{inIdent})));
+       std::shared_ptr<Identifier> spI = std::make_shared<Identifier>(inIdent);
+       inIdentListptr->appendList(spI);
+       return true;
    }

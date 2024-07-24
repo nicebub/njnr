@@ -115,7 +115,7 @@ namespace njnr
 
          retFuncHeader->paramlist = nullptr;
 
-         if(inParamdeflist)
+         if (inParamdeflist)
          {
             retFuncHeader->paramlist  = inParamdeflist;
          }

@@ -289,8 +289,8 @@ class Compiler
       void block68_constant_floatconstant(std::shared_ptr<ReturnPacket> mcon,
                                           float floatconstant);
 
-      std::shared_ptr<List>block69_identlist_ident(std::string inIdent);
-      std::shared_ptr<List>block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
+      std::shared_ptr<List> block69_identlist_ident(std::string inIdent);
+      bool block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
                                           std::string inIdent);
       Operator* createOperator(njnr::reltype n, std::string s);
       std::shared_ptr<Constant> createConstant(njnr::type n, std::string t);

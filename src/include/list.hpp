@@ -199,18 +199,17 @@ public:
     static std::shared_ptr<List> mklist(std::shared_ptr<Statement> instmt);
     std::vector<std::shared_ptr<BasicListNode>>::iterator begin();
     std::vector<std::shared_ptr<BasicListNode>>::iterator end();
-    std::shared_ptr<List> appendList(std::string inVal);
-    std::shared_ptr<List> appendList(std::string inVal, njnr::type inType);
-    std::shared_ptr<List> appendList(std::shared_ptr<ReturnPacket> expr);
-    std::shared_ptr<List> appendList(std::shared_ptr<Funcb> expr);
+    bool appendList(std::string inVal);
+    bool appendList(std::string inVal, njnr::type inType);
+    bool appendList(std::shared_ptr<ReturnPacket> expr);
+    bool appendList(std::shared_ptr<Funcb> expr);
 
     // placeholder type -- needs changing
-    std::shared_ptr<List> appendList(std::shared_ptr<Varb> expr);
-
-    std::shared_ptr<List> appendList(njnr::type type);
-    std::shared_ptr<List> appendList(std::shared_ptr<Statement> type);
-    std::shared_ptr<List> appendList(std::shared_ptr<Identifier>);
-    std::shared_ptr<List> appendList(std::shared_ptr<Constant>);
+    bool appendList(std::shared_ptr<Varb> expr);
+    bool appendList(njnr::type type);
+    bool appendList(std::shared_ptr<Statement> type);
+    bool appendList(std::shared_ptr<Identifier>);
+    bool appendList(std::shared_ptr<Constant>);
     int size() const;
     const std::string toString() const;
 private:

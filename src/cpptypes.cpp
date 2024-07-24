@@ -337,9 +337,9 @@ namespace njnr
       r += "localcount: " + std::to_string(localcount) + "\n";
       r += "actual_num" + std::to_string(actual_num) + "\n";
       r += "num_param" + std::to_string(num_param) + "\n";
-      if(0 <= param_type.size())
+      if (0 <= param_type.size())
       {
-        for(auto t : param_type)
+        for (auto t : param_type)
         {
             r += "param type: " + njnr::typeToStringMap.at(t) + "\n"; 
         }
@@ -418,11 +418,11 @@ namespace njnr
 
    const std::string funcheadertype::toString() const
    {
-    std::string r = "";
+      std::string r = "";
       r += "name: " + name + "\n";
       r += "return type: " + typeToStringMap.at(returntype) + "\n";
       r += "ttype: " +  typeToStringMap.at(ttype) + "\n";
-      if(paramlist)
+      if (paramlist)
       {
          r += "paramlist: " + paramlist->toString();
       }

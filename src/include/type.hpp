@@ -65,7 +65,7 @@ enum class type
    MAX
 };
 
-const static std::map<njnr::type, std::string> typeToStringMap
+static const std::map<njnr::type, std::string> typeToStringMap
 {
    {njnr::type::INT, "INT"},
    {njnr::type::FLOAT, "FLOAT"},

@@ -354,91 +354,108 @@ namespace njnr
 
    std::shared_ptr<List> List::mklist(njnr::type inType)
    {
-       return (new List{})->appendList(inType);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inType);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::string inVal)
    {
 
-      std::shared_ptr<List> spl = std::make_shared<List>();
-      spl->appendList(inVal);
-       return spl;
-
-       return (new List{})->appendList(inVal);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inVal);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::string inVal, type inType)
    {
-       return (new List{})->appendList(inVal, inType);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inType);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<ReturnPacket> inExpr)
    {
-       return (new List{})->appendList(inExpr);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inExpr);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Statement> instmt)
    {
-       return (new List{})->appendList(instmt);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(instmt);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Identifier> i)
    {
-      return (new List{})->appendList(i);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(i);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Constant> c)
    {
-      return {(new List{})->appendList(c)};
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(c);
+      return spL;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Identifier> inVal)
+   bool List::appendList(std::shared_ptr<Identifier> inVal)
    {
-       std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inVal}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return spthis;
+       std::shared_ptr<ReturnPacketListNode> nnode = std::make_shared<ReturnPacketListNode>(inVal);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Constant> inVal)
+   bool List::appendList(std::shared_ptr<Constant> inVal)
    {
-       std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inVal}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return spthis;
+       std::shared_ptr<ReturnPacketListNode> nnode = std::make_shared<ReturnPacketListNode>(inVal);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::string inVal)
+   bool List::appendList(std::string inVal)
    {
-       std::shared_ptr<ListNode> nnode = std::make_shared<ListNode>(inVal);
-       list.push_back(nnode);
-       return spthis;
+      std::shared_ptr<ListNode> nnode = std::make_shared<ListNode>(inVal);
+      this->push_back(nnode);
+      return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::string inVal, type inType)
+   bool List::appendList(std::string inVal, type inType)
    {
-       std::shared_ptr<PListNode> nnode{new PListNode{inVal, inType}};
-       list.push_back(nnode);
-       return spthis;
+       std::shared_ptr<PListNode> nnode = std::make_shared<PListNode>(inVal, inType);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<ReturnPacket> inexpr)
+   bool List::appendList(std::shared_ptr<ReturnPacket> inexpr)
    {
-       std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inexpr}};
-       list.push_back(nnode);
-       return spthis;
+       std::shared_ptr<ReturnPacketListNode> nnode = std::make_shared<ReturnPacketListNode>(inexpr);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(njnr::type intype)
+   bool List::appendList(njnr::type intype)
    {
-       std::shared_ptr<TypeListNode> nnode{new TypeListNode{intype}};
-       list.push_back(nnode);
-       return spthis;
+       std::shared_ptr<TypeListNode> nnode = std::make_shared<TypeListNode>(intype);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Statement> instmt)
+   bool List::appendList(std::shared_ptr<Statement> instmt)
    {
-       std::shared_ptr<StmtListNode> nnode{new StmtListNode{instmt}};
-       list.push_back(nnode);
-       return spthis;
+       std::shared_ptr<StmtListNode> nnode = std::make_shared<StmtListNode>(instmt);
+       this->push_back(nnode);
+       return true;
    }
 
    std::vector<std::shared_ptr<BasicListNode>> List::getlist()
@@ -455,31 +472,33 @@ namespace njnr
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Varb> expr)
    {
-       return (new List{})->appendList(expr);
+      std::shared_ptr<List> spl = std::make_shared<List>();
+      spl->appendList(expr);
+       return spl;
    }  // place holder type -- needs changing
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Funcb> expr)
+   bool List::appendList(std::shared_ptr<Funcb> expr)
    {
-       std::shared_ptr<ListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
-       spthis->push_back(nnode);
-       return spthis;
+       std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Varb> expr)
+   bool List::appendList(std::shared_ptr<Varb> expr)
    {
-       std::shared_ptr<ListNode> nnode{new TranslationUnitListNode{expr}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
+       this->push_back(nnode);
+       return true;
    }  // placeholder type -- needs changing
 
     const std::string List::toString() const
     {
        std::string r{"List: "};
-       if(0 < list.size())
+       if (0 < list.size())
        {
           for (auto e : list)
           {
-             if(e)
+             if (e)
              {
                 switch (e->get_nodeType())
                 {

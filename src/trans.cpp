@@ -329,7 +329,7 @@ void CodeGenerator::generateFunction(std::shared_ptr<Funcb> f)
         std::shared_ptr<List> l{f->getfuncbody_list()};
          for (auto e : *l)
          {
-            if(nullptr != e)
+            if (nullptr != e)
             {
                if (njnr::eNodeType::EXPR == e->get_nodeType())
                {
@@ -387,7 +387,7 @@ void CodeGenerator::generate(std::shared_ptr<List> f)
     {
        for (auto e : *f)
        {
-         if(nullptr != e)
+         if (nullptr != e)
          {
             if (njnr::eNodeType::TRANSLATION_UNIT == e->get_nodeType())
             {

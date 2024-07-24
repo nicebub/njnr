@@ -440,7 +440,7 @@ namespace njnr
             //  if they all match or not.
             for (auto stmt : *statementList)
             {
-                if(nullptr != stmt)
+                if (nullptr != stmt)
                 {
                    if (stmt->get_nodeType() == njnr::eNodeType::STMT)
                    {

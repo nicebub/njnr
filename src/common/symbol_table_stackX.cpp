@@ -74,10 +74,10 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
       {
          for (auto element : *paramlist)
          {
-            if(element != nullptr)
+            if (element != nullptr)
             {
                std::shared_ptr<PListNode> n_element{dynamic_pointer_cast<PListNode>(element)};
-               if(nullptr != n_element)
+               if (nullptr != n_element)
                {
                   tBinding->getparam_type().push_back(n_element->gettype());
                   if ( n_element->getval() == "..." )

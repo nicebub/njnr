@@ -208,7 +208,10 @@ translation_unit_part_list: func { $$ = List::mklist($1); }
                           | variabledecl {
 //                                          $$ = List::mklist($1);
                                          }
-                          | translation_unit_part_list func { $$ = $1->appendList($2); }
+                          | translation_unit_part_list func {
+                                                               $1->appendList($2);
+                                                               $$ = $1;
+                                                            }
                           | translation_unit_part_list variabledecl {
 //                                                                     $$ = $1->appendList($2);
                                                                     }
@@ -246,7 +249,8 @@ paramdef: paramdeflist {
                           $$ = $1;
                        }
         | paramdeflist comma elip {
-                                     $$ = $1->appendList("...", type::VOID);
+                                     $1->appendList("...", type::VOID);
+                                     $$ = $1;
                                   }
         | paramdeflist error rpar {
                                      yyerrok;
@@ -267,7 +271,9 @@ paramdeflist: Ident {
                        compiler.installParameterIntoSymbolTable($1, njnr::type::INT);
                     }
             | paramdeflist comma Ident {
-                                          $$ = $1->appendList($3);
+                                          $1->appendList($3);
+                                          $$ = $1;
+                                          
                                           compiler.installParameterIntoSymbolTable($3, njnr::type::INT);
                                        }
 ;
@@ -289,11 +295,13 @@ funcbody_internal: variabledecl {
                         }
                 | funcbody_internal variabledecl {
                                                      compiler.block25_funcbody_lcbra_decls_source();
-                                                     $$ = $1->appendList($2);
+                                                     $1->appendList($2);
+                                                     $$ = $1;
                                                   }
                  | funcbody_internal stmt {
 //                                           compiler.add_statement_to_fn_body_and_return($1,$2);
-                                             $$ = $1->appendList($2);
+                                             $1->appendList($2);
+                                             $$ = $1;
                                           }
 ;
 
@@ -503,7 +511,8 @@ identlist: Ident {
                     $$ = List::mklist($1, njnr::type::IDENT);
                  }
          | identlist comma Ident {
-                                    $$ = $1->appendList($3, njnr::type::IDENT);
+                                    $1->appendList($3, njnr::type::IDENT);
+                                    $$ = $1;
                                  }
          | identlist comma error {
                                     yyerrok;
