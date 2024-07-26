@@ -1,5 +1,5 @@
-#ifndef SRC_INCLUDE_TRANS_HPP_
-#define SRC_INCLUDE_TRANS_HPP_
+#ifndef SRC_INCLUDE_CODEGENERATOR_HPP_
+#define SRC_INCLUDE_CODEGENERATOR_HPP_
 #include <config.h>
 #include <cstdio>
 #include <string>
@@ -67,4 +67,4 @@ class CodeGenerator
       SymbolTableX*   symtab;
 };
 }  // namespace njnr
-#endif  // SRC_INCLUDE_TRANS_HPP_
+#endif  // SRC_INCLUDE_CODEGENERATOR_HPP_

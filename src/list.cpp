@@ -29,6 +29,7 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running BasicListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
 
    const std::string BasicListNode::toString() const
@@ -67,7 +68,7 @@ namespace njnr
        return BasicListNode::toString() + "\nval: " + val;
     }
 
-   ListNode::ListNode() : ListNode("") {}
+   ListNode::ListNode() : BasicListNode{}, val{""} {}
 
    ListNode::ListNode(std::string in) : BasicListNode{eNodeType::STANDARD},
                                         val{in}
@@ -82,7 +83,9 @@ namespace njnr
        val = in;
    }
 
-   ReturnPacketListNode::ReturnPacketListNode() : ReturnPacketListNode{NULL} {}
+   ReturnPacketListNode::ReturnPacketListNode() : BasicListNode{},
+                                                  expr{nullptr}
+                                                  {}
 
    ReturnPacketListNode::ReturnPacketListNode(std::shared_ptr<ReturnPacket> expr) :
                                     BasicListNode{eNodeType::EXPR},
@@ -93,6 +96,8 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running ReturnPacketListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
+
      //  delete expr;
         expr = nullptr;
    }
@@ -127,12 +132,12 @@ namespace njnr
       return r;
    }
 
-   PListNode::PListNode() : ListNode{}, type{}
+   PListNode::PListNode() : ListNode{""}, type{njnr::type::VOID}
    {
        set_nodeType(eNodeType::P);
        setval("");
    }
-   PListNode::PListNode(std::string inVal, njnr::type inType) : type{inType}
+   PListNode::PListNode(std::string inVal, njnr::type inType) : ListNode{inVal}, type{inType}
    {
        set_nodeType(eNodeType::P);
        setval(inVal);
@@ -140,7 +145,7 @@ namespace njnr
 
    njnr::type PListNode::gettype() const
    {
-       return type;
+       return this->type;
    }
    void PListNode::settype(njnr::type type)
    {
@@ -230,13 +235,9 @@ namespace njnr
          {
             // Variable Declaration translation unit
             case njnr::trans_unit_type::VARDECL:
-               r += std::dynamic_pointer_cast<Varb>(unit)->toString() + "\n";
-               break;
-
             case njnr::trans_unit_type::FUNCTION:  // Function translation unit
-               r += dynamic_pointer_cast<Funcb>(unit)->toString();
+               r += unit->toString() + "\n";
                break;
-
            // Invalid translation unit type
            case njnr::trans_unit_type::INVALID:
            default:
@@ -286,7 +287,10 @@ namespace njnr
       {
       set_nodeType(njnr::eNodeType::STMT);
       }
-      std::shared_ptr<Statement> StmtListNode::getstmt(void){ return stmt; }
+      std::shared_ptr<Statement> StmtListNode::getstmt(void)
+      {
+         return stmt;
+      }
       void StmtListNode::setstmt(std::shared_ptr<Statement> instmt) { stmt = instmt; }
 
    const std::string StmtListNode::toString() const
@@ -302,18 +306,16 @@ namespace njnr
    }
 
 
-   List::List() : list{} {}
+   List::List() : list(3,nullptr) {}
 
    List::List(const List& cp) : list{cp.list} {}
 
    List::~List()
    {
-       report(njnr::logType::debug, "running List() Destructor");
-       for (auto element : list)
-       {
-           debugprint("deleting element in List", "");
-           element = nullptr;
-       }
+       report(njnr::logType::debug, "running List() Destructor on List(): " + std::to_string((long)this));
+       report(njnr::logType::debug, this->toString());
+
+       list.clear();
    }
 
    std::vector<std::shared_ptr<BasicListNode>>::iterator List::begin()
@@ -330,12 +332,21 @@ namespace njnr
    {
        return static_cast<int>(list.size());
    }
-
+/*
    List& List::operator=(const List& in)
    {
-       return *this;
+      List* xx= const_cast<List*>(&in);
+      if(&in != this)
+      {
+         this->list.clear();
+         for(std::vector<std::shared_ptr<BasicListNode>>::iterator x = xx->begin();x != xx->end();x++)
+         {
+            this->list.push_back(*x);
+         }
+      }
+      return *this;
    }
-
+*/
    void List::push_back(std::shared_ptr<BasicListNode> in)
    {
        list.push_back(in);
@@ -343,86 +354,108 @@ namespace njnr
 
    std::shared_ptr<List> List::mklist(njnr::type inType)
    {
-       return (new List{})->appendList(inType);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inType);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::string inVal)
    {
-       return (new List{})->appendList(inVal);
+
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inVal);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::string inVal, type inType)
    {
-       return (new List{})->appendList(inVal, inType);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inType);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<ReturnPacket> inExpr)
    {
-       return (new List{})->appendList(inExpr);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inExpr);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Statement> instmt)
    {
-       return (new List{})->appendList(instmt);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(instmt);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Identifier> i)
    {
-      return (new List{})->appendList(i);
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(i);
+      return spL;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Constant> c)
    {
-      return std::shared_ptr<List>{(new List{})->appendList(c)};
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(c);
+      return spL;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Identifier> inVal)
+   bool List::appendList(std::shared_ptr<Identifier> inVal)
    {
-       std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inVal}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<ReturnPacketListNode> nnode = std::make_shared<ReturnPacketListNode>(inVal);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Constant> inVal)
+   bool List::appendList(std::shared_ptr<Constant> inVal)
    {
-       std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inVal}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<ReturnPacketListNode> nnode = std::make_shared<ReturnPacketListNode>(inVal);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::string inVal)
+   bool List::appendList(std::string inVal)
    {
-       std::shared_ptr<ListNode> nnode{new ListNode{inVal}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+      std::shared_ptr<ListNode> nnode = std::make_shared<ListNode>(inVal);
+      this->push_back(nnode);
+      return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::string inVal, type inType)
+   bool List::appendList(std::string inVal, type inType)
    {
-       std::shared_ptr<PListNode> nnode{new PListNode{inVal, inType}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<PListNode> nnode = std::make_shared<PListNode>(inVal, inType);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<ReturnPacket> inexpr)
+   bool List::appendList(std::shared_ptr<ReturnPacket> inexpr)
    {
-       std::shared_ptr<ReturnPacketListNode> nnode{new ReturnPacketListNode{inexpr}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<ReturnPacketListNode> nnode = std::make_shared<ReturnPacketListNode>(inexpr);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(njnr::type intype)
+   bool List::appendList(njnr::type intype)
    {
-       std::shared_ptr<TypeListNode> nnode{new TypeListNode{intype}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<TypeListNode> nnode = std::make_shared<TypeListNode>(intype);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Statement> instmt)
+   bool List::appendList(std::shared_ptr<Statement> instmt)
    {
-       std::shared_ptr<StmtListNode> nnode{new StmtListNode{instmt}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<StmtListNode> nnode = std::make_shared<StmtListNode>(instmt);
+       this->push_back(nnode);
+       return true;
    }
 
    std::vector<std::shared_ptr<BasicListNode>> List::getlist()
@@ -432,58 +465,57 @@ namespace njnr
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Funcb> expr)
    {
-       return (new List{})->appendList(expr);
+      std::shared_ptr<List> spl = std::make_shared<List>();
+      spl->appendList(expr);
+       return spl;
    }
 
    std::shared_ptr<List> List::mklist(std::shared_ptr<Varb> expr)
    {
-       return (new List{})->appendList(expr);
+      std::shared_ptr<List> spl = std::make_shared<List>();
+      spl->appendList(expr);
+       return spl;
    }  // place holder type -- needs changing
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Funcb> expr)
+   bool List::appendList(std::shared_ptr<Funcb> expr)
    {
-       std::shared_ptr<ListNode> nnode{new TranslationUnitListNode{expr}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
+       this->push_back(nnode);
+       return true;
    }
 
-   std::shared_ptr<List> List::appendList(std::shared_ptr<Varb> expr)
+   bool List::appendList(std::shared_ptr<Varb> expr)
    {
-       std::shared_ptr<ListNode> nnode{new TranslationUnitListNode{expr}};
-       list.push_back(dynamic_pointer_cast<BasicListNode>(nnode));
-       return std::shared_ptr<List>(this);
+       std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
+       this->push_back(nnode);
+       return true;
    }  // placeholder type -- needs changing
 
     const std::string List::toString() const
     {
        std::string r{"List: "};
-
-       for (auto e : list)
+       if (0 < list.size())
        {
-        switch (e->get_nodeType())
-        {
-          case njnr::eNodeType::EXPR:
-             r += dynamic_pointer_cast<ReturnPacketListNode>(e)->toString();
-             break;
-         case njnr::eNodeType::P:
-             r += dynamic_pointer_cast<PListNode>(e)->toString();
-             break;
-          case njnr::eNodeType::STANDARD:
-             r += dynamic_pointer_cast<ListNode>(e)->toString();
-             break;
-          case njnr::eNodeType::STMT:
-             r += dynamic_pointer_cast<StmtListNode>(e)->toString();
-             break;
-          case njnr::eNodeType::TRANSLATION_UNIT:
-             r += dynamic_pointer_cast<TranslationUnitListNode>(e)->toString();
-             break;
-          case njnr::eNodeType::TYPE:
-             r += dynamic_pointer_cast<TypeListNode>(e)->toString();
-             break;
-          default:
-             // set as default "Invalid"
-             break;
-        }
+          for (auto e : list)
+          {
+             if (e)
+             {
+                switch (e->get_nodeType())
+                {
+                  case njnr::eNodeType::EXPR:
+                  case njnr::eNodeType::P:
+                  case njnr::eNodeType::STANDARD:
+                  case njnr::eNodeType::STMT:
+                  case njnr::eNodeType::TRANSLATION_UNIT:
+                  case njnr::eNodeType::TYPE:
+                     r += e->toString();
+                     break;
+                  default:
+                     // set as default "Invalid"
+                     break;
+                }
+             }
+          }
        }
        return r;
     }

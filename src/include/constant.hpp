@@ -30,6 +30,8 @@ class Constant : public ReturnPacket
       {
          report(njnr::logType::debug,
                 "running Constant() Destructor");
+         report(njnr::logType::debug, "val" + val);
+         report(njnr::logType::debug, "typ" + static_cast<int>(typ));
       }
       std::string getValue() const;
       void setValue(const std::string in);
@@ -47,11 +49,12 @@ class Identifier : public Constant
    public:
       Identifier();
       explicit Identifier(const std::string invalue);
-      explicit Identifier(const Constant&);
+      explicit Identifier(const Constant);
       virtual ~Identifier()
       {
          report(njnr::logType::debug,
                 "running Identifier() Destructor");
+         report(njnr::logType::debug, "value" + value);
       }
       Identifier& operator=(const Identifier& in);
       std::string getvalue() const;
@@ -81,7 +84,7 @@ class Funcb : public Identifier
       Funcb(const Funcb& in);
       Funcb& operator=(const Funcb& in);
       virtual ~Funcb();
-      std::vector<njnr::type>& getparam_type();
+      std::vector<njnr::type> getparam_type();
       njnr::type getreturntype();
       bool getbodydef();
       int getnum_param();

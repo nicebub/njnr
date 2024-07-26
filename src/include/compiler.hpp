@@ -12,7 +12,7 @@
 */
 #include "constant.hpp"
 #include "type.hpp"
-#include "trans.hpp"
+#include "CodeGenerator.hpp"
 #include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"
 // #include "symbol_table_stack.hpp"
@@ -89,21 +89,21 @@ class Compiler
       void block5_funcheader_error_semi(std::shared_ptr<funcheadertype> inFuncHeaderptr);
 
       std::shared_ptr<funcheadertype> funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
-                                        njnr::Identifier inIdent,
+                                        std::string inIdent,
                                         std::shared_ptr<List> inParamdeflist,
                                         njnr::type inreturntype);
 
 
       std::shared_ptr<funcheadertype> block6_funcheader_void_ident_lpar_paramdef_rpar(\
-                            njnr::Identifier ident,
+                            std::string ident,
                             std::shared_ptr<List> paramdeflist);
 
       std::shared_ptr<funcheadertype> block7_funcheader_int_ident_lpar_paramdef_rpar(\
-                        njnr::Identifier inIdent,
+                        std::string inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
       std::shared_ptr<funcheadertype> block8_funcheader_float_ident_lpar_paramdef_rpar(\
-                        njnr::Identifier inIdent,
+                        std::string inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
       std::shared_ptr<funcheadertype> block9_funcheader_void_error_rpar();
@@ -111,45 +111,45 @@ class Compiler
       std::shared_ptr<funcheadertype> block11_funcheader_float_error_rpar();
 
       std::shared_ptr<funcheadertype> block12_funcheader_void_ident_lpar_error_rpar(\
-                                                njnr::Identifier inIdent);
+                                                std::string inIdent);
 
       std::shared_ptr<funcheadertype> block13_funcheader_float_ident_lpar_error_rpar(\
-                                                njnr::Identifier inIdent);
+                                                std::string inIdent);
 
       std::shared_ptr<funcheadertype> block14_funcheader_int_ident_lpar_error_rpar(\
-                                                njnr::Identifier inIdent);
+                                                std::string inIdent);
 
-      std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(std::shared_ptr<List>* inParamdeflistptr);
+      std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(std::shared_ptr<List> inParamdeflistptr);
       std::shared_ptr<List>block16_paramdef_void();
 
-      void block17_paramdef_paramdeflist_error_rpar(std::shared_ptr<List>* inParamdeflistptr);
+      void block17_paramdef_paramdeflist_error_rpar(std::shared_ptr<List> inParamdeflistptr);
 
       void block18_paramdef_paramdeflist_comma_error_rpar(\
-                                                std::shared_ptr<List>** inParamdeflistptr);
+                                                std::shared_ptr<List> inParamdeflistptr);
 
       std::shared_ptr<List>paramdeflist_type_ident_helper(njnr::Identifier inIdent,
                                                           njnr::type intype);
-      std::shared_ptr<List>block19_paramdeflist_int_ident(njnr::Identifier inIdent);
-      std::shared_ptr<List>block20_paramdeflist_float_ident(njnr::Identifier inIdent);
-      std::shared_ptr<List>block21_paramdeflist_char_star_ident(njnr::Identifier inIdent);
+      std::shared_ptr<List>block19_paramdeflist_int_ident(std::string inIdent);
+      std::shared_ptr<List>block20_paramdeflist_float_ident(std::string inIdent);
+      std::shared_ptr<List>block21_paramdeflist_char_star_ident(std::string inIdent);
 
       std::shared_ptr<List>paramdeflist_paramdeflist_comma_type_ident_helper(\
-      std::shared_ptr<List>* inParamdeflistptr, njnr::Identifier inIdent, njnr::type intype);
+      std::shared_ptr<List> inParamdeflistptr, njnr::Identifier inIdent, njnr::type intype);
 
       std::shared_ptr<List>block22_paramdeflist_paramdeflist_comma_int_ident(\
-      std::shared_ptr<List>* inParamdeflist, njnr::Identifier inIdent);
+      std::shared_ptr<List> inParamdeflist, njnr::Identifier inIdent);
 
       std::shared_ptr<List>block23_paramdeflist_paramdeflist_comma_float_ident(\
-      std::shared_ptr<List>* inParamdeflist, njnr::Identifier inIdent);
+      std::shared_ptr<List> inParamdeflist, njnr::Identifier inIdent);
 
       std::shared_ptr<List>block24_paramdeflist_paramdeflist_comma_char_star_ident(\
-      std::shared_ptr<List>* inParamdeflist, njnr::Identifier inIdent);
+      std::shared_ptr<List> inParamdeflist, njnr::Identifier inIdent);
 
       void block25_funcbody_lcbra_decls_source();
       void block26_funcbody_lcbra_decls_source_stmtlist_rcbra();
 
-      void block27_variabledecl_int_identlist_semi(std::shared_ptr<List>* inIdentlist);
-      void block28_variabledecl_float_identlist_semi(std::shared_ptr<List>* inIdentlist);
+      void block27_variabledecl_int_identlist_semi(std::shared_ptr<List> inIdentlist);
+      void block28_variabledecl_float_identlist_semi(std::shared_ptr<List> inIdentlist);
 
       void block29_stmt_expr_semi();
 
@@ -198,87 +198,87 @@ class Compiler
       void variableStore(njnr::type intype);
 
       std::shared_ptr<ReturnPacket> block40_expr_equalexpr_equal_equalexpr(\
-                                 std::shared_ptr<ReturnPacket>* inequalexprPacketptr,
-                                 std::shared_ptr<ReturnPacket>* inotherequalexprPacketptr);
+                                 std::shared_ptr<ReturnPacket> inequalexprPacketptr,
+                                 std::shared_ptr<ReturnPacket> inotherequalexprPacketptr);
 
       void block41_expr_equalexpr();
 
       void block42_equalexpr_relexpr_eqop_source(\
-                                      std::shared_ptr<ReturnPacket>* relexprPacketptr);
+                                      std::shared_ptr<ReturnPacket> relexprPacketptr);
 
       std::shared_ptr<ReturnPacket> block43_equalexpr_relexpr_helper(njnr::reltype ineqop,
                                                      std::string need_letter_b);
 
       std::shared_ptr<ReturnPacket> block43_equalexpr_relexpr_eqop_source_relexpr(\
                            Operator* ineqop,
-                           std::shared_ptr<ReturnPacket>* relexprPacketptr,
-                           std::shared_ptr<ReturnPacket>* otherrelexprPacketptr);
+                           std::shared_ptr<ReturnPacket> relexprPacketptr,
+                           std::shared_ptr<ReturnPacket> otherrelexprPacketptr);
       void block44_equalexpr_relexpr();
 
       void block45_relexpr_simpleexpr_relop_source(\
-                                       std::shared_ptr<ReturnPacket>* insimplePacketptr);
+                                       std::shared_ptr<ReturnPacket> insimplePacketptr);
 
       std::shared_ptr<ReturnPacket> block46_relexpr_simpleexpr_relop_helper(\
                                                     njnr::reltype inrelop,
                                                     std::string need_letter_b);
 
       std::shared_ptr<ReturnPacket> block46_relexpr_simpleexpr_relop_source_simpleexpr(\
-                                      std::shared_ptr<ReturnPacket>* simpleexprPacketptr,
+                                      std::shared_ptr<ReturnPacket> simpleexprPacketptr,
                                       Operator* inrelop,
-                                      std::shared_ptr<ReturnPacket>* othersimpleexprPacketptr);
+                                      std::shared_ptr<ReturnPacket> othersimpleexprPacketptr);
       void block47_relexpr_simpleexpr();
 
       void block48_simpleexpr_simpleexpr_addop_source(\
-                                             std::shared_ptr<ReturnPacket>* insimplePacketptr);
+                                             std::shared_ptr<ReturnPacket> insimplePacketptr);
 
       std::shared_ptr<ReturnPacket> block49_simpleexpr_addop_helper(njnr::reltype inaddop,
                                                     std::string need_letter_b);
 
       std::shared_ptr<ReturnPacket> block49_simpleexpr_simpleexpr_addop_source_term(\
-                                      std::shared_ptr<ReturnPacket>* simpleexprPacketptr,
+                                      std::shared_ptr<ReturnPacket> simpleexprPacketptr,
                                       Operator* inaddop,
-                                      std::shared_ptr<ReturnPacket>* termPacketptr);
+                                      std::shared_ptr<ReturnPacket> termPacketptr);
       void block50_simpleepr_term();
 
-      void block51_term_term_mulop_source(std::shared_ptr<ReturnPacket>* inPacketptr);
+      void block51_term_term_mulop_source(std::shared_ptr<ReturnPacket> inPacketptr);
 
       std::shared_ptr<ReturnPacket> block52_term_mulop_helper(njnr::reltype inmulop,
                                               std::string need_letter_b);
 
       std::shared_ptr<ReturnPacket> block52_term_term_mulop_source_factor(\
-                                                 std::shared_ptr<ReturnPacket>* intermptr,
+                                                 std::shared_ptr<ReturnPacket> intermptr,
                                                  Operator* inmulop,
                                                  std::shared_ptr<ReturnPacket> infactorptr);
       void block53_term_factor();
 
       std::shared_ptr<ReturnPacket> block54_factor_constant(std::shared_ptr<Constant> inConstant);
-      std::shared_ptr<ReturnPacket> block55_factor_ident(njnr::Identifier inIdent);
-      std::shared_ptr<ReturnPacket> block56_factor_lpar_expr_rpar(std::shared_ptr<ReturnPacket>* inPacket);
+      std::shared_ptr<ReturnPacket> block55_factor_ident(std::string inIdent);
+      std::shared_ptr<ReturnPacket> block56_factor_lpar_expr_rpar(std::shared_ptr<ReturnPacket> inPacket);
 
       std::shared_ptr<ReturnPacket> block57_factor_addop_factor_uminus(Operator* inop,
-                                                       std::shared_ptr<ReturnPacket>* inPacket);
+                                                       std::shared_ptr<ReturnPacket> inPacket);
 
-      std::shared_ptr<ReturnPacket> block58_factor_adof_ident(njnr::Identifier inPacket);
-      std::shared_ptr<ReturnPacket> block59_factor_function_call(std::shared_ptr<ReturnPacket>* inPacket);
+      std::shared_ptr<ReturnPacket> block58_factor_adof_ident(std::string inPacket);
+      std::shared_ptr<ReturnPacket> block59_factor_function_call(std::shared_ptr<ReturnPacket> inPacket);
 
       std::shared_ptr<ReturnPacket> block60_function_call_ident_lpar_rpar(\
-                                                      njnr::Identifier inIdent);
+                                                      std::string inIdent);
       void block61_function_call_func_call_with_params();
 
       std::shared_ptr<ReturnPacket> block62_func_call_with_params_name_and_params_rpar(\
-                                                std::shared_ptr<ReturnPacket>* nameAndparamptr);
+                                                std::shared_ptr<ReturnPacket> nameAndparamptr);
 
       std::shared_ptr<ReturnPacket> block63_name_and_params_ident_lpar_source(\
-                                                     njnr::Identifier inPacket);
+                                                     std::string inPacket);
 
       std::shared_ptr<ReturnPacket> block64_name_and_params_ident_lpar_source_expr(\
-                                                    njnr::Identifier inIdent,
-                                                    std::shared_ptr<ReturnPacket>* inEntryptr,
-                                                    std::shared_ptr<ReturnPacket>* inPacketptr);
+                                                    std::string inIdent,
+                                                    std::shared_ptr<ReturnPacket> inEntryptr,
+                                                    std::shared_ptr<ReturnPacket> inPacketptr);
 
       std::shared_ptr<ReturnPacket> block65_name_and_params_name_and_params_comma_expr(\
-                                         std::shared_ptr<ReturnPacket>* innameAndparamPacketptr,
-                                         std::shared_ptr<ReturnPacket>* inexprPacketptr);
+                                         std::shared_ptr<ReturnPacket> innameAndparamPacketptr,
+                                         std::shared_ptr<ReturnPacket> inexprPacketptr);
 
       void block66_constant_strconstant(std::shared_ptr<ReturnPacket> mcon,
                                         std::string instrconstant);
@@ -289,13 +289,13 @@ class Compiler
       void block68_constant_floatconstant(std::shared_ptr<ReturnPacket> mcon,
                                           float floatconstant);
 
-      std::shared_ptr<List>block69_identlist_ident(njnr::Identifier inIdent);
-      std::shared_ptr<List>block70_identlist_comma_ident(std::shared_ptr<List>* inIdentListptr,
-                                          njnr::Identifier inIdent);
+      std::shared_ptr<List> block69_identlist_ident(std::string inIdent);
+      bool block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
+                                          std::string inIdent);
       Operator* createOperator(njnr::reltype n, std::string s);
       std::shared_ptr<Constant> createConstant(njnr::type n, std::string t);
       // void  setfinished(std::shared_ptr<List>inlist);
-      void  setfinished(std::shared_ptr<List> &inlist);
+      void  setfinished(std::shared_ptr<List> inlist);
       void  printProgramTree(void);
       void  checkfunctionReturnValues(std::shared_ptr<Funcb> f);
       bool  aresimilartypes(njnr::type t1, njnr::type t2);
@@ -311,7 +311,7 @@ class Compiler
                                       njnr::type foundtype,
                                       bool first);
    protected:
-      static bool filenameDoesEndsInDotN(const std::string& in)  noexcept;
+      static bool filenameDoesEndsInDotN(const std::string in)  noexcept;
       void closeOrRemoveOutputFile(bool needtoremove);
       void closeOrRemoveInputFile(bool needtoremove);
       static std::string mapNjnrTypeToString(njnr::type t);

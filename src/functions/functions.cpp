@@ -70,30 +70,33 @@ namespace njnr
                                                          lookupB(inFuncHeader->
                                                                  name));
            auto tempEntry =  symbolTable->createFunc(inFuncHeader->name,
-                                                   inFuncHeader->returntype,
-                                                   inFuncHeader->paramlist);
+                                                     inFuncHeader->returntype,
+                                                     inFuncHeader->paramlist);
            symbolTable->install(tempEntry);
        is_function_decl_or_def_accurate(inFuncHeader, true);
    }
 
    void Compiler::block5_funcheader_error_semi(std::shared_ptr<funcheadertype> inFuncHeaderptr)
    {
+    /*
        std::shared_ptr<funcheadertype> inFuncHeader{inFuncHeaderptr};
        if (inFuncHeader != nullptr)
        {
            inFuncHeader = nullptr;
        }
+       */
    }
 
    std::shared_ptr<funcheadertype>  Compiler::
                     funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
-                                                   njnr::Identifier inIdent,
-                                                   std::shared_ptr<List> inParamdeflist,
-                                                   njnr::type inreturntype)
+                                                   std::string inIdent_original,
+                                                   std::shared_ptr<List> inParamdeflist = nullptr,
+                                                   njnr::type inreturntype = njnr::type::VOID)
    {
+      njnr::Identifier inIdent{inIdent_original};
       std::shared_ptr<funcheadertype> retFuncHeader{nullptr};
 
-      retFuncHeader             = std::shared_ptr<funcheadertype>(new funcheadertype);
+      retFuncHeader             = std::shared_ptr<funcheadertype>(new funcheadertype{});
       if (nullptr != retFuncHeader)
       {
          retFuncHeader->returntype = inreturntype;
@@ -109,7 +112,13 @@ namespace njnr
                          "\n";
 //            std::cout << "found parameters: " + inParamdeflist->toString();
          }
-         retFuncHeader->paramlist  = inParamdeflist;
+
+         retFuncHeader->paramlist = nullptr;
+
+         if (inParamdeflist)
+         {
+            retFuncHeader->paramlist  = inParamdeflist;
+         }
          /* FIXME: NEED TO REINCORPORATE THIS BACK IN. Somehow lists provide a type? where and why?
          if(inParamdeflist->gettype() == type::VOID)
          {

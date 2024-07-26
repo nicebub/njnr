@@ -12,14 +12,14 @@ S_TableEntry::S_TableEntry() : key{""},
                                eType{njnr::type::VOID} {}
 
 
-S_TableEntry::S_TableEntry(const std::string& key,
+S_TableEntry::S_TableEntry(const std::string key,
                            std::shared_ptr<void> value = nullptr,
                            njnr::type eType = njnr::type::VOID) noexcept :
                                                                 key{key},
                                                                 value{value},
                                                                 eType{eType} {}
 
-S_TableEntryX::S_TableEntryX(const std::string& key,
+S_TableEntryX::S_TableEntryX(const std::string key,
                            std::shared_ptr<void> value = nullptr,
                            njnr::type eType = njnr::type::VOID) noexcept :
                                                                S_TableEntry(key,

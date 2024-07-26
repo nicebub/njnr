@@ -6,23 +6,26 @@
 #include "compiler.hpp"
 namespace njnr
 {
-   ReturnPacket::ReturnPacket() :
-       params{0},
-       offset{0},
-       lval{false},
-       numeric{false},
-       ttype{njnr::type::INT}
+   ReturnPacket::ReturnPacket() : m_pair{},
+                                  funcent{nullptr},
+                                  params{0},
+                                  offset{0},
+                                  lval{false},
+                                  numeric{false},
+                                  ttype{njnr::type::INT}
    {}
 
    ReturnPacket::ReturnPacket(bool lval,
                               njnr::type ttype = njnr::type::INT,
                               bool ifnum = false,
                               int inoffset = 0) :
-       params{0},
-       offset{inoffset},
-       lval{lval},
-       numeric{ifnum},
-       ttype{ttype}
+                                                 m_pair{},
+                                                 funcent{nullptr},
+                                                 params{0},
+                                                 offset{inoffset},
+                                                 lval{lval},
+                                                 numeric{ifnum},
+                                                 ttype{ttype}
    {}
 
    const bool ReturnPacket::getlval() const
@@ -89,9 +92,15 @@ namespace njnr
    };
 
 
-   Constant::Constant() : ReturnPacket{} {}
+   Constant::Constant() : ReturnPacket{},
+                          val{""},
+                          typ{njnr::type::VOID}
+                          {}
    Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) :
-                      ReturnPacket{lval, ttype, ifnum, offset} {}
+                      ReturnPacket{lval, ttype, ifnum, offset},
+                      val{""},
+                      typ{njnr::type::VOID}
+                      {}
    Constant::Constant(std::string val, njnr::type t): val{val}, typ{t} {}
 
    std::string Constant::getValue() const
@@ -120,14 +129,15 @@ namespace njnr
       std::string ret = ReturnPacket::toString();
       return "\nvalue: " + value + "\n" + ret;
    }
-   Identifier::Identifier() : Constant{false, njnr::type::IDENT, false, 0} {}
+   Identifier::Identifier() : Constant{false, njnr::type::IDENT, false, 0},
+                              value{""} {}
 
    Identifier::Identifier(const std::string invalue) :
                           Constant{false, njnr::type::IDENT, false, 0},
                           value{invalue}
                           {}
 
-   Identifier::Identifier(const Constant& in) :
+   Identifier::Identifier(const Constant in) :
                           Constant{in.getlval(),
                           njnr::type::IDENT, false, in.getoffset()},
                           value{in.getValue()}
@@ -215,11 +225,24 @@ namespace njnr
    Funcb::~Funcb()
    {
       report(njnr::logType::debug, "running Funcb() destructor");
-      if (funcbody_list) funcbody_list = nullptr;
+      report(njnr::logType::debug, "Funcb:" + this->toString());
+/*
+      report(njnr::logType::debug,
+             "bodydef"+ bodydef);
+      report(njnr::logType::debug,
+             "num_param"+ num_param);
+      report(njnr::logType::debug,
+             "label"+ label);
+      report(njnr::logType::debug,
+             "localcount"+ localcount);
+      report(njnr::logType::debug,
+             "actual_num"+ actual_num);
+*/
+      param_type.clear();
       funcbody_list = nullptr;
       funcheader = nullptr;
     }
-   std::vector<njnr::type>& Funcb::getparam_type()
+   std::vector<njnr::type> Funcb::getparam_type()
    {
        return param_type;
    }
@@ -307,17 +330,24 @@ namespace njnr
      */
 
       std::string r{};
-      r += "Current Set Return Type: ";
+      r += "Currently Set Return Type: ";
       r += Compiler::getStringFromType(returntype);
       r += "bodydef:? " + (true == bodydef) ? "true\n" : "false\n";
-//      r += "label: " + label + "\n";
-//      r += "localcount: " + localcount + "\n";
-//      r += "actual_num" + actual_num + "\n";
-//      r += "num_param" + num_param + "\n";
+      r += "label: " + std::to_string(label) + "\n";
+      r += "localcount: " + std::to_string(localcount) + "\n";
+      r += "actual_num" + std::to_string(actual_num) + "\n";
+      r += "num_param" + std::to_string(num_param) + "\n";
+      if (0 <= param_type.size())
+      {
+        for (auto t : param_type)
+        {
+            r += "param type: " + njnr::typeToStringMap.at(t) + "\n"; 
+        }
+      }
 /* TODO : params list vector */
       if (nullptr != funcheader)
       {
-//         r += funcheader->toString() + "\n";
+         r += funcheader->toString() + "\n";
       }
       if (nullptr != funcbody_list)
       {
@@ -327,7 +357,10 @@ namespace njnr
    }
 
    Varb::Varb() : Identifier{} {}
-   Varb::~Varb() { report(njnr::logType::debug, "running Varb() Destructor"); }
+   Varb::~Varb() {
+                  report(njnr::logType::debug, "running Varb() Destructor");
+                  report(njnr::logType::debug, this->toString());
+                 }
 
    const std::string Varb::toString() const
    {
@@ -343,6 +376,8 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running Paramb() Destructor");
+      report(njnr::logType::debug, this->toString());
+
    }
 
    const std::string Translation_Unit::toString() const
@@ -361,6 +396,7 @@ namespace njnr
    {
       report(njnr::logType::debug,
              "running Translation_Unit() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
 
    std::shared_ptr<ReturnPacket> Translation_Unit::get_translation()
@@ -379,12 +415,23 @@ namespace njnr
    {
       return trans_type;
    }
+
+   const std::string funcheadertype::toString() const
+   {
+      std::string r = "";
+      r += "name: " + name + "\n";
+      r += "return type: " + typeToStringMap.at(returntype) + "\n";
+      r += "ttype: " +  typeToStringMap.at(ttype) + "\n";
+      if (paramlist)
+      {
+         r += "paramlist: " + paramlist->toString();
+      }
+      return r;
+   }
    funcheadertype::~funcheadertype()
    {
       report(njnr::logType::debug,
              "running funcheadertype() Destructor");
-      if (paramlist){
-         paramlist = nullptr;
-      }
+      paramlist = nullptr;
    }
 }  // namespace njnr

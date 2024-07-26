@@ -29,7 +29,7 @@ enum class eNodeType
 class BasicListNode
 {
 public:
-    BasicListNode() {};
+    BasicListNode(): nodeType{njnr::eNodeType::STANDARD} {};
     explicit BasicListNode(eNodeType t);
     virtual ~BasicListNode() = 0;
     eNodeType get_nodeType() const;
@@ -49,6 +49,7 @@ public:
    {
       report(njnr::logType::debug,
              "running ListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
    std::string getval() const;
    void setval(std::string in);
@@ -80,6 +81,7 @@ public:
    {
       report(njnr::logType::debug,
              "running PListNode() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
     njnr::type gettype() const;
     void settype(njnr::type type);
@@ -99,7 +101,9 @@ class TranslationUnitListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running TranslationUnitListNode() Destructor");
-         unit = nullptr;
+         report(njnr::logType::debug, this->toString());
+
+//         unit = nullptr;
       }
       const std::string toString() const;
       const njnr::trans_unit_type get_trans_unit_type(void) const;
@@ -119,7 +123,9 @@ class StmtListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running StmtListNode() Destructor");
-         stmt = nullptr;
+         report(njnr::logType::debug, this->toString());
+
+//         stmt = nullptr;
       }
       std::shared_ptr<Statement> getstmt(void);
       void setstmt(std::shared_ptr<Statement> instmt);
@@ -138,7 +144,9 @@ class IdentListNode : public ReturnPacketListNode
       virtual ~IdentListNode()
       {
          report(njnr::logType::debug, "running IdentListNode() Destructor");
-         ident = nullptr;
+         report(njnr::logType::debug, this->toString());
+
+//         ident = nullptr;
       }
       std::shared_ptr<Identifier> getident(void);
       void setident(std::shared_ptr<Identifier> instmt);
@@ -157,6 +165,7 @@ class TypeListNode : public ListNode
       {
          report(njnr::logType::debug,
                 "running TypeListNode() Destructor");
+         report(njnr::logType::debug, this->toString());
       }
       njnr::type gettype() const;
       void settype(njnr::type type);
@@ -172,7 +181,7 @@ public:
     List();
     virtual ~List();
     List(const List& cp);
-    List& operator=(const List& in);
+/*    List& operator=(const List& in);*/
     void push_back(std::shared_ptr<BasicListNode> node);
     std::vector<std::shared_ptr<BasicListNode>> getlist();
     static std::shared_ptr<List> mklist(std::shared_ptr<Identifier>);
@@ -190,18 +199,17 @@ public:
     static std::shared_ptr<List> mklist(std::shared_ptr<Statement> instmt);
     std::vector<std::shared_ptr<BasicListNode>>::iterator begin();
     std::vector<std::shared_ptr<BasicListNode>>::iterator end();
-    std::shared_ptr<List> appendList(std::string inVal);
-    std::shared_ptr<List> appendList(std::string inVal, njnr::type inType);
-    std::shared_ptr<List> appendList(std::shared_ptr<ReturnPacket> expr);
-    std::shared_ptr<List> appendList(std::shared_ptr<Funcb> expr);
+    bool appendList(std::string inVal);
+    bool appendList(std::string inVal, njnr::type inType);
+    bool appendList(std::shared_ptr<ReturnPacket> expr);
+    bool appendList(std::shared_ptr<Funcb> expr);
 
     // placeholder type -- needs changing
-    std::shared_ptr<List> appendList(std::shared_ptr<Varb> expr);
-
-    std::shared_ptr<List> appendList(njnr::type type);
-    std::shared_ptr<List> appendList(std::shared_ptr<Statement> type);
-    std::shared_ptr<List> appendList(std::shared_ptr<Identifier>);
-    std::shared_ptr<List> appendList(std::shared_ptr<Constant>);
+    bool appendList(std::shared_ptr<Varb> expr);
+    bool appendList(njnr::type type);
+    bool appendList(std::shared_ptr<Statement> type);
+    bool appendList(std::shared_ptr<Identifier>);
+    bool appendList(std::shared_ptr<Constant>);
     int size() const;
     const std::string toString() const;
 private:

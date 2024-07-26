@@ -4,7 +4,7 @@
 #include <config.h>
 #include <string>
 #include <memory>
-
+#include <map>
 namespace njnr
 {
 /* defined elsewhere but need below */
@@ -47,6 +47,8 @@ enum class btype
 /* data types */
 enum class type
 {
+   INVALID = -1,
+   MIN = INVALID,
    INT,       // Integer
    FLOAT,     // Float
    VOID,      // Void
@@ -60,6 +62,24 @@ enum class type
    CHECK,     // Hasn't been determined yet and needs to be checked later
    CONSTANT,
    OPERATOR,
+   MAX
+};
+
+static const std::map<njnr::type, std::string> typeToStringMap
+{
+   {njnr::type::INT, "INT"},
+   {njnr::type::FLOAT, "FLOAT"},
+   {njnr::type::CHAR, "CHAR"},
+   {njnr::type::VOID, "VOID"},
+   {njnr::type::STR, "STR"},
+   {njnr::type::REFINT, "REFINT"},
+   {njnr::type::REFFLOAT, "REFFLOAT"},
+   {njnr::type::REFSTR, "REFSTR"},
+   {njnr::type::IDENT, "IDENT"},
+   {njnr::type::STMT, "STMT"},
+   {njnr::type::CHECK, "CHECK"},
+   {njnr::type::CONSTANT, "CONSTANT"},
+   {njnr::type::OPERATOR, "OPERATOR"},
 };
 
 /* boolean types */
@@ -120,8 +140,14 @@ void report(njnr::logType t, std::string s);
 class funcheadertype
 {
    public:
-   funcheadertype() : name{}, paramlist{nullptr}, returntype{}, ttype{} {}
+   funcheadertype() : name{""},
+                      paramlist{nullptr},
+                      returntype{njnr::type::VOID},
+                      ttype{njnr::type::VOID}
+                      {}
+
    virtual ~funcheadertype();
+   const std::string toString() const;
    std::string   name;        // fn name
    std::shared_ptr<njnr::List>   paramlist;   // list of parameters the fn accept as input
    njnr::type    returntype;  // return type(if any) of fn
@@ -143,6 +169,7 @@ class TSAbstractType
       {
          report(njnr::logType::debug,
                 "running TSAbstractType() destructor");
+         report(njnr::logType::debug, "typeValue" + typeValue);
       }
 
       virtual   const bool             getNumeric()    const noexcept = 0;
@@ -193,6 +220,9 @@ class TSType : public TSAbstractType
       {
          report(njnr::logType::debug,
                 "running TSType() Destructor");
+         report(njnr::logType::debug, this->toString());
+         report(njnr::logType::debug, "isnumeric" + isNumeric);
+         report(njnr::logType::debug, "isLval" + isLval);
       }
 
       virtual const bool getNumeric()          const noexcept

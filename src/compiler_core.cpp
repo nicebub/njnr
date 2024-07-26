@@ -40,23 +40,26 @@ namespace njnr
        currentFunc{nullptr},
        outfile{nullptr},
        infile{nullptr},
+       filename{""},
        Line_Number{1},
        globalcount{0},
        offset_counter{5},
+       labelcounter{0},
        othercounter{1},
        param_offset{0},
        mainlocal{0},
+       mainlabel{0},
        returnTypes{},
        founderror{false},
        finished{nullptr}
    {
        try
        {
-           symbolTable = new SymbolTableX{ *this};
+           symbolTable = new SymbolTableX{ this};
+           constantTable = new SymbolTableX{this};
+           typeTable  = new SymbolTableX{this};
+           parser = new njnrParser{this};
            install_functions_into_symbolTable();
-           constantTable = new SymbolTableX{*this};
-           typeTable  = new SymbolTableX{*this};
-           parser = new njnrParser{*this};
            parser->set_debug_stream(std::cerr);
    #ifdef DEBUG
            parser->set_debug_level(1);
@@ -72,12 +75,13 @@ namespace njnr
 
    void Compiler::install_functions_into_symbolTable()
    {
-       std::shared_ptr<List> params{List::mklist("", njnr::type::VOID)};
+       std::shared_ptr<List> params{nullptr};
+       params = List::mklist("", njnr::type::VOID);
        std::shared_ptr<S_TableEntryX> entry{symbolTable->createFunc("main",
                                                     njnr::type::INT,
                                                     params)};
        symbolTable->install<std::shared_ptr<S_TableEntryX>>(entry);
-       params = nullptr;
+//       params = nullptr;
    }
 
    Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
@@ -88,8 +92,21 @@ namespace njnr
    Compiler::~Compiler()
    {
       report(njnr::logType::debug, "Compiler destructor: deleting members");
+      report(njnr::logType::debug, "filename: " + filename);
+      report(njnr::logType::debug, "LineNunmber: " + Line_Number);
+      report(njnr::logType::debug, "globalcount: " + globalcount);
+      report(njnr::logType::debug, "offset_counter: " + offset_counter);
+      report(njnr::logType::debug, "labelcounter: " + labelcounter);
+      report(njnr::logType::debug, "othercounter: " + othercounter);
+      report(njnr::logType::debug, "param_offset: " + param_offset);
+      report(njnr::logType::debug, "mainlocal: " + mainlocal);
+      report(njnr::logType::debug, "mainlabel: " + mainlabel);
+      report(njnr::logType::debug, "retunTypes: " + returnTypes.toString());
+
       closeOrRemoveOutputFile(false);
+
       closeOrRemoveInputFile(false);
+
       if (symbolTable != nullptr)
       {
 //         Funcb* x{nullptr};
@@ -112,13 +129,13 @@ namespace njnr
                if (nullptr != p)
                {
                   debugprint("deleting paprameter list of function", "");
-                  p = nullptr;
+//                  p = nullptr;
                }
                else
                {
                   debugprint(" cannot delete empty param list", "");
                }
-               xx = nullptr;
+//               xx = nullptr;
             }
             else
             {
@@ -159,9 +176,9 @@ namespace njnr
       if (nullptr != finished)
       {
          debugprint("deleteing finished list of translation units\n", "");
-         finished = nullptr;
+//         finished = nullptr;
       }
-      currentFunc = nullptr;
+//      currentFunc = nullptr;
    }
 
 
@@ -220,7 +237,7 @@ namespace njnr
        }
    }
 
-   void  Compiler::setfinished(std::shared_ptr<List> &inlist)
+   void  Compiler::setfinished(std::shared_ptr<List> inlist)
    {
       finished = inlist;
    }
@@ -329,7 +346,7 @@ namespace njnr
                 switch (realstmt->getrettype())
                 {
                     case njnr::type::CHECK:
-                        //  checkSingleReturnStatement(realstmt, &similar, first);
+                        //  checkSingleReturnStatement(realstmt, similar, first);
                          checkSingleReturnStatement(realstmt, similar, first);
                             if (true == first)
                             {
@@ -426,27 +443,30 @@ namespace njnr
             //  if they all match or not.
             for (auto stmt : *statementList)
             {
-                if (stmt->get_nodeType() == njnr::eNodeType::STMT)
+                if (nullptr != stmt)
                 {
-//                    std::shared_ptr<Statement> realstmt{(dynamic_cast<StmtListNode*>
-//                                                          (stmt))->
-//                                                          getstmt()};
-                    if (true != checkSingleReturnStatement(\
-                                      (dynamic_pointer_cast<StmtListNode>(stmt))->
-                                                                  getstmt(),
-                                       foundtype,
-                                       first))
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    std::cout << "skipping non-STMT node\n";
-                }
-                if (true == first)
-                {
-                    first = false;
+                   if (stmt->get_nodeType() == njnr::eNodeType::STMT)
+                   {
+   //                    std::shared_ptr<Statement> realstmt{(dynamic_cast<StmtListNode*>
+   //                                                          (stmt))->
+   //                                                          getstmt()};
+                       if (true != checkSingleReturnStatement(\
+                                         (dynamic_pointer_cast<StmtListNode>(stmt))->
+                                                                     getstmt(),
+                                          foundtype,
+                                          first))
+                       {
+                           break;
+                       }
+                   }
+                   else
+                   {
+                       std::cout << "skipping non-STMT node\n";
+                   }
+                   if (true == first)
+                   {
+                       first = false;
+                   }
                 }
             }
             success = true;

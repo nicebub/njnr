@@ -49,8 +49,9 @@ void SymbolTableX::addtosymtab(const std::string key,
 }
 */
 
-std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name, type returntype,
-                                        std::shared_ptr<List> paramlist)
+std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
+                                                        type returntype,
+                                                        std::shared_ptr<List> paramlist = nullptr)
 {
    std::shared_ptr<S_TableEntryX> temp{nullptr};
    bool elip{false};
@@ -69,19 +70,25 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name, type r
       {
          tBinding->setnum_param(paramlist->size());
       }
-      if (tBinding->getnum_param() >0)
+      if (tBinding->getnum_param() > 0)
       {
-         for (auto &element : *paramlist)
+         for (auto element : *paramlist)
          {
-            std::shared_ptr<PListNode> n_element{dynamic_pointer_cast<PListNode>(element)};
-            tBinding->getparam_type().push_back(n_element->gettype());
-            if ( n_element->getval() == "..." )
+            if (element != nullptr)
             {
-                elip = true;
-            }
-            else
-            {
-                elip = false;
+               std::shared_ptr<PListNode> n_element{dynamic_pointer_cast<PListNode>(element)};
+               if (nullptr != n_element)
+               {
+                  tBinding->getparam_type().push_back(n_element->gettype());
+                  if ( n_element->getval() == "..." )
+                  {
+                      elip = true;
+                  }
+                  else
+                  {
+                      elip = false;
+                  }
+               }
             }
          }
          if (elip == true)

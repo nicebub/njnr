@@ -80,12 +80,17 @@ namespace njnr
       return r;
    }
 
-   Statement::Statement() : ReturnPacket{} {}
+   Statement::Statement() : ReturnPacket{},
+                            stype{njnr::statement_type::INVALID},
+                            expr{nullptr},
+                            rettype{njnr::type::VOID}
+ {}
 
    Statement::~Statement()
    {
       report(njnr::logType::debug,
              "running Statement() Destructor");
+      report(njnr::logType::debug, this->toString());
    }
 
    statement_type Statement::getstype()

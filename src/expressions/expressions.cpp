@@ -21,12 +21,12 @@ using njnr::Paramb;
 using njnr::List;
 
    std::shared_ptr<ReturnPacket> Compiler::block40_expr_equalexpr_equal_equalexpr(\
-                         std::shared_ptr<ReturnPacket>* inequalexprPacketptr,
-                         std::shared_ptr<ReturnPacket>* inotherequalexprPacketptr)
+                         std::shared_ptr<ReturnPacket> inequalexprPacketptr,
+                         std::shared_ptr<ReturnPacket> inotherequalexprPacketptr)
    {
       std::shared_ptr<ReturnPacket> outPacket{nullptr};
-      std::shared_ptr<ReturnPacket> inequalexprPacket{*inequalexprPacketptr};
-      std::shared_ptr<ReturnPacket> inotherequalexprPacket{*inotherequalexprPacketptr};
+      std::shared_ptr<ReturnPacket> inequalexprPacket{inequalexprPacketptr};
+      std::shared_ptr<ReturnPacket> inotherequalexprPacket{inotherequalexprPacketptr};
 
       if (!inequalexprPacket->getlval() )
       {
@@ -64,9 +64,9 @@ using njnr::List;
    }
 
    void Compiler::block42_equalexpr_relexpr_eqop_source(\
-                                       std::shared_ptr<ReturnPacket>* relexprPacketptr)
+                                       std::shared_ptr<ReturnPacket> relexprPacketptr)
    {
-       variableFetchWithNumericCheck(*relexprPacketptr, false);
+       variableFetchWithNumericCheck(relexprPacketptr, false);
    }
 
    std::shared_ptr<ReturnPacket> Compiler::block43_equalexpr_relexpr_helper(\
@@ -87,14 +87,14 @@ using njnr::List;
        return std::shared_ptr<ReturnPacket>(new ReturnPacket{false, njnr::type::INT, true, 0});
    }
    std::shared_ptr<ReturnPacket> Compiler::block43_equalexpr_relexpr_eqop_source_relexpr(\
-                          Operator* ineqop, std::shared_ptr<ReturnPacket>* relexprPacketptr,
-                          std::shared_ptr<ReturnPacket>* otherrelexprPacketptr)
+                          Operator* ineqop, std::shared_ptr<ReturnPacket> relexprPacketptr,
+                          std::shared_ptr<ReturnPacket> otherrelexprPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
-       std::shared_ptr<ReturnPacket> relexprPacket{* relexprPacketptr};
-       std::shared_ptr<ReturnPacket> otherrelexprPacket{* otherrelexprPacketptr};
+       std::shared_ptr<ReturnPacket> relexprPacket{relexprPacketptr};
+       std::shared_ptr<ReturnPacket> otherrelexprPacket{otherrelexprPacketptr};
 
-       variableFetchWithNumericCheck(*otherrelexprPacketptr, false);
+       variableFetchWithNumericCheck(otherrelexprPacketptr, false);
        outPacket->setlval(false);
        if (relexprPacket->getnumeric() && otherrelexprPacket->getnumeric() )
        {
@@ -142,9 +142,9 @@ using njnr::List;
    }
 
    void Compiler::block45_relexpr_simpleexpr_relop_source(\
-                                 std::shared_ptr<ReturnPacket>* insimplePacketptr)
+                                 std::shared_ptr<ReturnPacket> insimplePacketptr)
    {
-       variableFetchWithNumericCheck(*insimplePacketptr, false);
+       variableFetchWithNumericCheck(insimplePacketptr, false);
    }
    std::shared_ptr<ReturnPacket> Compiler::block46_relexpr_simpleexpr_relop_helper(\
                   njnr::reltype inrelop, std::string need_letter_b)
@@ -167,15 +167,15 @@ using njnr::List;
        return std::shared_ptr<ReturnPacket>(new ReturnPacket{false, njnr::type::INT, true, 0});
    }
    std::shared_ptr<ReturnPacket> Compiler::block46_relexpr_simpleexpr_relop_source_simpleexpr(\
-                               std::shared_ptr<ReturnPacket>* simpleexprPacketptr,
+                               std::shared_ptr<ReturnPacket> simpleexprPacketptr,
                                Operator* inrelop,
-                               std::shared_ptr<ReturnPacket>* othersimpleexprPacketptr)
+                               std::shared_ptr<ReturnPacket> othersimpleexprPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
-       std::shared_ptr<ReturnPacket> simpleexprPacket{*simpleexprPacketptr};
-       std::shared_ptr<ReturnPacket> othersimpleexprPacket{*othersimpleexprPacketptr};
+       std::shared_ptr<ReturnPacket> simpleexprPacket{simpleexprPacketptr};
+       std::shared_ptr<ReturnPacket> othersimpleexprPacket{othersimpleexprPacketptr};
 
-       variableFetchWithNumericCheck(*othersimpleexprPacketptr, false);
+       variableFetchWithNumericCheck(othersimpleexprPacketptr, false);
        outPacket->setlval(false);
        if (simpleexprPacket->getnumeric() &&
            othersimpleexprPacket->getnumeric() )
@@ -234,9 +234,9 @@ using njnr::List;
        return outPacket;
    }
    void Compiler::block48_simpleexpr_simpleexpr_addop_source(\
-                                          std::shared_ptr<ReturnPacket>* insimplePacketptr)
+                                          std::shared_ptr<ReturnPacket> insimplePacketptr)
    {
-       variableFetchWithNumericCheckAndLvalCheck(*insimplePacketptr, false);
+       variableFetchWithNumericCheckAndLvalCheck(insimplePacketptr, false);
    }
    std::shared_ptr<ReturnPacket> Compiler::block49_simpleexpr_addop_helper(\
                                                   njnr::reltype inaddop,
@@ -256,15 +256,15 @@ using njnr::List;
    }
 
    std::shared_ptr<ReturnPacket> Compiler::block49_simpleexpr_simpleexpr_addop_source_term(\
-                                  std::shared_ptr<ReturnPacket>* simpleexprPacketptr,
+                                  std::shared_ptr<ReturnPacket> simpleexprPacketptr,
                                   Operator* inaddop,
-                                  std::shared_ptr<ReturnPacket>* termPacketptr)
+                                  std::shared_ptr<ReturnPacket> termPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
-       std::shared_ptr<ReturnPacket> simpleexprPacket{*simpleexprPacketptr};
-       std::shared_ptr<ReturnPacket> termPacket{*termPacketptr};
+       std::shared_ptr<ReturnPacket> simpleexprPacket{simpleexprPacketptr};
+       std::shared_ptr<ReturnPacket> termPacket{termPacketptr};
 
-       variableFetchWithNumericCheck(*termPacketptr, false);
+       variableFetchWithNumericCheck(termPacketptr, false);
        outPacket->setlval(false);
        if (simpleexprPacket->getnumeric() && termPacket->getnumeric())
        {
@@ -308,9 +308,9 @@ using njnr::List;
        return outPacket;
    }
 
-   void Compiler::block51_term_term_mulop_source(std::shared_ptr<ReturnPacket>* inPacketptr)
+   void Compiler::block51_term_term_mulop_source(std::shared_ptr<ReturnPacket> inPacketptr)
    {
-       variableFetchWithNumericCheckAndLvalCheck(*inPacketptr, false);
+       variableFetchWithNumericCheckAndLvalCheck(inPacketptr, false);
    }
 
    std::shared_ptr<ReturnPacket> Compiler::block52_term_mulop_helper(njnr::reltype inmulop,
@@ -329,12 +329,12 @@ using njnr::List;
        return std::shared_ptr<ReturnPacket>(new ReturnPacket{false, njnr::type::FLOAT, true, 0});
    }
    std::shared_ptr<ReturnPacket> Compiler::block52_term_term_mulop_source_factor(\
-                                     std::shared_ptr<ReturnPacket>* intermPacketptr,
+                                     std::shared_ptr<ReturnPacket> intermPacketptr,
                                      Operator* inmulop,
                                      std::shared_ptr<ReturnPacket> infactorPacketptr)
    {
        std::shared_ptr<ReturnPacket> outtermPacket{new ReturnPacket{}};
-       std::shared_ptr<ReturnPacket> intermPacket{*intermPacketptr};
+       std::shared_ptr<ReturnPacket> intermPacket{intermPacketptr};
        std::shared_ptr<ReturnPacket> infactorPacket{infactorPacketptr};
        variableFetchWithNumericCheck(infactorPacketptr, false);
        outtermPacket->setlval(false);
@@ -391,8 +391,9 @@ using njnr::List;
       return static_pointer_cast<ReturnPacket>(inConstant);
    }
 
-   std::shared_ptr<ReturnPacket> Compiler::block55_factor_ident(njnr::Identifier inIdent)
+   std::shared_ptr<ReturnPacket> Compiler::block55_factor_ident(std::string inIdent_original)
    {
+      njnr::Identifier inIdent{inIdent_original};
       std::shared_ptr<ReturnPacket>  outPacket{nullptr};
       std::shared_ptr<S_TableEntryX> resultLookup{nullptr};
       bool gen_code = false;
@@ -483,17 +484,17 @@ using njnr::List;
 
    std::shared_ptr<ReturnPacket> Compiler::block57_factor_addop_factor_uminus(\
                                         Operator* inop,
-                                        std::shared_ptr<ReturnPacket>* inPacketptr)
+                                        std::shared_ptr<ReturnPacket> inPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
-       std::shared_ptr<ReturnPacket> inPacket{*inPacketptr};
+       std::shared_ptr<ReturnPacket> inPacket{inPacketptr};
        if (inPacket->getnumeric())
        {
            /* FIXME(nicebub): broken */
            switch (njnr::reltype::MIN)
            {
            case njnr::reltype::MIN:
-               variableFetchWithNumericCheck(*inPacketptr, false);
+               variableFetchWithNumericCheck(inPacketptr, false);
                switch (inPacket->gettype())
                {
                case type::INT:
@@ -505,7 +506,7 @@ using njnr::List;
                }
                break;
            case njnr::reltype::PLS:
-               variableFetchWithNumericCheck(*inPacketptr, false);
+               variableFetchWithNumericCheck(inPacketptr, false);
                break;
            default:
                break;
@@ -524,8 +525,9 @@ using njnr::List;
        return outPacket;
    }
 
-   std::shared_ptr<ReturnPacket> Compiler::block58_factor_adof_ident(njnr::Identifier inPacket)
+   std::shared_ptr<ReturnPacket> Compiler::block58_factor_adof_ident(std::string inPacket_original)
    {
+       njnr::Identifier inPacket{inPacket_original};    
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
        std::shared_ptr<S_TableEntryX> tempE;  // , *tempE2;
        if (inPacket.getvalue() != "main")
@@ -625,13 +627,17 @@ using njnr::List;
    }
 
 
-   std::shared_ptr<List> Compiler::block69_identlist_ident(njnr::Identifier inIdent)
+   std::shared_ptr<List> Compiler::block69_identlist_ident(std::string inIdent_original)
    {
+       njnr::Identifier inIdent{inIdent_original};
        return List::mklist(std::shared_ptr<Identifier>(new Identifier{inIdent}));
    }
 
-   std::shared_ptr<List> Compiler::block70_identlist_comma_ident(std::shared_ptr<List>* inIdentListptr,
-                                                 njnr::Identifier inIdent)
+   bool Compiler::block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
+                                                 std::string inIdent_original)
    {
-       return std::shared_ptr<List>((*inIdentListptr)->appendList(std::shared_ptr<Identifier>(new Identifier{inIdent})));
+       njnr::Identifier inIdent{inIdent_original};
+       std::shared_ptr<Identifier> spI = std::make_shared<Identifier>(inIdent);
+       inIdentListptr->appendList(spI);
+       return true;
    }

@@ -28,7 +28,7 @@ public:
         reltype                multopvalue;
         reltype                  eqopvalue;
         Pair                     pairvalue;
-        exprtype*                exprvalue;
+        std::shared_ptr<exprtype> exprvalue;
         reltype                 relopvalue;
         shared_ptr<funcheadertype> funcheadervalue;
         // Entry *funcentvalue;
