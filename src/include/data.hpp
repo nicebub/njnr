@@ -7,7 +7,7 @@
 #include "type.hpp"
 #include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"
-#include "list.hpp"
+#include "List.hpp"
 
 namespace njnr
 {

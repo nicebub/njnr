@@ -1,7 +1,7 @@
 #include <config.h>
 #include "cpptypes.hpp"
 #include "type.hpp"
-#include "list.hpp"
+#include "List.hpp"
 #include "symbol_table_entry.hpp"
 #include "compiler.hpp"
 namespace njnr

@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "CodeGenerator.hpp"
-#include "list.hpp"
+#include "List.hpp"
 #include "type.hpp"
 #include "cpptypes.hpp"
 #include "compiler.hpp"

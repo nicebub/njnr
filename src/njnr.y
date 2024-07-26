@@ -9,7 +9,7 @@
 
 /*
 #include "type.hpp"
-#include "list.hpp"
+#include "List.hpp"
 #include "data.hpp
 #include "CodeGenerator.hpp"
 #include "lex.hpp"
@@ -55,7 +55,7 @@ int yyerror(std::string err,Compiler* compiler);
     }
     #include <config.h>
     #include "cpptypes.hpp"
-    #include "list.hpp"
+    #include "List.hpp"
     #include "type.hpp"
     #include "operator.hpp"
     using namespace njnr;

@@ -3,7 +3,7 @@
 #include <string>
 
 #include "debug.hpp"
-#include "list.hpp"
+#include "List.hpp"
 #include "type.hpp"
 #include "compiler.hpp"
 using njnr::BasicListNode;

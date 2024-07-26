@@ -2,14 +2,14 @@ bin_PROGRAMS = njnr
 LEXERSOURCES = njnr.tab.cpp lex.yy.cc location.hh njnr.tab.hpp
 
 njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp
-njnrSOURCES += getopt.cpp helper.cpp lex.cpp list.cpp
+njnrSOURCES += getopt.cpp helper.cpp lex.cpp List.cpp
 njnrSOURCES += main.cpp operator.cpp parser_functions.cpp
 njnrSOURCES += CodeGenerator.cpp common/symbol_table.cpp common/symbol_table_stack.cpp
 njnrSOURCES += common/symbol_table_stackX.cpp common/symbol_table_entry.cpp
 njnrSOURCES += expressions/expressions.cpp
 njnrSOURCES += functions/function_calls.cpp functions/functions.cpp
 njnrSOURCES += statements/statements.cpp
-njnrSOURCES += include/debug.hpp include/type.hpp include/list.hpp include/cpptypes.hpp
+njnrSOURCES += include/debug.hpp include/type.hpp include/List.hpp include/cpptypes.hpp
 njnrSOURCES += include/constant.hpp include/common/symbol_table_stackX.hpp
 njnrSOURCES += include/common/symbol_table_stack.hpp include/common/symbol_table.hpp
 njnrSOURCES += include/compiler.hpp include/CodeGenerator.hpp include/common/symbol_table_entry.hpp
