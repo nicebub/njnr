@@ -5,7 +5,7 @@
 #include <string>
 
 #include "List.hpp"
-
+#include "ListNode.hpp"
 namespace njnr
 {
 class SymbolTableX;

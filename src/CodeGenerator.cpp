@@ -7,6 +7,7 @@
 
 #include "CodeGenerator.hpp"
 #include "List.hpp"
+#include "ListNode.hpp"
 #include "type.hpp"
 #include "cpptypes.hpp"
 #include "compiler.hpp"

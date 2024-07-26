@@ -4,6 +4,7 @@
 
 #include "debug.hpp"
 #include "List.hpp"
+#include "ListNode.hpp"
 #include "type.hpp"
 #include "compiler.hpp"
 using njnr::BasicListNode;

@@ -3,6 +3,8 @@
 #include <fstream>
 #include <ostream>
 #include <memory>
+#include "List.hpp"
+#include "ListNode.hpp"
 #include "debug.hpp"
 #include "compiler.hpp"
 #include "symbol_table_stackX.hpp"

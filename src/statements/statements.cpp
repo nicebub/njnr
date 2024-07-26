@@ -6,7 +6,8 @@
 #include "debug.hpp"
 #include "compiler.hpp"
 #include "njnr.tab.hpp"
-
+#include "List.hpp"
+#include "ListNode.hpp"
 namespace njnr
 {
    const std::string Statement::toString() const
