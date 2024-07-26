@@ -106,7 +106,8 @@ am__objects_2 = njnr-command.$(OBJEXT) njnr-compiler_core.$(OBJEXT) \
 	njnr-getopt.$(OBJEXT) njnr-helper.$(OBJEXT) njnr-lex.$(OBJEXT) \
 	njnr-list.$(OBJEXT) njnr-main.$(OBJEXT) \
 	njnr-operator.$(OBJEXT) njnr-parser_functions.$(OBJEXT) \
-	njnr-trans.$(OBJEXT) common/njnr-symbol_table.$(OBJEXT) \
+	njnr-CodeGenerator.$(OBJEXT) \
+	common/njnr-symbol_table.$(OBJEXT) \
 	common/njnr-symbol_table_stack.$(OBJEXT) \
 	common/njnr-symbol_table_stackX.$(OBJEXT) \
 	common/njnr-symbol_table_entry.$(OBJEXT) \
@@ -132,14 +133,14 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/njnr-command.Po \
-	./$(DEPDIR)/njnr-compiler_core.Po ./$(DEPDIR)/njnr-cpptypes.Po \
-	./$(DEPDIR)/njnr-debug.Po ./$(DEPDIR)/njnr-getopt.Po \
-	./$(DEPDIR)/njnr-helper.Po ./$(DEPDIR)/njnr-lex.Po \
-	./$(DEPDIR)/njnr-lex.yy.Po ./$(DEPDIR)/njnr-list.Po \
-	./$(DEPDIR)/njnr-main.Po ./$(DEPDIR)/njnr-njnr.tab.Po \
-	./$(DEPDIR)/njnr-operator.Po \
-	./$(DEPDIR)/njnr-parser_functions.Po ./$(DEPDIR)/njnr-trans.Po \
+am__depfiles_remade = ./$(DEPDIR)/njnr-CodeGenerator.Po \
+	./$(DEPDIR)/njnr-command.Po ./$(DEPDIR)/njnr-compiler_core.Po \
+	./$(DEPDIR)/njnr-cpptypes.Po ./$(DEPDIR)/njnr-debug.Po \
+	./$(DEPDIR)/njnr-getopt.Po ./$(DEPDIR)/njnr-helper.Po \
+	./$(DEPDIR)/njnr-lex.Po ./$(DEPDIR)/njnr-lex.yy.Po \
+	./$(DEPDIR)/njnr-list.Po ./$(DEPDIR)/njnr-main.Po \
+	./$(DEPDIR)/njnr-njnr.tab.Po ./$(DEPDIR)/njnr-operator.Po \
+	./$(DEPDIR)/njnr-parser_functions.Po \
 	common/$(DEPDIR)/njnr-symbol_table.Po \
 	common/$(DEPDIR)/njnr-symbol_table_entry.Po \
 	common/$(DEPDIR)/njnr-symbol_table_stack.Po \
@@ -307,7 +308,7 @@ top_srcdir = @top_srcdir@
 LEXERSOURCES = njnr.tab.cpp lex.yy.cc location.hh njnr.tab.hpp
 njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp \
 	getopt.cpp helper.cpp lex.cpp list.cpp main.cpp operator.cpp \
-	parser_functions.cpp trans.cpp common/symbol_table.cpp \
+	parser_functions.cpp CodeGenerator.cpp common/symbol_table.cpp \
 	common/symbol_table_stack.cpp common/symbol_table_stackX.cpp \
 	common/symbol_table_entry.cpp expressions/expressions.cpp \
 	functions/function_calls.cpp functions/functions.cpp \
@@ -316,9 +317,10 @@ njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp \
 	include/common/symbol_table_stackX.hpp \
 	include/common/symbol_table_stack.hpp \
 	include/common/symbol_table.hpp include/compiler.hpp \
-	include/trans.hpp include/common/symbol_table_entry.hpp \
-	include/lex.hpp include/data.hpp include/helper.hpp \
-	include/operator.hpp include/common/symbol_table_templates.h \
+	include/CodeGenerator.hpp \
+	include/common/symbol_table_entry.hpp include/lex.hpp \
+	include/data.hpp include/helper.hpp include/operator.hpp \
+	include/common/symbol_table_templates.h \
 	include/common/symbol_table_stack_templates.h
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
@@ -458,6 +460,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-CodeGenerator.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-command.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-compiler_core.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-cpptypes.Po@am__quote@ # am--include-marker
@@ -471,7 +474,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-njnr.tab.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-operator.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-parser_functions.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-trans.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/njnr-symbol_table.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/njnr-symbol_table_entry.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/njnr-symbol_table_stack.Po@am__quote@ # am--include-marker
@@ -685,19 +687,19 @@ njnr-parser_functions.obj: parser_functions.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-parser_functions.obj `if test -f 'parser_functions.cpp'; then $(CYGPATH_W) 'parser_functions.cpp'; else $(CYGPATH_W) '$(srcdir)/parser_functions.cpp'; fi`
 
-njnr-trans.o: trans.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-trans.o -MD -MP -MF $(DEPDIR)/njnr-trans.Tpo -c -o njnr-trans.o `test -f 'trans.cpp' || echo '$(srcdir)/'`trans.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-trans.Tpo $(DEPDIR)/njnr-trans.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='trans.cpp' object='njnr-trans.o' libtool=no @AMDEPBACKSLASH@
+njnr-CodeGenerator.o: CodeGenerator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-CodeGenerator.o -MD -MP -MF $(DEPDIR)/njnr-CodeGenerator.Tpo -c -o njnr-CodeGenerator.o `test -f 'CodeGenerator.cpp' || echo '$(srcdir)/'`CodeGenerator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-CodeGenerator.Tpo $(DEPDIR)/njnr-CodeGenerator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='CodeGenerator.cpp' object='njnr-CodeGenerator.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-trans.o `test -f 'trans.cpp' || echo '$(srcdir)/'`trans.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-CodeGenerator.o `test -f 'CodeGenerator.cpp' || echo '$(srcdir)/'`CodeGenerator.cpp
 
-njnr-trans.obj: trans.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-trans.obj -MD -MP -MF $(DEPDIR)/njnr-trans.Tpo -c -o njnr-trans.obj `if test -f 'trans.cpp'; then $(CYGPATH_W) 'trans.cpp'; else $(CYGPATH_W) '$(srcdir)/trans.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-trans.Tpo $(DEPDIR)/njnr-trans.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='trans.cpp' object='njnr-trans.obj' libtool=no @AMDEPBACKSLASH@
+njnr-CodeGenerator.obj: CodeGenerator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-CodeGenerator.obj -MD -MP -MF $(DEPDIR)/njnr-CodeGenerator.Tpo -c -o njnr-CodeGenerator.obj `if test -f 'CodeGenerator.cpp'; then $(CYGPATH_W) 'CodeGenerator.cpp'; else $(CYGPATH_W) '$(srcdir)/CodeGenerator.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-CodeGenerator.Tpo $(DEPDIR)/njnr-CodeGenerator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='CodeGenerator.cpp' object='njnr-CodeGenerator.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-trans.obj `if test -f 'trans.cpp'; then $(CYGPATH_W) 'trans.cpp'; else $(CYGPATH_W) '$(srcdir)/trans.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-CodeGenerator.obj `if test -f 'CodeGenerator.cpp'; then $(CYGPATH_W) 'CodeGenerator.cpp'; else $(CYGPATH_W) '$(srcdir)/CodeGenerator.cpp'; fi`
 
 common/njnr-symbol_table.o: common/symbol_table.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT common/njnr-symbol_table.o -MD -MP -MF common/$(DEPDIR)/njnr-symbol_table.Tpo -c -o common/njnr-symbol_table.o `test -f 'common/symbol_table.cpp' || echo '$(srcdir)/'`common/symbol_table.cpp
@@ -963,7 +965,8 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/njnr-command.Po
+		-rm -f ./$(DEPDIR)/njnr-CodeGenerator.Po
+	-rm -f ./$(DEPDIR)/njnr-command.Po
 	-rm -f ./$(DEPDIR)/njnr-compiler_core.Po
 	-rm -f ./$(DEPDIR)/njnr-cpptypes.Po
 	-rm -f ./$(DEPDIR)/njnr-debug.Po
@@ -976,7 +979,6 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/njnr-njnr.tab.Po
 	-rm -f ./$(DEPDIR)/njnr-operator.Po
 	-rm -f ./$(DEPDIR)/njnr-parser_functions.Po
-	-rm -f ./$(DEPDIR)/njnr-trans.Po
 	-rm -f common/$(DEPDIR)/njnr-symbol_table.Po
 	-rm -f common/$(DEPDIR)/njnr-symbol_table_entry.Po
 	-rm -f common/$(DEPDIR)/njnr-symbol_table_stack.Po
@@ -1030,7 +1032,8 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/njnr-command.Po
+		-rm -f ./$(DEPDIR)/njnr-CodeGenerator.Po
+	-rm -f ./$(DEPDIR)/njnr-command.Po
 	-rm -f ./$(DEPDIR)/njnr-compiler_core.Po
 	-rm -f ./$(DEPDIR)/njnr-cpptypes.Po
 	-rm -f ./$(DEPDIR)/njnr-debug.Po
@@ -1043,7 +1046,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/njnr-njnr.tab.Po
 	-rm -f ./$(DEPDIR)/njnr-operator.Po
 	-rm -f ./$(DEPDIR)/njnr-parser_functions.Po
-	-rm -f ./$(DEPDIR)/njnr-trans.Po
 	-rm -f common/$(DEPDIR)/njnr-symbol_table.Po
 	-rm -f common/$(DEPDIR)/njnr-symbol_table_entry.Po
 	-rm -f common/$(DEPDIR)/njnr-symbol_table_stack.Po

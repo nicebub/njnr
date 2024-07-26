@@ -5,7 +5,7 @@
 #include <ostream>
 #include <iostream>
 
-#include "trans.hpp"
+#include "CodeGenerator.hpp"
 #include "list.hpp"
 #include "type.hpp"
 #include "cpptypes.hpp"

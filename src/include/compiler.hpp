@@ -12,7 +12,7 @@
 */
 #include "constant.hpp"
 #include "type.hpp"
-#include "trans.hpp"
+#include "CodeGenerator.hpp"
 #include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"
 // #include "symbol_table_stack.hpp"

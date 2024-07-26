@@ -11,7 +11,7 @@
 #include "type.hpp"
 #include "list.hpp"
 #include "data.hpp
-#include "trans.hpp"
+#include "CodeGenerator.hpp"
 #include "lex.hpp"
 #include "cpptypes.hpp"
 */
