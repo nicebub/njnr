@@ -16,7 +16,7 @@
 #define YY_USER_ACTION loc->step(); loc->columns(yyleng); yylval = lval;
 
 #include "njnr.tab.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 /* we use our namespace */
 using namespace njnr;

@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "debug.hpp"
+#include "ReturnPacket.hpp"
 #include "symbol_table_stackX.hpp"
 
 /*
@@ -24,7 +25,7 @@ using namespace njnr;
 #endif
 #define YYERROR_VERBOSE 1
 
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 int yyerror(std::string err,Compiler* compiler);
 %}

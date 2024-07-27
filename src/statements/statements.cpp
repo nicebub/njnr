@@ -4,10 +4,12 @@
 #include <iostream>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 #include "njnr.tab.hpp"
 #include "List.hpp"
 #include "ListNode.hpp"
+#include "ReturnPacket.hpp"
+
 namespace njnr
 {
    const std::string Statement::toString() const

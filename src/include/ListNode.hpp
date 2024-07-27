@@ -7,8 +7,10 @@
 
 #include "type.hpp"
 #include "cpptypes.hpp"
-#include "constant.hpp"
-
+#include "Constant.hpp"
+#include "ReturnPacket.hpp"
+#include "FunctionBinding.hpp"
+#include "VariableBinding.hpp"
 namespace njnr
 {
 

@@ -10,7 +10,7 @@
 #endif
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 using njnr::Compiler;
 

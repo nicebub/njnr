@@ -1,7 +1,7 @@
 #include <config.h>
 #include "ListNode.hpp"
 #include "helper.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
 namespace njnr

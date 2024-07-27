@@ -5,7 +5,8 @@
 #include "debug.hpp"
 #include "ListNode.hpp"
 #include "type.hpp"
-#include "compiler.hpp"
+#include "ReturnPacket.hpp"
+#include "Compiler.hpp"
 using njnr::BasicListNode;
 using njnr::ListNode;
 using njnr::ReturnPacketListNode;

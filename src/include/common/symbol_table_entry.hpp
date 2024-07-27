@@ -5,6 +5,7 @@
 #include <string>
 
 #include "type.hpp"
+#include "ReturnPacket.hpp"
 #include "cpptypes.hpp"
 namespace njnr
 {

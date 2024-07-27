@@ -4,7 +4,7 @@
 
 #include "lex.hpp"
 #include "location.hh"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 using njnr::njnrLexer;
 

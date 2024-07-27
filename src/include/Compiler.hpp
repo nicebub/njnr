@@ -10,8 +10,9 @@
 #define yyFlexLexer yyFlexLexer
 #endif
 */
-#include "constant.hpp"
+#include "Constant.hpp"
 #include "type.hpp"
+#include "ReturnPacket.hpp"
 #include "CodeGenerator.hpp"
 #include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"

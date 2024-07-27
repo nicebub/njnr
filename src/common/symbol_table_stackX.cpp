@@ -9,7 +9,7 @@
 #include "symbol_table_entry.hpp"   // for class S_TableEntry
 #include "symbol_table.hpp"         // for class Table
 #include "symbol_table_stackX.hpp"  // for class SymbolTableX
-#include "compiler.hpp"             // for njnr::report()
+#include "Compiler.hpp"             // for njnr::report()
 #include "operator.hpp"             // for TSOperatorType()
 using njnr::SymbolTableX;
 

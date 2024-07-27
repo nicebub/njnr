@@ -6,7 +6,7 @@
 #include <string>
 
 #include "symbol_table.hpp"       // for class Table
-#include "compiler.hpp"           // for class Compiler
+#include "Compiler.hpp"           // for class Compiler
 
 namespace njnr
 {

@@ -7,8 +7,9 @@
 
 #include "type.hpp"
 #include "cpptypes.hpp"
-#include "constant.hpp"
+#include "Constant.hpp"
 #include "ListNode.hpp"
+#include "ReturnPacket.hpp"
 namespace njnr
 {
 

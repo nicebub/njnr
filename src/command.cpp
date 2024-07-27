@@ -4,7 +4,7 @@
 #include <fstream>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 namespace njnr
 {
    bool Compiler::filenameDoesEndsInDotN(\

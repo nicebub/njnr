@@ -6,7 +6,8 @@
 #include "List.hpp"
 #include "ListNode.hpp"
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
+#include "ReturnPacket.hpp"
 #include "symbol_table_stackX.hpp"
 namespace njnr
 {

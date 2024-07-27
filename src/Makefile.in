@@ -315,10 +315,10 @@ njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp \
 	expressions/expressions.cpp functions/function_calls.cpp \
 	functions/functions.cpp statements/statements.cpp \
 	include/debug.hpp include/type.hpp include/List.hpp \
-	include/cpptypes.hpp include/ListNode.hpp include/constant.hpp \
+	include/cpptypes.hpp include/ListNode.hpp include/Constant.hpp \
 	include/common/symbol_table_stackX.hpp \
 	include/common/symbol_table_stack.hpp \
-	include/common/symbol_table.hpp include/compiler.hpp \
+	include/common/symbol_table.hpp include/Compiler.hpp \
 	include/CodeGenerator.hpp \
 	include/common/symbol_table_entry.hpp include/lex.hpp \
 	include/data.hpp include/helper.hpp include/operator.hpp \

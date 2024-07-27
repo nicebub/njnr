@@ -2,8 +2,10 @@
 #include "cpptypes.hpp"
 #include "type.hpp"
 #include "List.hpp"
+#include "ReturnPacket.hpp"
+#include "ParameterBinding.hpp"
 #include "symbol_table_entry.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 namespace njnr
 {
    ReturnPacket::ReturnPacket() : m_pair{},

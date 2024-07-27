@@ -4,6 +4,7 @@
 #include <config.h>
 #include <string>
 #include "type.hpp"
+#include "TSType.hpp"
 
 namespace njnr
 {

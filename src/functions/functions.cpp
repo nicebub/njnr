@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"

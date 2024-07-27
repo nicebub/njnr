@@ -3,7 +3,7 @@
 #include <string>
 
 #include "symbol_table.hpp"
-#include "compiler.hpp"     // currently for njnr::report()
+#include "Compiler.hpp"     // currently for njnr::report()
 
 using njnr::Table;
 

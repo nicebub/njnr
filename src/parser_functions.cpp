@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 #include "njnr.tab.hpp"
 
 namespace njnr
