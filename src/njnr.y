@@ -13,7 +13,7 @@
 #include "List.hpp"
 #include "data.hpp
 #include "CodeGenerator.hpp"
-#include "lex.hpp"
+#include "njnrLexer.hpp"
 */
 
 using namespace njnr;

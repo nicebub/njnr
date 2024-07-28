@@ -6,7 +6,7 @@
 #include <cstdint>
 
 #include "debug.hpp"
-#include "lex.hpp"
+#include "njnrLexer.hpp"
 
 /* we redefine our declaration for the lexer as we changed it */
 #undef  YY_DECL

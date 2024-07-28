@@ -1,5 +1,5 @@
-#ifndef SRC_INCLUDE_LEX_HPP_
-#define SRC_INCLUDE_LEX_HPP_ 1
+#ifndef SRC_INCLUDE_NJNRLEXER_HPP_
+#define SRC_INCLUDE_NJNRLEXER_HPP_ 1
 
 #include <config.h>
 #include <string>
@@ -33,4 +33,4 @@ private:
 };
 }  // namespace njnr
 
-#endif  // SRC_INCLUDE_LEX_HPP_
+#endif  // SRC_INCLUDE_NJNRLEXER_HPP_

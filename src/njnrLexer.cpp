@@ -2,7 +2,7 @@
 #include <string>
 #include <istream>
 
-#include "lex.hpp"
+#include "njnrLexer.hpp"
 #include "location.hh"
 #include "Compiler.hpp"
 

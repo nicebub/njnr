@@ -19,7 +19,7 @@
 #include "symbol_table.hpp"
 // #include "symbol_table_stack.hpp"
 #include "njnr.tab.hpp"
-#include "lex.hpp"
+#include "njnrLexer.hpp"
 #include "operator.hpp"
 
 namespace njnr
