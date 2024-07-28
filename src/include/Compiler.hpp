@@ -13,6 +13,7 @@
 #include "Constant.hpp"
 #include "type.hpp"
 #include "ReturnPacket.hpp"
+#include "Statement.hpp"
 #include "CodeGenerator.hpp"
 #include "symbol_table_entry.hpp"
 #include "symbol_table.hpp"

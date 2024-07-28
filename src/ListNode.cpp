@@ -6,6 +6,7 @@
 #include "ListNode.hpp"
 #include "type.hpp"
 #include "ReturnPacket.hpp"
+#include "Statement.hpp"
 #include "Compiler.hpp"
 using njnr::BasicListNode;
 using njnr::ListNode;

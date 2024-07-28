@@ -6,9 +6,14 @@
 
 #include "List.hpp"
 #include "ListNode.hpp"
+#include "FunctionBinding.hpp"
+#include "Statement.hpp"
+#include "symbol_table_stackX.hpp"
+
 namespace njnr
 {
 class SymbolTableX;
+
 class CodeGenerator
 {
    public:

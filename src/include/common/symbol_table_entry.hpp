@@ -7,6 +7,7 @@
 #include "type.hpp"
 #include "ReturnPacket.hpp"
 #include "cpptypes.hpp"
+
 namespace njnr
 {
 /* A Generic Symbol Table Entry */

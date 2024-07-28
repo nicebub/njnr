@@ -8,10 +8,10 @@
 #include "ParameterBinding.hpp"
 #include "symbol_table_stack.hpp"  // for class SymbolTable
 #include "symbol_table_entry.hpp"  // for class S_TableEntry
-#include "Compiler.hpp"            // for class Compiler
 
 namespace njnr
 {
+class Compiler;
 /**
  * @brief extension to class for specifics
  * 

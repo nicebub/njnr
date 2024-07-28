@@ -8,6 +8,7 @@
 #include "debug.hpp"
 #include "Compiler.hpp"
 #include "ReturnPacket.hpp"
+#include "Statement.hpp"
 #include "symbol_table_stackX.hpp"
 namespace njnr
 {

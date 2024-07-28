@@ -15,8 +15,10 @@ njnrSOURCES += include/common/symbol_table_stack.hpp include/common/symbol_table
 njnrSOURCES += include/Compiler.hpp include/CodeGenerator.hpp include/common/symbol_table_entry.hpp
 njnrSOURCES += include/lex.hpp include/data.hpp include/helper.hpp
 njnrSOURCES += include/operator.hpp include/common/symbol_table_templates.h
-njnrSOURCES += include/common/symbol_table_stack_templates.h
-
+njnrSOURCES += include/common/symbol_table_stack_templates.h include/ReturnPacket.hpp
+njnrSOURCES += include/BaseData.hpp include/ParameterBinding.hpp include/Statement.hpp
+njnrSOURCES += include/FunctionBinding.hpp include/Identifier.hpp include/VariableBinding.hpp
+njnrSOURCES += include/TSType.hpp include/TSAbstractType.hpp include/TranslationUnit.hpp
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 

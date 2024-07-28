@@ -9,8 +9,10 @@
 #include "cpptypes.hpp"
 #include "Constant.hpp"
 #include "ReturnPacket.hpp"
+#include "Statement.hpp"
 #include "FunctionBinding.hpp"
 #include "VariableBinding.hpp"
+
 namespace njnr
 {
 

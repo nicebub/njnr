@@ -323,7 +323,12 @@ njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp \
 	include/common/symbol_table_entry.hpp include/lex.hpp \
 	include/data.hpp include/helper.hpp include/operator.hpp \
 	include/common/symbol_table_templates.h \
-	include/common/symbol_table_stack_templates.h
+	include/common/symbol_table_stack_templates.h \
+	include/ReturnPacket.hpp include/BaseData.hpp \
+	include/ParameterBinding.hpp include/Statement.hpp \
+	include/FunctionBinding.hpp include/Identifier.hpp \
+	include/VariableBinding.hpp include/TSType.hpp \
+	include/TSAbstractType.hpp include/TranslationUnit.hpp
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 #-DDEBUGON
