@@ -114,7 +114,11 @@ am__objects_2 = njnr-command.$(OBJEXT) njnr-compiler_core.$(OBJEXT) \
 	expressions/njnr-expressions.$(OBJEXT) \
 	functions/njnr-function_calls.$(OBJEXT) \
 	functions/njnr-functions.$(OBJEXT) \
-	statements/njnr-statements.$(OBJEXT)
+	statements/njnr-statements.$(OBJEXT) njnr-Constant.$(OBJEXT) \
+	njnr-FunctionBinding.$(OBJEXT) njnr-Identifier.$(OBJEXT) \
+	njnr-ParameterBinding.$(OBJEXT) njnr-ReturnPacket.$(OBJEXT) \
+	njnr-Statement.$(OBJEXT) njnr-TranslationUnit.$(OBJEXT) \
+	njnr-VariableBinding.$(OBJEXT)
 am_njnr_OBJECTS = $(am__objects_1) $(am__objects_2)
 njnr_OBJECTS = $(am_njnr_OBJECTS)
 njnr_LDADD = $(LDADD)
@@ -134,7 +138,14 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/njnr-CodeGenerator.Po \
-	./$(DEPDIR)/njnr-List.Po ./$(DEPDIR)/njnr-ListNode.Po \
+	./$(DEPDIR)/njnr-Constant.Po \
+	./$(DEPDIR)/njnr-FunctionBinding.Po \
+	./$(DEPDIR)/njnr-Identifier.Po ./$(DEPDIR)/njnr-List.Po \
+	./$(DEPDIR)/njnr-ListNode.Po \
+	./$(DEPDIR)/njnr-ParameterBinding.Po \
+	./$(DEPDIR)/njnr-ReturnPacket.Po ./$(DEPDIR)/njnr-Statement.Po \
+	./$(DEPDIR)/njnr-TranslationUnit.Po \
+	./$(DEPDIR)/njnr-VariableBinding.Po \
 	./$(DEPDIR)/njnr-command.Po ./$(DEPDIR)/njnr-compiler_core.Po \
 	./$(DEPDIR)/njnr-cpptypes.Po ./$(DEPDIR)/njnr-debug.Po \
 	./$(DEPDIR)/njnr-getopt.Po ./$(DEPDIR)/njnr-helper.Po \
@@ -313,9 +324,11 @@ njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp \
 	common/symbol_table.cpp common/symbol_table_stack.cpp \
 	common/symbol_table_stackX.cpp common/symbol_table_entry.cpp \
 	expressions/expressions.cpp functions/function_calls.cpp \
-	functions/functions.cpp statements/statements.cpp \
-	include/debug.hpp include/type.hpp include/List.hpp \
-	include/ListNode.hpp include/Constant.hpp \
+	functions/functions.cpp statements/statements.cpp Constant.cpp \
+	FunctionBinding.cpp Identifier.cpp ParameterBinding.cpp \
+	ReturnPacket.cpp Statement.cpp TranslationUnit.cpp \
+	VariableBinding.cpp include/debug.hpp include/type.hpp \
+	include/List.hpp include/ListNode.hpp include/Constant.hpp \
 	include/common/symbol_table_stackX.hpp \
 	include/common/symbol_table_stack.hpp \
 	include/common/symbol_table.hpp include/Compiler.hpp \
@@ -468,8 +481,16 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-CodeGenerator.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-Constant.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-FunctionBinding.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-Identifier.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-List.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-ListNode.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-ParameterBinding.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-ReturnPacket.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-Statement.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-TranslationUnit.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-VariableBinding.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-command.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-compiler_core.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-cpptypes.Po@am__quote@ # am--include-marker
@@ -835,6 +856,118 @@ statements/njnr-statements.obj: statements/statements.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o statements/njnr-statements.obj `if test -f 'statements/statements.cpp'; then $(CYGPATH_W) 'statements/statements.cpp'; else $(CYGPATH_W) '$(srcdir)/statements/statements.cpp'; fi`
 
+njnr-Constant.o: Constant.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-Constant.o -MD -MP -MF $(DEPDIR)/njnr-Constant.Tpo -c -o njnr-Constant.o `test -f 'Constant.cpp' || echo '$(srcdir)/'`Constant.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-Constant.Tpo $(DEPDIR)/njnr-Constant.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Constant.cpp' object='njnr-Constant.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-Constant.o `test -f 'Constant.cpp' || echo '$(srcdir)/'`Constant.cpp
+
+njnr-Constant.obj: Constant.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-Constant.obj -MD -MP -MF $(DEPDIR)/njnr-Constant.Tpo -c -o njnr-Constant.obj `if test -f 'Constant.cpp'; then $(CYGPATH_W) 'Constant.cpp'; else $(CYGPATH_W) '$(srcdir)/Constant.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-Constant.Tpo $(DEPDIR)/njnr-Constant.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Constant.cpp' object='njnr-Constant.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-Constant.obj `if test -f 'Constant.cpp'; then $(CYGPATH_W) 'Constant.cpp'; else $(CYGPATH_W) '$(srcdir)/Constant.cpp'; fi`
+
+njnr-FunctionBinding.o: FunctionBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-FunctionBinding.o -MD -MP -MF $(DEPDIR)/njnr-FunctionBinding.Tpo -c -o njnr-FunctionBinding.o `test -f 'FunctionBinding.cpp' || echo '$(srcdir)/'`FunctionBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-FunctionBinding.Tpo $(DEPDIR)/njnr-FunctionBinding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='FunctionBinding.cpp' object='njnr-FunctionBinding.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-FunctionBinding.o `test -f 'FunctionBinding.cpp' || echo '$(srcdir)/'`FunctionBinding.cpp
+
+njnr-FunctionBinding.obj: FunctionBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-FunctionBinding.obj -MD -MP -MF $(DEPDIR)/njnr-FunctionBinding.Tpo -c -o njnr-FunctionBinding.obj `if test -f 'FunctionBinding.cpp'; then $(CYGPATH_W) 'FunctionBinding.cpp'; else $(CYGPATH_W) '$(srcdir)/FunctionBinding.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-FunctionBinding.Tpo $(DEPDIR)/njnr-FunctionBinding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='FunctionBinding.cpp' object='njnr-FunctionBinding.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-FunctionBinding.obj `if test -f 'FunctionBinding.cpp'; then $(CYGPATH_W) 'FunctionBinding.cpp'; else $(CYGPATH_W) '$(srcdir)/FunctionBinding.cpp'; fi`
+
+njnr-Identifier.o: Identifier.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-Identifier.o -MD -MP -MF $(DEPDIR)/njnr-Identifier.Tpo -c -o njnr-Identifier.o `test -f 'Identifier.cpp' || echo '$(srcdir)/'`Identifier.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-Identifier.Tpo $(DEPDIR)/njnr-Identifier.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Identifier.cpp' object='njnr-Identifier.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-Identifier.o `test -f 'Identifier.cpp' || echo '$(srcdir)/'`Identifier.cpp
+
+njnr-Identifier.obj: Identifier.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-Identifier.obj -MD -MP -MF $(DEPDIR)/njnr-Identifier.Tpo -c -o njnr-Identifier.obj `if test -f 'Identifier.cpp'; then $(CYGPATH_W) 'Identifier.cpp'; else $(CYGPATH_W) '$(srcdir)/Identifier.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-Identifier.Tpo $(DEPDIR)/njnr-Identifier.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Identifier.cpp' object='njnr-Identifier.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-Identifier.obj `if test -f 'Identifier.cpp'; then $(CYGPATH_W) 'Identifier.cpp'; else $(CYGPATH_W) '$(srcdir)/Identifier.cpp'; fi`
+
+njnr-ParameterBinding.o: ParameterBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-ParameterBinding.o -MD -MP -MF $(DEPDIR)/njnr-ParameterBinding.Tpo -c -o njnr-ParameterBinding.o `test -f 'ParameterBinding.cpp' || echo '$(srcdir)/'`ParameterBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-ParameterBinding.Tpo $(DEPDIR)/njnr-ParameterBinding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ParameterBinding.cpp' object='njnr-ParameterBinding.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-ParameterBinding.o `test -f 'ParameterBinding.cpp' || echo '$(srcdir)/'`ParameterBinding.cpp
+
+njnr-ParameterBinding.obj: ParameterBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-ParameterBinding.obj -MD -MP -MF $(DEPDIR)/njnr-ParameterBinding.Tpo -c -o njnr-ParameterBinding.obj `if test -f 'ParameterBinding.cpp'; then $(CYGPATH_W) 'ParameterBinding.cpp'; else $(CYGPATH_W) '$(srcdir)/ParameterBinding.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-ParameterBinding.Tpo $(DEPDIR)/njnr-ParameterBinding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ParameterBinding.cpp' object='njnr-ParameterBinding.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-ParameterBinding.obj `if test -f 'ParameterBinding.cpp'; then $(CYGPATH_W) 'ParameterBinding.cpp'; else $(CYGPATH_W) '$(srcdir)/ParameterBinding.cpp'; fi`
+
+njnr-ReturnPacket.o: ReturnPacket.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-ReturnPacket.o -MD -MP -MF $(DEPDIR)/njnr-ReturnPacket.Tpo -c -o njnr-ReturnPacket.o `test -f 'ReturnPacket.cpp' || echo '$(srcdir)/'`ReturnPacket.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-ReturnPacket.Tpo $(DEPDIR)/njnr-ReturnPacket.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ReturnPacket.cpp' object='njnr-ReturnPacket.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-ReturnPacket.o `test -f 'ReturnPacket.cpp' || echo '$(srcdir)/'`ReturnPacket.cpp
+
+njnr-ReturnPacket.obj: ReturnPacket.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-ReturnPacket.obj -MD -MP -MF $(DEPDIR)/njnr-ReturnPacket.Tpo -c -o njnr-ReturnPacket.obj `if test -f 'ReturnPacket.cpp'; then $(CYGPATH_W) 'ReturnPacket.cpp'; else $(CYGPATH_W) '$(srcdir)/ReturnPacket.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-ReturnPacket.Tpo $(DEPDIR)/njnr-ReturnPacket.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ReturnPacket.cpp' object='njnr-ReturnPacket.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-ReturnPacket.obj `if test -f 'ReturnPacket.cpp'; then $(CYGPATH_W) 'ReturnPacket.cpp'; else $(CYGPATH_W) '$(srcdir)/ReturnPacket.cpp'; fi`
+
+njnr-Statement.o: Statement.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-Statement.o -MD -MP -MF $(DEPDIR)/njnr-Statement.Tpo -c -o njnr-Statement.o `test -f 'Statement.cpp' || echo '$(srcdir)/'`Statement.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-Statement.Tpo $(DEPDIR)/njnr-Statement.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Statement.cpp' object='njnr-Statement.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-Statement.o `test -f 'Statement.cpp' || echo '$(srcdir)/'`Statement.cpp
+
+njnr-Statement.obj: Statement.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-Statement.obj -MD -MP -MF $(DEPDIR)/njnr-Statement.Tpo -c -o njnr-Statement.obj `if test -f 'Statement.cpp'; then $(CYGPATH_W) 'Statement.cpp'; else $(CYGPATH_W) '$(srcdir)/Statement.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-Statement.Tpo $(DEPDIR)/njnr-Statement.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Statement.cpp' object='njnr-Statement.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-Statement.obj `if test -f 'Statement.cpp'; then $(CYGPATH_W) 'Statement.cpp'; else $(CYGPATH_W) '$(srcdir)/Statement.cpp'; fi`
+
+njnr-TranslationUnit.o: TranslationUnit.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-TranslationUnit.o -MD -MP -MF $(DEPDIR)/njnr-TranslationUnit.Tpo -c -o njnr-TranslationUnit.o `test -f 'TranslationUnit.cpp' || echo '$(srcdir)/'`TranslationUnit.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-TranslationUnit.Tpo $(DEPDIR)/njnr-TranslationUnit.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='TranslationUnit.cpp' object='njnr-TranslationUnit.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-TranslationUnit.o `test -f 'TranslationUnit.cpp' || echo '$(srcdir)/'`TranslationUnit.cpp
+
+njnr-TranslationUnit.obj: TranslationUnit.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-TranslationUnit.obj -MD -MP -MF $(DEPDIR)/njnr-TranslationUnit.Tpo -c -o njnr-TranslationUnit.obj `if test -f 'TranslationUnit.cpp'; then $(CYGPATH_W) 'TranslationUnit.cpp'; else $(CYGPATH_W) '$(srcdir)/TranslationUnit.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-TranslationUnit.Tpo $(DEPDIR)/njnr-TranslationUnit.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='TranslationUnit.cpp' object='njnr-TranslationUnit.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-TranslationUnit.obj `if test -f 'TranslationUnit.cpp'; then $(CYGPATH_W) 'TranslationUnit.cpp'; else $(CYGPATH_W) '$(srcdir)/TranslationUnit.cpp'; fi`
+
+njnr-VariableBinding.o: VariableBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-VariableBinding.o -MD -MP -MF $(DEPDIR)/njnr-VariableBinding.Tpo -c -o njnr-VariableBinding.o `test -f 'VariableBinding.cpp' || echo '$(srcdir)/'`VariableBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-VariableBinding.Tpo $(DEPDIR)/njnr-VariableBinding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='VariableBinding.cpp' object='njnr-VariableBinding.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-VariableBinding.o `test -f 'VariableBinding.cpp' || echo '$(srcdir)/'`VariableBinding.cpp
+
+njnr-VariableBinding.obj: VariableBinding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-VariableBinding.obj -MD -MP -MF $(DEPDIR)/njnr-VariableBinding.Tpo -c -o njnr-VariableBinding.obj `if test -f 'VariableBinding.cpp'; then $(CYGPATH_W) 'VariableBinding.cpp'; else $(CYGPATH_W) '$(srcdir)/VariableBinding.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-VariableBinding.Tpo $(DEPDIR)/njnr-VariableBinding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='VariableBinding.cpp' object='njnr-VariableBinding.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-VariableBinding.obj `if test -f 'VariableBinding.cpp'; then $(CYGPATH_W) 'VariableBinding.cpp'; else $(CYGPATH_W) '$(srcdir)/VariableBinding.cpp'; fi`
+
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
@@ -988,8 +1121,16 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/njnr-CodeGenerator.Po
+	-rm -f ./$(DEPDIR)/njnr-Constant.Po
+	-rm -f ./$(DEPDIR)/njnr-FunctionBinding.Po
+	-rm -f ./$(DEPDIR)/njnr-Identifier.Po
 	-rm -f ./$(DEPDIR)/njnr-List.Po
 	-rm -f ./$(DEPDIR)/njnr-ListNode.Po
+	-rm -f ./$(DEPDIR)/njnr-ParameterBinding.Po
+	-rm -f ./$(DEPDIR)/njnr-ReturnPacket.Po
+	-rm -f ./$(DEPDIR)/njnr-Statement.Po
+	-rm -f ./$(DEPDIR)/njnr-TranslationUnit.Po
+	-rm -f ./$(DEPDIR)/njnr-VariableBinding.Po
 	-rm -f ./$(DEPDIR)/njnr-command.Po
 	-rm -f ./$(DEPDIR)/njnr-compiler_core.Po
 	-rm -f ./$(DEPDIR)/njnr-cpptypes.Po
@@ -1056,8 +1197,16 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/njnr-CodeGenerator.Po
+	-rm -f ./$(DEPDIR)/njnr-Constant.Po
+	-rm -f ./$(DEPDIR)/njnr-FunctionBinding.Po
+	-rm -f ./$(DEPDIR)/njnr-Identifier.Po
 	-rm -f ./$(DEPDIR)/njnr-List.Po
 	-rm -f ./$(DEPDIR)/njnr-ListNode.Po
+	-rm -f ./$(DEPDIR)/njnr-ParameterBinding.Po
+	-rm -f ./$(DEPDIR)/njnr-ReturnPacket.Po
+	-rm -f ./$(DEPDIR)/njnr-Statement.Po
+	-rm -f ./$(DEPDIR)/njnr-TranslationUnit.Po
+	-rm -f ./$(DEPDIR)/njnr-VariableBinding.Po
 	-rm -f ./$(DEPDIR)/njnr-command.Po
 	-rm -f ./$(DEPDIR)/njnr-compiler_core.Po
 	-rm -f ./$(DEPDIR)/njnr-cpptypes.Po
