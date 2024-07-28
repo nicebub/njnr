@@ -8,11 +8,11 @@
 
 namespace njnr
 {
-class Varb : public Identifier
+class VariableBinding : public Identifier
 {
    public:
-      Varb();
-      virtual ~Varb();
+      VariableBinding();
+      virtual ~VariableBinding();
       const std::string toString() const;
    private:
 };

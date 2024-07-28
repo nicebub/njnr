@@ -13,7 +13,7 @@
 
 namespace njnr
 {
-   std::shared_ptr<Funcb> Compiler::create_full_function(std::shared_ptr<FunctionHeader> funcheader,
+   std::shared_ptr<FunctionBinding> Compiler::create_full_function(std::shared_ptr<FunctionHeader> funcheader,
                                          std::shared_ptr<List> funcbody)
    {
     /**
@@ -25,9 +25,9 @@ namespace njnr
 
      * 
      */
-    //   std::shared_ptr<Funcb> out{nullptr};
-    //   out = new Funcb{};
-      std::shared_ptr<Funcb> out(new Funcb());
+    //   std::shared_ptr<FunctionBinding> out{nullptr};
+    //   out = new FunctionBinding{};
+      std::shared_ptr<FunctionBinding> out(new FunctionBinding());
       if (nullptr != out)
       {
          out->setfuncbody_list(funcbody);
@@ -156,7 +156,7 @@ namespace njnr
 //          temp = currentFunc->getlocalcount();
       }
   }
-   std::shared_ptr<Funcb> Compiler::create_and_return_a_fn_body_statement_element(\
+   std::shared_ptr<FunctionBinding> Compiler::create_and_return_a_fn_body_statement_element(\
                                                        std::shared_ptr<Statement> stmt)
    {
        if (NULL != stmt)
@@ -172,7 +172,7 @@ namespace njnr
 
       return nullptr;
    }
-   std::shared_ptr<Funcb> Compiler::add_statement_to_fn_body_and_return(std::shared_ptr<List> func,
+   std::shared_ptr<FunctionBinding> Compiler::add_statement_to_fn_body_and_return(std::shared_ptr<List> func,
                                                         std::shared_ptr<Statement> stmt)
    {
        if (stmt->getstype() == statement_type::RETURN)

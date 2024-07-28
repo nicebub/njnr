@@ -37,7 +37,7 @@ namespace njnr
                                                    inFuncHeaderptr
                                                   };
 
-      currentFunc = static_pointer_cast<Funcb>(symbolTable->lookup(inFuncHeader->name));
+      currentFunc = static_pointer_cast<FunctionBinding>(symbolTable->lookup(inFuncHeader->name));
 
       std::shared_ptr<S_TableEntryX> foundPacket = static_pointer_cast<S_TableEntryX>(symbolTable->
                                                      lookupB(inFuncHeader->

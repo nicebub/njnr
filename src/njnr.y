@@ -174,9 +174,9 @@ int yyerror(std::string err,Compiler* compiler);
 %type <std::string> uminus
 //%type <List*> translation_unit funcbody_internal funcbody
 %type <std::shared_ptr<List>> translation_unit_part_list translation_unit funcbody_internal funcbody
-//%type <std::shared_ptr<Funcb>> translation_unit_part_list translation_unit funcbody_internal funcbody
-//%type <Funcb*> func variabledecl
-%type <std::shared_ptr<Funcb>> func variabledecl
+//%type <std::shared_ptr<FunctionBinding>> translation_unit_part_list translation_unit funcbody_internal funcbody
+//%type <FunctionBinding*> func variabledecl
+%type <std::shared_ptr<FunctionBinding>> func variabledecl
 %nterm <std::shared_ptr<List>> paramdeflist paramdef
 %nterm <std::shared_ptr<FunctionHeader>> funcheader
 %nterm <std::shared_ptr<ReturnPacket>> expr

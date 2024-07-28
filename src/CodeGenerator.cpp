@@ -109,7 +109,7 @@ void CodeGenerator::start() noexcept
     canGenerate = true;
 }
 
-std::string CodeGenerator::getOutputTypeForCINType(std::shared_ptr<Funcb> f)
+std::string CodeGenerator::getOutputTypeForCINType(std::shared_ptr<FunctionBinding> f)
 {
     std::string r{"void"};
 
@@ -147,7 +147,7 @@ std::string CodeGenerator::getOutputTypeForCINType(std::shared_ptr<Funcb> f)
     return r;
 }
 
-void CodeGenerator::generateVariabledeclarations(std::shared_ptr<Funcb> f)
+void CodeGenerator::generateVariabledeclarations(std::shared_ptr<FunctionBinding> f)
 {
    if (f != nullptr && nullptr != symtab)
    {
@@ -311,7 +311,7 @@ void CodeGenerator::generateStatement(std::shared_ptr<njnr::StmtListNode> e)
    }
 }
 
-void CodeGenerator::generateFunction(std::shared_ptr<Funcb> f)
+void CodeGenerator::generateFunction(std::shared_ptr<FunctionBinding> f)
 {
    if (nullptr != f)
    {

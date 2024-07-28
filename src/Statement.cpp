@@ -11,7 +11,13 @@
 #include "ReturnPacket.hpp"
 #include "Statement.hpp"
 
-using namespace njnr;
+using njnr::Statement;
+using njnr::Identifier;
+using njnr::Constant;
+using njnr::ReturnPacket;
+using njnr::Compiler;
+using njnr::report;
+using njnr::statement_type;
 
    const std::string Statement::toString() const
    {

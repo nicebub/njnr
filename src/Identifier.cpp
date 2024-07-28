@@ -4,7 +4,8 @@
 #include "Identifier.hpp"
 #include "ReturnPacket.hpp"
 #include "type.hpp"
-using namespace njnr;
+using njnr::Identifier;
+using njnr::Constant;
 
    const std::string Identifier::toString() const
    {

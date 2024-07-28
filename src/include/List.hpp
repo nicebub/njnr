@@ -28,11 +28,11 @@ public:
     static std::shared_ptr<List> mklist(std::string inVal);
     static std::shared_ptr<List> mklist(std::string inVal, type inType);
     static std::shared_ptr<List> mklist(std::shared_ptr<ReturnPacket> expr);
-    // static List* mklist(Funcb* expr);
-    static std::shared_ptr<List> mklist(std::shared_ptr<Funcb> expr);
+    // static List* mklist(FunctionBinding* expr);
+    static std::shared_ptr<List> mklist(std::shared_ptr<FunctionBinding> expr);
 
     // place holder type -- needs changing
-    static std::shared_ptr<List> mklist(std::shared_ptr<Varb> expr);
+    static std::shared_ptr<List> mklist(std::shared_ptr<VariableBinding> expr);
 
     static std::shared_ptr<List> mklist(njnr::type type);
     static std::shared_ptr<List> mklist(std::shared_ptr<Statement> instmt);
@@ -41,10 +41,10 @@ public:
     bool appendList(std::string inVal);
     bool appendList(std::string inVal, njnr::type inType);
     bool appendList(std::shared_ptr<ReturnPacket> expr);
-    bool appendList(std::shared_ptr<Funcb> expr);
+    bool appendList(std::shared_ptr<FunctionBinding> expr);
 
     // placeholder type -- needs changing
-    bool appendList(std::shared_ptr<Varb> expr);
+    bool appendList(std::shared_ptr<VariableBinding> expr);
     bool appendList(njnr::type type);
     bool appendList(std::shared_ptr<Statement> type);
     bool appendList(std::shared_ptr<Identifier>);

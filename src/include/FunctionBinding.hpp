@@ -13,26 +13,26 @@
 #include "FunctionHeader.hpp"
 namespace njnr
 {
-class Funcb : public Identifier
+class FunctionBinding : public Identifier
 {
    public:
-      Funcb();
+      FunctionBinding();
 
-      explicit Funcb(njnr::type returntype);
+      explicit FunctionBinding(njnr::type returntype);
 
-      Funcb(njnr::type returntype, bool bodydef, int num_param,
+      FunctionBinding(njnr::type returntype, bool bodydef, int num_param,
             std::vector<njnr::type> param_type,
             int label, int localcount, int actual_num);
 
-      Funcb(njnr::type returntype, bool bodydef, int num_param,
+      FunctionBinding(njnr::type returntype, bool bodydef, int num_param,
             std::vector<njnr::type> param_type, int label,
             int localcount, int actual_num,
             std::shared_ptr<FunctionHeader> funcheader,
             std::shared_ptr<List> funcbody_list);
 
-      Funcb(const Funcb& in);
-      Funcb& operator=(const Funcb& in);
-      virtual ~Funcb();
+      FunctionBinding(const FunctionBinding& in);
+      FunctionBinding& operator=(const FunctionBinding& in);
+      virtual ~FunctionBinding();
       std::vector<njnr::type> getparam_type();
       njnr::type getreturntype();
       bool getbodydef();

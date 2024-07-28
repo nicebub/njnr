@@ -14,8 +14,8 @@ class Translation_Unit : public ReturnPacket
 {
    public:
       Translation_Unit();
-//      Translation_Unit(std::shared_ptr<Funcb> func);
-//      Translation_Unit(Varb* varb); // placeholder type -- needs to change
+//      Translation_Unit(std::shared_ptr<FunctionBinding> func);
+//      Translation_Unit(VariableBinding* varb); // placeholder type -- needs to change
       virtual ~Translation_Unit();
       std::shared_ptr<ReturnPacket> get_translation();
       void set_translation(std::shared_ptr<ReturnPacket> translation);

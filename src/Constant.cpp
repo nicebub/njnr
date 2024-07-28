@@ -2,7 +2,9 @@
 #include <string>
 #include "type.hpp"
 #include "Constant.hpp"
-using namespace njnr;
+using njnr::Constant;
+using njnr::ReturnPacket;
+
 Constant::Constant() : ReturnPacket{},
                        val{""},
                        typ{njnr::type::VOID}

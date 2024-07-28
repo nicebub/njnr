@@ -17,8 +17,8 @@ using njnr::Constant;
 using njnr::S_TableEntryX;
 using njnr::Identifier;
 using njnr::btype;
-using njnr::Varb;
-using njnr::Paramb;
+using njnr::VariableBinding;
+using njnr::ParameterBinding;
 using njnr::List;
 
    std::shared_ptr<ReturnPacket> Compiler::block40_expr_equalexpr_equal_equalexpr(\
@@ -551,16 +551,16 @@ using njnr::List;
                        {
                        case btype::VAR:
                            outPacket->
-                               settype((static_pointer_cast<Varb>((tempE->
+                               settype((static_pointer_cast<VariableBinding>((tempE->
                                                            getBinding())))->
                                                            gettype());
    #ifdef DEBUG
    //  std::cerr << "type is: "  << (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if ((reinterpret_pointer_cast<Varb>(tempE->getBinding()))->
+                           if ((reinterpret_pointer_cast<VariableBinding>(tempE->getBinding()))->
                                                       gettype() == type::INT ||
-                               (reinterpret_pointer_cast<Varb>(tempE->getBinding()))->
+                               (reinterpret_pointer_cast<VariableBinding>(tempE->getBinding()))->
                                                       gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
                            if (symbolTable->inCurrentScope(inPacket.getvalue()))
@@ -582,16 +582,16 @@ using njnr::List;
                            }
                            break;
                        case btype::PARAM:
-                           outPacket->settype((reinterpret_pointer_cast<Paramb>(tempE->
+                           outPacket->settype((reinterpret_pointer_cast<ParameterBinding>(tempE->
                                                    getBinding()))->gettype());
    #ifdef DEBUG
    //  std::cerr <<  "type is: " <<  (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if ((reinterpret_pointer_cast<Paramb>(tempE->
+                           if ((reinterpret_pointer_cast<ParameterBinding>(tempE->
                                                       getBinding()))->
                                                       gettype() == type::INT ||
-                               (reinterpret_pointer_cast<Paramb>(tempE->
+                               (reinterpret_pointer_cast<ParameterBinding>(tempE->
                                                        getBinding()))->
                                                        gettype() == type::FLOAT)
                                outPacket->setnumeric(true);

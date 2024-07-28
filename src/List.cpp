@@ -173,28 +173,28 @@ using njnr::TranslationUnitListNode;
        return list;
    }
 
-   std::shared_ptr<List> List::mklist(std::shared_ptr<Funcb> expr)
+   std::shared_ptr<List> List::mklist(std::shared_ptr<FunctionBinding> expr)
    {
       std::shared_ptr<List> spl = std::make_shared<List>();
       spl->appendList(expr);
        return spl;
    }
 
-   std::shared_ptr<List> List::mklist(std::shared_ptr<Varb> expr)
+   std::shared_ptr<List> List::mklist(std::shared_ptr<VariableBinding> expr)
    {
       std::shared_ptr<List> spl = std::make_shared<List>();
       spl->appendList(expr);
        return spl;
    }  // place holder type -- needs changing
 
-   bool List::appendList(std::shared_ptr<Funcb> expr)
+   bool List::appendList(std::shared_ptr<FunctionBinding> expr)
    {
        std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
        this->push_back(nnode);
        return true;
    }
 
-   bool List::appendList(std::shared_ptr<Varb> expr)
+   bool List::appendList(std::shared_ptr<VariableBinding> expr)
    {
        std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
        this->push_back(nnode);

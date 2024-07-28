@@ -4,7 +4,8 @@
 #include "ReturnPacket.hpp"
 #include "type.hpp"
 #include "symbol_table_entry.hpp"
-using namespace njnr;
+using njnr::ReturnPacket;
+using njnr::S_TableEntryX;
 
    ReturnPacket::ReturnPacket() : m_pair{},
                                   funcent{nullptr},

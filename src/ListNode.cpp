@@ -165,13 +165,13 @@ using njnr::TranslationUnitListNode;
    {
       set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
    }
-   TranslationUnitListNode::TranslationUnitListNode(std::shared_ptr<Funcb> infunc) :
+   TranslationUnitListNode::TranslationUnitListNode(std::shared_ptr<FunctionBinding> infunc) :
                              unit{infunc},
                              trans_type{njnr::trans_unit_type::FUNCTION}
    {
       set_nodeType(njnr::eNodeType::TRANSLATION_UNIT);
    }
-   TranslationUnitListNode::TranslationUnitListNode(std::shared_ptr<Varb> invardecl):
+   TranslationUnitListNode::TranslationUnitListNode(std::shared_ptr<VariableBinding> invardecl):
                              unit{invardecl},
                              trans_type{njnr::trans_unit_type::VARDECL}
    {
@@ -183,26 +183,26 @@ using njnr::TranslationUnitListNode;
    {
       return trans_type;
    }
-   const std::shared_ptr<Varb> TranslationUnitListNode::getVarDecl(void) const
+   const std::shared_ptr<VariableBinding> TranslationUnitListNode::getVarDecl(void) const
    {
-      std::shared_ptr<Varb> r{nullptr};
+      std::shared_ptr<VariableBinding> r{nullptr};
       if (trans_type == njnr::trans_unit_type::VARDECL)
       {
          if (nullptr != unit)
          {
-            r = std::dynamic_pointer_cast<Varb>(unit);
+            r = std::dynamic_pointer_cast<VariableBinding>(unit);
          }
       }
       return r;
    }
-   std::shared_ptr<Funcb> TranslationUnitListNode::getFunc(void) const
+   std::shared_ptr<FunctionBinding> TranslationUnitListNode::getFunc(void) const
    {
-      std::shared_ptr<Funcb> r{nullptr};
+      std::shared_ptr<FunctionBinding> r{nullptr};
       if (trans_type == njnr::trans_unit_type::FUNCTION)
       {
          if (nullptr != unit)
          {
-            r = std::dynamic_pointer_cast<Funcb>(unit);
+            r = std::dynamic_pointer_cast<FunctionBinding>(unit);
          }
       }
       return r;

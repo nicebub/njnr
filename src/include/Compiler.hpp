@@ -38,7 +38,7 @@ class Compiler
       CodeGenerator code_generator{};  // code generator
       njnrLexer                lexer;  // lexical analyzer
       njnrParser*           parser{};  // syntactic parser
-      std::shared_ptr<Funcb> currentFunc;  // stores current function reading
+      std::shared_ptr<FunctionBinding> currentFunc;  // stores current function reading
       std::ostream*          outfile;  // current output stream reference
       std::ifstream*          infile;  // current input file
       std::string           filename;  // name to file needing to output to
@@ -82,7 +82,7 @@ class Compiler
       void install_parameters_into_symbol_table_curren_scope(std::shared_ptr<FunctionHeader> \
                                                              inFuncHeaderptr);
 
-      std::shared_ptr<Funcb> create_full_function(std::shared_ptr<FunctionHeader> funcheader,
+      std::shared_ptr<FunctionBinding> create_full_function(std::shared_ptr<FunctionHeader> funcheader,
                                                   std::shared_ptr<List> funcbody);
       void block2_func_funcheader_source(std::shared_ptr<FunctionHeader> funcheaderptr);
       void block3_func_funcheader_source_funcbody();
@@ -157,8 +157,8 @@ class Compiler
 
       void dealwithstmtlist(std::shared_ptr<List> stmtlist);
 
-      std::shared_ptr<Funcb> create_and_return_a_fn_body_statement_element(std::shared_ptr<Statement> stmt);
-      std::shared_ptr<Funcb> add_statement_to_fn_body_and_return(std::shared_ptr<List>func,
+      std::shared_ptr<FunctionBinding> create_and_return_a_fn_body_statement_element(std::shared_ptr<Statement> stmt);
+      std::shared_ptr<FunctionBinding> add_statement_to_fn_body_and_return(std::shared_ptr<List>func,
                                                                  std::shared_ptr<Statement> stmt);
       std::shared_ptr<Statement> stmt_return_expr_semi(std::shared_ptr<ReturnPacket> inPacket);
 
@@ -299,7 +299,7 @@ class Compiler
       // void  setfinished(std::shared_ptr<List>inlist);
       void  setfinished(std::shared_ptr<List> inlist);
       void  printProgramTree(void);
-      void  checkfunctionReturnValues(std::shared_ptr<Funcb> f);
+      void  checkfunctionReturnValues(std::shared_ptr<FunctionBinding> f);
       bool  aresimilartypes(njnr::type t1, njnr::type t2);
       static std::string getStringFromType(njnr::type t);
       njnr::type getReturnTypeFromStatement(std::shared_ptr<Statement> s);

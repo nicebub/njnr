@@ -3,7 +3,10 @@
 
 #include "TranslationUnit.hpp"
 #include "type.hpp"
-using namespace njnr;
+using njnr::Translation_Unit;
+using njnr::trans_unit_type;
+using njnr::ReturnPacket;
+using njnr::report;
 
    const std::string Translation_Unit::toString() const
    {

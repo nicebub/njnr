@@ -4,17 +4,19 @@
 #include "ParameterBinding.hpp"
 #include "ReturnPacket.hpp"
 #include "type.hpp"
-using namespace njnr;
+using njnr::ParameterBinding;
+using njnr::ReturnPacket;
+using njnr::report;
 
-   const std::string Paramb::toString() const
+   const std::string ParameterBinding::toString() const
    {
       return ReturnPacket::toString();
    }
-   Paramb::Paramb() : ReturnPacket{} {}
-   Paramb::~Paramb()
+   ParameterBinding::ParameterBinding() : ReturnPacket{} {}
+   ParameterBinding::~ParameterBinding()
    {
       report(njnr::logType::debug,
-             "running Paramb() Destructor");
+             "running ParameterBinding() Destructor");
       report(njnr::logType::debug, this->toString());
 
    }

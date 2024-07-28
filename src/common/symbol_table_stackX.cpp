@@ -65,7 +65,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
    }
    else
    {
-      std::shared_ptr<Funcb> tBinding{new Funcb{returntype}};
+      std::shared_ptr<FunctionBinding> tBinding{new FunctionBinding{returntype}};
       tBinding->setvalue(name);
 
       if (paramlist != nullptr )
@@ -108,7 +108,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
 std::shared_ptr<S_TableEntryX> SymbolTableX::createVar(std::string name, type t_type,
                                        int offset)
 {
-   std::shared_ptr<Varb> tBindingV{new Varb{}};
+   std::shared_ptr<VariableBinding> tBindingV{new VariableBinding{}};
 
    tBindingV->settype(t_type);
    tBindingV->setoffset(offset);
@@ -129,7 +129,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createVar(std::string name, type t_
 std::shared_ptr<S_TableEntryX> SymbolTableX::createParam(std::string name, type t_type,
                                          int offset)
 {
-   std::shared_ptr<Paramb> tBindingP{new Paramb{}};
+   std::shared_ptr<ParameterBinding> tBindingP{new ParameterBinding{}};
 
    tBindingP->settype(t_type);
    tBindingP->setoffset(offset);

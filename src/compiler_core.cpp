@@ -113,8 +113,8 @@ namespace njnr
 
       if (symbolTable != nullptr)
       {
-//         Funcb* x{nullptr};
-         std::shared_ptr<Funcb> xx{nullptr};
+//         FunctionBinding* x{nullptr};
+         std::shared_ptr<FunctionBinding> xx{nullptr};
       try
       {
          std::shared_ptr<S_TableEntryX> e{nullptr};
@@ -122,8 +122,8 @@ namespace njnr
          debugprint("ade it before null check", "");
          if (nullptr != e)
          {
-            xx = std::shared_ptr<Funcb>{reinterpret_pointer_cast<Funcb>(e->getValue())};
-//            xx = *dynamic_cast<std::shared_ptr<Funcb>>(x);
+            xx = std::shared_ptr<FunctionBinding>{reinterpret_pointer_cast<FunctionBinding>(e->getValue())};
+//            xx = *dynamic_cast<std::shared_ptr<FunctionBinding>>(x);
             if (nullptr != xx)
             {
                debugprint("deleting a function binding for function main()",
@@ -143,7 +143,7 @@ namespace njnr
             }
             else
             {
-               debugprint("did not find Funcb for main", "");
+               debugprint("did not find FunctionBinding for main", "");
             }
          }
          else
@@ -483,7 +483,7 @@ namespace njnr
         return success;
     }
 
-    void Compiler::checkfunctionReturnValues(std::shared_ptr<Funcb> functionBinding)
+    void Compiler::checkfunctionReturnValues(std::shared_ptr<FunctionBinding> functionBinding)
     {
         njnr::type foundtype{njnr::type::VOID};
 
@@ -528,7 +528,7 @@ namespace njnr
            if( (t = dynamic_cast<TranslationUnitListNode*>(e))->get_trans_unit_type() ==
                 njnr::trans_unit_type::FUNCTION)
            {
-              Funcb* f{nullptr};
+              FunctionBinding* f{nullptr};
               if(nullptr != (f = t->getFunc()))
               {
 

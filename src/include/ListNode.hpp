@@ -98,9 +98,9 @@ class TranslationUnitListNode : public ListNode
 {
    public:
       TranslationUnitListNode();
-      explicit TranslationUnitListNode(std::shared_ptr<Funcb> infunc);
+      explicit TranslationUnitListNode(std::shared_ptr<FunctionBinding> infunc);
       // need to change actual class used this was placeholder
-      explicit TranslationUnitListNode(std::shared_ptr<Varb> invardecl);
+      explicit TranslationUnitListNode(std::shared_ptr<VariableBinding> invardecl);
       virtual ~TranslationUnitListNode()
       {
          report(njnr::logType::debug,
@@ -111,8 +111,8 @@ class TranslationUnitListNode : public ListNode
       }
       const std::string toString() const;
       const njnr::trans_unit_type get_trans_unit_type(void) const;
-      const std::shared_ptr<Varb> getVarDecl(void) const;
-      std::shared_ptr<Funcb> getFunc(void) const;
+      const std::shared_ptr<VariableBinding> getVarDecl(void) const;
+      std::shared_ptr<FunctionBinding> getFunc(void) const;
    private:
       std::shared_ptr<ReturnPacket>         unit;
       trans_unit_type                 trans_type;

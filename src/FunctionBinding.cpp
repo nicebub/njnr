@@ -4,8 +4,12 @@
 #include "type.hpp"
 #include "FunctionBinding.hpp"
 #include "Compiler.hpp"
-using namespace njnr;
-   Funcb::Funcb() : param_type{},
+using njnr::FunctionBinding;
+using njnr::ReturnPacket;
+using njnr::Compiler;
+using njnr::report;
+
+   FunctionBinding::FunctionBinding() : param_type{},
        returntype{njnr::type::VOID},
        bodydef{false},
        num_param{0},
@@ -15,7 +19,7 @@ using namespace njnr;
        funcheader{nullptr},
        funcbody_list{nullptr}
    {}
-   Funcb::Funcb(njnr::type returntype, bool bodydef, int num_param,
+   FunctionBinding::FunctionBinding(njnr::type returntype, bool bodydef, int num_param,
                 std::vector<njnr::type> param_type, int label,
                 int localcount, int actual_num) :
        param_type{param_type},
@@ -28,11 +32,11 @@ using namespace njnr;
        funcheader{nullptr},
        funcbody_list{nullptr}
    {}
-   Funcb::Funcb(njnr::type returntype) : Funcb{}
+   FunctionBinding::FunctionBinding(njnr::type returntype) : FunctionBinding{}
    {
        this->returntype = returntype;
    }
-   Funcb::Funcb(const Funcb& in) :
+   FunctionBinding::FunctionBinding(const FunctionBinding& in) :
        param_type{in.param_type},
        returntype{in.returntype},
        bodydef{in.bodydef},
@@ -46,7 +50,7 @@ using namespace njnr;
        setvalue(in.getvalue());
    }
 
-   Funcb& Funcb::operator=(const Funcb& in)
+   FunctionBinding& FunctionBinding::operator=(const FunctionBinding& in)
    {
        if (&in != this) {
            returntype = in.returntype;
@@ -62,10 +66,10 @@ using namespace njnr;
        }
        return *this;
    }
-   Funcb::~Funcb()
+   FunctionBinding::~FunctionBinding()
    {
-      report(njnr::logType::debug, "running Funcb() destructor");
-      report(njnr::logType::debug, "Funcb:" + this->toString());
+      report(njnr::logType::debug, "running FunctionBinding() destructor");
+      report(njnr::logType::debug, "FunctionBinding:" + this->toString());
 /*
       report(njnr::logType::debug,
              "bodydef"+ bodydef);
@@ -82,80 +86,80 @@ using namespace njnr;
       funcbody_list = nullptr;
       funcheader = nullptr;
     }
-   std::vector<njnr::type> Funcb::getparam_type()
+   std::vector<njnr::type> FunctionBinding::getparam_type()
    {
        return param_type;
    }
-   njnr::type Funcb::getreturntype()
+   njnr::type FunctionBinding::getreturntype()
    {
        return returntype;
    }
-   bool Funcb::getbodydef()
+   bool FunctionBinding::getbodydef()
    {
        return bodydef;
    }
-   int Funcb::getnum_param()
+   int FunctionBinding::getnum_param()
    {
        return num_param;
    }
-   int Funcb::getlabel()
+   int FunctionBinding::getlabel()
    {
        return label;
    }
-   int Funcb::getlocalcount()
+   int FunctionBinding::getlocalcount()
    {
        return localcount;
    }
-   int Funcb::getactual_num()
+   int FunctionBinding::getactual_num()
    {
        return actual_num;
    }
-   void Funcb::Funcb::setparam_type(std::vector<njnr::type> param_type)
+   void FunctionBinding::FunctionBinding::setparam_type(std::vector<njnr::type> param_type)
    {
        this->param_type = param_type;
    }
-   void Funcb::setreturntype(njnr::type returntype)
+   void FunctionBinding::setreturntype(njnr::type returntype)
    {
        this->returntype = returntype;
    }
-   void Funcb::setbodydef(bool bodydef)
+   void FunctionBinding::setbodydef(bool bodydef)
    {
        this->bodydef = bodydef;
    }
-   void Funcb::setnum_param(int num_param)
+   void FunctionBinding::setnum_param(int num_param)
    {
        this->num_param = num_param;
    }
-   void Funcb::setlabel(int label)
+   void FunctionBinding::setlabel(int label)
    {
        this->label = label;
    }
-   void Funcb::setlocalcount(int localcount)
+   void FunctionBinding::setlocalcount(int localcount)
    {
        this->localcount = localcount;
    }
-   void Funcb::setactual_num(int actual_num )
+   void FunctionBinding::setactual_num(int actual_num )
    {
        this->actual_num = actual_num;
    }
 
-   void Funcb::setfuncbody_list(std::shared_ptr<List> funcbody)
+   void FunctionBinding::setfuncbody_list(std::shared_ptr<List> funcbody)
    {
       funcbody_list = funcbody;
    }
-   std::shared_ptr<List> Funcb::getfuncbody_list(void)
+   std::shared_ptr<List> FunctionBinding::getfuncbody_list(void)
    {
     return funcbody_list;
    }
-   void Funcb::setfuncheader(std::shared_ptr<FunctionHeader> funcheader)
+   void FunctionBinding::setfuncheader(std::shared_ptr<FunctionHeader> funcheader)
    {
       this->funcheader = funcheader;
    }
-   std::shared_ptr<FunctionHeader> Funcb::getfuncheader(void)
+   std::shared_ptr<FunctionHeader> FunctionBinding::getfuncheader(void)
    {
     return funcheader;
    }
-   const std::string Funcb::toString() const
+   const std::string FunctionBinding::toString() const
    {
     /**
          std::vector<njnr::type> param_type;

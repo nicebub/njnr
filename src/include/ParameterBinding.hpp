@@ -9,11 +9,11 @@
 
 namespace njnr
 {
-class Paramb : public ReturnPacket
+class ParameterBinding : public ReturnPacket
 {
    public:
-      Paramb();
-      virtual ~Paramb();
+      ParameterBinding();
+      virtual ~ParameterBinding();
       const std::string toString() const;
    private:
 };

@@ -47,7 +47,7 @@ class CodeGenerator
       void gen_call(std::string funcname, int numargs);
 
       void setSymbolTable(SymbolTableX* s);
-      std::string getOutputTypeForCINType(std::shared_ptr<Funcb> f);
+      std::string getOutputTypeForCINType(std::shared_ptr<FunctionBinding> f);
       // concat 2 strings and return the answer, remember to
       // free it when done
       static std::string concat(std::string, std::string);
@@ -55,10 +55,10 @@ class CodeGenerator
       static void nullout(std::shared_ptr<std::string> name, int length);
       void generate(std::shared_ptr<List> f);
       void generateTranslationUnit(std::shared_ptr<njnr::TranslationUnitListNode> tn);
-      void generateFunction(std::shared_ptr<Funcb> f);
+      void generateFunction(std::shared_ptr<FunctionBinding> f);
       void generateStatement(std::shared_ptr<njnr::StmtListNode> e);
       void generateReturnStatement(std::shared_ptr<Statement> s);
-      void generateVariabledeclarations(std::shared_ptr<Funcb> f);
+      void generateVariabledeclarations(std::shared_ptr<FunctionBinding> f);
 
    private:
       // Which lable number are we on in generating labels

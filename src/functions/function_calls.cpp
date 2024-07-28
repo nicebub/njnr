@@ -18,10 +18,10 @@ namespace njnr
        njnr::Identifier inIdent{inIdent_original};
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
        outPacket->setlval(false);
-       std::shared_ptr<Funcb> tempb;
+       std::shared_ptr<FunctionBinding> tempb;
        S_TableEntryX tempE;
        std::shared_ptr<S_TableEntryX> tempE2;
-       if ((tempb = reinterpret_pointer_cast<Funcb>(symbolTable->
+       if ((tempb = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
                                             lookup(inIdent.getvalue()))) ==
                                             nullptr)
        {
@@ -96,7 +96,7 @@ namespace njnr
                                             funcent))->
                                             getGroup() == btype::FUNC)
            {
-               if ((reinterpret_pointer_cast<Funcb>(
+               if ((reinterpret_pointer_cast<FunctionBinding>(
                                static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                             funcent)->
                                             getBinding()))->
@@ -123,13 +123,13 @@ namespace njnr
            }
            else
            {
-               if ((reinterpret_pointer_cast<Funcb>(
+               if ((reinterpret_pointer_cast<FunctionBinding>(
                       static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                   funcent)->
                                                   getBinding()))->
                                                   getlabel() == 0)
                {
-                   (reinterpret_pointer_cast<Funcb>(
+                   (reinterpret_pointer_cast<FunctionBinding>(
                        static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                    funcent)->
                                                    getBinding()))->
@@ -140,12 +140,12 @@ namespace njnr
                         code_generator.genlabelw(
                             static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                         funcent)->getName(),
-                            (reinterpret_pointer_cast<Funcb>(
+                            (reinterpret_pointer_cast<FunctionBinding>(
                                 static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                             funcent)->
                                                             getBinding()))->
                                                             getlabel()),
-                            (reinterpret_pointer_cast<Funcb>(
+                            (reinterpret_pointer_cast<FunctionBinding>(
                                 static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                             funcent)->
                                                             getBinding()))->
@@ -195,8 +195,8 @@ namespace njnr
        std::shared_ptr<ReturnPacket> inPacket{inPacketptr};
        std::shared_ptr<ReturnPacket> inEntry{inEntryptr};
        outPacket->setlval(false);
-       std::shared_ptr<Funcb> tempB;
-       tempB = reinterpret_pointer_cast<Funcb>(symbolTable->
+       std::shared_ptr<FunctionBinding> tempB;
+       tempB = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
                                         lookup(inIdent.getvalue()));
        if (tempB == nullptr)
        {
@@ -361,7 +361,7 @@ namespace njnr
        std::shared_ptr<S_TableEntryX> tempE;
        std::shared_ptr<S_TableEntryX> tempE2;
        outPacket->setlval(false);
-       std::shared_ptr<Funcb> tempB;
+       std::shared_ptr<FunctionBinding> tempB;
        if (innameAndparamPacket->funcent == nullptr)
        {
            error("function undelcared, please declare functions " \
@@ -378,7 +378,7 @@ namespace njnr
                                      innameAndparamPacket->funcent,
                                      njnr::type::IDENT));
 
-           tempB = reinterpret_pointer_cast<Funcb>(symbolTable->
+           tempB = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
                                            lookup(
                              static_pointer_cast<S_TableEntryX>(innameAndparamPacket->
                                                          funcent)->
