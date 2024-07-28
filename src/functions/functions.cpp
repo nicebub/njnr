@@ -13,11 +13,11 @@
 
 namespace njnr
 {
-   std::shared_ptr<Funcb> Compiler::create_full_function(std::shared_ptr<funcheadertype> funcheader,
+   std::shared_ptr<Funcb> Compiler::create_full_function(std::shared_ptr<FunctionHeader> funcheader,
                                          std::shared_ptr<List> funcbody)
    {
     /**
-     *    funcheadertype
+     *    FunctionHeader
      *      std::string   name;       // fn name
       std::shared_ptr<njnr::List>   paramlist;  // list of parameters the fn accept as input
       njnr::type    returntype; // return type(if any) of fn
@@ -42,7 +42,7 @@ namespace njnr
    }
 
    void Compiler::block2_func_funcheader_source(\
-                                 std::shared_ptr<funcheadertype> inFuncHeaderptr)
+                                 std::shared_ptr<FunctionHeader> inFuncHeaderptr)
    {
        auto templabel{mainlabel};
        if (is_function_decl_or_def_accurate(inFuncHeaderptr, false))
@@ -65,7 +65,7 @@ namespace njnr
        symbolTable->closescope();
    }
 
-   void Compiler::block4_func_funcheader_semi(std::shared_ptr<funcheadertype> inFuncHeader)
+   void Compiler::block4_func_funcheader_semi(std::shared_ptr<FunctionHeader> inFuncHeader)
    {
        njnr::S_TableEntryX found = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                                          lookupB(inFuncHeader->
@@ -77,10 +77,10 @@ namespace njnr
        is_function_decl_or_def_accurate(inFuncHeader, true);
    }
 
-   void Compiler::block5_funcheader_error_semi(std::shared_ptr<funcheadertype> inFuncHeaderptr)
+   void Compiler::block5_funcheader_error_semi(std::shared_ptr<FunctionHeader> inFuncHeaderptr)
    {
     /*
-       std::shared_ptr<funcheadertype> inFuncHeader{inFuncHeaderptr};
+       std::shared_ptr<FunctionHeader> inFuncHeader{inFuncHeaderptr};
        if (inFuncHeader != nullptr)
        {
            inFuncHeader = nullptr;
@@ -88,16 +88,16 @@ namespace njnr
        */
    }
 
-   std::shared_ptr<funcheadertype>  Compiler::
+   std::shared_ptr<FunctionHeader>  Compiler::
                     funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
                                                    std::string inIdent_original,
                                                    std::shared_ptr<List> inParamdeflist = nullptr,
                                                    njnr::type inreturntype = njnr::type::VOID)
    {
       njnr::Identifier inIdent{inIdent_original};
-      std::shared_ptr<funcheadertype> retFuncHeader{nullptr};
+      std::shared_ptr<FunctionHeader> retFuncHeader{nullptr};
 
-      retFuncHeader             = std::shared_ptr<funcheadertype>(new funcheadertype{});
+      retFuncHeader             = std::shared_ptr<FunctionHeader>(new FunctionHeader{});
       if (nullptr != retFuncHeader)
       {
          retFuncHeader->returntype = inreturntype;

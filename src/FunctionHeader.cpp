@@ -7,7 +7,7 @@
 
 namespace njnr
 {
-   const std::string funcheadertype::toString() const
+   const std::string FunctionHeader::toString() const
    {
       std::string r = "";
       r += "name: " + name + "\n";
@@ -19,10 +19,10 @@ namespace njnr
       }
       return r;
    }
-   funcheadertype::~funcheadertype()
+   FunctionHeader::~FunctionHeader()
    {
       report(njnr::logType::debug,
-             "running funcheadertype() Destructor");
+             "running FunctionHeader() Destructor");
       paramlist = nullptr;
    }
 }  // namespace njnr

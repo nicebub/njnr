@@ -11,9 +11,9 @@ namespace njnr
       return false
 
    void Compiler::install_parameters_into_symbol_table_curren_scope(\
-                                              std::shared_ptr<funcheadertype> inFuncHeaderptr)
+                                              std::shared_ptr<FunctionHeader> inFuncHeaderptr)
    {
-      std::shared_ptr<funcheadertype> inFuncHeader{
+      std::shared_ptr<FunctionHeader> inFuncHeader{
                                                    inFuncHeaderptr
                                                   };
       for (auto element : *inFuncHeader->paramlist)
@@ -30,10 +30,10 @@ namespace njnr
       }
    }
    bool Compiler::is_function_decl_or_def_accurate(\
-                                     std::shared_ptr<funcheadertype> inFuncHeaderptr,
+                                     std::shared_ptr<FunctionHeader> inFuncHeaderptr,
                                                    bool isdeclaration)
    {
-      std::shared_ptr<funcheadertype> inFuncHeader{
+      std::shared_ptr<FunctionHeader> inFuncHeader{
                                                    inFuncHeaderptr
                                                   };
 

@@ -30,7 +30,7 @@ public:
         Pair                     pairvalue;
         std::shared_ptr<exprtype> exprvalue;
         reltype                 relopvalue;
-        shared_ptr<funcheadertype> funcheadervalue;
+        shared_ptr<FunctionHeader> funcheadervalue;
         // Entry *funcentvalue;
     } value;
 

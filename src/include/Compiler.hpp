@@ -76,49 +76,49 @@ class Compiler
       int warning(std::string, std::string) noexcept;
 
       void block1_start_trans_unit();
-      bool is_function_decl_or_def_accurate(std::shared_ptr<funcheadertype> inFunc,
+      bool is_function_decl_or_def_accurate(std::shared_ptr<FunctionHeader> inFunc,
                                             bool isdeclaration);
 
-      void install_parameters_into_symbol_table_curren_scope(std::shared_ptr<funcheadertype> \
+      void install_parameters_into_symbol_table_curren_scope(std::shared_ptr<FunctionHeader> \
                                                              inFuncHeaderptr);
 
-      std::shared_ptr<Funcb> create_full_function(std::shared_ptr<funcheadertype> funcheader,
+      std::shared_ptr<Funcb> create_full_function(std::shared_ptr<FunctionHeader> funcheader,
                                                   std::shared_ptr<List> funcbody);
-      void block2_func_funcheader_source(std::shared_ptr<funcheadertype> funcheaderptr);
+      void block2_func_funcheader_source(std::shared_ptr<FunctionHeader> funcheaderptr);
       void block3_func_funcheader_source_funcbody();
-      void block4_func_funcheader_semi(std::shared_ptr<funcheadertype> inFuncHeaderptr);
+      void block4_func_funcheader_semi(std::shared_ptr<FunctionHeader> inFuncHeaderptr);
 
-      void block5_funcheader_error_semi(std::shared_ptr<funcheadertype> inFuncHeaderptr);
+      void block5_funcheader_error_semi(std::shared_ptr<FunctionHeader> inFuncHeaderptr);
 
-      std::shared_ptr<funcheadertype> funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
+      std::shared_ptr<FunctionHeader> funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
                                         std::string inIdent,
                                         std::shared_ptr<List> inParamdeflist,
                                         njnr::type inreturntype);
 
 
-      std::shared_ptr<funcheadertype> block6_funcheader_void_ident_lpar_paramdef_rpar(\
+      std::shared_ptr<FunctionHeader> block6_funcheader_void_ident_lpar_paramdef_rpar(\
                             std::string ident,
                             std::shared_ptr<List> paramdeflist);
 
-      std::shared_ptr<funcheadertype> block7_funcheader_int_ident_lpar_paramdef_rpar(\
+      std::shared_ptr<FunctionHeader> block7_funcheader_int_ident_lpar_paramdef_rpar(\
                         std::string inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
-      std::shared_ptr<funcheadertype> block8_funcheader_float_ident_lpar_paramdef_rpar(\
+      std::shared_ptr<FunctionHeader> block8_funcheader_float_ident_lpar_paramdef_rpar(\
                         std::string inIdent,
                         std::shared_ptr<List> inParamdeflist);
 
-      std::shared_ptr<funcheadertype> block9_funcheader_void_error_rpar();
-      std::shared_ptr<funcheadertype> block10_funcheader_int_error_rpar();
-      std::shared_ptr<funcheadertype> block11_funcheader_float_error_rpar();
+      std::shared_ptr<FunctionHeader> block9_funcheader_void_error_rpar();
+      std::shared_ptr<FunctionHeader> block10_funcheader_int_error_rpar();
+      std::shared_ptr<FunctionHeader> block11_funcheader_float_error_rpar();
 
-      std::shared_ptr<funcheadertype> block12_funcheader_void_ident_lpar_error_rpar(\
+      std::shared_ptr<FunctionHeader> block12_funcheader_void_ident_lpar_error_rpar(\
                                                 std::string inIdent);
 
-      std::shared_ptr<funcheadertype> block13_funcheader_float_ident_lpar_error_rpar(\
+      std::shared_ptr<FunctionHeader> block13_funcheader_float_ident_lpar_error_rpar(\
                                                 std::string inIdent);
 
-      std::shared_ptr<funcheadertype> block14_funcheader_int_ident_lpar_error_rpar(\
+      std::shared_ptr<FunctionHeader> block14_funcheader_int_ident_lpar_error_rpar(\
                                                 std::string inIdent);
 
       std::shared_ptr<List>block15_paramdef_paramdeflist_comma_elip(std::shared_ptr<List> inParamdeflistptr);

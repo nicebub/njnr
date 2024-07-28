@@ -1,3 +1,4 @@
+#include <config.h>
 #include <string>
 #include "type.hpp"
 #include "Constant.hpp"

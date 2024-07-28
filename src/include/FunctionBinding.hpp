@@ -10,7 +10,7 @@
 //#include "Constant.hpp"
 #include "Identifier.hpp"
 //#include "List.hpp"
-
+#include "FunctionHeader.hpp"
 namespace njnr
 {
 class Funcb : public Identifier
@@ -27,7 +27,7 @@ class Funcb : public Identifier
       Funcb(njnr::type returntype, bool bodydef, int num_param,
             std::vector<njnr::type> param_type, int label,
             int localcount, int actual_num,
-            std::shared_ptr<funcheadertype> funcheader,
+            std::shared_ptr<FunctionHeader> funcheader,
             std::shared_ptr<List> funcbody_list);
 
       Funcb(const Funcb& in);
@@ -49,8 +49,8 @@ class Funcb : public Identifier
       void setactual_num(int actual_num);
       void setfuncbody_list(std::shared_ptr<List> funcbody);
       std::shared_ptr<List> getfuncbody_list(void);
-      void setfuncheader(std::shared_ptr<funcheadertype> funcheader);
-      std::shared_ptr<funcheadertype> getfuncheader(void);
+      void setfuncheader(std::shared_ptr<FunctionHeader> funcheader);
+      std::shared_ptr<FunctionHeader> getfuncheader(void);
       const std::string toString() const;
    private:
       std::vector<njnr::type> param_type;
@@ -60,7 +60,7 @@ class Funcb : public Identifier
       int   label;
       int   localcount;
       int   actual_num;
-      std::shared_ptr<funcheadertype> funcheader;
+      std::shared_ptr<FunctionHeader> funcheader;
       std::shared_ptr<List> funcbody_list;
 };
 }  // namespace njnr

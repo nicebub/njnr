@@ -1,3 +1,4 @@
+#include <config.h>
 #include <string>
 
 #include "type.hpp"
@@ -146,11 +147,11 @@ using namespace njnr;
    {
     return funcbody_list;
    }
-   void Funcb::setfuncheader(std::shared_ptr<funcheadertype> funcheader)
+   void Funcb::setfuncheader(std::shared_ptr<FunctionHeader> funcheader)
    {
       this->funcheader = funcheader;
    }
-   std::shared_ptr<funcheadertype> Funcb::getfuncheader(void)
+   std::shared_ptr<FunctionHeader> Funcb::getfuncheader(void)
    {
     return funcheader;
    }
@@ -164,7 +165,7 @@ using namespace njnr;
          int    label;
          int    localcount;
          int    actual_num;
-         std::shared_ptr<funcheadertype> funcheader;
+         std::shared_ptr<FunctionHeader> funcheader;
          std::shared_ptr<List> funcbody_list;
      */
 

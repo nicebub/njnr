@@ -1,7 +1,7 @@
 bin_PROGRAMS = njnr
 LEXERSOURCES = njnr.tab.cpp lex.yy.cc location.hh njnr.tab.hpp
 
-njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp
+njnrSOURCES = command.cpp compiler_core.cpp debug.cpp
 njnrSOURCES += getopt.cpp helper.cpp lex.cpp List.cpp ListNode.cpp
 njnrSOURCES += main.cpp operator.cpp parser_functions.cpp
 njnrSOURCES += CodeGenerator.cpp common/symbol_table.cpp common/symbol_table_stack.cpp
@@ -10,7 +10,7 @@ njnrSOURCES += expressions/expressions.cpp
 njnrSOURCES += functions/function_calls.cpp functions/functions.cpp
 njnrSOURCES += statements/statements.cpp Constant.cpp FunctionBinding.cpp
 njnrSOURCES += Identifier.cpp ParameterBinding.cpp ReturnPacket.cpp Statement.cpp
-njnrSOURCES += TranslationUnit.cpp VariableBinding.cpp
+njnrSOURCES += TranslationUnit.cpp VariableBinding.cpp FunctionHeader.cpp
 njnrSOURCES += include/debug.hpp include/type.hpp include/List.hpp
 njnrSOURCES += include/ListNode.hpp include/Constant.hpp include/common/symbol_table_stackX.hpp
 njnrSOURCES += include/common/symbol_table_stack.hpp include/common/symbol_table.hpp
@@ -21,6 +21,7 @@ njnrSOURCES += include/common/symbol_table_stack_templates.h include/ReturnPacke
 njnrSOURCES += include/BaseData.hpp include/ParameterBinding.hpp include/Statement.hpp
 njnrSOURCES += include/FunctionBinding.hpp include/Identifier.hpp include/VariableBinding.hpp
 njnrSOURCES += include/TSType.hpp include/TSAbstractType.hpp include/TranslationUnit.hpp
+njnrSOURCES += include/FunctionHeader.hpp
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 
