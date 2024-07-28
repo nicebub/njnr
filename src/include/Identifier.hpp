@@ -5,7 +5,6 @@
 #include <string>
 
 #include "type.hpp"
-#include "cpptypes.hpp"
 #include "Constant.hpp"
 #include "Identifier.hpp"
 

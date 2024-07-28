@@ -1,5 +1,4 @@
 #include <config.h>
-#include "cpptypes.hpp"
 #include "type.hpp"
 #include "List.hpp"
 #include "ReturnPacket.hpp"

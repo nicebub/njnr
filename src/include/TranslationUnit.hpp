@@ -26,5 +26,5 @@ class Translation_Unit : public ReturnPacket
       std::shared_ptr<ReturnPacket> translation;
       trans_unit_type trans_type;
 };
-}
+}  // namespace njnr
 #endif // SRC_INCLUDE_TRANSLATIONUNIT_HPP_

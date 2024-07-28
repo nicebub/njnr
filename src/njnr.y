@@ -14,7 +14,6 @@
 #include "data.hpp
 #include "CodeGenerator.hpp"
 #include "lex.hpp"
-#include "cpptypes.hpp"
 */
 
 using namespace njnr;
@@ -55,7 +54,6 @@ int yyerror(std::string err,Compiler* compiler);
        class S_TableEntryX;
     }
     #include <config.h>
-    #include "cpptypes.hpp"
     #include "List.hpp"
     #include "type.hpp"
     #include "operator.hpp"

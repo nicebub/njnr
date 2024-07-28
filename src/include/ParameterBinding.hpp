@@ -4,7 +4,6 @@
 #include <config.h>
 #include <string>
 
-#include "cpptypes.hpp"
 #include "type.hpp"
 #include "ReturnPacket.hpp"
 

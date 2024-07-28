@@ -6,7 +6,6 @@
 #include <memory>
 
 #include "type.hpp"
-#include "cpptypes.hpp"
 #include "Constant.hpp"
 #include "ReturnPacket.hpp"
 #include "Statement.hpp"

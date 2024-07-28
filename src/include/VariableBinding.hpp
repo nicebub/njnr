@@ -4,7 +4,6 @@
 #include <config.h>
 #include <string>
 
-#include "cpptypes.hpp"
 #include "Identifier.hpp"
 
 namespace njnr
