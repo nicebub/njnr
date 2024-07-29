@@ -4,6 +4,7 @@
 #include <config.h>
 #include <map>
 #include <string>
+#include <memory>
 
 #include "type.hpp"
 

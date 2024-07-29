@@ -5,6 +5,7 @@
 
 #include "symbol_table.hpp"
 #include "symbol_table_stack.hpp"
+#include "symbol_table_stackX.hpp"
 
 using njnr::SymbolTable;
 using njnr::SymbolTableX;

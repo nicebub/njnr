@@ -5,11 +5,14 @@
 #include <string>
 
 #include "type.hpp"                // for njnr::type
+#include "ParameterBinding.hpp"
 #include "symbol_table_stack.hpp"  // for class SymbolTable
 #include "symbol_table_entry.hpp"  // for class S_TableEntry
-#include "compiler.hpp"            // for class Compiler
+#include "List.hpp"
+
 namespace njnr
 {
+class Compiler;
 /**
  * @brief extension to class for specifics
  * 

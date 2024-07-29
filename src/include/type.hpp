@@ -3,13 +3,9 @@
 
 #include <config.h>
 #include <string>
-#include <memory>
 #include <map>
 namespace njnr
 {
-/* defined elsewhere but need below */
-class List;
-
 /* additive operator types */
 
 /* multiplicitive operator types */
@@ -33,7 +29,8 @@ enum class reltype
 
 enum class logType
 {
-   debug, error
+   debug,
+   error
 };
 
 /* group types */
@@ -82,12 +79,6 @@ static const std::map<njnr::type, std::string> typeToStringMap
    {njnr::type::OPERATOR, "OPERATOR"},
 };
 
-/* boolean types */
-enum class mbool
-{
-   TRUE,  // true
-   FALSE  // false
-};
 
 /* statement types */
 enum class statement_type
@@ -126,141 +117,22 @@ struct Pair
    }
 };
 
-/* expression type data structure */
+void report(njnr::logType t, std::string s);
+
+/* unused types from older architecture
+// expression type data structure
 struct exprtype
 {
    bool lval;        // are we an lval or not - LHS vs RHS
    bool numeric;     // are we numeric and can compute numbers
    njnr::type type;  // what type of expression are we
 };
-
-void report(njnr::logType t, std::string s);
-
-/* function prototype data structure */
-class funcheadertype
+// boolean types
+enum class mbool
 {
-   public:
-   funcheadertype() : name{""},
-                      paramlist{nullptr},
-                      returntype{njnr::type::VOID},
-                      ttype{njnr::type::VOID}
-                      {}
-
-   virtual ~funcheadertype();
-   const std::string toString() const;
-   std::string   name;        // fn name
-   std::shared_ptr<njnr::List>   paramlist;   // list of parameters the fn accept as input
-   njnr::type    returntype;  // return type(if any) of fn
-   njnr::type    ttype;       // type of fn?(TBD)
+   TRUE,  // true
+   FALSE  // false
 };
-/**
- * @brief Type System Type Abstract Class Interface
- * 
- */
-class TSAbstractType
-{
-   public:
-      TSAbstractType() : typeValue{"AbstractType__NA__()"} {};
-
-      explicit TSAbstractType(const std::string typeValue) :
-                                 typeValue{"AbstractType" + typeValue+"()"} {}
-
-      virtual                     ~TSAbstractType()
-      {
-         report(njnr::logType::debug,
-                "running TSAbstractType() destructor");
-         report(njnr::logType::debug, "typeValue" + typeValue);
-      }
-
-      virtual   const bool             getNumeric()    const noexcept = 0;
-      virtual   const bool                getLVal()    const noexcept = 0;
-
-      virtual   const std::string        toString()    const noexcept = 0;
-      virtual   const std::string    getTypeValue()    const noexcept = 0;
-      virtual   const njnr::type          getType()    const noexcept = 0;
-      virtual TSAbstractType& operator=(const TSAbstractType& t)
-      {
-         if (const_cast<TSAbstractType*>(&t) != this)
-         {
-            this->typeValue = t.typeValue;
-         }
-         return *this;
-      }
-
-   protected:
-      std::string typeValue;
-};
-
-/**
- * @brief Generic lower-level implementation of Abstract Class Interface
- *         TSAbstractType
- * 
- */
-class TSType : public TSAbstractType
-{
-   public:
-      TSType() : TSAbstractType("GenericType__NA__()"),
-                                isNumeric{false},
-                                isLval{false} {};
-
-      explicit TSType(const std::string typeValue) :
-                   TSAbstractType("GenericType" + typeValue + "()"),
-                   isNumeric{false},
-                   isLval{false} {};
-
-
-      TSType(const std::string typeValue,
-             const bool isNumeric,
-             const bool isLval = false) :
-             TSAbstractType("GenericType" + typeValue + "()"),
-             isNumeric{isNumeric},
-             isLval{isLval} {};
-
-      virtual ~TSType()
-      {
-         report(njnr::logType::debug,
-                "running TSType() Destructor");
-         report(njnr::logType::debug, this->toString());
-         report(njnr::logType::debug, "isnumeric" + isNumeric);
-         report(njnr::logType::debug, "isLval" + isLval);
-      }
-
-      virtual const bool getNumeric()          const noexcept
-      {
-         return isNumeric;
-      }
-      virtual const bool getLVal()             const noexcept
-      {
-         return isLval;
-      }
-
-      virtual const std::string toString()     const noexcept
-      {
-         return typeValue;
-      }
-      virtual const std::string getTypeValue() const noexcept
-      {
-         return typeValue;
-      }
-      virtual const njnr::type getType()       const noexcept
-      {
-         return njnr::type::VOID;
-      }
-
-      virtual TSType& operator=(const TSType& t)
-      {
-         if (const_cast<TSType*>(&t) != this)
-         {
-            this->typeValue = t.typeValue;
-            this->isNumeric = t.isNumeric;
-            this->isLval = t.isLval;
-         }
-         return *this;
-      }
-
-   private:
-      bool isNumeric;
-      bool isLval;
-};
+*/
 }  // namespace njnr
 #endif  // SRC_INCLUDE_TYPE_HPP_

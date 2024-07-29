@@ -2,9 +2,9 @@
 #include <string>
 #include <istream>
 
-#include "lex.hpp"
+#include "njnrLexer.hpp"
 #include "location.hh"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 using njnr::njnrLexer;
 

@@ -10,7 +10,7 @@
 #endif
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 using njnr::Compiler;
 
@@ -22,7 +22,7 @@ int main(int argc,  char * const *argv)
    int ret{EXIT_FAILURE};
 
    /* Compiler object to store compiler state while....compiling */
-   Compiler* compiler{new Compiler{}};
+   std::shared_ptr<Compiler> compiler = std::make_shared<Compiler>();
    /* process command-line arguments */
    njnr_getopt(&argc, &argv);
 
@@ -58,7 +58,6 @@ int main(int argc,  char * const *argv)
       ret = EXIT_SUCCESS;
    }
    std::cout << "deleting compiler" << std::endl;
-    delete compiler;
     compiler = nullptr;
    return ret;
 }

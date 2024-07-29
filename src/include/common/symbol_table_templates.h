@@ -4,7 +4,7 @@
 #include <config.h>
 #include <string>
 #include "symbol_table_entry.hpp"
-#include "operator.hpp"
+#include "Operator.hpp"
 template bool Table::install(std::string key, std::shared_ptr<S_TableEntryX> value);
 template bool Table::install(std::string key, std::shared_ptr<TSOperatorType> value);
 // get data for symbol

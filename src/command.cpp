@@ -4,7 +4,7 @@
 #include <fstream>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 namespace njnr
 {
    bool Compiler::filenameDoesEndsInDotN(\
@@ -27,12 +27,12 @@ namespace njnr
             {
                 try
                 {
-                    std::ifstream* inputStream{};
-                    inputStream = new std::ifstream{argv[1]};
+                    std::shared_ptr<std::ifstream> inputStream;
+                    inputStream = std::make_shared<std::ifstream>(argv[1]);
                     if (inputStream->is_open())
                     {
                         infile = inputStream;
-                        lexer.switch_streams(inputStream);
+                        lexer.switch_streams(*infile, std::cout);
                         return true;
                     }
                 }
@@ -49,7 +49,7 @@ namespace njnr
        }
        else
        {
-            lexer.switch_streams(&std::cin);
+            lexer.switch_streams(std::cin, std::cout);
            return true;
        }
        return false;

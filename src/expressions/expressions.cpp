@@ -3,7 +3,8 @@
 #include <cstdio>
 #include <iostream>
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
+#include "ReturnPacket.hpp"
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
@@ -16,8 +17,8 @@ using njnr::Constant;
 using njnr::S_TableEntryX;
 using njnr::Identifier;
 using njnr::btype;
-using njnr::Varb;
-using njnr::Paramb;
+using njnr::VariableBinding;
+using njnr::ParameterBinding;
 using njnr::List;
 
    std::shared_ptr<ReturnPacket> Compiler::block40_expr_equalexpr_equal_equalexpr(\
@@ -87,7 +88,7 @@ using njnr::List;
        return std::shared_ptr<ReturnPacket>(new ReturnPacket{false, njnr::type::INT, true, 0});
    }
    std::shared_ptr<ReturnPacket> Compiler::block43_equalexpr_relexpr_eqop_source_relexpr(\
-                          Operator* ineqop, std::shared_ptr<ReturnPacket> relexprPacketptr,
+                          std::shared_ptr<Operator> ineqop, std::shared_ptr<ReturnPacket> relexprPacketptr,
                           std::shared_ptr<ReturnPacket> otherrelexprPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
@@ -168,7 +169,7 @@ using njnr::List;
    }
    std::shared_ptr<ReturnPacket> Compiler::block46_relexpr_simpleexpr_relop_source_simpleexpr(\
                                std::shared_ptr<ReturnPacket> simpleexprPacketptr,
-                               Operator* inrelop,
+                               std::shared_ptr<Operator> inrelop,
                                std::shared_ptr<ReturnPacket> othersimpleexprPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
@@ -257,7 +258,7 @@ using njnr::List;
 
    std::shared_ptr<ReturnPacket> Compiler::block49_simpleexpr_simpleexpr_addop_source_term(\
                                   std::shared_ptr<ReturnPacket> simpleexprPacketptr,
-                                  Operator* inaddop,
+                                  std::shared_ptr<Operator> inaddop,
                                   std::shared_ptr<ReturnPacket> termPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
@@ -330,7 +331,7 @@ using njnr::List;
    }
    std::shared_ptr<ReturnPacket> Compiler::block52_term_term_mulop_source_factor(\
                                      std::shared_ptr<ReturnPacket> intermPacketptr,
-                                     Operator* inmulop,
+                                     std::shared_ptr<Operator> inmulop,
                                      std::shared_ptr<ReturnPacket> infactorPacketptr)
    {
        std::shared_ptr<ReturnPacket> outtermPacket{new ReturnPacket{}};
@@ -483,7 +484,7 @@ using njnr::List;
    }
 
    std::shared_ptr<ReturnPacket> Compiler::block57_factor_addop_factor_uminus(\
-                                        Operator* inop,
+                                        std::shared_ptr<Operator> inop,
                                         std::shared_ptr<ReturnPacket> inPacketptr)
    {
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
@@ -550,16 +551,16 @@ using njnr::List;
                        {
                        case btype::VAR:
                            outPacket->
-                               settype((static_pointer_cast<Varb>((tempE->
+                               settype((static_pointer_cast<VariableBinding>((tempE->
                                                            getBinding())))->
                                                            gettype());
    #ifdef DEBUG
    //  std::cerr << "type is: "  << (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if ((reinterpret_pointer_cast<Varb>(tempE->getBinding()))->
+                           if ((reinterpret_pointer_cast<VariableBinding>(tempE->getBinding()))->
                                                       gettype() == type::INT ||
-                               (reinterpret_pointer_cast<Varb>(tempE->getBinding()))->
+                               (reinterpret_pointer_cast<VariableBinding>(tempE->getBinding()))->
                                                       gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
                            if (symbolTable->inCurrentScope(inPacket.getvalue()))
@@ -581,16 +582,16 @@ using njnr::List;
                            }
                            break;
                        case btype::PARAM:
-                           outPacket->settype((reinterpret_pointer_cast<Paramb>(tempE->
+                           outPacket->settype((reinterpret_pointer_cast<ParameterBinding>(tempE->
                                                    getBinding()))->gettype());
    #ifdef DEBUG
    //  std::cerr <<  "type is: " <<  (int)outPacket->gettype()) << std::endl;
    #endif
                            outPacket->setlval(false);
-                           if ((reinterpret_pointer_cast<Paramb>(tempE->
+                           if ((reinterpret_pointer_cast<ParameterBinding>(tempE->
                                                       getBinding()))->
                                                       gettype() == type::INT ||
-                               (reinterpret_pointer_cast<Paramb>(tempE->
+                               (reinterpret_pointer_cast<ParameterBinding>(tempE->
                                                        getBinding()))->
                                                        gettype() == type::FLOAT)
                                outPacket->setnumeric(true);

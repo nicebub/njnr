@@ -5,15 +5,14 @@
 #include <memory>
 
 #include "debug.hpp"
+#include "ReturnPacket.hpp"
 #include "symbol_table_stackX.hpp"
 
 /*
 #include "type.hpp"
 #include "List.hpp"
-#include "data.hpp
 #include "CodeGenerator.hpp"
-#include "lex.hpp"
-#include "cpptypes.hpp"
+#include "njnrLexer.hpp"
 */
 
 using namespace njnr;
@@ -24,7 +23,7 @@ using namespace njnr;
 #endif
 #define YYERROR_VERBOSE 1
 
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 int yyerror(std::string err,Compiler* compiler);
 %}
@@ -54,10 +53,9 @@ int yyerror(std::string err,Compiler* compiler);
        class S_TableEntryX;
     }
     #include <config.h>
-    #include "cpptypes.hpp"
     #include "List.hpp"
     #include "type.hpp"
-    #include "operator.hpp"
+    #include "Operator.hpp"
     using namespace njnr;
 
     # if !defined __EXCEPTIONS
@@ -159,10 +157,10 @@ int yyerror(std::string err,Compiler* compiler);
 
 
 %type <std::shared_ptr<List>> identlist
-%type <Operator*> relop
-%type <Operator*> mulop
-%type <Operator*> addop
-%type <Operator*> eqop
+%type <std::shared_ptr<Operator>> relop
+%type <std::shared_ptr<Operator>> mulop
+%type <std::shared_ptr<Operator>> addop
+%type <std::shared_ptr<Operator>> eqop
 
 %type <std::string> whilet ift elset
 %type <std::string> intt
@@ -175,11 +173,11 @@ int yyerror(std::string err,Compiler* compiler);
 %type <std::string> uminus
 //%type <List*> translation_unit funcbody_internal funcbody
 %type <std::shared_ptr<List>> translation_unit_part_list translation_unit funcbody_internal funcbody
-//%type <std::shared_ptr<Funcb>> translation_unit_part_list translation_unit funcbody_internal funcbody
-//%type <Funcb*> func variabledecl
-%type <std::shared_ptr<Funcb>> func variabledecl
+//%type <std::shared_ptr<FunctionBinding>> translation_unit_part_list translation_unit funcbody_internal funcbody
+//%type <FunctionBinding*> func variabledecl
+%type <std::shared_ptr<FunctionBinding>> func variabledecl
 %nterm <std::shared_ptr<List>> paramdeflist paramdef
-%nterm <std::shared_ptr<funcheadertype>> funcheader
+%nterm <std::shared_ptr<FunctionHeader>> funcheader
 %nterm <std::shared_ptr<ReturnPacket>> expr
 %nterm <std::shared_ptr<Statement>> stmt
 //%nterm <ReturnPacket*> stmtlist

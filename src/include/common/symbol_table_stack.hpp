@@ -6,10 +6,11 @@
 #include <string>
 
 #include "symbol_table.hpp"       // for class Table
-#include "compiler.hpp"           // for class Compiler
 
 namespace njnr
 {
+class Compiler;
+
 class SymbolTable
 {
    public:

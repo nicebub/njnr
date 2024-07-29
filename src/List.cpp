@@ -5,13 +5,23 @@
 #include "debug.hpp"
 #include "List.hpp"
 #include "ListNode.hpp"
+#include "BasicListNode.hpp"
 #include "type.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
+#include "ReturnPacket.hpp"
+#include "Statement.hpp"
+#include "StatementListNode.hpp"
+#include "ReturnPacketListNode.hpp"
+#include "ParameterListNode.hpp"
+#include "TypeListNode.hpp"
+#include "TranslationUnitListNode.hpp"
+
 using njnr::BasicListNode;
 using njnr::ListNode;
 using njnr::ReturnPacketListNode;
-using njnr::PListNode;
+using njnr::ParameterListNode;
 using njnr::TranslationUnitListNode;
+using njnr::StmtListNode;
 
    List::List() : list(3,nullptr) {}
 
@@ -139,7 +149,7 @@ using njnr::TranslationUnitListNode;
 
    bool List::appendList(std::string inVal, type inType)
    {
-       std::shared_ptr<PListNode> nnode = std::make_shared<PListNode>(inVal, inType);
+       std::shared_ptr<ParameterListNode> nnode = std::make_shared<ParameterListNode>(inVal, inType);
        this->push_back(nnode);
        return true;
    }
@@ -170,28 +180,28 @@ using njnr::TranslationUnitListNode;
        return list;
    }
 
-   std::shared_ptr<List> List::mklist(std::shared_ptr<Funcb> expr)
+   std::shared_ptr<List> List::mklist(std::shared_ptr<FunctionBinding> expr)
    {
       std::shared_ptr<List> spl = std::make_shared<List>();
       spl->appendList(expr);
        return spl;
    }
 
-   std::shared_ptr<List> List::mklist(std::shared_ptr<Varb> expr)
+   std::shared_ptr<List> List::mklist(std::shared_ptr<VariableBinding> expr)
    {
       std::shared_ptr<List> spl = std::make_shared<List>();
       spl->appendList(expr);
        return spl;
    }  // place holder type -- needs changing
 
-   bool List::appendList(std::shared_ptr<Funcb> expr)
+   bool List::appendList(std::shared_ptr<FunctionBinding> expr)
    {
        std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
        this->push_back(nnode);
        return true;
    }
 
-   bool List::appendList(std::shared_ptr<Varb> expr)
+   bool List::appendList(std::shared_ptr<VariableBinding> expr)
    {
        std::shared_ptr<TranslationUnitListNode> nnode = std::make_shared<TranslationUnitListNode>(expr);
        this->push_back(nnode);

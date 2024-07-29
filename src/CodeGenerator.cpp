@@ -9,12 +9,17 @@
 #include "List.hpp"
 #include "ListNode.hpp"
 #include "type.hpp"
-#include "cpptypes.hpp"
-#include "compiler.hpp"
+#include "Statement.hpp"
+#include "Compiler.hpp"
+#include "ReturnPacket.hpp"
 #include "symbol_table_stackX.hpp"
+#include "StatementListNode.hpp"
 // #include "symtab.hpp"
+#include "ReturnPacketListNode.hpp"
+#include "TranslationUnitListNode.hpp"
 
 using njnr::CodeGenerator;
+using njnr::StmtListNode;
 
 CodeGenerator::CodeGenerator() : labelcounter{1},
                                  canGenerate{true},
@@ -108,7 +113,7 @@ void CodeGenerator::start() noexcept
     canGenerate = true;
 }
 
-std::string CodeGenerator::getOutputTypeForCINType(std::shared_ptr<Funcb> f)
+std::string CodeGenerator::getOutputTypeForCINType(std::shared_ptr<FunctionBinding> f)
 {
     std::string r{"void"};
 
@@ -146,7 +151,7 @@ std::string CodeGenerator::getOutputTypeForCINType(std::shared_ptr<Funcb> f)
     return r;
 }
 
-void CodeGenerator::generateVariabledeclarations(std::shared_ptr<Funcb> f)
+void CodeGenerator::generateVariabledeclarations(std::shared_ptr<FunctionBinding> f)
 {
    if (f != nullptr && nullptr != symtab)
    {
@@ -310,7 +315,7 @@ void CodeGenerator::generateStatement(std::shared_ptr<njnr::StmtListNode> e)
    }
 }
 
-void CodeGenerator::generateFunction(std::shared_ptr<Funcb> f)
+void CodeGenerator::generateFunction(std::shared_ptr<FunctionBinding> f)
 {
    if (nullptr != f)
    {

@@ -5,12 +5,13 @@
 
 #include "List.hpp"
 #include "ListNode.hpp"
+#include "ParameterListNode.hpp"
 #include "type.hpp"                 // for njnr::type
 #include "symbol_table_entry.hpp"   // for class S_TableEntry
 #include "symbol_table.hpp"         // for class Table
 #include "symbol_table_stackX.hpp"  // for class SymbolTableX
-#include "compiler.hpp"             // for njnr::report()
-#include "operator.hpp"             // for TSOperatorType()
+#include "Compiler.hpp"             // for njnr::report()
+#include "Operator.hpp"             // for TSOperatorType()
 using njnr::SymbolTableX;
 
 void SymbolTableX::install2(std::string val, njnr::type t)
@@ -65,7 +66,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
    }
    else
    {
-      std::shared_ptr<Funcb> tBinding{new Funcb{returntype}};
+      std::shared_ptr<FunctionBinding> tBinding{new FunctionBinding{returntype}};
       tBinding->setvalue(name);
 
       if (paramlist != nullptr )
@@ -78,7 +79,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
          {
             if (element != nullptr)
             {
-               std::shared_ptr<PListNode> n_element{dynamic_pointer_cast<PListNode>(element)};
+               std::shared_ptr<ParameterListNode> n_element{dynamic_pointer_cast<ParameterListNode>(element)};
                if (nullptr != n_element)
                {
                   tBinding->getparam_type().push_back(n_element->gettype());
@@ -108,7 +109,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
 std::shared_ptr<S_TableEntryX> SymbolTableX::createVar(std::string name, type t_type,
                                        int offset)
 {
-   std::shared_ptr<Varb> tBindingV{new Varb{}};
+   std::shared_ptr<VariableBinding> tBindingV{new VariableBinding{}};
 
    tBindingV->settype(t_type);
    tBindingV->setoffset(offset);
@@ -129,7 +130,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createVar(std::string name, type t_
 std::shared_ptr<S_TableEntryX> SymbolTableX::createParam(std::string name, type t_type,
                                          int offset)
 {
-   std::shared_ptr<Paramb> tBindingP{new Paramb{}};
+   std::shared_ptr<ParameterBinding> tBindingP{new ParameterBinding{}};
 
    tBindingP->settype(t_type);
    tBindingP->setoffset(offset);
