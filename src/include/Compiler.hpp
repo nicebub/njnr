@@ -40,7 +40,7 @@ class Compiler
       njnrParser*           parser{};  // syntactic parser
       std::shared_ptr<FunctionBinding> currentFunc;  // stores current function reading
       std::ostream*          outfile;  // current output stream reference
-      std::ifstream*          infile;  // current input file
+      std::shared_ptr<std::ifstream>          infile;  // current input file
       std::string           filename;  // name to file needing to output to
       // currently counted line number in a read file
       int                Line_Number;

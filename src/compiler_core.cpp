@@ -222,9 +222,9 @@ namespace njnr
    {
        if (infile != nullptr)
        {
-           if (infile != &std::cin)
-           {
-               auto file{dynamic_cast<std::ifstream*>(infile)};
+//           if (*infile != std::cin)
+//           {
+               auto file{infile};
                if (file->is_open())
                {
                    debugprint("Closing file\n", "");
@@ -234,8 +234,7 @@ namespace njnr
                        debugprint("Removing file\n", "");
                        remove(this->filename.c_str());
                    }
-               }
-              delete infile;
+//               }
            }
            infile = nullptr;
        }
