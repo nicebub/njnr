@@ -1,5 +1,5 @@
-#ifndef SRC_INCLUDE_LEX_HPP_
-#define SRC_INCLUDE_LEX_HPP_ 1
+#ifndef SRC_INCLUDE_NJNRLEXER_HPP_
+#define SRC_INCLUDE_NJNRLEXER_HPP_ 1
 
 #include <config.h>
 #include <string>
@@ -10,9 +10,10 @@
 #include <FlexLexer.h>
 #endif
 
-// #include "compiler.hpp"
+// #include "Compiler.hpp"
 #include "njnr.tab.hpp"
 #include "location.hh"
+
 namespace njnr
 {
 class Compiler;
@@ -32,4 +33,4 @@ private:
 };
 }  // namespace njnr
 
-#endif  // SRC_INCLUDE_LEX_HPP_
+#endif  // SRC_INCLUDE_NJNRLEXER_HPP_

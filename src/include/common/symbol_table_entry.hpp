@@ -5,7 +5,8 @@
 #include <string>
 
 #include "type.hpp"
-#include "cpptypes.hpp"
+#include "ReturnPacket.hpp"
+
 namespace njnr
 {
 /* A Generic Symbol Table Entry */
@@ -15,10 +16,15 @@ class S_TableEntry
       /* Default Constructor */
       S_TableEntry();
 
-      virtual ~S_TableEntry() {}
+      virtual ~S_TableEntry()
+      {
+         report(njnr::logType::debug,
+                "running S_TableEntry() Destructor");
+      }
 
       /* Constructor with arguments */
-      S_TableEntry(const std::string& key, void* value,
+      S_TableEntry(const std::string key,
+                   std::shared_ptr<void> value,
                    njnr::type eType) noexcept;
 
       /* Copy Constructor */
@@ -34,7 +40,7 @@ class S_TableEntry
       std::string getKey(void) const noexcept;
 
       /* return the value for the table entry */
-      void* getValue(void) const noexcept;
+      std::shared_ptr<void> getValue(void) const noexcept;
 
       /* return the type for the table entry */
       njnr::type getType(void) const noexcept;
@@ -42,7 +48,7 @@ class S_TableEntry
       void setType(njnr::type type);
    private:
       std::string  key;
-      void*      value;
+      std::shared_ptr<void>      value;
       njnr::type eType;
 };
 
@@ -52,10 +58,18 @@ class S_TableEntryX : public S_TableEntry
       /* Default Constructor */
       S_TableEntryX() = default;
 
-      virtual ~S_TableEntryX() {}
-
+      virtual ~S_TableEntryX()
+      {
+         report(njnr::logType::debug,
+                "running S_TableEntryX() Destructor");
+         if (binding)
+         {
+//            binding = nullptr;
+         }
+      }
       /* Constructor with arguments */
-      S_TableEntryX(const std::string& key, void* value,
+      S_TableEntryX(const std::string key,
+                    std::shared_ptr<void> value,
                     njnr::type eType) noexcept;
 
       /* Copy Constructor */
@@ -70,7 +84,7 @@ class S_TableEntryX : public S_TableEntry
       /* return the type for the table entry */
       njnr::btype getGroup(void) const noexcept;
 
-      void* getBinding();
+      std::shared_ptr<void> getBinding();
 
       std::string getName() const;
       void setName(std::string name);
@@ -79,7 +93,7 @@ class S_TableEntryX : public S_TableEntry
       /* group type */
       njnr::btype group_type;
 
-      ReturnPacket* binding;
+      std::shared_ptr<ReturnPacket> binding;
 
       std::string name;
 };

@@ -1,33 +1,41 @@
 bin_PROGRAMS = njnr
 LEXERSOURCES = njnr.tab.cpp lex.yy.cc location.hh njnr.tab.hpp
 
-njnrSOURCES = command.cpp compiler_core.cpp cpptypes.cpp debug.cpp
-njnrSOURCES += getopt.cpp helper.cpp lex.cpp list.cpp
-njnrSOURCES += main.cpp operator.cpp parser_functions.cpp
-njnrSOURCES += trans.cpp common/symbol_table.cpp common/symbol_table_stack.cpp
+njnrSOURCES = command.cpp compiler_core.cpp debug.cpp
+njnrSOURCES += getopt.cpp helper.cpp njnrLexer.cpp List.cpp ListNode.cpp
+njnrSOURCES += main.cpp Operator.cpp parser_functions.cpp
+njnrSOURCES += CodeGenerator.cpp common/symbol_table.cpp common/symbol_table_stack.cpp
 njnrSOURCES += common/symbol_table_stackX.cpp common/symbol_table_entry.cpp
 njnrSOURCES += expressions/expressions.cpp
 njnrSOURCES += functions/function_calls.cpp functions/functions.cpp
-njnrSOURCES += statements/statements.cpp
-njnrSOURCES += include/debug.hpp include/type.hpp include/list.hpp include/cpptypes.hpp
-njnrSOURCES += include/constant.hpp include/common/symbol_table_stackX.hpp
+njnrSOURCES += statements/statements.cpp Constant.cpp FunctionBinding.cpp
+njnrSOURCES += Identifier.cpp ParameterBinding.cpp ReturnPacket.cpp Statement.cpp
+njnrSOURCES += TranslationUnit.cpp VariableBinding.cpp FunctionHeader.cpp
+njnrSOURCES += include/debug.hpp include/type.hpp include/List.hpp
+njnrSOURCES += include/ListNode.hpp include/Constant.hpp include/common/symbol_table_stackX.hpp
 njnrSOURCES += include/common/symbol_table_stack.hpp include/common/symbol_table.hpp
-njnrSOURCES += include/compiler.hpp include/trans.hpp include/common/symbol_table_entry.hpp
-njnrSOURCES += include/lex.hpp include/data.hpp include/helper.hpp
-njnrSOURCES += include/operator.hpp include/common/symbol_table_templates.h
-njnrSOURCES += include/common/symbol_table_stack_templates.h
-
+njnrSOURCES += include/Compiler.hpp include/CodeGenerator.hpp include/common/symbol_table_entry.hpp
+njnrSOURCES += include/njnrLexer.hpp include/helper.hpp
+njnrSOURCES += include/Operator.hpp include/common/symbol_table_templates.h
+njnrSOURCES += include/common/symbol_table_stack_templates.h include/ReturnPacket.hpp
+njnrSOURCES += include/BaseData.hpp include/ParameterBinding.hpp include/Statement.hpp
+njnrSOURCES += include/FunctionBinding.hpp include/Identifier.hpp include/VariableBinding.hpp
+njnrSOURCES += include/TSType.hpp include/TSAbstractType.hpp include/TranslationUnit.hpp
+njnrSOURCES += include/FunctionHeader.hpp include/BasicListNode.hpp include/StatementListNode.hpp
+njnrSOURCES += include/TypeListNode.hpp include/IdentifierListNode.hpp include/TranslationUnitListNode.hpp
+njnrSOURCES += include/ParameterListNode.hpp include/ReturnPacketListNode.hpp
+njnrSOURCES += include/TSOperatorType.hpp
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 
-njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
-AM_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20
+njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 #-DDEBUGON
+AM_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 #-DDEBUGON
 
 AM_YFLAG = -d
 
 CLEANFILES= lex.yy.cc njnr.tab.cpp njnr.tab.hpp njnr.output location.hh
 
-EXTRA_DIST= njnr.l njnr.y ../autogen.sh
+EXTRA_DIST= njnr.l njnr.y $(srcdir)/../autogen.sh $(srcdir)/../test
 CPPLINTFLAGS = --verbose=5 --filter=-whitespace/indent,-whitespace/braces,-whitespace/newline,-legal,-build/include_subdir,-readability/braces
 
 

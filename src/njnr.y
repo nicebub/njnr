@@ -2,27 +2,30 @@
 #include <config.h>
 #include <cstdio>
 #include <string>
+#include <memory>
 
 #include "debug.hpp"
-
-#include "type.hpp"
-#include "list.hpp"
+#include "ReturnPacket.hpp"
 #include "symbol_table_stackX.hpp"
-#include "data.hpp"
-#include "trans.hpp"
-#include "lex.hpp"
-#include "cpptypes.hpp"
+
+/*
+#include "type.hpp"
+#include "List.hpp"
+#include "CodeGenerator.hpp"
+#include "njnrLexer.hpp"
+*/
 
 using namespace njnr;
+
 #define YYDEBUG 1
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
 #define YYERROR_VERBOSE 1
 
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
-int yyerror(std::string err,Compiler& compiler);
+int yyerror(std::string err,Compiler* compiler);
 %}
 
 %verbose
@@ -44,35 +47,35 @@ int yyerror(std::string err,Compiler& compiler);
 %define api.parser.class {njnrParser}
 
 %code requires {
-	namespace njnr
-	{
-		class Compiler;
-		class S_TableEntryX;
-	}
+    namespace njnr
+    {
+       class Compiler;
+       class S_TableEntryX;
+    }
     #include <config.h>
-	#include "cpptypes.hpp"
-	#include "list.hpp"
-	#include "type.hpp"
-	using namespace njnr;
+    #include "List.hpp"
+    #include "type.hpp"
+    #include "Operator.hpp"
+    using namespace njnr;
 
-	# if !defined __EXCEPTIONS
-	#  define YY_EXCEPTIONS 0
-	# else
-	#  define YY_EXCEPTIONS 1
-	# endif
+    # if !defined __EXCEPTIONS
+    #  define YY_EXCEPTIONS 0
+    # else
+    #  define YY_EXCEPTIONS 1
+    # endif
 }
 
-%parse-param{ Compiler& compiler }
+%parse-param{ Compiler* compiler }
 //%lex-param{ njnrParser::semantic_type* const lval }
 //%lex-param{ njnrParser::location_type* loc }
 %code{
-	#undef yylex
-	#define yylex compiler.lexer.yylex
-	
-	void njnr::njnrParser::error(njnr::location const & loc, const std::string & message)
-	{
-		std::cout << "at " << loc << " : " << message << std::endl;
-	}
+    #undef yylex
+    #define yylex compiler->lexer.yylex
+
+    void njnr::njnrParser::error(njnr::location const & loc, const std::string&  message)
+    {
+       std::cout << "at " << loc << " : " << message << std::endl;
+    }
 } 
 
 
@@ -153,407 +156,430 @@ int yyerror(std::string err,Compiler& compiler);
 %right uminus
 
 
-%type <List*> identlist
-%type <reltype> relop
-%type <multype> mulop
-%type <addtype> addop
-%type <eqtype> eqop
+%type <std::shared_ptr<List>> identlist
+%type <std::shared_ptr<Operator>> relop
+%type <std::shared_ptr<Operator>> mulop
+%type <std::shared_ptr<Operator>> addop
+%type <std::shared_ptr<Operator>> eqop
 
-%type <int> whilet ift elset
-%type <int> intt
-%type <float> floatt
-%type <int> chart voidt adof elip lpar rpar lcbra rcbra semi comma equalt
-%type <reltype> lesst greatt leq geq
-%type <addtype> plus minus
-%type <eqtype> equequ neq
-%type <multype> divide star
-%type <int> uminus
-%type <List*> translation_unit_part_list translation_unit funcbody_internal funcbody
-%type <Funcb*> func variabledecl
-%nterm <List*> paramdeflist paramdef
-%nterm <funcheadertype*> funcheader
-%nterm <ReturnPacket*> expr
-%nterm <Statement*> stmt
+%type <std::string> whilet ift elset
+%type <std::string> intt
+%type <std::string> floatt
+%type <std::string> chart voidt adof elip lpar rpar lcbra rcbra semi comma equalt
+%type <std::string> lesst greatt leq geq
+%type <std::string> plus minus
+%type <std::string> equequ neq
+%type <std::string> divide star
+%type <std::string> uminus
+//%type <List*> translation_unit funcbody_internal funcbody
+%type <std::shared_ptr<List>> translation_unit_part_list translation_unit funcbody_internal funcbody
+//%type <std::shared_ptr<FunctionBinding>> translation_unit_part_list translation_unit funcbody_internal funcbody
+//%type <FunctionBinding*> func variabledecl
+%type <std::shared_ptr<FunctionBinding>> func variabledecl
+%nterm <std::shared_ptr<List>> paramdeflist paramdef
+%nterm <std::shared_ptr<FunctionHeader>> funcheader
+%nterm <std::shared_ptr<ReturnPacket>> expr
+%nterm <std::shared_ptr<Statement>> stmt
 //%nterm <ReturnPacket*> stmtlist
-%nterm <ReturnPacket*> ifexprstmt
-%nterm <Constant*> constant
-%nterm <ReturnPacket*> factor function_call func_call_with_params name_and_params
-%nterm <ReturnPacket*> TERM
-%nterm <ReturnPacket*> simpleexpr
-%nterm <ReturnPacket*> relexpr
-%nterm <ReturnPacket*> equalexpr
+%nterm <std::shared_ptr<ReturnPacket>> ifexprstmt
+%nterm <std::shared_ptr<Constant>> constant
+%nterm <std::shared_ptr<ReturnPacket>> factor function_call func_call_with_params name_and_params
+%nterm <std::shared_ptr<ReturnPacket>> TERM
+%nterm <std::shared_ptr<ReturnPacket>> simpleexpr
+%nterm <std::shared_ptr<ReturnPacket>> relexpr
+%nterm <std::shared_ptr<ReturnPacket>> equalexpr
 
 %start starter
 
 %%
 starter: translation_unit {
+                             // Implied rule $$ = $1;
                           }
 ;
 
 translation_unit: translation_unit_part_list {
-                                                compiler.setfinished($1);
-											 }
+                                                compiler->setfinished($1);
+                                             }
 ;
 
 translation_unit_part_list: func { $$ = List::mklist($1); }
                           | variabledecl {
-//							                $$ = List::mklist($1);
-						                 }
-                          | translation_unit_part_list func { $$ = $1->appendList($2); }
+//                                          $$ = List::mklist($1);
+                                         }
+                          | translation_unit_part_list func {
+                                                               $1->appendList($2);
+                                                               $$ = $1;
+                                                            }
                           | translation_unit_part_list variabledecl {
-//							                                           $$ = $1->appendList($2);
-						                                            }
+//                                                                     $$ = $1->appendList($2);
+                                                                    }
 ;
 
 func: funcheader funcbody {
-		                     $$ = compiler.create_full_function($1, $2);
-	                      }
+                             $$ = compiler->create_full_function($1, $2);
+                          }
 ;
 
 funcheader: fnt Ident lpar paramdef rpar {
-	                                        $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $<List*>4, njnr::type::VOID);
-										 }
+                                            // $$ = compiler->funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, $<List*>4, njnr::type::VOID);
+                                            $$ = compiler->funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, $4, njnr::type::VOID);
+                                         }
           | fnt Ident lpar rpar {
-			                       $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, nullptr, njnr::type::VOID);
-								}
+                                   $$ = compiler->funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, nullptr, njnr::type::VOID);
+                                }
           | fnt Ident {
-			             $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, nullptr, njnr::type::VOID);
-					  }
+                         $$ = compiler->funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, nullptr, njnr::type::VOID);
+                      }
           | fnt error rpar {
-			                  yyerrok;
-							  $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(njnr::Identifier{""}, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
-							  compiler.error("(expecting lpar before rpar in function)","");
-						   }
+                              yyerrok;
+                              $$ = compiler->funcheader_returntype_ident_lpar_paramdef_rpar_helper("", List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
+                              compiler->error("(expecting lpar before rpar in function)","");
+                           }
           | fnt Ident lpar error rpar {
-			                             yyerrok;
-										 $$ = compiler.funcheader_returntype_ident_lpar_paramdef_rpar_helper(Identifier{$2}, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
-										 compiler.error("(unexpected token after lpar and before rpar in function)","");
-									  }
+                                         yyerrok;
+                                         $$ = compiler->funcheader_returntype_ident_lpar_paramdef_rpar_helper($2, List::mklist(std::string{"error"}, type::VOID),  njnr::type::VOID);
+                                         compiler->error("(unexpected token after lpar and before rpar in function)","");
+                                      }
 ;
 
-paramdef: paramdeflist {$$ = $1;}
+paramdef: paramdeflist {
+                          // Implied rule $$ = $1;
+                          $$ = $1;
+                       }
         | paramdeflist comma elip {
-			                         $$ = $1->appendList("...", type::VOID);
-								  }
-        | paramdeflist error rpar { 
-			                         yyerrok;
-									 compiler.error("(unexpected token before rpar in parameter definition)","");
-									 delete $1;
-									 $1 = nullptr;
-								  }
+                                     $1->appendList("...", type::VOID);
+                                     $$ = $1;
+                                  }
+        | paramdeflist error rpar {
+                                     yyerrok;
+                                     compiler->error("(unexpected token before rpar in parameter definition)","");
+                                     //delete $1;
+//                                     $1 = nullptr;
+                                  }
         | paramdeflist comma error rpar {
-			                               yyerrok;
-		                                   compiler.error("(unexpected token before rpar in parameter definition)","");
-										   delete $1;
-										   $1 = nullptr;
-										}
+                                           yyerrok;
+                                           compiler->error("(unexpected token before rpar in parameter definition)","");
+                                           //delete $1;
+//                                           $1 = nullptr;
+                                        }
 ;
 
 paramdeflist: Ident {
-	                   $$ = List::mklist($1);
-					   compiler.installParameterIntoSymbolTable($1, njnr::type::INT);
-					}
+                       $$ = List::mklist($1);
+                       compiler->installParameterIntoSymbolTable($1, njnr::type::INT);
+                    }
             | paramdeflist comma Ident {
-				                          $$ = $1->appendList($3);
-                 	                      compiler.installParameterIntoSymbolTable($3, njnr::type::INT);
-									   }
+                                          $1->appendList($3);
+                                          $$ = $1;
+                                          
+                                          compiler->installParameterIntoSymbolTable($3, njnr::type::INT);
+                                       }
 ;
 
 funcbody: lcbra funcbody_internal rcbra {
-	                                       $$ = $2;
-										   compiler.dealwithstmtlist($2);
-										}
+                                           $$ = $2;
+                                           compiler->dealwithstmtlist($2);
+                                        }
 ;
 
 funcbody_internal: variabledecl {
                                    $$ = List::mklist($1);
-//								   compiler.block25_funcbody_lcbra_decls_source();
-								}
+//                                 compiler->block25_funcbody_lcbra_decls_source();
+                                }
                  | stmt {
                            $$ = List::mklist($1);
-//					       compiler.create_and_return_a_fn_body_statement_element($1);
-						   /*compiler.block26_funcbody_lcbra_decls_source_stmtlist_rcbra();*/
+//                            compiler->create_and_return_a_fn_body_statement_element($1);
+                           /* compiler->block26_funcbody_lcbra_decls_source_stmtlist_rcbra(); */
                         }
-				 | funcbody_internal variabledecl {
-					                                 compiler.block25_funcbody_lcbra_decls_source();
-                                                     $$ = $1->appendList($2);
-												  }
-				 | funcbody_internal stmt {
-//					                         compiler.add_statement_to_fn_body_and_return($1,$2);
-                                             $$ = $1->appendList($2);
-										  }
+                | funcbody_internal variabledecl {
+                                                     compiler->block25_funcbody_lcbra_decls_source();
+                                                     $1->appendList($2);
+                                                     $$ = $1;
+                                                  }
+                 | funcbody_internal stmt {
+//                                           compiler->add_statement_to_fn_body_and_return($1,$2);
+                                             $1->appendList($2);
+                                             $$ = $1;
+                                          }
 ;
 
 variabledecl: vart identlist {
-//                                compiler.symbolTable->addtosymtab(type::INT, $2);
-							 }
-			  lett identlist {
-//                               compiler.symbolTable->addtosymtab(type::INT, $2);
-			                 }
+//                                compiler->symbolTable->addtosymtab(type::INT, $2);
+                             }
+              lett identlist {
+//                               compiler->symbolTable->addtosymtab(type::INT, $2);
+                             }
 ;
 
 stmt:     expr semi {
-	                   compiler.block29_stmt_expr_semi();
-					}
-		| returnt semi {
-			              $$ = compiler.stmt_return_expr_semi(nullptr);
-					   }
-		| returnt expr semi {
-			                   $$ = compiler.stmt_return_expr_semi($2);
-							}
+                       compiler->block29_stmt_expr_semi();
+                    }
+        | returnt semi {
+                          $$ = compiler->stmt_return_expr_semi(nullptr);
+                       }
+        | returnt expr semi {
+                               $$ = compiler->stmt_return_expr_semi($2);
+                            }
 
-		| whilet <ReturnPacket*>{
-			                       $$ = compiler.block32_stmt_while_source();
-								}
-		  lpar expr rpar {
-			                compiler.block33_stmt_while_source_expr_semi_source_lpar_expr_rpar($2,$4);
-						 }
-		  stmt {
-			      compiler.block34_stmt_while_source_expr_semi_source_lpar_expr_rpar_source_stmt($2,$4);
-			   }
+        | whilet <std::shared_ptr<ReturnPacket>>{
+                                   $$ = compiler->block32_stmt_while_source();
+                                }
+          lpar expr rpar {
+                            compiler->block33_stmt_while_source_expr_semi_source_lpar_expr_rpar($2,$4);
+                         }
+          stmt {
+                  compiler->block34_stmt_while_source_expr_semi_source_lpar_expr_rpar_source_stmt($2,$4);
+               }
 
-		| ifexprstmt elset {
-			                  compiler.block35_stmt_ifexprstmt_else($1);
-						   }
-		  stmt {
-			      compiler.block36_stmt_ifexprstmt_else_source_stmt($1);
-			   }
+        | ifexprstmt elset {
+                              compiler->block35_stmt_ifexprstmt_else($1);
+                           }
+          stmt {
+                  compiler->block36_stmt_ifexprstmt_else_source_stmt($1);
+               }
 
-		| ifexprstmt {
-			            compiler.block37_stmt_ifexprstmt($1);
-					 }
+        | ifexprstmt {
+                        compiler->block37_stmt_ifexprstmt($1);
+                     }
 
-		| lcbra funcbody_internal rcbra {
-		                                } //closescope(symbolTable);
-//		| returnt error {
-//	                       yyerrok;
-//						   compiler.error("(unexpected token after return in return stmt)","");
-//						}
-		| whilet error semi {
-			                   yyerrok;
-							   compiler.error("(unexpected token before semi in while stmt)","");
-							}
-		| ift error stmt {
-			                yyerrok;
-							compiler.error("(unexpected token before stmt in if stmt)","");
-						 }
-		| lcbra funcbody_internal error rcbra {
-			                                     yyerrok;
-												 compiler.error("(unexpected token before rcbra in stmt)","");
-											  }	//closescope(symbolTable);
+        | lcbra funcbody_internal rcbra {
+                                        }  // closescope(symbolTable);
+//      | returnt error {
+//                         yyerrok;
+//                         compiler->error("(unexpected token after return in return stmt)","");
+//                      }
+        | whilet error semi {
+                               yyerrok;
+                               compiler->error("(unexpected token before semi in while stmt)","");
+                            }
+        | ift error stmt {
+                            yyerrok;
+                            compiler->error("(unexpected token before stmt in if stmt)","");
+                         }
+        | lcbra funcbody_internal error rcbra {
+                                                 yyerrok;
+                                                 compiler->error("(unexpected token before rcbra in stmt)","");
+                                              }  // closescope(symbolTable);
 ;
 
-ifexprstmt: ift lpar expr <struct Pair	>{
-	                                        $$ = compiler.block38_ifexprstmt_if_lpar_expr_source($3);
-										 }
-			rpar stmt {
-				         $$ = $3; $$->m_pair = $4;
-					  }
+ifexprstmt: ift lpar expr <struct Pair>{
+                                            $$ = compiler->block38_ifexprstmt_if_lpar_expr_source($3);
+                                         }
+            rpar stmt {
+                         $$ = $3; $$->m_pair = $4;
+                      }
 ;
 
 expr: equalexpr equalt equalexpr {
-	                                $$ = compiler.block40_expr_equalexpr_equal_equalexpr(&$1, &$3);
-								 }
+                                    $$ = compiler->block40_expr_equalexpr_equal_equalexpr($1, $3);
+                                 }
     | equalexpr {
-		           $$ = $1;
-				}
+                   $$ = $1;
+                }
     | equalexpr equalt error {
-		                        yyerrok;
-								compiler.error("(unexpected token after equalt operator in expr)","");
-							 }
+                                yyerrok;
+                                compiler->error("(unexpected token after equalt operator in expr)","");
+                             }
 ;
 
 equalexpr: relexpr eqop {
-	                       compiler.block42_equalexpr_relexpr_eqop_source(&$1);
-					    }
+                           compiler->block42_equalexpr_relexpr_eqop_source($1);
+                        }
            relexpr {
-			          $$ = compiler.block43_equalexpr_relexpr_eqop_source_relexpr($2,&$1,&$4);
-				   }
+                      $$ = compiler->block43_equalexpr_relexpr_eqop_source_relexpr($2,$1,$4);
+                   }
          | relexpr {
-			          $$ = $1;
-				   }
+                      // Implied rule $$ = $1;
+                      $$ = $1;
+                   }
          | relexpr eqop error {
-			                     yyerrok;
-								 compiler.error("(unexpected token after equality operator in expr)","");
-							  }
+                                 yyerrok;
+                                 compiler->error("(unexpected token after equality operator in expr)","");
+                              }
 ;
 
 relexpr: simpleexpr relop {
-	                         compiler.block45_relexpr_simpleexpr_relop_source(&$1);
-						  }
-		 simpleexpr {
-			           $$ = compiler.block46_relexpr_simpleexpr_relop_source_simpleexpr(&$1,$2,&$4);
-					}
+                             compiler->block45_relexpr_simpleexpr_relop_source($1);
+                          }
+         simpleexpr {
+                       $$ = compiler->block46_relexpr_simpleexpr_relop_source_simpleexpr($1,$2,$4);
+                    }
        | simpleexpr {
-		               $$ = $1;
-					}
+                       // Implied rule $$ = $1;
+                       $$ = $1;
+                    }
        | simpleexpr relop error {
-		                           yyerrok;
-								   compiler.error("(unexpected token after relational operator","");
-								}
+                                   yyerrok;
+                                   compiler->error("(unexpected token after relational operator","");
+                                }
 ;
 
 simpleexpr: simpleexpr addop {
-	                            compiler.block48_simpleexpr_simpleexpr_addop_source(&$1);
-							 }
+                                compiler->block48_simpleexpr_simpleexpr_addop_source($1);
+                             }
             TERM {
-				    $$ = compiler.block49_simpleexpr_simpleexpr_addop_source_term(&$1,$2,&$4);
-				 }
+                    $$ = compiler->block49_simpleexpr_simpleexpr_addop_source_term($1,$2,$4);
+                 }
           | TERM {
-			        $$ = $1;
-				 }
+                    // Implied rule $$ = $1;
+                    $$ = $1;
+                 }
           | simpleexpr addop error {
-			                          yyerrok;
-									  compiler.error("(unexpected token after additive operator)","");
-								   }
+                                      yyerrok;
+                                      compiler->error("(unexpected token after additive operator)","");
+                                   }
 ;
 
 TERM: TERM mulop {
-	                compiler.block51_term_term_mulop_source(&$1);
-				 }
+                    compiler->block51_term_term_mulop_source($1);
+                 }
        factor {
-		         $$ = compiler.block52_term_term_mulop_source_factor(&$1,$2,$4);
-			  }
+                 $$ = compiler->block52_term_term_mulop_source_factor($1,$2,$4);
+              }
      | factor {
-		         $$ = $1;
-			  }
+                 // Implied rule $$ = $1;
+                 $$ = $1;
+              }
      | TERM mulop error {
-		                   yyerrok;
-						   compiler.error("(unexpected token after multiplicative operator)","");
-						}
+                           yyerrok;
+                           compiler->error("(unexpected token after multiplicative operator)","");
+                        }
 ;
 
 factor: constant {
-	                $$ = compiler.block54_factor_constant($1);
-				 }
+                    $$ = compiler->block54_factor_constant($1);
+                 }
       | Ident {
-		         $$ = compiler.block55_factor_ident(Identifier{$1});
-				 compiler.installVariableIntoSymbolTable($1, njnr::type::INT);
-			  }
+                 $$ = compiler->block55_factor_ident($1);
+                 compiler->installVariableIntoSymbolTable($1, njnr::type::INT);
+              }
       | lpar expr rpar {
-		                  $$ = $2;
-					   }
+                          // Implied rule $$ = $1;
+                          $$ = $2;
+                       }
       | addop factor %prec uminus {
-		                             $$ = compiler.block57_factor_addop_factor_uminus($1,&$2);
-								  }
+                                     $$ = compiler->block57_factor_addop_factor_uminus($1,$2);
+                                  }
       | adof Ident {
-		              $$ = compiler.block58_factor_adof_ident(Identifier{$2});
-				   }
+                      $$ = compiler->block58_factor_adof_ident($2);
+                   }
       | function_call {
-		                 $$ = $1;
-					  }
+                         // Implied rule $$ = $1;
+                         $$ = $1;
+                      }
       | addop error {
-		               yyerrok;
-					   compiler.error("(unexpected token after unary additive operator)","");
-					}
+                       yyerrok;
+                       compiler->error("(unexpected token after unary additive operator)","");
+                    }
       | lpar expr error rpar {
-		                        yyerrok;
-								compiler.error("(unexpected token before rpar)","");
-							 }
+                                yyerrok;
+                                compiler->error("(unexpected token before rpar)","");
+                             }
 ;
 
 function_call: Ident lpar rpar {
-	                              $$ = compiler.block60_function_call_ident_lpar_rpar(Identifier{$1});
-							   }
+                                  $$ = compiler->block60_function_call_ident_lpar_rpar($1);
+                               }
              | func_call_with_params {
-				                        $$ = $1;
-									 }
+                                        // Implied rule $$ = $1;
+                                        $$ = $1;
+                                     }
 ;
 
 func_call_with_params: name_and_params rpar {
-	                                           $$ = compiler.block62_func_call_with_params_name_and_params_rpar(&$1);
-											}
+                                               $$ = compiler->block62_func_call_with_params_name_and_params_rpar($1);
+                                            }
 ;
 
-name_and_params: Ident lpar <ReturnPacket*>{
-	                                          $$ = compiler.block63_name_and_params_ident_lpar_source(Identifier{$1});
-										   }
-                 expr {
-					     $$ = compiler.block64_name_and_params_ident_lpar_source_expr(Identifier{$1},&$3,&$4);
-					  }
-               | name_and_params comma {} expr {
-				                                  $$ = compiler.block65_name_and_params_name_and_params_comma_expr(&$1, &$4);
-											   }
+name_and_params: Ident lpar <std::shared_ptr<ReturnPacket>>{
+                                              $$ = compiler->block63_name_and_params_ident_lpar_source($1);
+                                           }
+                 exprlist {
+                           //$$ = compiler->block64_name_and_params_ident_lpar_source_expr(Identifier{$1},&$3,&$4);
+                          }
+;
+exprlist: expr comma  exprlist {
+                                  //  $$ = compiler->block65_name_and_params_name_and_params_comma_expr(&$1, &$4);
+                               }
+          | expr {}
 ;
 
 
 identlist: Ident {
-	                $$ = List::mklist($1);
-				 }
+                    $$ = List::mklist($1, njnr::type::IDENT);
+                 }
          | identlist comma Ident {
-			                        $$ = $1->appendList($3);
-								 }
+                                    $1->appendList($3, njnr::type::IDENT);
+                                    $$ = $1;
+                                 }
          | identlist comma error {
-			                        yyerrok;
-									compiler.error("(unexpected token after comma)","");
-									$$ = $1;
-								 }
+                                    yyerrok;
+                                    compiler->error("(unexpected token after comma)","");
+                                    // Explicit because of error: rule $$ = $1;
+                                    $$ = $1;
+                                 }
 ;
 
 constant: StrConstant {
-                          compiler.constantTable->install2($1, njnr::type::STR);
-						  $$ = new Constant{$1, njnr::type::STR};
-					  }
+                          compiler->createConstant(njnr::type::STR, $1);
+                      }
         | IntConstant {
-                          compiler.constantTable->install2($1, njnr::type::INT);
-						  $$ = new Constant{$1, njnr::type::INT};
-					  }
+                          compiler->createConstant(njnr::type::INT, $1);
+                       }
         | FloatConstant {
-                          compiler.constantTable->install2($1, njnr::type::FLOAT);
-						  $$ = new Constant{$1, njnr::type::FLOAT};
-						}
-		| CharConstant {
-                          compiler.constantTable->install2($1, njnr::type::CHAR);
-						  $$ = new Constant{$1, njnr::type::CHAR};
-					   }
-					   
+                          compiler->createConstant(njnr::type::FLOAT, $1);
+                        }
+        | CharConstant {
+                          compiler->createConstant(njnr::type::CHAR, $1);
+                        }
+
 ;
 
-addop: plus {
-	           $$ = njnr::addtype::PLS;
-			}
+addop: plus  {
+               $$ = compiler->createOperator(njnr::reltype::PLS, $1);
+             }
      | minus {
-		        $$ = njnr::addtype::MIN;
-			 }
+               $$ = compiler->createOperator(njnr::reltype::MIN, $1);
+             }
 ;
 
-mulop: star {
-	           $$ = njnr::multype::MULT;
-			}
+mulop: star   {
+               $$ = compiler->createOperator(njnr::reltype::MULT, $1);
+              }
      | divide {
-		         $$ = njnr::multype::DIV;
-			  }
+               $$ = compiler->createOperator(njnr::reltype::DIV, $1);
+              }
 ;
 
-eqop: equequ {
-	            $$ = njnr::eqtype::EQEQ;
-			 }
-    | neq {
-		     $$ = njnr::eqtype::NEQ;
-		  }
+eqop: 
+      equequ {
+               $$ = compiler->createOperator(njnr::reltype::EQEQ, $1);
+             }
+    | neq    {
+               $$ = compiler->createOperator(njnr::reltype::NEQ, $1);
+             }
 ;
 
-relop: lesst {
-	            $$ = njnr::reltype::LES;
-
-			 }
-     | leq {
-		      $$ = njnr::reltype::LEQ;
-		   }
-     | geq {
-		      $$ = njnr::reltype::GEQ;
-		   }
+relop: 
+       lesst  {
+               $$ = compiler->createOperator(njnr::reltype::LES, $1);
+              }
+     | leq    {
+               $$ = compiler->createOperator(njnr::reltype::LEQ, $1);
+              }
+     | geq    {
+               $$ = compiler->createOperator(njnr::reltype::GEQ, $1);
+              }
      | greatt {
-//                 compiler.typeTable->($1);
-		         $$ = njnr::reltype::GRE;
-			  }
+               $$ = compiler->createOperator(njnr::reltype::GRE, $1);
+              }
 ;
 
 %%
 #include <iostream>
-int yyerror(std::string s, Compiler& compiler)
+int yyerror(std::string s, Compiler* compiler)
 {
-   compiler.error(s,"");
-   std::cerr << "Error:::"<< compiler.filename << ":"<< compiler.Line_Number << "-> " << s << "\n";
+   compiler->error(s,"");
+   std::cerr << "Error:::"<< compiler->filename << ":"<< compiler->Line_Number << "-> " << s << "\n";
    return 0;
 }

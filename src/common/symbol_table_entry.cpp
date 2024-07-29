@@ -12,15 +12,15 @@ S_TableEntry::S_TableEntry() : key{""},
                                eType{njnr::type::VOID} {}
 
 
-S_TableEntry::S_TableEntry(const std::string& key,
-                           void* value = nullptr,
+S_TableEntry::S_TableEntry(const std::string key,
+                           std::shared_ptr<void> value = nullptr,
                            njnr::type eType = njnr::type::VOID) noexcept :
                                                                 key{key},
                                                                 value{value},
                                                                 eType{eType} {}
 
-S_TableEntryX::S_TableEntryX(const std::string& key,
-                           void* value = nullptr,
+S_TableEntryX::S_TableEntryX(const std::string key,
+                           std::shared_ptr<void> value = nullptr,
                            njnr::type eType = njnr::type::VOID) noexcept :
                                                                S_TableEntry(key,
                                                                value,
@@ -62,7 +62,7 @@ std::string S_TableEntry::getKey(void) const noexcept
    return key;
 }
 
-void* S_TableEntry::getValue(void) const noexcept
+std::shared_ptr<void> S_TableEntry::getValue(void) const noexcept
 {
    return value;
 }
@@ -76,7 +76,7 @@ njnr::btype S_TableEntryX::getGroup() const noexcept
     return group_type;
 }
 
-void* S_TableEntryX::getBinding()
+std::shared_ptr<void> S_TableEntryX::getBinding()
 {
     return binding;
 }

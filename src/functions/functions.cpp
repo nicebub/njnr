@@ -2,29 +2,32 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <memory>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Statement.hpp"
+#include "Compiler.hpp"
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
 
 namespace njnr
 {
-   Funcb* Compiler::create_full_function(funcheadertype* funcheader,
-                                         List* funcbody)
+   std::shared_ptr<FunctionBinding> Compiler::create_full_function(std::shared_ptr<FunctionHeader> funcheader,
+                                         std::shared_ptr<List> funcbody)
    {
     /**
-     *    funcheadertype
+     *    FunctionHeader
      *      std::string   name;       // fn name
-      njnr::List*   paramlist;  // list of parameters the fn accept as input
+      std::shared_ptr<njnr::List>   paramlist;  // list of parameters the fn accept as input
       njnr::type    returntype; // return type(if any) of fn
       njnr::type    ttype;      // type of fn?(TBD)
 
      * 
      */
-      Funcb* out{nullptr};
-      out = new Funcb{};
+    //   std::shared_ptr<FunctionBinding> out{nullptr};
+    //   out = new FunctionBinding{};
+      std::shared_ptr<FunctionBinding> out(new FunctionBinding());
       if (nullptr != out)
       {
          out->setfuncbody_list(funcbody);
@@ -39,20 +42,20 @@ namespace njnr
    }
 
    void Compiler::block2_func_funcheader_source(\
-                                 funcheadertype** inFuncHeaderptr)
+                                 std::shared_ptr<FunctionHeader> inFuncHeaderptr)
    {
        auto templabel{mainlabel};
        if (is_function_decl_or_def_accurate(inFuncHeaderptr, false))
        {
            symbolTable->openscope();
-           if ((*inFuncHeaderptr)->name != "main")
+           if ((inFuncHeaderptr)->name != "main")
            {
                templabel = currentFunc->getlabel();
                install_parameters_into_symbol_table_curren_scope(\
                                                        inFuncHeaderptr);
            }
            code_generator.gen_label(code_generator.
-                                    genlabelw((*inFuncHeaderptr)->
+                                    genlabelw((inFuncHeaderptr)->
                                     name,
                                     templabel));
        }
@@ -62,37 +65,39 @@ namespace njnr
        symbolTable->closescope();
    }
 
-   void Compiler::block4_func_funcheader_semi(funcheadertype* inFuncHeader)
+   void Compiler::block4_func_funcheader_semi(std::shared_ptr<FunctionHeader> inFuncHeader)
    {
-       njnr::S_TableEntryX found = *static_cast<S_TableEntryX*>(symbolTable->
+       njnr::S_TableEntryX found = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                                          lookupB(inFuncHeader->
                                                                  name));
            auto tempEntry =  symbolTable->createFunc(inFuncHeader->name,
-                                                   inFuncHeader->returntype,
-                                                   inFuncHeader->paramlist);
+                                                     inFuncHeader->returntype,
+                                                     inFuncHeader->paramlist);
            symbolTable->install(tempEntry);
-       is_function_decl_or_def_accurate(&inFuncHeader, true);
+       is_function_decl_or_def_accurate(inFuncHeader, true);
    }
 
-   void Compiler::block5_funcheader_error_semi(funcheadertype** inFuncHeaderptr)
+   void Compiler::block5_funcheader_error_semi(std::shared_ptr<FunctionHeader> inFuncHeaderptr)
    {
-       funcheadertype* inFuncHeader{*inFuncHeaderptr};
+    /*
+       std::shared_ptr<FunctionHeader> inFuncHeader{inFuncHeaderptr};
        if (inFuncHeader != nullptr)
        {
-           delete inFuncHeader;
            inFuncHeader = nullptr;
        }
+       */
    }
 
-   funcheadertype*  Compiler::
+   std::shared_ptr<FunctionHeader>  Compiler::
                     funcheader_returntype_ident_lpar_paramdef_rpar_helper(\
-                                                   njnr::Identifier inIdent,
-                                                   List* inParamdeflist,
-                                                   njnr::type inreturntype)
+                                                   std::string inIdent_original,
+                                                   std::shared_ptr<List> inParamdeflist = nullptr,
+                                                   njnr::type inreturntype = njnr::type::VOID)
    {
-      funcheadertype* retFuncHeader{nullptr};
+      njnr::Identifier inIdent{inIdent_original};
+      std::shared_ptr<FunctionHeader> retFuncHeader{nullptr};
 
-      retFuncHeader             = new funcheadertype;
+      retFuncHeader             = std::shared_ptr<FunctionHeader>(new FunctionHeader{});
       if (nullptr != retFuncHeader)
       {
          retFuncHeader->returntype = inreturntype;
@@ -108,7 +113,13 @@ namespace njnr
                          "\n";
 //            std::cout << "found parameters: " + inParamdeflist->toString();
          }
-         retFuncHeader->paramlist  = inParamdeflist;
+
+         retFuncHeader->paramlist = nullptr;
+
+         if (inParamdeflist)
+         {
+            retFuncHeader->paramlist  = inParamdeflist;
+         }
          /* FIXME: NEED TO REINCORPORATE THIS BACK IN. Somehow lists provide a type? where and why?
          if(inParamdeflist->gettype() == type::VOID)
          {
@@ -145,8 +156,8 @@ namespace njnr
 //          temp = currentFunc->getlocalcount();
       }
   }
-   Funcb* Compiler::create_and_return_a_fn_body_statement_element(\
-                                                       Statement* stmt)
+   std::shared_ptr<FunctionBinding> Compiler::create_and_return_a_fn_body_statement_element(\
+                                                       std::shared_ptr<Statement> stmt)
    {
        if (NULL != stmt)
        {
@@ -161,8 +172,8 @@ namespace njnr
 
       return nullptr;
    }
-   Funcb* Compiler::add_statement_to_fn_body_and_return(List* func,
-                                                        Statement* stmt)
+   std::shared_ptr<FunctionBinding> Compiler::add_statement_to_fn_body_and_return(std::shared_ptr<List> func,
+                                                        std::shared_ptr<Statement> stmt)
    {
        if (stmt->getstype() == statement_type::RETURN)
        {
@@ -174,12 +185,12 @@ namespace njnr
 
       return nullptr;
    }
-   List* Compiler::getfinished(void)
+   std::shared_ptr<List> Compiler::getfinished(void)
    {
     return finished;
    }
 
-   njnr::type Compiler::getReturnTypeFromStatement(Statement* stmt)
+   njnr::type Compiler::getReturnTypeFromStatement(std::shared_ptr<Statement> stmt)
    {
       njnr::type retType{njnr::type::VOID};
 

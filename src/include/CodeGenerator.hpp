@@ -1,14 +1,21 @@
-#ifndef SRC_INCLUDE_TRANS_HPP_
-#define SRC_INCLUDE_TRANS_HPP_
+#ifndef SRC_INCLUDE_CODEGENERATOR_HPP_
+#define SRC_INCLUDE_CODEGENERATOR_HPP_
 #include <config.h>
 #include <cstdio>
 #include <string>
 
-#include "list.hpp"
+#include "List.hpp"
+#include "ListNode.hpp"
+#include "FunctionBinding.hpp"
+#include "Statement.hpp"
+#include "symbol_table_stackX.hpp"
+#include "StatementListNode.hpp"
+//#include "TranslationUnitListNode.hpp"
 
 namespace njnr
 {
 class SymbolTableX;
+class TranslationUnitListNode;
 class CodeGenerator
 {
    public:
@@ -42,18 +49,18 @@ class CodeGenerator
       void gen_call(std::string funcname, int numargs);
 
       void setSymbolTable(SymbolTableX* s);
-      std::string getOutputTypeForCINType(Funcb* f);
+      std::string getOutputTypeForCINType(std::shared_ptr<FunctionBinding> f);
       // concat 2 strings and return the answer, remember to
       // free it when done
       static std::string concat(std::string, std::string);
       // Empties a string. Not being used currently
-      static void nullout(std::string* name, int length);
-      void generate(List* f);
-      void generateTranslationUnit(njnr::TranslationUnitListNode* tn);
-      void generateFunction(Funcb* f);
-      void generateStatement(njnr::StmtListNode* e);
-      void generateReturnStatement(Statement* s);
-      void generateVariabledeclarations(Funcb* f);
+      static void nullout(std::shared_ptr<std::string> name, int length);
+      void generate(std::shared_ptr<List> f);
+      void generateTranslationUnit(std::shared_ptr<njnr::TranslationUnitListNode> tn);
+      void generateFunction(std::shared_ptr<FunctionBinding> f);
+      void generateStatement(std::shared_ptr<njnr::StmtListNode> e);
+      void generateReturnStatement(std::shared_ptr<Statement> s);
+      void generateVariabledeclarations(std::shared_ptr<FunctionBinding> f);
 
    private:
       // Which lable number are we on in generating labels
@@ -67,4 +74,4 @@ class CodeGenerator
       SymbolTableX*   symtab;
 };
 }  // namespace njnr
-#endif  // SRC_INCLUDE_TRANS_HPP_
+#endif  // SRC_INCLUDE_CODEGENERATOR_HPP_

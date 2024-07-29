@@ -2,43 +2,35 @@
 #define SRC_INCLUDE_TYPE_HPP_
 
 #include <config.h>
-#include <vector>
 #include <string>
-
-
+#include <map>
 namespace njnr
 {
-/* defined elsewhere but need below */
-class List;
-
 /* additive operator types */
-enum class addtype
-{
-   PLS,   // Plus      +
-   MIN    // Minus     -
-};
 
 /* multiplicitive operator types */
-enum class multype
-{
-   DIV,   // Divide    *
-   MULT   // Multiply  /
-};
 
 /* euqality testing operator types */
-enum class eqtype
-{
-   NEQ,   // Not Equal   !=
-   EQEQ   // Equal Equal ==
-};
 
 /* relational operator types */
 enum class reltype
 {
+   PLS,   // Plus      +
+   MIN,    // Minus     -
+   DIV,   // Divide    *
+   MULT,   // Multiply  /
+   NEQ,   // Not Equal   !=
+   EQEQ,   // Equal Equal ==
    LES,   // Less than              <
    LEQ,   // Less than or equal     <=
    GRE,   // Greater than           >
    GEQ    // Greather than or equal >=
+};
+
+enum class logType
+{
+   debug,
+   error
 };
 
 /* group types */
@@ -52,6 +44,8 @@ enum class btype
 /* data types */
 enum class type
 {
+   INVALID = -1,
+   MIN = INVALID,
    INT,       // Integer
    FLOAT,     // Float
    VOID,      // Void
@@ -65,14 +59,26 @@ enum class type
    CHECK,     // Hasn't been determined yet and needs to be checked later
    CONSTANT,
    OPERATOR,
+   MAX
 };
 
-/* boolean types */
-enum class mbool
+static const std::map<njnr::type, std::string> typeToStringMap
 {
-   TRUE,  // true
-   FALSE  // false
+   {njnr::type::INT, "INT"},
+   {njnr::type::FLOAT, "FLOAT"},
+   {njnr::type::CHAR, "CHAR"},
+   {njnr::type::VOID, "VOID"},
+   {njnr::type::STR, "STR"},
+   {njnr::type::REFINT, "REFINT"},
+   {njnr::type::REFFLOAT, "REFFLOAT"},
+   {njnr::type::REFSTR, "REFSTR"},
+   {njnr::type::IDENT, "IDENT"},
+   {njnr::type::STMT, "STMT"},
+   {njnr::type::CHECK, "CHECK"},
+   {njnr::type::CONSTANT, "CONSTANT"},
+   {njnr::type::OPERATOR, "OPERATOR"},
 };
+
 
 /* statement types */
 enum class statement_type
@@ -111,98 +117,22 @@ struct Pair
    }
 };
 
-/* expression type data structure */
+void report(njnr::logType t, std::string s);
+
+/* unused types from older architecture
+// expression type data structure
 struct exprtype
 {
    bool lval;        // are we an lval or not - LHS vs RHS
    bool numeric;     // are we numeric and can compute numbers
    njnr::type type;  // what type of expression are we
 };
-
-/* function prototype data structure */
-struct funcheadertype
+// boolean types
+enum class mbool
 {
-   std::string   name;        // fn name
-   njnr::List*   paramlist;   // list of parameters the fn accept as input
-   njnr::type    returntype;  // return type(if any) of fn
-   njnr::type    ttype;       // type of fn?(TBD)
+   TRUE,  // true
+   FALSE  // false
 };
-
-/**
- * @brief Type System Type Abstract Class Interface
- * 
- */
-class TSAbstractType
-{
-   public:
-      TSAbstractType() : typeValue{"AbstractType__NA__()"} {};
-
-      explicit TSAbstractType(const std::string typeValue) :
-                                 typeValue{"AbstractType" + typeValue+"()"} {}
-
-      virtual                     ~TSAbstractType() {}
-
-      virtual   const bool             getNumeric()    const noexcept = 0;
-      virtual   const bool                getLVal()    const noexcept = 0;
-
-      virtual   const std::string        toString()    const noexcept = 0;
-      virtual   const std::string    getTypeValue()    const noexcept = 0;
-      virtual   const njnr::type          getType()    const noexcept = 0;
-   protected:
-      const std::string typeValue;
-};
-
-/**
- * @brief Generic lower-level implementation of Abstract Class Interface
- *         TSAbstractType
- * 
- */
-class TSType : public TSAbstractType
-{
-   public:
-      TSType() : TSAbstractType("GenericType__NA__()"),
-                                isNumeric{false},
-                                isLval{false} {};
-
-      explicit TSType(const std::string typeValue) :
-                   TSAbstractType("GenericType" + typeValue + "()"),
-                   isNumeric{false},
-                   isLval{false} {};
-
-
-      TSType(const std::string typeValue,
-             const bool isNumeric,
-             const bool isLval = false) :
-             TSAbstractType("GenericType" + typeValue + "()"),
-             isNumeric{isNumeric},
-             isLval{isLval} {};
-
-      virtual ~TSType() {}
-
-      virtual const bool getNumeric()          const noexcept
-      {
-         return isNumeric;
-      }
-      virtual const bool getLVal()             const noexcept
-      {
-         return isLval;
-      }
-
-      virtual const std::string toString()     const noexcept
-      {
-         return typeValue;
-      }
-      virtual const std::string getTypeValue() const noexcept
-      {
-         return typeValue;
-      }
-      virtual const njnr::type getType()       const noexcept
-      {
-         return njnr::type::VOID;
-      }
-   private:
-      const bool isNumeric;
-      const bool isLval;
-};
+*/
 }  // namespace njnr
 #endif  // SRC_INCLUDE_TYPE_HPP_

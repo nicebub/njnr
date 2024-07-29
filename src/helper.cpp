@@ -1,8 +1,11 @@
 #include <config.h>
+#include "ListNode.hpp"
 #include "helper.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
+#include "ParameterListNode.hpp"
+
 namespace njnr
 {
 
@@ -10,12 +13,14 @@ namespace njnr
       return false
 
    void Compiler::install_parameters_into_symbol_table_curren_scope(\
-                                              funcheadertype** inFuncHeaderptr)
+                                              std::shared_ptr<FunctionHeader> inFuncHeaderptr)
    {
-      funcheadertype* inFuncHeader{*inFuncHeaderptr};
+      std::shared_ptr<FunctionHeader> inFuncHeader{
+                                                   inFuncHeaderptr
+                                                  };
       for (auto element : *inFuncHeader->paramlist)
       {
-         PListNode* nelement{dynamic_cast<PListNode*>(element)};
+         std::shared_ptr<ParameterListNode> nelement{dynamic_pointer_cast<ParameterListNode>(element)};
          auto tempEntry = symbolTable->createParam(nelement->getval(),
                                                    nelement->gettype(),
                                                    (offset_counter));
@@ -27,23 +32,25 @@ namespace njnr
       }
    }
    bool Compiler::is_function_decl_or_def_accurate(\
-                                     funcheadertype** inFuncHeaderptr,
+                                     std::shared_ptr<FunctionHeader> inFuncHeaderptr,
                                                    bool isdeclaration)
    {
-      funcheadertype* inFuncHeader{*inFuncHeaderptr};
+      std::shared_ptr<FunctionHeader> inFuncHeader{
+                                                   inFuncHeaderptr
+                                                  };
 
-      currentFunc = static_cast<Funcb*>(symbolTable->
-                                        lookup(inFuncHeader->name));
-      S_TableEntryX foundPacket{*static_cast<S_TableEntryX*>(symbolTable->
-                                                         lookupB(inFuncHeader->
-                                                                 name))};
+      currentFunc = static_pointer_cast<FunctionBinding>(symbolTable->lookup(inFuncHeader->name));
+
+      std::shared_ptr<S_TableEntryX> foundPacket = static_pointer_cast<S_TableEntryX>(symbolTable->
+                                                     lookupB(inFuncHeader->
+                                                     name));
 /*
       if(!foundPacket)
       {
          error_and_return_false("Function name not in symbol symbolTable");
       }
 */
-      if (foundPacket.getGroup() != njnr::btype::FUNC)
+      if (foundPacket->getGroup() != njnr::btype::FUNC)
       {
          error_and_return_false("Not a function");
       }
@@ -63,7 +70,7 @@ namespace njnr
       int list_index{0};
       for (auto element : * inFuncHeader->paramlist)
       {
-         PListNode* nelement{dynamic_cast<PListNode*>(element)};
+         std::shared_ptr<ParameterListNode> nelement{dynamic_pointer_cast<ParameterListNode>(element)};
          if (currentFunc->getparam_type()[list_index] != nelement->gettype())
          {
             std::cerr << "Error: Line: " << Line_Number << ": argument " <<

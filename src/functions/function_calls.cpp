@@ -4,22 +4,24 @@
 #include <iostream>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
+#include "ReturnPacket.hpp"
 #include "njnr.tab.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
 
 namespace njnr
 {
-   ReturnPacket* Compiler::block60_function_call_ident_lpar_rpar(\
-                                                      njnr::Identifier inIdent)
+   std::shared_ptr<ReturnPacket> Compiler::block60_function_call_ident_lpar_rpar(\
+                                                      std::string inIdent_original)
    {
-       ReturnPacket* outPacket{new ReturnPacket{}};
+       njnr::Identifier inIdent{inIdent_original};
+       std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
        outPacket->setlval(false);
-       Funcb* tempb;
+       std::shared_ptr<FunctionBinding> tempb;
        S_TableEntryX tempE;
-       S_TableEntryX*tempE2;
-       if ((tempb = reinterpret_cast<Funcb*>(symbolTable->
+       std::shared_ptr<S_TableEntryX> tempE2;
+       if ((tempb = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
                                             lookup(inIdent.getvalue()))) ==
                                             nullptr)
        {
@@ -28,11 +30,11 @@ namespace njnr
        }
        else
        {
-           tempE2 = new S_TableEntryX(*new std::string{inIdent.getvalue()},
-                                     new njnr::Identifier{inIdent},
-                                     njnr::type::IDENT);
+           tempE2 = std::shared_ptr<S_TableEntryX>(new S_TableEntryX(*new std::string{inIdent.getvalue()},
+                                     std::shared_ptr<Identifier>(new njnr::Identifier{inIdent}),
+                                     njnr::type::IDENT));
 
-           tempE = *static_cast<S_TableEntryX*>(symbolTable->
+           tempE = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                                 lookupB(inIdent.getvalue()));
                if (tempE.getGroup() == btype::FUNC)
                {
@@ -75,28 +77,27 @@ namespace njnr
                {
                    error("Function call with an unknown function name", "");
                }
-           delete tempE2;
-           tempE2 = nullptr;
+//           tempE2 = nullptr;
            return outPacket;
        }
        return outPacket;
    }
 
-   ReturnPacket* Compiler::block62_func_call_with_params_name_and_params_rpar(\
-                                                ReturnPacket** nameAndparamptr)
+   std::shared_ptr<ReturnPacket> Compiler::block62_func_call_with_params_name_and_params_rpar(\
+                                                std::shared_ptr<ReturnPacket> nameAndparamptr)
    {
-       ReturnPacket* funcCallWparam{new ReturnPacket{}};
-       funcCallWparam->setnumeric((* nameAndparamptr)->getnumeric());
+       std::shared_ptr<ReturnPacket> funcCallWparam{new ReturnPacket{}};
+       funcCallWparam->setnumeric((nameAndparamptr)->getnumeric());
        funcCallWparam->setlval(false);
-       funcCallWparam->settype((* nameAndparamptr)->gettype());
-       if ((* nameAndparamptr)->funcent != nullptr)
+       funcCallWparam->settype((nameAndparamptr)->gettype());
+       if ((nameAndparamptr)->funcent != nullptr)
        {
-           if ((static_cast<S_TableEntryX*>((*nameAndparamptr)->
+           if ((static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                             funcent))->
                                             getGroup() == btype::FUNC)
            {
-               if ((reinterpret_cast<Funcb*>(
-                               static_cast<S_TableEntryX*>((*nameAndparamptr)->
+               if ((reinterpret_pointer_cast<FunctionBinding>(
+                               static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                             funcent)->
                                             getBinding()))->
                                             getreturntype() != type::VOID)
@@ -108,28 +109,28 @@ namespace njnr
                }
            }
            if ("scanf" ==
-               static_cast<S_TableEntryX*>((*nameAndparamptr)->funcent)->
+               static_pointer_cast<S_TableEntryX>((nameAndparamptr)->funcent)->
                                                                getName())
            {
-               code_generator.gen_call("$scanf", (*nameAndparamptr)->params);
+               code_generator.gen_call("$scanf", (nameAndparamptr)->params);
            }
            else if ("printf" ==
-                    static_cast<S_TableEntryX*>((*nameAndparamptr)->
+                    static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                 funcent)->
                                                 getName())
            {
-               code_generator.gen_call("$printf", (*nameAndparamptr)->params);
+               code_generator.gen_call("$printf", (nameAndparamptr)->params);
            }
            else
            {
-               if ((reinterpret_cast<Funcb*>(
-                      static_cast<S_TableEntryX*>((*nameAndparamptr)->
+               if ((reinterpret_pointer_cast<FunctionBinding>(
+                      static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                   funcent)->
                                                   getBinding()))->
                                                   getlabel() == 0)
                {
-                   (reinterpret_cast<Funcb*>(
-                       static_cast<S_TableEntryX*>((*nameAndparamptr)->
+                   (reinterpret_pointer_cast<FunctionBinding>(
+                       static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                    funcent)->
                                                    getBinding()))->
                                                    setlabel(
@@ -137,15 +138,15 @@ namespace njnr
                }
                code_generator.gen_call(
                         code_generator.genlabelw(
-                            static_cast<S_TableEntryX*>((*nameAndparamptr)->
+                            static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                         funcent)->getName(),
-                            (reinterpret_cast<Funcb*>(
-                                static_cast<S_TableEntryX*>((*nameAndparamptr)->
+                            (reinterpret_pointer_cast<FunctionBinding>(
+                                static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                             funcent)->
                                                             getBinding()))->
                                                             getlabel()),
-                            (reinterpret_cast<Funcb*>(
-                                static_cast<S_TableEntryX*>((*nameAndparamptr)->
+                            (reinterpret_pointer_cast<FunctionBinding>(
+                                static_pointer_cast<S_TableEntryX>((nameAndparamptr)->
                                                             funcent)->
                                                             getBinding()))->
                                                             getnum_param());
@@ -154,13 +155,14 @@ namespace njnr
        return funcCallWparam;
    }
 
-   ReturnPacket* Compiler::block63_name_and_params_ident_lpar_source(\
-                                                      njnr::Identifier inPacket)
+   std::shared_ptr<ReturnPacket> Compiler::block63_name_and_params_ident_lpar_source(\
+                                                      std::string inPacket_original)
    {
-       ReturnPacket* inEntry{new ReturnPacket{}};
-       S_TableEntryX* s{new S_TableEntryX{}};
-       inEntry->funcent = nullptr;
-       *s = *static_cast<S_TableEntryX*>(symbolTable->
+       njnr::Identifier inPacket{inPacket_original};
+       std::shared_ptr<ReturnPacket> inEntry{new ReturnPacket{}};
+       std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
+//       inEntry->funcent = nullptr;
+       *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                          lookupB(inPacket.getvalue()));
        inEntry->funcent = s;
    #ifdef DEBUG
@@ -175,41 +177,43 @@ namespace njnr
    #endif
        if (inEntry->funcent != nullptr)
        {
-           static_cast<S_TableEntryX*>(inEntry->
+           static_pointer_cast<S_TableEntryX>(inEntry->
                                        funcent)->setName(inPacket.getvalue());
        }
        return inEntry;
    }
 
-   ReturnPacket* Compiler::block64_name_and_params_ident_lpar_source_expr(\
-                                                   njnr::Identifier inIdent,
-                                                   ReturnPacket** inEntryptr,
-                                                   ReturnPacket** inPacketptr)
+   std::shared_ptr<ReturnPacket> Compiler::block64_name_and_params_ident_lpar_source_expr(\
+                                                   std::string inIdent_original,
+                                                   std::shared_ptr<ReturnPacket> inEntryptr,
+                                                   std::shared_ptr<ReturnPacket> inPacketptr)
    {
-       S_TableEntryX*tempE, *tempE2;
-       ReturnPacket* outPacket{new ReturnPacket{}};
-       ReturnPacket* inPacket{*inPacketptr};
-       ReturnPacket* inEntry{*inEntryptr};
+       njnr::Identifier inIdent{inIdent_original};
+       std::shared_ptr<S_TableEntryX> tempE;
+       std::shared_ptr<S_TableEntryX> tempE2;
+       std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> inPacket{inPacketptr};
+       std::shared_ptr<ReturnPacket> inEntry{inEntryptr};
        outPacket->setlval(false);
-       Funcb* tempB;
-       tempB = reinterpret_cast<Funcb*>(symbolTable->
+       std::shared_ptr<FunctionBinding> tempB;
+       tempB = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
                                         lookup(inIdent.getvalue()));
        if (tempB == nullptr)
        {
            error("function undelcared, please declare " \
                  "functions before using them", "");
            error("1", "");
-           outPacket->funcent = nullptr;
+//           outPacket->funcent = nullptr;
        }
        else
        {
-        S_TableEntryX* s{new S_TableEntryX{}};
+        std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
            // warning("just checking value of entry: \
            //                       %s",$<value.funcentvalue>$->name);
-           tempE2 = new S_TableEntryX(*new std::string{inIdent.getvalue()},
-                                     new njnr::Identifier{inIdent},
-                                     njnr::type::IDENT);
-           *s = *static_cast<S_TableEntryX*>(symbolTable->
+           tempE2 = std::shared_ptr<S_TableEntryX>(new S_TableEntryX(*new std::string{inIdent.getvalue()},
+                                     std::shared_ptr<Identifier>(new njnr::Identifier{inIdent}),
+                                     njnr::type::IDENT));
+           *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                              lookupB(inIdent.getvalue()));
            tempE = s;
            if ( tempE != nullptr)
@@ -219,7 +223,7 @@ namespace njnr
                    error("function undeclared, please declare " \
                          "functions before using them", "");
                    error("2", "");
-                   outPacket->funcent = nullptr;
+//                   outPacket->funcent = nullptr;
                }
                else
                {
@@ -341,23 +345,23 @@ namespace njnr
            {
                error("Function is undeclared", "");
            }
-           delete tempE2;
-           tempE2 = nullptr;
+//           tempE2 = nullptr;
        }
        return outPacket;
    }
 
-   ReturnPacket* Compiler::block65_name_and_params_name_and_params_comma_expr(\
-                                     ReturnPacket** innameAndparamPacketptr,
-                                     ReturnPacket** inexprPacketptr)
+   std::shared_ptr<ReturnPacket> Compiler::block65_name_and_params_name_and_params_comma_expr(\
+                                     std::shared_ptr<ReturnPacket> innameAndparamPacketptr,
+                                     std::shared_ptr<ReturnPacket> inexprPacketptr)
    {
-       ReturnPacket* outPacket{new ReturnPacket{}};
-       ReturnPacket* innameAndparamPacket{*innameAndparamPacketptr};
-       ReturnPacket* inexprPacket{*inexprPacketptr};
+       std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
+       std::shared_ptr<ReturnPacket> innameAndparamPacket{innameAndparamPacketptr};
+       std::shared_ptr<ReturnPacket> inexprPacket{inexprPacketptr};
 
-       S_TableEntryX*tempE, *tempE2;
+       std::shared_ptr<S_TableEntryX> tempE;
+       std::shared_ptr<S_TableEntryX> tempE2;
        outPacket->setlval(false);
-       Funcb* tempB;
+       std::shared_ptr<FunctionBinding> tempB;
        if (innameAndparamPacket->funcent == nullptr)
        {
            error("function undelcared, please declare functions " \
@@ -367,22 +371,22 @@ namespace njnr
        else
        {
            outPacket->funcent = innameAndparamPacket->funcent;
-           tempE2 = new S_TableEntryX(*new std::string{
-                          static_cast<S_TableEntryX*>(innameAndparamPacket->
+           tempE2 = std::shared_ptr<S_TableEntryX>(new S_TableEntryX(*new std::string{
+                          static_pointer_cast<S_TableEntryX>(innameAndparamPacket->
                                                       funcent)->
                                                       getName()},
                                      innameAndparamPacket->funcent,
-                                     njnr::type::IDENT);
+                                     njnr::type::IDENT));
 
-           tempB = reinterpret_cast<Funcb*>(symbolTable->
+           tempB = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
                                            lookup(
-                             static_cast<S_TableEntryX*>(innameAndparamPacket->
+                             static_pointer_cast<S_TableEntryX>(innameAndparamPacket->
                                                          funcent)->
                                                          getName()));
-           S_TableEntryX* s{new S_TableEntryX{}};
-           *s = *static_cast<S_TableEntryX*>(symbolTable->
+           std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
+           *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
                                              lookupB(
-                              static_cast<S_TableEntryX*>(innameAndparamPacket->
+                              static_pointer_cast<S_TableEntryX>(innameAndparamPacket->
                                                           funcent)->
                                                           getName()));
            tempE = s;
@@ -414,7 +418,7 @@ namespace njnr
                        }
                        outPacket->params = innameAndparamPacket->params +1;
                        outPacket->funcent = innameAndparamPacket->funcent;
-                       if (static_cast<S_TableEntryX*>(outPacket->funcent)->
+                       if (static_pointer_cast<S_TableEntryX>(outPacket->funcent)->
                                                                   getName() !=
                            "scanf")
                        {
@@ -469,10 +473,77 @@ namespace njnr
            {
                error("Function is undeclared", "");
            }
-           delete tempE2;
-           tempE2 = nullptr;
+//           tempE2 = nullptr;
        }
        return outPacket;
    }
 
+   /**
+    * @brief
+    *
+    * @param t
+    * @return std::string
+    */
+   std::string Compiler::mapNjnrTypeToString(njnr::type t)
+   {
+      std::string s{""};
+      switch (t)
+      {
+         case njnr::type::STR:
+            s = "string";
+            break;
+         case njnr::type::INT:
+            s = "int";
+            break;
+         case njnr::type::FLOAT:
+            s = "float";
+            break;
+         case njnr::type::CHAR:
+            s = "char";
+            break;
+        default:
+            break;
+      }
+      return s;
+   }
+
+   /**
+    * @brief
+    *
+    * @param p
+    * @param s
+    * @return std::shared_ptr<Operator>
+    */
+   std::shared_ptr<Operator> Compiler::createOperator(njnr::reltype p,
+                                      std::string s)
+   {
+      std::shared_ptr<Operator> n = std::make_shared<Operator>(nullptr);
+
+      n->setType(TSOperatorType(s));
+
+      typeTable->install2(s, njnr::type::OPERATOR);
+      return n;
+   }
+
+   /**
+    * @brief
+    *
+    * @param p
+    * @param t
+    * @return std::shared_ptr<Constant>
+    */
+   std::shared_ptr<Constant> Compiler::createConstant(njnr::type p,
+                                      std::string t)
+   {
+      std::string s{mapNjnrTypeToString(p)};
+
+      typeTable->install2(s, p);
+
+      std::shared_ptr<Constant> n{new Constant{t, p}};
+      constantTable->install2(t, p);
+
+//      n->setType(TSOperatorType(s));
+//      typeTable->install2(s, njnr::type::OPERATOR);
+      return n;
+   }
 }  // namespace njnr

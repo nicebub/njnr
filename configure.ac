@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.71])
-AC_INIT([njnr], [0.01], [njnr@github.com])
+AC_INIT([njnr], [0.0.1], [njnr@github.com])
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror foreign])
 
 # these two lines didn't work, without them does

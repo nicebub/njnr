@@ -6,11 +6,7 @@
 #include <cstdint>
 
 #include "debug.hpp"
-#include "type.hpp"
-#include "cpptypes.hpp"
-#include "lex.hpp"
-#include "list.hpp"
-#include "data.hpp"
+#include "njnrLexer.hpp"
 
 /* we redefine our declaration for the lexer as we changed it */
 #undef  YY_DECL
@@ -20,7 +16,7 @@
 #define YY_USER_ACTION loc->step(); loc->columns(yyleng); yylval = lval;
 
 #include "njnr.tab.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 
 /* we use our namespace */
 using namespace njnr;
@@ -122,60 +118,75 @@ PRINTABLE_CHAR [!@#$%^&*\(\)\-_=+\[\]\{\}\\|;:'",<.>/?0-9A-Za-z]
 }
 
 fn {
+      yylval->emplace<std::string>() = "fn";
       return token::fnt;
    }
-void {/*keyword void*/
+void {/* keyword void */
+      yylval->emplace<std::string>() = "void";
         return token::voidt;
      }
 
-if {/* keyword if*/
+if {/* keyword if */
+      yylval->emplace<std::string>() = "if";
       return token::ift;
    }
 
 return {/* keyword return*/
+      yylval->emplace<std::string>() = "return";
           return token::returnt;
        }
 
 else {/* keyword else*/
+      yylval->emplace<std::string>() = "else";
         return token::elset;
      }
 
 while {/*keyword while*/
+      yylval->emplace<std::string>() = "while";
          return token::whilet;
       }
 
 int { /*keyword int*/
+      yylval->emplace<std::string>() = "int";
        return token::intt;
     }
 
 float {/* keyword float*/
+      yylval->emplace<std::string>() = "float";
          return token::floatt;
       }
 
 char { /* keyword char*/
+      yylval->emplace<std::string>() = "char";
         return token::chart;
      }
 
 let {
+      yylval->emplace<std::string>() = "let";
        return token::lett;
     }
 {GEQ} {
+      yylval->emplace<std::string>() = ">=";
          return token::geq;
       }
 
 {LEQ} {
+      yylval->emplace<std::string>() = "<=";
          return token::leq;
       }
 
 {NEQ} {
+      yylval->emplace<std::string>() = "!=";
          return token::neq;
       }
 
 {EQUEQU} {
+      yylval->emplace<std::string>() = "==";
             return token::equequ;
          }
 
 {ADOF} {
+      yylval->emplace<std::string>() = "&";
           return token::adof;
        }
 
@@ -183,7 +194,7 @@ let {
             BEGIN(comment);
          }
 
-{LETTER}({LETTER}|{DIGIT})*  { /* identifier*/
+{LETTER}({LETTER}|{DIGIT})*  { /* identifier */
                                 yylval->emplace<std::string>() = yytext;
                                 return(token::Ident);
                              }
@@ -217,7 +228,7 @@ let {
               compiler->error("illegal integer: %s", yytext);
            }
 
-(0|([1-9]{DIGIT}*))     { /*integer constant*/
+(0|([1-9]{DIGIT}*))     { /*integer constant */
                            yylval->emplace<std::string>() = yytext;
                            return(token::IntConstant);
                         }
@@ -250,108 +261,136 @@ let {
         }
 
 \) {
+      yylval->emplace<std::string>() = ")";
       return token::rpar;
    }
 
 \( {
+      yylval->emplace<std::string>() = "(";
       return token::lpar;
    }
 
 \{ {
+      yylval->emplace<std::string>() = "{";
       return token::lcbra;
    }
 
 \} {
+      yylval->emplace<std::string>() = "}";
       return token::rcbra;
    }
 
 \; {
+      yylval->emplace<std::string>() = ";";
       return token::semi;
    }
 
 \, {
+      yylval->emplace<std::string>() = ",";
       return token::comma;
    }
 
 \< {
+      yylval->emplace<std::string>() = "<";
       return token::lesst;
    }
 
 \> {
+      yylval->emplace<std::string>() = ">";
       return token::greatt;
    }
 
 \= {
+      yylval->emplace<std::string>() = "=";
       return token::equalt;
    }
 
 \+ {
+      yylval->emplace<std::string>() = "+";
       return token::plus;
    }
 
 \- {
+      yylval->emplace<std::string>() = "-";
       return token::minus;
    }
 
 \/ {
+      yylval->emplace<std::string>() = "/";
       return token::divide;
    }
 \\ {
+      yylval->emplace<std::string>() = "\\";
       return token::backst;
    }
 \| {
+      yylval->emplace<std::string>() = "|";
       return token::verticalbart;
    }
 
 \\\_ {
+      yylval->emplace<std::string>() = "_";
       return token::underst;
    }
 
 \$ {
+      yylval->emplace<std::string>() = "$";
       return token::dollart;
    }
 
 \^ {
+      yylval->emplace<std::string>() = "^";
       return token::caratt;
    }
 
 \* {
+      yylval->emplace<std::string>() = "*";
       return token::star;
    }
 
 \# {
+      yylval->emplace<std::string>() = "#";
       return token::hasht;
    }
 
 \@ {
+      yylval->emplace<std::string>() = "@";
       return token::att;
    }
 \[ {
+      yylval->emplace<std::string>() = "[";
       return token::lbrat;
    }
 
 \] {
+      yylval->emplace<std::string>() = "]";
       return token::rbrat;
    }
 
 \: {
+      yylval->emplace<std::string>() = ":";
       return token::colont;
    }
 
 \! {
+      yylval->emplace<std::string>() = "!";
       return token::exclamationt;
    }
 
 \~ {
+      yylval->emplace<std::string>() = "~";
       return token::tildat;
    }
 \` {
+      yylval->emplace<std::string>() = "`";
       return token::backtickt;
    }
 \. {
+      yylval->emplace<std::string>() = ".";
       return token::periodt;
    }
 \? {
+      yylval->emplace<std::string>() = "?";
       return token::questiont;
    }
 

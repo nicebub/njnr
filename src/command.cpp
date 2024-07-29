@@ -4,11 +4,11 @@
 #include <fstream>
 
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
 namespace njnr
 {
    bool Compiler::filenameDoesEndsInDotN(\
-                             const std::string& inFilename)  noexcept
+                             const std::string inFilename)  noexcept
    {
        std::string extra{""};
        auto f_sz{ inFilename.size() };
@@ -27,11 +27,12 @@ namespace njnr
             {
                 try
                 {
-                    std::ifstream* inputStream{new std::ifstream{argv[1],
-                                               std::ifstream::in}};
+                    std::shared_ptr<std::ifstream> inputStream;
+                    inputStream = std::make_shared<std::ifstream>(argv[1]);
                     if (inputStream->is_open())
                     {
-                        lexer.switch_streams(inputStream);
+                        infile = inputStream;
+                        lexer.switch_streams(*infile, std::cout);
                         return true;
                     }
                 }
@@ -48,7 +49,7 @@ namespace njnr
        }
        else
        {
-            lexer.switch_streams(&std::cin);
+            lexer.switch_streams(std::cin, std::cout);
            return true;
        }
        return false;
@@ -93,7 +94,8 @@ namespace njnr
        return false;
    }
 
-#ifndef MAIN
+#ifdef FALSEAA
+//#ifndef MAIN
 #define MAIN
 
    int main(int argc,  char* const* argv)

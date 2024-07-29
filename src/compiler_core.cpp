@@ -2,9 +2,14 @@
 #include <cstdio>
 #include <fstream>
 #include <ostream>
+#include <memory>
+#include "List.hpp"
 #include "debug.hpp"
-#include "compiler.hpp"
+#include "Compiler.hpp"
+#include "ReturnPacket.hpp"
+#include "Statement.hpp"
 #include "symbol_table_stackX.hpp"
+#include "StatementListNode.hpp"
 namespace njnr
 {
    /**
@@ -38,22 +43,27 @@ namespace njnr
        parser{nullptr},
        currentFunc{nullptr},
        outfile{nullptr},
+       infile{nullptr},
+       filename{""},
        Line_Number{1},
        globalcount{0},
        offset_counter{5},
+       labelcounter{0},
        othercounter{1},
        param_offset{0},
        mainlocal{0},
+       mainlabel{0},
        returnTypes{},
-       founderror{false}
+       founderror{false},
+       finished{nullptr}
    {
        try
        {
-           symbolTable = new SymbolTableX{ *this};
+           symbolTable = new SymbolTableX{ this};
+           constantTable = new SymbolTableX{this};
+           typeTable  = new SymbolTableX{this};
+           parser = new njnrParser{this};
            install_functions_into_symbolTable();
-           constantTable = new SymbolTableX{*this};
-           typeTable  = new SymbolTableX{*this};
-           parser = new njnrParser{*this};
            parser->set_debug_stream(std::cerr);
    #ifdef DEBUG
            parser->set_debug_level(1);
@@ -69,11 +79,13 @@ namespace njnr
 
    void Compiler::install_functions_into_symbolTable()
    {
-       List* params{List::mklist("", njnr::type::VOID)};
-       S_TableEntryX* entry{symbolTable->createFunc("main",
+       std::shared_ptr<List> params{nullptr};
+       params = List::mklist("", njnr::type::VOID);
+       std::shared_ptr<S_TableEntryX> entry{symbolTable->createFunc("main",
                                                     njnr::type::INT,
                                                     params)};
-       symbolTable->install<S_TableEntryX*>(entry);
+       symbolTable->install<std::shared_ptr<S_TableEntryX>>(entry);
+//       params = nullptr;
    }
 
    Compiler::Compiler(int argc,  char* const* argv) : Compiler{}
@@ -83,33 +95,94 @@ namespace njnr
 
    Compiler::~Compiler()
    {
-       closeOrRemoveOutputFile(false);
-       if (symbolTable != nullptr)
-       {
-           debugprint("deleteting symbol table\n", "");
-           delete symbolTable;
-           symbolTable = nullptr;
-       }
-       if (constantTable != nullptr)
-       {
-           debugprint("deleteting constant symbol table\n", "");
-           delete constantTable;
-           constantTable = nullptr;
-       }
-       if (typeTable != nullptr)
-       {
-           debugprint("deleteting type symbol table\n", "");
-           delete typeTable;
-           typeTable = nullptr;
-       }
+      report(njnr::logType::debug, "Compiler destructor: deleting members");
+      report(njnr::logType::debug, "filename: " + filename);
+      report(njnr::logType::debug, "LineNunmber: " + Line_Number);
+      report(njnr::logType::debug, "globalcount: " + globalcount);
+      report(njnr::logType::debug, "offset_counter: " + offset_counter);
+      report(njnr::logType::debug, "labelcounter: " + labelcounter);
+      report(njnr::logType::debug, "othercounter: " + othercounter);
+      report(njnr::logType::debug, "param_offset: " + param_offset);
+      report(njnr::logType::debug, "mainlocal: " + mainlocal);
+      report(njnr::logType::debug, "mainlabel: " + mainlabel);
+      report(njnr::logType::debug, "retunTypes: " + returnTypes.toString());
 
-       if (parser != nullptr)
-       {
-           debugprint("deleteing parser\n", "");
-           delete parser;
-           parser = nullptr;
-       }
-       currentFunc = nullptr;
+      closeOrRemoveOutputFile(false);
+
+      closeOrRemoveInputFile(false);
+
+      if (symbolTable != nullptr)
+      {
+//         FunctionBinding* x{nullptr};
+         std::shared_ptr<FunctionBinding> xx{nullptr};
+      try
+      {
+         std::shared_ptr<S_TableEntryX> e{nullptr};
+         e = symbolTable->remove<S_TableEntryX>(std::string{"main"});
+         debugprint("ade it before null check", "");
+         if (nullptr != e)
+         {
+            xx = std::shared_ptr<FunctionBinding>{reinterpret_pointer_cast<FunctionBinding>(e->getValue())};
+//            xx = *dynamic_cast<std::shared_ptr<FunctionBinding>>(x);
+            if (nullptr != xx)
+            {
+               debugprint("deleting a function binding for function main()",
+                          "");
+               std::shared_ptr<List> p{nullptr};
+               p = xx->getfuncbody_list();
+               if (nullptr != p)
+               {
+                  debugprint("deleting paprameter list of function", "");
+//                  p = nullptr;
+               }
+               else
+               {
+                  debugprint(" cannot delete empty param list", "");
+               }
+//               xx = nullptr;
+            }
+            else
+            {
+               debugprint("did not find FunctionBinding for main", "");
+            }
+         }
+         else
+         {
+            debugprint("removed entry was null", "");
+         }
+         debugprint("deleteting symbol table\n", "");
+         delete symbolTable;
+         symbolTable = nullptr;
+      }
+      catch(std::exception e){
+         std::cerr << e.what() << std::endl;
+      }
+      }
+      if (constantTable != nullptr)
+      {
+          debugprint("deleteting constant symbol table\n", "");
+          delete constantTable;
+          constantTable = nullptr;
+      }
+      if (typeTable != nullptr)
+      {
+          debugprint("deleteting type symbol table\n", "");
+          delete typeTable;
+          typeTable = nullptr;
+      }
+
+      if (parser != nullptr)
+      {
+          debugprint("deleteing parser\n", "");
+          delete parser;
+          parser = nullptr;
+      }
+      if (nullptr != finished)
+      {
+         debugprint("deleteing finished list of translation units\n", "");
+//         finished = nullptr;
+      }
+//      currentFunc = nullptr;
    }
 
 
@@ -145,7 +218,29 @@ namespace njnr
        }
    }
 
-   void  Compiler::setfinished(List* inlist)
+   void Compiler::closeOrRemoveInputFile(bool needtoremove)
+   {
+       if (infile != nullptr)
+       {
+//           if (*infile != std::cin)
+//           {
+               auto file{infile};
+               if (file->is_open())
+               {
+                   debugprint("Closing file\n", "");
+                   file->close();
+                   if (needtoremove)
+                   {
+                       debugprint("Removing file\n", "");
+                       remove(this->filename.c_str());
+                   }
+//               }
+           }
+           infile = nullptr;
+       }
+   }
+
+   void  Compiler::setfinished(std::shared_ptr<List> inlist)
    {
       finished = inlist;
    }
@@ -234,15 +329,17 @@ namespace njnr
       return false;
    }
 
-    bool Compiler::checkSingleReturnStatement(Statement *realstmt,
-                                              njnr::type* foundtype,
+    bool Compiler::checkSingleReturnStatement(std::shared_ptr<Statement> realstmt,
+                                              njnr::type foundtype,
                                               bool first)
     {
         bool success{true};
 //        njnr::type found = {};
-        njnr::type similar{};
+        // njnr::type similar{};
+        njnr::type similar;
 
-        if (nullptr != realstmt && (nullptr != foundtype))
+        if (nullptr != realstmt)
+        // if (nullptr != realstmt && (nullptr != foundtype))todo: ask scott if this change is correct
         {
             /* make sure we only look at return statements */
             if (realstmt->getstype() == njnr::statement_type::RETURN)
@@ -252,10 +349,11 @@ namespace njnr
                 switch (realstmt->getrettype())
                 {
                     case njnr::type::CHECK:
-                         checkSingleReturnStatement(realstmt, &similar, first);
+                        //  checkSingleReturnStatement(realstmt, similar, first);
+                         checkSingleReturnStatement(realstmt, similar, first);
                             if (true == first)
                             {
-                                *foundtype = similar;
+                                foundtype = similar;
                             }
                             else
                             {
@@ -268,7 +366,8 @@ namespace njnr
                     default:
                         similar = Compiler::getReturnTypeFromStatement(\
                                                              realstmt);
-                        if (true == aresimilartypes(similar, *foundtype))
+                        // if (true == aresimilartypes(similar, *foundtype))
+                        if (true == aresimilartypes(similar, foundtype))
                         {
                             std::cout << "so far compatible...\n";
                         }
@@ -276,7 +375,7 @@ namespace njnr
                         {
                             if (true == first)
                             {
-                                *foundtype = similar;
+                                foundtype = similar;
                             }
                             else
                             {
@@ -290,7 +389,7 @@ namespace njnr
                 if (realstmt->getrettype() == njnr::type::CHECK &&
                     (first == true))
                 {
-                    ReturnPacket* realType{realstmt->getexpr()};
+                    std::shared_ptr<ReturnPacket> realType{realstmt->getexpr()};
                     if (nullptr != realType)
                     {
                         std::cout << "return type checked..... " +
@@ -300,16 +399,17 @@ namespace njnr
 
                         if (njnr::type::IDENT == realType->gettype())
                         {
-                          Identifier* Id{dynamic_cast<Identifier*>(realType)};
+                          std::shared_ptr<Identifier> Idp{std::dynamic_pointer_cast<Identifier>(realType)};
+                          std::shared_ptr<Identifier> Id{Idp}; 
                           std::string s{Id->getvalue()};
                           /* TODO(nicebub): check symbol table for this name and get
                                     is data type to put here */
-                          *foundtype = njnr::type::INT;
+                          foundtype = njnr::type::INT;
                           first = false;
                         }
                         else if (realType->gettype() != njnr::type::CHECK)
                         {
-                           *foundtype = realType->gettype();
+                           foundtype = realType->gettype();
                            first = false;
                         }
                         else
@@ -329,12 +429,13 @@ namespace njnr
         return success;
     }
 
-    bool Compiler::checkAllFunctionReturnStatements(njnr::List* statementList,
-                                                    njnr::type* foundtype)
+    bool Compiler::checkAllFunctionReturnStatements(std::shared_ptr<njnr::List> statementList,
+                                                    njnr::type foundtype)
     {
         bool first{true};
         bool success{false};
-        if (nullptr != statementList && (nullptr != foundtype))
+        // if (nullptr != statementList && (nullptr != foundtype))
+        if (nullptr != statementList)//todo: ask scott if this change is correct
         {
             std::cout << "Calculating Return types from " \
                          "return statements found in function...\n";
@@ -345,27 +446,30 @@ namespace njnr
             //  if they all match or not.
             for (auto stmt : *statementList)
             {
-                if (stmt->get_nodeType() == njnr::eNodeType::STMT)
+                if (nullptr != stmt)
                 {
-//                    Statement* realstmt{(dynamic_cast<StmtListNode*>
-//                                                          (stmt))->
-//                                                          getstmt()};
-                    if (true != checkSingleReturnStatement(\
-                                      (dynamic_cast<StmtListNode*>(stmt))->
-                                                                  getstmt(),
-                                       foundtype,
-                                       first))
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    std::cout << "skipping non-STMT node\n";
-                }
-                if (true == first)
-                {
-                    first = false;
+                   if (stmt->get_nodeType() == njnr::eNodeType::STMT)
+                   {
+   //                    std::shared_ptr<Statement> realstmt{(dynamic_cast<StmtListNode*>
+   //                                                          (stmt))->
+   //                                                          getstmt()};
+                       if (true != checkSingleReturnStatement(\
+                                         (dynamic_pointer_cast<StmtListNode>(stmt))->
+                                                                     getstmt(),
+                                          foundtype,
+                                          first))
+                       {
+                           break;
+                       }
+                   }
+                   else
+                   {
+                       std::cout << "skipping non-STMT node\n";
+                   }
+                   if (true == first)
+                   {
+                       first = false;
+                   }
                 }
             }
             success = true;
@@ -378,7 +482,7 @@ namespace njnr
         return success;
     }
 
-    void Compiler::checkfunctionReturnValues(Funcb* functionBinding)
+    void Compiler::checkfunctionReturnValues(std::shared_ptr<FunctionBinding> functionBinding)
     {
         njnr::type foundtype{njnr::type::VOID};
 
@@ -403,7 +507,7 @@ namespace njnr
             // IF we have a function body
             if (true == checkAllFunctionReturnStatements(functionBinding->
                                                          getfuncbody_list(),
-                                                         &foundtype))
+                                                         foundtype))
             {
                 std::cout << "Setting new return type to: " +
                              getStringFromType(foundtype) +
@@ -423,7 +527,7 @@ namespace njnr
            if( (t = dynamic_cast<TranslationUnitListNode*>(e))->get_trans_unit_type() ==
                 njnr::trans_unit_type::FUNCTION)
            {
-              Funcb* f{nullptr};
+              FunctionBinding* f{nullptr};
               if(nullptr != (f = t->getFunc()))
               {
 
@@ -435,32 +539,32 @@ namespace njnr
     */
    }
 
-void Compiler::installVariableIntoSymbolTable(njnr::Identifier* Id,
+void Compiler::installVariableIntoSymbolTable(std::shared_ptr<Identifier> Id,
                                               njnr::type t)
 {
    if (Id != nullptr)
    {
-      S_TableEntryX* te = symbolTable->createVar(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id->getvalue(), t, 0);
       symbolTable->install(te);
    }
 }
 void Compiler::installVariableIntoSymbolTable(std::string Id, njnr::type t)
 {
-      S_TableEntryX* te = symbolTable->createVar(Id, t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id, t, 0);
       symbolTable->install(te);
 }
-void Compiler::installParameterIntoSymbolTable(njnr::Identifier* Id,
+void Compiler::installParameterIntoSymbolTable(std::shared_ptr<Identifier> Id,
                                                njnr::type t)
 {
    if (Id != nullptr)
    {
-      S_TableEntryX* te = symbolTable->createParam(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id->getvalue(), t, 0);
       symbolTable->install(te);
    }
 }
 void Compiler::installParameterIntoSymbolTable(std::string Id, njnr::type t)
 {
-      S_TableEntryX* te = symbolTable->createParam(Id, t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id, t, 0);
       symbolTable->install(te);
 }
 
