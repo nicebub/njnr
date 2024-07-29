@@ -342,7 +342,11 @@ njnrSOURCES = command.cpp compiler_core.cpp debug.cpp getopt.cpp \
 	include/FunctionBinding.hpp include/Identifier.hpp \
 	include/VariableBinding.hpp include/TSType.hpp \
 	include/TSAbstractType.hpp include/TranslationUnit.hpp \
-	include/FunctionHeader.hpp
+	include/FunctionHeader.hpp include/BasicListNode.hpp \
+	include/StatementListNode.hpp include/TypeListNode.hpp \
+	include/IdentifierListNode.hpp \
+	include/TranslationUnitListNode.hpp \
+	include/ParameterListNode.hpp include/ReturnPacketListNode.hpp
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 njnr_CPPFLAGS = -I$(srcdir)/include/ -I$(srcdir)/include/common/ --std=c++20 #-DDEBUGON

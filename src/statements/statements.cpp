@@ -10,6 +10,7 @@
 #include "ListNode.hpp"
 #include "ReturnPacket.hpp"
 #include "Statement.hpp"
+#include "StatementListNode.hpp"
 
 namespace njnr
 {

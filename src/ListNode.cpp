@@ -8,12 +8,18 @@
 #include "ReturnPacket.hpp"
 #include "Statement.hpp"
 #include "Compiler.hpp"
+#include "StatementListNode.hpp"
+#include "ReturnPacketListNode.hpp"
+#include "TranslationUnitListNode.hpp"
+#include "ParameterListNode.hpp"
+#include "TypeListNode.hpp"
+
 using njnr::BasicListNode;
 using njnr::ListNode;
 using njnr::ReturnPacketListNode;
 using njnr::PListNode;
 using njnr::TranslationUnitListNode;
-
+using njnr::StmtListNode;
 
    BasicListNode::BasicListNode(eNodeType t) : nodeType{t} {}
 

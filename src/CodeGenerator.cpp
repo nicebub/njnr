@@ -13,9 +13,13 @@
 #include "Compiler.hpp"
 #include "ReturnPacket.hpp"
 #include "symbol_table_stackX.hpp"
+#include "StatementListNode.hpp"
 // #include "symtab.hpp"
+#include "ReturnPacketListNode.hpp"
+#include "TranslationUnitListNode.hpp"
 
 using njnr::CodeGenerator;
+using njnr::StmtListNode;
 
 CodeGenerator::CodeGenerator() : labelcounter{1},
                                  canGenerate{true},

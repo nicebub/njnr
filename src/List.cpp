@@ -5,16 +5,23 @@
 #include "debug.hpp"
 #include "List.hpp"
 #include "ListNode.hpp"
+#include "BasicListNode.hpp"
 #include "type.hpp"
 #include "Compiler.hpp"
 #include "ReturnPacket.hpp"
 #include "Statement.hpp"
+#include "StatementListNode.hpp"
+#include "ReturnPacketListNode.hpp"
+#include "ParameterListNode.hpp"
+#include "TypeListNode.hpp"
+#include "TranslationUnitListNode.hpp"
 
 using njnr::BasicListNode;
 using njnr::ListNode;
 using njnr::ReturnPacketListNode;
 using njnr::PListNode;
 using njnr::TranslationUnitListNode;
+using njnr::StmtListNode;
 
    List::List() : list(3,nullptr) {}
 

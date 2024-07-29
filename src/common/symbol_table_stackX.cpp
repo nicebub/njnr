@@ -5,6 +5,7 @@
 
 #include "List.hpp"
 #include "ListNode.hpp"
+#include "ParameterListNode.hpp"
 #include "type.hpp"                 // for njnr::type
 #include "symbol_table_entry.hpp"   // for class S_TableEntry
 #include "symbol_table.hpp"         // for class Table

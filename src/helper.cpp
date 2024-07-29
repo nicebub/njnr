@@ -4,6 +4,8 @@
 #include "Compiler.hpp"
 #include "symbol_table_stack.hpp"
 #include "symbol_table_stackX.hpp"
+#include "ParameterListNode.hpp"
+
 namespace njnr
 {
 

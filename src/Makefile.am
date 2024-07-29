@@ -21,7 +21,9 @@ njnrSOURCES += include/common/symbol_table_stack_templates.h include/ReturnPacke
 njnrSOURCES += include/BaseData.hpp include/ParameterBinding.hpp include/Statement.hpp
 njnrSOURCES += include/FunctionBinding.hpp include/Identifier.hpp include/VariableBinding.hpp
 njnrSOURCES += include/TSType.hpp include/TSAbstractType.hpp include/TranslationUnit.hpp
-njnrSOURCES += include/FunctionHeader.hpp
+njnrSOURCES += include/FunctionHeader.hpp include/BasicListNode.hpp include/StatementListNode.hpp
+njnrSOURCES += include/TypeListNode.hpp include/IdentifierListNode.hpp include/TranslationUnitListNode.hpp
+njnrSOURCES += include/ParameterListNode.hpp include/ReturnPacketListNode.hpp
 njnr_SOURCES = $(LEXERSOURCES) $(njnrSOURCES)
 AUTOMAKE_OPTIONS = foreign
 

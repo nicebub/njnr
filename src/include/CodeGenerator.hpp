@@ -9,11 +9,13 @@
 #include "FunctionBinding.hpp"
 #include "Statement.hpp"
 #include "symbol_table_stackX.hpp"
+#include "StatementListNode.hpp"
+//#include "TranslationUnitListNode.hpp"
 
 namespace njnr
 {
 class SymbolTableX;
-
+class TranslationUnitListNode;
 class CodeGenerator
 {
    public:

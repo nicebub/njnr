@@ -6,10 +6,13 @@
 #include <memory>
 
 #include "type.hpp"
+#include "Identifier.hpp"
 #include "Constant.hpp"
-#include "ListNode.hpp"
+#include "BasicListNode.hpp"
 #include "ReturnPacket.hpp"
 #include "Statement.hpp"
+#include "FunctionBinding.hpp"
+#include "VariableBinding.hpp"
 
 namespace njnr
 {
