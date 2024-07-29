@@ -512,12 +512,12 @@ namespace njnr
     *
     * @param p
     * @param s
-    * @return Operator*
+    * @return std::shared_ptr<Operator>
     */
-   Operator* Compiler::createOperator(njnr::reltype p,
+   std::shared_ptr<Operator> Compiler::createOperator(njnr::reltype p,
                                       std::string s)
    {
-      Operator* n{new Operator(nullptr)};
+      std::shared_ptr<Operator> n = std::make_shared<Operator>(nullptr);
 
       n->setType(TSOperatorType(s));
 

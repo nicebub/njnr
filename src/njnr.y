@@ -158,10 +158,10 @@ int yyerror(std::string err,Compiler* compiler);
 
 
 %type <std::shared_ptr<List>> identlist
-%type <Operator*> relop
-%type <Operator*> mulop
-%type <Operator*> addop
-%type <Operator*> eqop
+%type <std::shared_ptr<Operator>> relop
+%type <std::shared_ptr<Operator>> mulop
+%type <std::shared_ptr<Operator>> addop
+%type <std::shared_ptr<Operator>> eqop
 
 %type <std::string> whilet ift elset
 %type <std::string> intt

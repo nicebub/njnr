@@ -23,14 +23,13 @@ public:
         std::shared_ptr<List>     lstvalue;
         std::shared_ptr<List>    lstpvalue;
         std::shared_ptr<List>    lstevalue;
+        std::shared_ptr<FunctionHeader> funcheadervalue;
         type                        tvalue;
         reltype                 addopvalue;
         reltype                multopvalue;
         reltype                  eqopvalue;
         Pair                     pairvalue;
-        std::shared_ptr<exprtype> exprvalue;
         reltype                 relopvalue;
-        shared_ptr<FunctionHeader> funcheadervalue;
         // Entry *funcentvalue;
     } value;
 

@@ -212,7 +212,7 @@ class Compiler
                                                      std::string need_letter_b);
 
       std::shared_ptr<ReturnPacket> block43_equalexpr_relexpr_eqop_source_relexpr(\
-                           Operator* ineqop,
+                           std::shared_ptr<Operator> ineqop,
                            std::shared_ptr<ReturnPacket> relexprPacketptr,
                            std::shared_ptr<ReturnPacket> otherrelexprPacketptr);
       void block44_equalexpr_relexpr();
@@ -226,7 +226,7 @@ class Compiler
 
       std::shared_ptr<ReturnPacket> block46_relexpr_simpleexpr_relop_source_simpleexpr(\
                                       std::shared_ptr<ReturnPacket> simpleexprPacketptr,
-                                      Operator* inrelop,
+                                      std::shared_ptr<Operator> inrelop,
                                       std::shared_ptr<ReturnPacket> othersimpleexprPacketptr);
       void block47_relexpr_simpleexpr();
 
@@ -238,7 +238,7 @@ class Compiler
 
       std::shared_ptr<ReturnPacket> block49_simpleexpr_simpleexpr_addop_source_term(\
                                       std::shared_ptr<ReturnPacket> simpleexprPacketptr,
-                                      Operator* inaddop,
+                                      std::shared_ptr<Operator> inaddop,
                                       std::shared_ptr<ReturnPacket> termPacketptr);
       void block50_simpleepr_term();
 
@@ -249,7 +249,7 @@ class Compiler
 
       std::shared_ptr<ReturnPacket> block52_term_term_mulop_source_factor(\
                                                  std::shared_ptr<ReturnPacket> intermptr,
-                                                 Operator* inmulop,
+                                                 std::shared_ptr<Operator> inmulop,
                                                  std::shared_ptr<ReturnPacket> infactorptr);
       void block53_term_factor();
 
@@ -257,7 +257,7 @@ class Compiler
       std::shared_ptr<ReturnPacket> block55_factor_ident(std::string inIdent);
       std::shared_ptr<ReturnPacket> block56_factor_lpar_expr_rpar(std::shared_ptr<ReturnPacket> inPacket);
 
-      std::shared_ptr<ReturnPacket> block57_factor_addop_factor_uminus(Operator* inop,
+      std::shared_ptr<ReturnPacket> block57_factor_addop_factor_uminus(std::shared_ptr<Operator> inop,
                                                        std::shared_ptr<ReturnPacket> inPacket);
 
       std::shared_ptr<ReturnPacket> block58_factor_adof_ident(std::string inPacket);
@@ -294,7 +294,7 @@ class Compiler
       std::shared_ptr<List> block69_identlist_ident(std::string inIdent);
       bool block70_identlist_comma_ident(std::shared_ptr<List> inIdentListptr,
                                           std::string inIdent);
-      Operator* createOperator(njnr::reltype n, std::string s);
+      std::shared_ptr<Operator> createOperator(njnr::reltype n, std::string s);
       std::shared_ptr<Constant> createConstant(njnr::type n, std::string t);
       // void  setfinished(std::shared_ptr<List>inlist);
       void  setfinished(std::shared_ptr<List> inlist);

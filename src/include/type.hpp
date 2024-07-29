@@ -3,13 +3,9 @@
 
 #include <config.h>
 #include <string>
-#include <memory>
 #include <map>
 namespace njnr
 {
-/* defined elsewhere but need below */
-class List;
-
 /* additive operator types */
 
 /* multiplicitive operator types */
@@ -33,7 +29,8 @@ enum class reltype
 
 enum class logType
 {
-   debug, error
+   debug,
+   error
 };
 
 /* group types */
@@ -82,12 +79,6 @@ static const std::map<njnr::type, std::string> typeToStringMap
    {njnr::type::OPERATOR, "OPERATOR"},
 };
 
-/* boolean types */
-enum class mbool
-{
-   TRUE,  // true
-   FALSE  // false
-};
 
 /* statement types */
 enum class statement_type
@@ -126,15 +117,22 @@ struct Pair
    }
 };
 
-/* expression type data structure */
+void report(njnr::logType t, std::string s);
+
+/* unused types from older architecture
+// expression type data structure
 struct exprtype
 {
    bool lval;        // are we an lval or not - LHS vs RHS
    bool numeric;     // are we numeric and can compute numbers
    njnr::type type;  // what type of expression are we
 };
-
-void report(njnr::logType t, std::string s);
-
+// boolean types
+enum class mbool
+{
+   TRUE,  // true
+   FALSE  // false
+};
+*/
 }  // namespace njnr
 #endif  // SRC_INCLUDE_TYPE_HPP_

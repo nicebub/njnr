@@ -8,6 +8,7 @@
 #include "ParameterBinding.hpp"
 #include "symbol_table_stack.hpp"  // for class SymbolTable
 #include "symbol_table_entry.hpp"  // for class S_TableEntry
+#include "List.hpp"
 
 namespace njnr
 {
