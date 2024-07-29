@@ -11,7 +11,6 @@
 /*
 #include "type.hpp"
 #include "List.hpp"
-#include "data.hpp
 #include "CodeGenerator.hpp"
 #include "njnrLexer.hpp"
 */

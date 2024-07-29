@@ -334,7 +334,7 @@ njnrSOURCES = command.cpp compiler_core.cpp debug.cpp getopt.cpp \
 	include/common/symbol_table.hpp include/Compiler.hpp \
 	include/CodeGenerator.hpp \
 	include/common/symbol_table_entry.hpp include/njnrLexer.hpp \
-	include/data.hpp include/helper.hpp include/Operator.hpp \
+	include/helper.hpp include/Operator.hpp \
 	include/common/symbol_table_templates.h \
 	include/common/symbol_table_stack_templates.h \
 	include/ReturnPacket.hpp include/BaseData.hpp \
