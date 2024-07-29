@@ -3,7 +3,7 @@
 #include <config.h>
 #include <string>
 #include "symbol_table_entry.hpp"
-#include "operator.hpp"
+#include "Operator.hpp"
 // instantiated templates for use in code
 template bool SymbolTable::install(std::shared_ptr<njnr::S_TableEntryX> element);
 template bool SymbolTable::install(std::shared_ptr<njnr::TSOperatorType> element);

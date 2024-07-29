@@ -17,7 +17,7 @@
 using njnr::BasicListNode;
 using njnr::ListNode;
 using njnr::ReturnPacketListNode;
-using njnr::PListNode;
+using njnr::ParameterListNode;
 using njnr::TranslationUnitListNode;
 using njnr::StmtListNode;
 
@@ -139,29 +139,29 @@ using njnr::StmtListNode;
       return r;
    }
 
-   PListNode::PListNode() : ListNode{""}, type{njnr::type::VOID}
+   ParameterListNode::ParameterListNode() : ListNode{""}, type{njnr::type::VOID}
    {
        set_nodeType(eNodeType::P);
        setval("");
    }
-   PListNode::PListNode(std::string inVal, njnr::type inType) : ListNode{inVal}, type{inType}
+   ParameterListNode::ParameterListNode(std::string inVal, njnr::type inType) : ListNode{inVal}, type{inType}
    {
        set_nodeType(eNodeType::P);
        setval(inVal);
    }
 
-   njnr::type PListNode::gettype() const
+   njnr::type ParameterListNode::gettype() const
    {
        return this->type;
    }
-   void PListNode::settype(njnr::type type)
+   void ParameterListNode::settype(njnr::type type)
    {
        this->type = type;
    }
 
-   const std::string PListNode::toString() const
+   const std::string ParameterListNode::toString() const
    {
-       std::string r{ListNode::toString() + "\n PListNode: type: "};
+       std::string r{ListNode::toString() + "\n ParameterListNode: type: "};
        r += "njnr::type::";
        r += Compiler::getStringFromType(type);
        return r;

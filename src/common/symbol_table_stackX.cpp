@@ -11,7 +11,7 @@
 #include "symbol_table.hpp"         // for class Table
 #include "symbol_table_stackX.hpp"  // for class SymbolTableX
 #include "Compiler.hpp"             // for njnr::report()
-#include "operator.hpp"             // for TSOperatorType()
+#include "Operator.hpp"             // for TSOperatorType()
 using njnr::SymbolTableX;
 
 void SymbolTableX::install2(std::string val, njnr::type t)
@@ -79,7 +79,7 @@ std::shared_ptr<S_TableEntryX> SymbolTableX::createFunc(std::string name,
          {
             if (element != nullptr)
             {
-               std::shared_ptr<PListNode> n_element{dynamic_pointer_cast<PListNode>(element)};
+               std::shared_ptr<ParameterListNode> n_element{dynamic_pointer_cast<ParameterListNode>(element)};
                if (nullptr != n_element)
                {
                   tBinding->getparam_type().push_back(n_element->gettype());

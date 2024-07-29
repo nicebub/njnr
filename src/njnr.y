@@ -56,7 +56,7 @@ int yyerror(std::string err,Compiler* compiler);
     #include <config.h>
     #include "List.hpp"
     #include "type.hpp"
-    #include "operator.hpp"
+    #include "Operator.hpp"
     using namespace njnr;
 
     # if !defined __EXCEPTIONS

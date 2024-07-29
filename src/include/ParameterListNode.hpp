@@ -8,15 +8,15 @@
 
 namespace njnr
 {
-class PListNode : public ListNode
+class ParameterListNode : public ListNode
 {
 public:
-   PListNode();
-   PListNode(std::string, njnr::type);
-   virtual ~PListNode()
+   ParameterListNode();
+   ParameterListNode(std::string, njnr::type);
+   virtual ~ParameterListNode()
    {
       report(njnr::logType::debug,
-             "running PListNode() Destructor");
+             "running ParameterListNode() Destructor");
       report(njnr::logType::debug, this->toString());
    }
     njnr::type gettype() const;

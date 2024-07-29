@@ -20,7 +20,7 @@
 // #include "symbol_table_stack.hpp"
 #include "njnr.tab.hpp"
 #include "njnrLexer.hpp"
-#include "operator.hpp"
+#include "Operator.hpp"
 
 namespace njnr
 {

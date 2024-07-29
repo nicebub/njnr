@@ -19,7 +19,7 @@
 using njnr::BasicListNode;
 using njnr::ListNode;
 using njnr::ReturnPacketListNode;
-using njnr::PListNode;
+using njnr::ParameterListNode;
 using njnr::TranslationUnitListNode;
 using njnr::StmtListNode;
 
@@ -149,7 +149,7 @@ using njnr::StmtListNode;
 
    bool List::appendList(std::string inVal, type inType)
    {
-       std::shared_ptr<PListNode> nnode = std::make_shared<PListNode>(inVal, inType);
+       std::shared_ptr<ParameterListNode> nnode = std::make_shared<ParameterListNode>(inVal, inType);
        this->push_back(nnode);
        return true;
    }

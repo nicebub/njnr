@@ -20,7 +20,7 @@ namespace njnr
                                                   };
       for (auto element : *inFuncHeader->paramlist)
       {
-         std::shared_ptr<PListNode> nelement{dynamic_pointer_cast<PListNode>(element)};
+         std::shared_ptr<ParameterListNode> nelement{dynamic_pointer_cast<ParameterListNode>(element)};
          auto tempEntry = symbolTable->createParam(nelement->getval(),
                                                    nelement->gettype(),
                                                    (offset_counter));
@@ -70,7 +70,7 @@ namespace njnr
       int list_index{0};
       for (auto element : * inFuncHeader->paramlist)
       {
-         std::shared_ptr<PListNode> nelement{dynamic_pointer_cast<PListNode>(element)};
+         std::shared_ptr<ParameterListNode> nelement{dynamic_pointer_cast<ParameterListNode>(element)};
          if (currentFunc->getparam_type()[list_index] != nelement->gettype())
          {
             std::cerr << "Error: Line: " << Line_Number << ": argument " <<
