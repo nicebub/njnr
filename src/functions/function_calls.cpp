@@ -22,7 +22,7 @@ namespace njnr
        S_TableEntryX tempE;
        std::shared_ptr<S_TableEntryX> tempE2;
        if ((tempb = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
-                                            lookup(inIdent.getvalue()))) ==
+                                            lookup(inIdent.getName()))) ==
                                             nullptr)
        {
            error("function undeclared, please declare functions before " \
@@ -30,12 +30,12 @@ namespace njnr
        }
        else
        {
-           tempE2 = std::shared_ptr<S_TableEntryX>(new S_TableEntryX(*new std::string{inIdent.getvalue()},
+           tempE2 = std::shared_ptr<S_TableEntryX>(new S_TableEntryX(*new std::string{inIdent.getName()},
                                      std::shared_ptr<Identifier>(new njnr::Identifier{inIdent}),
                                      njnr::type::IDENT));
 
            tempE = *static_pointer_cast<S_TableEntryX>(symbolTable->
-                                                lookupB(inIdent.getvalue()));
+                                                lookupB(inIdent.getName()));
                if (tempE.getGroup() == btype::FUNC)
                {
                    if (tempb->getreturntype() != type::VOID)
@@ -70,7 +70,7 @@ namespace njnr
                        outPacket->setnumeric(false);
                    }
                    code_generator.gen_call(code_generator.genlabelw(
-                                           inIdent.getvalue(),
+                                           inIdent.getName(),
                                            tempb->getlabel()), 0);
                }
                else
@@ -163,22 +163,22 @@ namespace njnr
        std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
 //       inEntry->funcent = nullptr;
        *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
-                                         lookupB(inPacket.getvalue()));
+                                         lookupB(inPacket.getName()));
        inEntry->funcent = s;
    #ifdef DEBUG
        //  printTree(symbolTable);
    //  std::cerr <<  "this the name of function called and the " \
    //                "lookup value: "  <<
    //                inPacket.getvalue().c_str()) << std::endl;
-       if ( symbolTable->lookupB(inPacket.getvalue()) == nullptr)
-           std::cerr <<  "it was null\n";
+       if ( symbolTable->lookupB(inPacket.getName()) == nullptr)
+           report(njnr::logType::debug,  "it was null");
        else
-           std::cerr << "wasn't null\n";
+           report(njnr::logType::debug, "wasn't null");
    #endif
        if (inEntry->funcent != nullptr)
        {
            static_pointer_cast<S_TableEntryX>(inEntry->
-                                       funcent)->setName(inPacket.getvalue());
+                                       funcent)->setName(inPacket.getName());
        }
        return inEntry;
    }
@@ -197,7 +197,7 @@ namespace njnr
        outPacket->setlval(false);
        std::shared_ptr<FunctionBinding> tempB;
        tempB = reinterpret_pointer_cast<FunctionBinding>(symbolTable->
-                                        lookup(inIdent.getvalue()));
+                                        lookup(inIdent.getName()));
        if (tempB == nullptr)
        {
            error("function undelcared, please declare " \
@@ -210,11 +210,11 @@ namespace njnr
         std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
            // warning("just checking value of entry: \
            //                       %s",$<value.funcentvalue>$->name);
-           tempE2 = std::shared_ptr<S_TableEntryX>(new S_TableEntryX(*new std::string{inIdent.getvalue()},
+           tempE2 = std::shared_ptr<S_TableEntryX>(new S_TableEntryX(*new std::string{inIdent.getName()},
                                      std::shared_ptr<Identifier>(new njnr::Identifier{inIdent}),
                                      njnr::type::IDENT));
            *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
-                                             lookupB(inIdent.getvalue()));
+                                             lookupB(inIdent.getName()));
            tempE = s;
            if ( tempE != nullptr)
            {
@@ -505,6 +505,32 @@ namespace njnr
             break;
       }
       return s;
+   }
+
+   /**
+    * @brief
+    *
+    * @param name
+    * @return std::shared_ptr<Identifier>
+    */
+   std::shared_ptr<Identifier> Compiler::createIdentifier(std::string name)
+   {
+      std::shared_ptr<Identifier> p = std::make_shared<Identifier>(name);
+      return p;
+   }
+
+   /**
+    * @brief
+    *
+    * @param name
+    * @param defaultVal
+    * @return std::shared_ptr<Identifier>
+    */
+   std::shared_ptr<Identifier> Compiler::createIdentifier(std::string name,
+                                                std::shared_ptr<Constant> defaultVal)
+   {
+      std::shared_ptr<Identifier> p = std::make_shared<Identifier>(name,defaultVal);
+      return p;
    }
 
    /**

@@ -101,10 +101,10 @@ namespace njnr
       if (nullptr != retFuncHeader)
       {
          retFuncHeader->returntype = inreturntype;
-         retFuncHeader->name       = inIdent.getvalue();
+         retFuncHeader->name       = inIdent.getName();
          if (inParamdeflist == nullptr)
          {
-            std::cout << "notification: parameters list is nullptr\n";
+            report(njnr::logType::info, "-INFO--> parameters list is nullptr");
          }
          else
          {
@@ -129,14 +129,14 @@ namespace njnr
       }
       else
       {
-        std::cerr << "error in new\n";
+        report(njnr::logType::error, "error in new");
       }
       return retFuncHeader;
    }
    void Compiler::block25_funcbody_lcbra_decls_source()
    {
 //       auto temp{mainlocal};
-       if (currentFunc->getvalue() == "main")
+       if (currentFunc->getName() == "main")
        {
            mainlocal = offset_counter-5;
 //           temp = mainlocal;
@@ -201,16 +201,16 @@ namespace njnr
             retType = stmt->getexpr()->gettype();
             if (njnr::type::IDENT == retType)
             {
-                std::cout << "need to get data into symbol table "\
+                report(njnr::logType::debug, "need to get data into symbol table "\
                              "so we can read " \
-                             "it here and get this identifiers data type\n";
+                             "it here and get this identifiers data type");
                 retType = njnr::type::INT;
             }
          }
       }
       else
       {
-        std::cerr << "NULL argument given\n";
+        report(njnr::logType::debug, "NULL argument given");
       }
 
       return retType;

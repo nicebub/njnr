@@ -47,7 +47,7 @@ using njnr::report;
        funcheader{in.funcheader},
        funcbody_list{in.funcbody_list}
    {
-       setvalue(in.getvalue());
+       setName(in.getName());
    }
 
    FunctionBinding& FunctionBinding::operator=(const FunctionBinding& in)
@@ -62,7 +62,7 @@ using njnr::report;
            param_type = in.param_type;
            funcheader = in.funcheader;
            funcbody_list = in.funcbody_list;
-           setvalue(in.getvalue());
+           setName(in.getName());
        }
        return *this;
    }

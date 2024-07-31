@@ -22,16 +22,26 @@ namespace njnr
    {
       switch (t)
       {
+         case njnr::logType::info:
+         {
+            std::cout << s << std::endl;
+            break;
+         }
+      #ifdef DEBUG
          case njnr::logType::debug:
          {
             std::cout << s << std::endl;
             break;
          }
+      #endif // DEBUG
          case njnr::logType::error:
          {
-            std::cout  << s << std::endl;
+            std::cerr  << s << std::endl;
             break;
          }
+
+         default:
+            break;
       }
    }
 
@@ -119,7 +129,7 @@ namespace njnr
       {
          std::shared_ptr<S_TableEntryX> e{nullptr};
          e = symbolTable->remove<S_TableEntryX>(std::string{"main"});
-         debugprint("ade it before null check", "");
+         debugprint("made it before null check", "");
          if (nullptr != e)
          {
             xx = std::shared_ptr<FunctionBinding>{reinterpret_pointer_cast<FunctionBinding>(e->getValue())};
@@ -357,8 +367,8 @@ namespace njnr
                             }
                             else
                             {
-                                std::cerr << "types are not compatible with " \
-                                             "each other: \n";
+                                report(njnr::logType::error, "types are not compatible with " \
+                                             "each other: ");
                                 success = false;
                             }
                             break;
@@ -369,7 +379,7 @@ namespace njnr
                         // if (true == aresimilartypes(similar, *foundtype))
                         if (true == aresimilartypes(similar, foundtype))
                         {
-                            std::cout << "so far compatible...\n";
+                            report(njnr::logType::debug, "so far compatible...");
                         }
                         else
                         {
@@ -379,8 +389,8 @@ namespace njnr
                             }
                             else
                             {
-                                std::cerr << "types are not compatible  " \
-                                             "with each other: \n";
+                                report(njnr::logType::error, "types are not compatible  " \
+                                             "with each other: ");
                                 success = false;
                             }
                             break;
@@ -401,7 +411,7 @@ namespace njnr
                         {
                           std::shared_ptr<Identifier> Idp{std::dynamic_pointer_cast<Identifier>(realType)};
                           std::shared_ptr<Identifier> Id{Idp}; 
-                          std::string s{Id->getvalue()};
+                          std::string s{Id->getName()};
                           /* TODO(nicebub): check symbol table for this name and get
                                     is data type to put here */
                           foundtype = njnr::type::INT;
@@ -414,15 +424,15 @@ namespace njnr
                         }
                         else
                         {
-                           std::cout << "needs further checking later on " \
-                                        "down road, perhaps at runtime\n";
+                           report(njnr::logType::debug, "needs further checking later on " \
+                                        "down road, perhaps at runtime");
                         }
                     }
                 }
             }
             else
             {
-                std::cout << "skipping non-RETURN statement statement\n";
+                report(njnr::logType::debug, "skipping non-RETURN statement statement");
             }
         }
 
@@ -437,8 +447,8 @@ namespace njnr
         // if (nullptr != statementList && (nullptr != foundtype))
         if (nullptr != statementList)//todo: ask scott if this change is correct
         {
-            std::cout << "Calculating Return types from " \
-                         "return statements found in function...\n";
+            report(njnr::logType::info, "-INFO--> Calculating Return types from " \
+                         "return statements found in function...");
             // go through all return statements and compare to existing
             //  return type
             //  either we set it initially here or we start to compare
@@ -464,7 +474,7 @@ namespace njnr
                    }
                    else
                    {
-                       std::cout << "skipping non-STMT node\n";
+                       report(njnr::logType::debug, "skipping non-STMT node");
                    }
                    if (true == first)
                    {
@@ -476,7 +486,7 @@ namespace njnr
         }
         else
         {
-            std::cerr << "Function body is empty\n";
+            report(njnr::logType::debug, "Function body is empty");
         }
 
         return success;
@@ -517,7 +527,7 @@ namespace njnr
         }
         else
         {
-            std::cerr << "NULL argument\n";
+            report(njnr::logType::error, "NULL argument");
         }
 /*    if(nullptr != finished)
     {
@@ -544,7 +554,7 @@ void Compiler::installVariableIntoSymbolTable(std::shared_ptr<Identifier> Id,
 {
    if (Id != nullptr)
    {
-      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id->getName(), t, 0);
       symbolTable->install(te);
    }
 }
@@ -558,7 +568,7 @@ void Compiler::installParameterIntoSymbolTable(std::shared_ptr<Identifier> Id,
 {
    if (Id != nullptr)
    {
-      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id->getName(), t, 0);
       symbolTable->install(te);
    }
 }

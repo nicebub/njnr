@@ -156,7 +156,7 @@ int yyerror(std::string err,Compiler* compiler);
 %right uminus
 
 
-%type <std::shared_ptr<List>> identlist
+%type <std::shared_ptr<List>> identlist 
 %type <std::shared_ptr<Operator>> relop
 %type <std::shared_ptr<Operator>> mulop
 %type <std::shared_ptr<Operator>> addop
@@ -171,6 +171,7 @@ int yyerror(std::string err,Compiler* compiler);
 %type <std::string> equequ neq
 %type <std::string> divide star
 %type <std::string> uminus
+%type <std::shared_ptr<Identifier>> identInit
 //%type <List*> translation_unit funcbody_internal funcbody
 %type <std::shared_ptr<List>> translation_unit_part_list translation_unit funcbody_internal funcbody
 //%type <std::shared_ptr<FunctionBinding>> translation_unit_part_list translation_unit funcbody_internal funcbody
@@ -505,11 +506,11 @@ exprlist: expr comma  exprlist {
 ;
 
 
-identlist: Ident {
-                    $$ = List::mklist($1, njnr::type::IDENT);
-                 }
-         | identlist comma Ident {
-                                    $1->appendList($3, njnr::type::IDENT);
+identlist: identInit {
+                        $$ = List::mklist($1);
+                     }
+         | identlist comma identInit {
+                                    $1->appendList($3);
                                     $$ = $1;
                                  }
          | identlist comma error {
@@ -520,17 +521,27 @@ identlist: Ident {
                                  }
 ;
 
+identInit: Ident {
+                    $$ = compiler->createIdentifier($1);
+//                    $$ = std::make_shared<Identifier>($1);
+                 }
+         | Ident equalt constant {
+                                 $$ = compiler->createIdentifier($1, $3);
+//                                 $$ = std::make_shared<Identifier>($1, $3);
+                              } 
+;
+
 constant: StrConstant {
-                          compiler->createConstant(njnr::type::STR, $1);
+                          $$ = compiler->createConstant(njnr::type::STR, $1);
                       }
         | IntConstant {
-                          compiler->createConstant(njnr::type::INT, $1);
+                          $$ = compiler->createConstant(njnr::type::INT, $1);
                        }
         | FloatConstant {
-                          compiler->createConstant(njnr::type::FLOAT, $1);
+                          $$ = compiler->createConstant(njnr::type::FLOAT, $1);
                         }
         | CharConstant {
-                          compiler->createConstant(njnr::type::CHAR, $1);
+                          $$ = compiler->createConstant(njnr::type::CHAR, $1);
                         }
 
 ;

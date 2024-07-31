@@ -30,6 +30,7 @@ public:
     static std::shared_ptr<List> mklist(std::shared_ptr<Constant>);
     static std::shared_ptr<List> mklist(std::string inVal);
     static std::shared_ptr<List> mklist(std::string inVal, type inType);
+    static std::shared_ptr<List> mklist(std::string inVal, type inType, std::string defaultVal);
     static std::shared_ptr<List> mklist(std::shared_ptr<ReturnPacket> expr);
     // static List* mklist(FunctionBinding* expr);
     static std::shared_ptr<List> mklist(std::shared_ptr<FunctionBinding> expr);
@@ -45,12 +46,11 @@ public:
     bool appendList(std::string inVal, njnr::type inType);
     bool appendList(std::shared_ptr<ReturnPacket> expr);
     bool appendList(std::shared_ptr<FunctionBinding> expr);
-
+    bool appendList(std::shared_ptr<Identifier> ident);
     // placeholder type -- needs changing
     bool appendList(std::shared_ptr<VariableBinding> expr);
     bool appendList(njnr::type type);
     bool appendList(std::shared_ptr<Statement> type);
-    bool appendList(std::shared_ptr<Identifier>);
     bool appendList(std::shared_ptr<Constant>);
     int size() const;
     const std::string toString() const;
