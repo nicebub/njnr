@@ -101,7 +101,7 @@ namespace njnr
       if (nullptr != retFuncHeader)
       {
          retFuncHeader->returntype = inreturntype;
-         retFuncHeader->name       = inIdent.getvalue();
+         retFuncHeader->name       = inIdent.getName();
          if (inParamdeflist == nullptr)
          {
             std::cout << "notification: parameters list is nullptr\n";
@@ -136,7 +136,7 @@ namespace njnr
    void Compiler::block25_funcbody_lcbra_decls_source()
    {
 //       auto temp{mainlocal};
-       if (currentFunc->getvalue() == "main")
+       if (currentFunc->getName() == "main")
        {
            mainlocal = offset_counter-5;
 //           temp = mainlocal;

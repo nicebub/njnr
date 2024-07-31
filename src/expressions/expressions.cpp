@@ -403,7 +403,7 @@ using njnr::List;
       outPacket = std::shared_ptr<Identifier>(new Identifier{inIdent});
       if (true == gen_code)
       {
-         if (inIdent.getvalue() != "main")
+         if (inIdent.getName() != "main")
          {
            #ifdef DEBUG
             //  fprintf(stderr,"the name of the identifier here is:  %s\n",
@@ -411,7 +411,7 @@ using njnr::List;
            #endif
             std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
             *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
-                                              lookupB(inIdent.getvalue()));
+                                              lookupB(inIdent.getName()));
             resultLookup = s;
             if (nullptr != resultLookup)
             {
@@ -423,7 +423,7 @@ using njnr::List;
                {
                   outPacket->setnumeric(true);
                }
-               if (symbolTable->inCurrentScope(inIdent.getvalue()))
+               if (symbolTable->inCurrentScope(inIdent.getName()))
                {
                }
                else
@@ -441,7 +441,7 @@ using njnr::List;
                         //                    resultLookup->getBinding()->gettype());
                        #endif
                         int level_diff {symbolTable->
-                                        getleveldif(inIdent.getvalue())};
+                                        getleveldif(inIdent.getName())};
                         if (level_diff != -1)
                         {
                         }
@@ -531,16 +531,16 @@ using njnr::List;
        njnr::Identifier inPacket{inPacket_original};    
        std::shared_ptr<ReturnPacket> outPacket{new ReturnPacket{}};
        std::shared_ptr<S_TableEntryX> tempE;  // , *tempE2;
-       if (inPacket.getvalue() != "main")
+       if (inPacket.getName() != "main")
        {
-           if (symbolTable->lookup(inPacket.getvalue()) == nullptr)
+           if (symbolTable->lookup(inPacket.getName()) == nullptr)
                error("variable undeclared, " \
                      "please declare variables before using them", "");
            else
            {
             std::shared_ptr<S_TableEntryX> s{new S_TableEntryX{}};
             *s = *static_pointer_cast<S_TableEntryX>(symbolTable->
-                                               lookupB(inPacket.getvalue()));
+                                               lookupB(inPacket.getName()));
                tempE = s;
                if (tempE != nullptr)
                {
@@ -563,13 +563,13 @@ using njnr::List;
                                (reinterpret_pointer_cast<VariableBinding>(tempE->getBinding()))->
                                                       gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
-                           if (symbolTable->inCurrentScope(inPacket.getvalue()))
+                           if (symbolTable->inCurrentScope(inPacket.getName()))
                            {
                            }
                            else
                            {
                                int level_diff{symbolTable->
-                                              getleveldif(inPacket.getvalue())};
+                                              getleveldif(inPacket.getName())};
                                if (level_diff != -1)
                                {
                                }
@@ -595,7 +595,7 @@ using njnr::List;
                                                        getBinding()))->
                                                        gettype() == type::FLOAT)
                                outPacket->setnumeric(true);
-                           if (symbolTable->inCurrentScope(inPacket.getvalue()))
+                           if (symbolTable->inCurrentScope(inPacket.getName()))
                            {
                            }
                            else

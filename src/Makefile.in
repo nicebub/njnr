@@ -112,6 +112,7 @@ am__objects_2 = njnr-command.$(OBJEXT) njnr-compiler_core.$(OBJEXT) \
 	common/njnr-symbol_table_stackX.$(OBJEXT) \
 	common/njnr-symbol_table_entry.$(OBJEXT) \
 	expressions/njnr-expressions.$(OBJEXT) \
+	njnr-IdentifierListNode.$(OBJEXT) \
 	functions/njnr-function_calls.$(OBJEXT) \
 	functions/njnr-functions.$(OBJEXT) \
 	statements/njnr-statements.$(OBJEXT) njnr-Constant.$(OBJEXT) \
@@ -141,8 +142,10 @@ am__depfiles_remade = ./$(DEPDIR)/njnr-CodeGenerator.Po \
 	./$(DEPDIR)/njnr-Constant.Po \
 	./$(DEPDIR)/njnr-FunctionBinding.Po \
 	./$(DEPDIR)/njnr-FunctionHeader.Po \
-	./$(DEPDIR)/njnr-Identifier.Po ./$(DEPDIR)/njnr-List.Po \
-	./$(DEPDIR)/njnr-ListNode.Po ./$(DEPDIR)/njnr-Operator.Po \
+	./$(DEPDIR)/njnr-Identifier.Po \
+	./$(DEPDIR)/njnr-IdentifierListNode.Po \
+	./$(DEPDIR)/njnr-List.Po ./$(DEPDIR)/njnr-ListNode.Po \
+	./$(DEPDIR)/njnr-Operator.Po \
 	./$(DEPDIR)/njnr-ParameterBinding.Po \
 	./$(DEPDIR)/njnr-ReturnPacket.Po ./$(DEPDIR)/njnr-Statement.Po \
 	./$(DEPDIR)/njnr-TranslationUnit.Po \
@@ -323,13 +326,14 @@ njnrSOURCES = command.cpp compiler_core.cpp debug.cpp getopt.cpp \
 	Operator.cpp parser_functions.cpp CodeGenerator.cpp \
 	common/symbol_table.cpp common/symbol_table_stack.cpp \
 	common/symbol_table_stackX.cpp common/symbol_table_entry.cpp \
-	expressions/expressions.cpp functions/function_calls.cpp \
-	functions/functions.cpp statements/statements.cpp Constant.cpp \
-	FunctionBinding.cpp Identifier.cpp ParameterBinding.cpp \
-	ReturnPacket.cpp Statement.cpp TranslationUnit.cpp \
-	VariableBinding.cpp FunctionHeader.cpp include/debug.hpp \
-	include/type.hpp include/List.hpp include/ListNode.hpp \
-	include/Constant.hpp include/common/symbol_table_stackX.hpp \
+	expressions/expressions.cpp IdentifierListNode.cpp \
+	functions/function_calls.cpp functions/functions.cpp \
+	statements/statements.cpp Constant.cpp FunctionBinding.cpp \
+	Identifier.cpp ParameterBinding.cpp ReturnPacket.cpp \
+	Statement.cpp TranslationUnit.cpp VariableBinding.cpp \
+	FunctionHeader.cpp include/debug.hpp include/type.hpp \
+	include/List.hpp include/ListNode.hpp include/Constant.hpp \
+	include/common/symbol_table_stackX.hpp \
 	include/common/symbol_table_stack.hpp \
 	include/common/symbol_table.hpp include/Compiler.hpp \
 	include/CodeGenerator.hpp \
@@ -491,6 +495,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-FunctionBinding.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-FunctionHeader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-Identifier.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-IdentifierListNode.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-List.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-ListNode.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/njnr-Operator.Po@am__quote@ # am--include-marker
@@ -805,6 +810,20 @@ expressions/njnr-expressions.obj: expressions/expressions.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='expressions/expressions.cpp' object='expressions/njnr-expressions.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o expressions/njnr-expressions.obj `if test -f 'expressions/expressions.cpp'; then $(CYGPATH_W) 'expressions/expressions.cpp'; else $(CYGPATH_W) '$(srcdir)/expressions/expressions.cpp'; fi`
+
+njnr-IdentifierListNode.o: IdentifierListNode.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-IdentifierListNode.o -MD -MP -MF $(DEPDIR)/njnr-IdentifierListNode.Tpo -c -o njnr-IdentifierListNode.o `test -f 'IdentifierListNode.cpp' || echo '$(srcdir)/'`IdentifierListNode.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-IdentifierListNode.Tpo $(DEPDIR)/njnr-IdentifierListNode.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='IdentifierListNode.cpp' object='njnr-IdentifierListNode.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-IdentifierListNode.o `test -f 'IdentifierListNode.cpp' || echo '$(srcdir)/'`IdentifierListNode.cpp
+
+njnr-IdentifierListNode.obj: IdentifierListNode.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT njnr-IdentifierListNode.obj -MD -MP -MF $(DEPDIR)/njnr-IdentifierListNode.Tpo -c -o njnr-IdentifierListNode.obj `if test -f 'IdentifierListNode.cpp'; then $(CYGPATH_W) 'IdentifierListNode.cpp'; else $(CYGPATH_W) '$(srcdir)/IdentifierListNode.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/njnr-IdentifierListNode.Tpo $(DEPDIR)/njnr-IdentifierListNode.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='IdentifierListNode.cpp' object='njnr-IdentifierListNode.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o njnr-IdentifierListNode.obj `if test -f 'IdentifierListNode.cpp'; then $(CYGPATH_W) 'IdentifierListNode.cpp'; else $(CYGPATH_W) '$(srcdir)/IdentifierListNode.cpp'; fi`
 
 functions/njnr-function_calls.o: functions/function_calls.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(njnr_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT functions/njnr-function_calls.o -MD -MP -MF functions/$(DEPDIR)/njnr-function_calls.Tpo -c -o functions/njnr-function_calls.o `test -f 'functions/function_calls.cpp' || echo '$(srcdir)/'`functions/function_calls.cpp
@@ -1131,6 +1150,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/njnr-FunctionBinding.Po
 	-rm -f ./$(DEPDIR)/njnr-FunctionHeader.Po
 	-rm -f ./$(DEPDIR)/njnr-Identifier.Po
+	-rm -f ./$(DEPDIR)/njnr-IdentifierListNode.Po
 	-rm -f ./$(DEPDIR)/njnr-List.Po
 	-rm -f ./$(DEPDIR)/njnr-ListNode.Po
 	-rm -f ./$(DEPDIR)/njnr-Operator.Po
@@ -1207,6 +1227,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/njnr-FunctionBinding.Po
 	-rm -f ./$(DEPDIR)/njnr-FunctionHeader.Po
 	-rm -f ./$(DEPDIR)/njnr-Identifier.Po
+	-rm -f ./$(DEPDIR)/njnr-IdentifierListNode.Po
 	-rm -f ./$(DEPDIR)/njnr-List.Po
 	-rm -f ./$(DEPDIR)/njnr-ListNode.Po
 	-rm -f ./$(DEPDIR)/njnr-Operator.Po

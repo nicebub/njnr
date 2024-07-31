@@ -16,6 +16,15 @@ Constant::Constant(bool lval, njnr::type ttype, bool ifnum, int offset) :
                    {}
 Constant::Constant(std::string val, njnr::type t): val{val}, typ{t} {}
 
+Constant::Constant(const Constant& inC)
+{
+   if (&inC != this)
+   {
+      this->val = inC.val;
+      this->typ = inC.typ;
+      this->lval = inC.lval;
+   }
+}
 std::string Constant::getValue() const
 {
    return val;

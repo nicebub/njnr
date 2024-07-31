@@ -6,6 +6,7 @@
 
 #include "type.hpp"
 #include "ReturnPacketListNode.hpp"
+#include "Identifier.hpp"
 
 namespace njnr
 {

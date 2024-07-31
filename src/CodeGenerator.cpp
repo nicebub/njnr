@@ -180,7 +180,7 @@ void CodeGenerator::generateVariabledeclarations(std::shared_ptr<FunctionBinding
             {
                std::cerr <<"INTERNAL ERROR\n";
             }
-            std::string name{Id->getvalue()};
+            std::string name{Id->getName()};
             if (name.empty())
             {
                std::cerr <<"INTERNAL ERROR\n";

@@ -296,6 +296,8 @@ class Compiler
                                           std::string inIdent);
       std::shared_ptr<Operator> createOperator(njnr::reltype n, std::string s);
       std::shared_ptr<Constant> createConstant(njnr::type n, std::string t);
+      std::shared_ptr<Identifier> createIdentifier(std::string t);
+      std::shared_ptr<Identifier> createIdentifier(std::string t, std::shared_ptr<Constant> d);
       // void  setfinished(std::shared_ptr<List>inlist);
       void  setfinished(std::shared_ptr<List> inlist);
       void  printProgramTree(void);

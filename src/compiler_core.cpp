@@ -401,7 +401,7 @@ namespace njnr
                         {
                           std::shared_ptr<Identifier> Idp{std::dynamic_pointer_cast<Identifier>(realType)};
                           std::shared_ptr<Identifier> Id{Idp}; 
-                          std::string s{Id->getvalue()};
+                          std::string s{Id->getName()};
                           /* TODO(nicebub): check symbol table for this name and get
                                     is data type to put here */
                           foundtype = njnr::type::INT;
@@ -544,7 +544,7 @@ void Compiler::installVariableIntoSymbolTable(std::shared_ptr<Identifier> Id,
 {
    if (Id != nullptr)
    {
-      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createVar(Id->getName(), t, 0);
       symbolTable->install(te);
    }
 }
@@ -558,7 +558,7 @@ void Compiler::installParameterIntoSymbolTable(std::shared_ptr<Identifier> Id,
 {
    if (Id != nullptr)
    {
-      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id->getvalue(), t, 0);
+      std::shared_ptr<S_TableEntryX> te = symbolTable->createParam(Id->getName(), t, 0);
       symbolTable->install(te);
    }
 }

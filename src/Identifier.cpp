@@ -10,27 +10,39 @@ using njnr::Constant;
    const std::string Identifier::toString() const
    {
       std::string ret = ReturnPacket::toString();
-      return "\nvalue: " + value + "\n" + ret;
+      return "\name: " + name + "\n" + ret;
    }
-   Identifier::Identifier() : Constant{false, njnr::type::IDENT, false, 0},
-                              value{""} {}
+   Identifier::Identifier() : Constant{"", njnr::type::IDENT},
+                              name{""} {}
 
-   Identifier::Identifier(const std::string invalue) :
-                          Constant{false, njnr::type::IDENT, false, 0},
-                          value{invalue}
+   Identifier::Identifier(const std::string inName) :
+                          Constant{"", njnr::type::IDENT},
+                          name{inName}
+                          {}
+
+   Identifier::Identifier(const std::string inName, std::string defaultVal) :
+                          Constant{defaultVal,
+                          njnr::type::IDENT},
+                          name{inName}
+                          {}
+
+   Identifier::Identifier(const std::string inName,
+                          std::shared_ptr<Constant> inConstant) :
+                          Constant{*inConstant},
+                          name{inName}
                           {}
 
    Identifier::Identifier(const Constant in) :
                           Constant{in.getlval(),
                           njnr::type::IDENT, false, in.getoffset()},
-                          value{in.getValue()}
+                          name{""}
                           {}
 
    Identifier& Identifier::operator=(const Identifier& in)
    {
        if (&in != this)
        {
-           value = in.value;
+           name = in.name;
            lval = in.lval;
            numeric = false;
            ttype = njnr::type::IDENT;
@@ -38,12 +50,12 @@ using njnr::Constant;
        }
        return *this;
    }
-   std::string Identifier::getvalue() const
+   std::string Identifier::getName() const
    {
-       return value;
+       return name;
    }
 
-   void Identifier::setvalue(const std::string in)
+   void Identifier::setName(const std::string inName)
    {
-       value = in;
+       name = inName;
    }

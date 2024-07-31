@@ -15,6 +15,7 @@
 #include "ParameterListNode.hpp"
 #include "TypeListNode.hpp"
 #include "TranslationUnitListNode.hpp"
+#include "IdentifierListNode.hpp"
 
 using njnr::BasicListNode;
 using njnr::ListNode;
@@ -22,6 +23,7 @@ using njnr::ReturnPacketListNode;
 using njnr::ParameterListNode;
 using njnr::TranslationUnitListNode;
 using njnr::StmtListNode;
+using njnr::IdentListNode;
 
    List::List() : list(3,nullptr) {}
 
@@ -69,6 +71,16 @@ using njnr::StmtListNode;
        list.push_back(in);
    }
 
+   std::shared_ptr<List> List::mklist(std::string inVal,
+                                      type inType,
+                                      std::string inDefaultVal)
+   {
+      std::shared_ptr<List> spL {nullptr};
+      spL = std::make_shared<List>();
+      spL->appendList(inVal, inType);
+      return spL;      
+   }
+
    std::shared_ptr<List> List::mklist(njnr::type inType)
    {
       std::shared_ptr<List> spL {nullptr};
@@ -90,7 +102,7 @@ using njnr::StmtListNode;
    {
       std::shared_ptr<List> spL {nullptr};
       spL = std::make_shared<List>();
-      spL->appendList(inType);
+      spL->appendList(inVal, inType);
       return spL;
    }
 
@@ -128,7 +140,7 @@ using njnr::StmtListNode;
 
    bool List::appendList(std::shared_ptr<Identifier> inVal)
    {
-       std::shared_ptr<ReturnPacketListNode> nnode = std::make_shared<ReturnPacketListNode>(inVal);
+       std::shared_ptr<BasicListNode> nnode = std::make_shared<IdentListNode>(inVal);
        this->push_back(nnode);
        return true;
    }

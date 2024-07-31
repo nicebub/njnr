@@ -15,6 +15,7 @@ class Constant : public ReturnPacket
       Constant();
       Constant(bool lval, njnr::type ttype, bool ifnum, int offset);
       Constant(std::string val, njnr::type t);
+      Constant(const Constant& c);
       virtual ~Constant()
       {
          report(njnr::logType::debug,

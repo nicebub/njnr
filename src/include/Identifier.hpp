@@ -14,20 +14,24 @@ class Identifier : public Constant
 {
    public:
       Identifier();
-      explicit Identifier(const std::string invalue);
+      explicit Identifier(const std::string inName);
+      explicit Identifier(const std::string inName,
+                          std::string defaultVal);
+      explicit Identifier(const std::string inName,
+                          std::shared_ptr<Constant> constant);
       explicit Identifier(const Constant);
       virtual ~Identifier()
       {
          report(njnr::logType::debug,
                 "running Identifier() Destructor");
-         report(njnr::logType::debug, "value" + value);
+         report(njnr::logType::debug, "name" + name);
       }
       Identifier& operator=(const Identifier& in);
-      std::string getvalue() const;
-      void setvalue(const std::string in);
+      std::string getName() const;
+      void setName(const std::string inName);
       const std::string toString() const;
    private:
-      std::string value;
+      std::string name;
 };
 }  // namespace njnr
 #endif  // SRC_INCLUDE_IDENTIFIER_HPP_
