@@ -104,7 +104,7 @@ namespace njnr
          retFuncHeader->name       = inIdent.getName();
          if (inParamdeflist == nullptr)
          {
-            std::cout << "notification: parameters list is nullptr\n";
+            report(njnr::logType::info, "-INFO--> parameters list is nullptr");
          }
          else
          {
@@ -129,7 +129,7 @@ namespace njnr
       }
       else
       {
-        std::cerr << "error in new\n";
+        report(njnr::logType::error, "error in new");
       }
       return retFuncHeader;
    }
@@ -201,16 +201,16 @@ namespace njnr
             retType = stmt->getexpr()->gettype();
             if (njnr::type::IDENT == retType)
             {
-                std::cout << "need to get data into symbol table "\
+                report(njnr::logType::debug, "need to get data into symbol table "\
                              "so we can read " \
-                             "it here and get this identifiers data type\n";
+                             "it here and get this identifiers data type");
                 retType = njnr::type::INT;
             }
          }
       }
       else
       {
-        std::cerr << "NULL argument given\n";
+        report(njnr::logType::debug, "NULL argument given");
       }
 
       return retType;

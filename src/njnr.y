@@ -522,10 +522,12 @@ identlist: identInit {
 ;
 
 identInit: Ident {
-                    $$ = std::make_shared<Identifier>($1);
+                    $$ = compiler->createIdentifier($1);
+//                    $$ = std::make_shared<Identifier>($1);
                  }
          | Ident equalt constant {
-                                 $$ = std::make_shared<Identifier>($1, $3);
+                                 $$ = compiler->createIdentifier($1, $3);
+//                                 $$ = std::make_shared<Identifier>($1, $3);
                               } 
 ;
 

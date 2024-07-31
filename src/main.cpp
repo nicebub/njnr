@@ -52,12 +52,12 @@ int main(int argc,  char * const *argv)
       }
       else
       {
-         std::cout << "not generating code\n";
+         report(njnr::logType::debug, "not generating code");
       }
       /* always succeed if we got this far */
       ret = EXIT_SUCCESS;
    }
-   std::cout << "deleting compiler" << std::endl;
+   report(njnr::logType::debug,"deleting compiler");;
     compiler = nullptr;
    return ret;
 }

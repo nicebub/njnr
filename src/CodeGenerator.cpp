@@ -146,7 +146,7 @@ std::string CodeGenerator::getOutputTypeForCINType(std::shared_ptr<FunctionBindi
     }
     else
     {
-        std::cerr << "NULL argument given: getOutputTypeForCINType\n";
+        report(njnr::logType::debug, "NULL argument given: getOutputTypeForCINType");
     }
     return r;
 }
@@ -161,43 +161,43 @@ void CodeGenerator::generateVariabledeclarations(std::shared_ptr<FunctionBinding
          {
             if (p == nullptr)
             {
-               std::cerr <<"INTERNAL ERROR\n";
+               report(njnr::logType::error, "INTERNAL ERROR");
             }
             std::shared_ptr<ReturnPacketListNode> RP{dynamic_pointer_cast<ReturnPacketListNode>(p)};
             if (RP == nullptr)
             {
-               std::cerr <<"INTERNAL ERROR\n";
+               report(njnr::logType::error, "INTERNAL ERROR");
             }
             else
             if (RP->getexpr() == nullptr)
             {
-               std::cerr << "INTERNAL ERROR: rp->getexpr()\n";
+               report(njnr::logType::error, "INTERNAL ERROR: rp->getexpr()");
             }
             else
             {
             std::shared_ptr<Identifier> Id{dynamic_pointer_cast<Identifier>(RP->getexpr())};
             if (Id == nullptr)
             {
-               std::cerr <<"INTERNAL ERROR\n";
+               report(njnr::logType::error, "INTERNAL ERROR");
             }
             std::string name{Id->getName()};
             if (name.empty())
             {
-               std::cerr <<"INTERNAL ERROR\n";
+               report(njnr::logType::error, "INTERNAL ERROR");
             }
             std::shared_ptr<ReturnPacket> r = reinterpret_pointer_cast<ReturnPacket>(symtab->
                                                               lookup(name));
             if (r == nullptr)
             {
-               std::cerr <<"INTERNAL ERROR\n";
+               report(njnr::logType::error, "INTERNAL ERROR");
             }
             if (nullptr != r)
             {
-               std::cerr << "FOUND parameter in symbol table\n";
+               report(njnr::logType::debug, "FOUND parameter in symbol table");
             }
             else
             {
-               std::cerr << "did not find parameter in symbol table\n";
+               report(njnr::logType::debug, "did not find parameter in symbol table");
             }
             }
          }
@@ -205,7 +205,7 @@ void CodeGenerator::generateVariabledeclarations(std::shared_ptr<FunctionBinding
    }
    else
    {
-      std::cerr << "NULL argument given: generateVariabledeclarations\n";
+      report(njnr::logType::debug, "NULL argument given: generateVariabledeclarations");
    }
 }
 void CodeGenerator::generateReturnStatement(std::shared_ptr<Statement> s)
@@ -228,10 +228,10 @@ void CodeGenerator::generateReturnStatement(std::shared_ptr<Statement> s)
          switch (m)
          {
             case njnr::type::VOID:
-               std::cout << "found void return type\n";
+               report(njnr::logType::debug, "found void return type");
                break;
             case njnr::type::CHAR:
-               std::cout << "found Char constant return type\n";
+               report(njnr::logType::debug, "found Char constant return type");
                *outfile << " \'" +
                            std::string{dynamic_pointer_cast<Constant>(s->
                                                                getexpr())->
@@ -239,7 +239,7 @@ void CodeGenerator::generateReturnStatement(std::shared_ptr<Statement> s)
                            "\'";
                break;
             case njnr::type::INT:
-               std::cout << "found Integer constant return type\n";
+               report(njnr::logType::debug, "found Integer constant return type");
                if (dynamic_pointer_cast<Constant>(s->getexpr()) != NULL)
                {
                   *outfile << " " + dynamic_pointer_cast<Constant>(s->
@@ -252,19 +252,19 @@ void CodeGenerator::generateReturnStatement(std::shared_ptr<Statement> s)
                }
                break;
             case njnr::type::FLOAT:
-               std::cout << "found Float constant return type\n";
+               report(njnr::logType::debug, "found Float constant return type");
                *outfile << " " + dynamic_pointer_cast<Constant>(s->getexpr())->
                                                             getValue();
                break;
             case njnr::type::STR:
-               std::cout << "found Constant String return\n";
+               report(njnr::logType::debug, "found Constant String return");
                *outfile << " \"" + dynamic_pointer_cast<Constant>(s->
                                                            getexpr())->
                                                            getValue() +
                            "\"";
                break;
             case njnr::type::IDENT:
-               std::cout << "found Identifier return\n";
+               report(njnr::logType::debug, "found Identifier return");
                *outfile << " " + dynamic_pointer_cast<Identifier>(s->
                                                            getexpr())->
                                                            getValue();
@@ -278,13 +278,13 @@ void CodeGenerator::generateReturnStatement(std::shared_ptr<Statement> s)
       }
       else
       {
-         std::cerr << "trying to generate a return statement " \
-                      "from a different type of statement\n";
+         report(njnr::logType::error, "trying to generate a return statement " \
+                      "from a different type of statement");
       }
    }
    else
    {
-      std::cerr << "NULL argument given: generateReturnStatement\n";
+      report(njnr::logType::debug, "NULL argument given: generateReturnStatement");
    }
 }
 
@@ -301,17 +301,17 @@ void CodeGenerator::generateStatement(std::shared_ptr<njnr::StmtListNode> e)
          }
          else
          {
-            std::cout << "not implemented yet\n";
+            report(njnr::logType::info, "-INFO--> not implemented yet");
          }
       }
       else
       {
-         std::cerr << "statement is NULL!!\n";
+         report(njnr::logType::error, "statement is NULL!!");
       }
    }
    else
    {
-    std::cerr << "NULL argument given: generateStatement\n";
+    report(njnr::logType::debug, "NULL argument given: generateStatement");
    }
 }
 
@@ -339,7 +339,7 @@ void CodeGenerator::generateFunction(std::shared_ptr<FunctionBinding> f)
             {
                if (njnr::eNodeType::EXPR == e->get_nodeType())
                {
-                  std::cout << "TODO working on Expressions\n";
+                  report(njnr::logType::debug, "TODO working on Expressions");
                   /* TODO: generate expression */
                }
                else if (njnr::eNodeType::STMT == e->get_nodeType())
@@ -348,21 +348,21 @@ void CodeGenerator::generateFunction(std::shared_ptr<FunctionBinding> f)
                }
                else
                {
-                  std::cerr << "Invalid Node type at this point in time\n";
+                  report(njnr::logType::error, "Invalid Node type at this point in time");
                }
             }
          }
       }
       else
       {
-         std::cout << "function body empty\n";
+         report(njnr::logType::debug, "function body empty");
       }
       *outfile <<"";
       *outfile << "\n}\n";
    }
    else
    {
-      std::cerr << "NULL argument given: generateFunction\n";
+      report(njnr::logType::debug, "NULL argument given: generateFunction");
    }
 }
 void CodeGenerator::generateTranslationUnit(std::shared_ptr<njnr::TranslationUnitListNode> tn)
@@ -375,16 +375,16 @@ void CodeGenerator::generateTranslationUnit(std::shared_ptr<njnr::TranslationUni
        }
        else if (njnr::trans_unit_type::VARDECL == tn->get_trans_unit_type())
        {
-          std::cout << "not implemented yet\n";
+          report(njnr::logType::info, "-INFO--> not implemented yet");
        }
        else
        {
-          std::cerr << "invalid tranlation unit type\n";
+          report(njnr::logType::error, "invalid tranlation unit type");
        }
     }
     else
     {
-        std::cerr << "Null Argument given: generateTranslationUnit\n";
+        report(njnr::logType::debug, "Null Argument given: generateTranslationUnit");
     }
 }
 void CodeGenerator::generate(std::shared_ptr<List> f)
@@ -402,13 +402,13 @@ void CodeGenerator::generate(std::shared_ptr<List> f)
             }
             else
             {
-               std::cerr << "Node type should not be at this level\n";
+               report(njnr::logType::error, "Node type should not be at this level");
             }
          }
        }
     }
     else
     {
-       std::cerr << "NULL argument given: generate\n";
+       report(njnr::logType::debug, "NULL argument given: generate");
     }
 }

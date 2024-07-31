@@ -30,6 +30,7 @@ enum class reltype
 enum class logType
 {
    debug,
+   info,
    error
 };
 

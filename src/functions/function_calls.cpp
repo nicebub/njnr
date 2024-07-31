@@ -171,9 +171,9 @@ namespace njnr
    //                "lookup value: "  <<
    //                inPacket.getvalue().c_str()) << std::endl;
        if ( symbolTable->lookupB(inPacket.getName()) == nullptr)
-           std::cerr <<  "it was null\n";
+           report(njnr::logType::debug,  "it was null");
        else
-           std::cerr << "wasn't null\n";
+           report(njnr::logType::debug, "wasn't null");
    #endif
        if (inEntry->funcent != nullptr)
        {
@@ -513,7 +513,7 @@ namespace njnr
     * @param name
     * @return std::shared_ptr<Identifier>
     */
-   std::shared_ptr<Identifier> createIdentifier(std::string name)
+   std::shared_ptr<Identifier> Compiler::createIdentifier(std::string name)
    {
       std::shared_ptr<Identifier> p = std::make_shared<Identifier>(name);
       return p;
@@ -526,7 +526,7 @@ namespace njnr
     * @param defaultVal
     * @return std::shared_ptr<Identifier>
     */
-   std::shared_ptr<Identifier> createIdentifier(std::string name,
+   std::shared_ptr<Identifier> Compiler::createIdentifier(std::string name,
                                                 std::shared_ptr<Constant> defaultVal)
    {
       std::shared_ptr<Identifier> p = std::make_shared<Identifier>(name,defaultVal);
